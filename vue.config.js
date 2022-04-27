@@ -3,7 +3,7 @@ module.exports = defineConfig({
   transpileDependencies: true,
   outputDir: "docs",
   publicPath:
-    process.env.NODE_ENV === "production" ? "/english_test/" : "/",
+    process.env.NODE_ENV === "production" ? "/english_test_home/" : "/",
   pages: {
     index: {
       entry: "src/main.js",
