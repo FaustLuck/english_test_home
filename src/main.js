@@ -21,6 +21,5 @@ export const firebaseAuth = getAuth(firebaseApp)
 
 createApp(App).use(store).use(router).mount('#app')
 
-
 //todo fireShow
 //todo Настройки
