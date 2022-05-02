@@ -14,6 +14,6 @@ export default{
   position: fixed;
   right: 0;
   top: 0;
-  margin: 1rem;
+  margin: .5rem;
 }
 </style>
