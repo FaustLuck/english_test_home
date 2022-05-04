@@ -40,6 +40,9 @@ export default createStore({
     setStatistic({ commit }, { data, date, time }) {
       const dbRef = ref(getDatabase(), `statistic/${date}/${time}`);
       set(dbRef, data).then(() => true)
+      data = {
+        [time]: data
+      }
       commit('SAVE_DATA', { path: 'answer', data })
     }
   },

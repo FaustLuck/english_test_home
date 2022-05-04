@@ -7,7 +7,11 @@
         <span class="time">
           <input type="number" v-model.number="settings.timer.min" />
           :
-          <input type="number" v-model.number="settings.timer.sec" />
+          <input
+            type="number"
+            v-model.number="settings.timer.sec"
+            @input="checkTime($event.target.value)"
+          />
         </span>
       </div>
       <div class="settings__detail">
@@ -16,7 +20,7 @@
           <input type="number" v-model.number="settings.variants" />
         </span>
       </div>
-      <div v-for="(count, difficult) of settings.tests" :key="difficult">
+      <div v-for="difficult of order" :key="difficult">
         <div class="difficult">
           <div
             class="settings__detail"
@@ -72,6 +76,7 @@ export default {
   },
   data() {
     return {
+      order: [],
       settings: {},
       loading: true,
       path: "settings",
@@ -83,6 +88,9 @@ export default {
       let max = this.settings.dictionary[difficult].length;
       if (value > max) this.settings.tests[difficult] = max;
     },
+    checkTime(value) {
+      if (value > 59) this.settings.timer.sec = 59;
+    },
     saveData() {
       this.$store.dispatch("setData", { path: this.path, data: this.settings });
     },
@@ -92,19 +100,21 @@ export default {
       ].filter((el) => el.question != item.question);
     },
     editRecord(item) {
+      console.log(item);
       let dictionary = this.settings.dictionary[this.activeIndex];
       let param = item.index == "newValue" ? item.question : item.index;
       let index = dictionary.findIndex((el) => el.question == param);
+      item.answers = item.answers[0];
       if (item.index == "newValue") {
         if (index > -1) return;
         let newItem = {
           question: item.question,
-          answer: item.answer,
+          answer: item.answers,
         };
         dictionary.push(newItem);
       } else {
-        dictionary[index].question = item.question;
-        dictionary[index].answer = item.answer;
+        dictionary[item.index].question = item.question;
+        dictionary[item.index].answer = item.answers;
       }
     },
   },
@@ -114,6 +124,7 @@ export default {
       ? settingsStore
       : await this.$store.dispatch("fetchData", { path: this.path });
     this.loading = false;
+    this.order = this.$store.getters.getInfo("order");
   },
 };
 </script>

@@ -20,7 +20,7 @@
         <span>{{ Object.keys(value).length }}</span>
       </div>
       <keep-alive>
-        <test-result v-if="activeDay === day" :tests="testsOfDay"></test-result>
+        <test-result v-if="activeDay === day" :testsFromParent="testsOfDay"></test-result>
       </keep-alive>
     </div>
   </form>
