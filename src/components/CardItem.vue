@@ -2,52 +2,42 @@
   <div class="card">
     <div class="card__item">
       <div class="card__item_container">
-        <input
-          @keyup="edit($event, 'question')"
-          :readonly="!editing"
-          :class="{ editing: editing }"
-          v-model="question"
-          type="text"
-        />
-        <a v-if="voice" class="voice" @click="speech">🔉</a>
+        <a v-if="mode == 'test'" class="voice" @click="speech">🔉</a>
+        <input type="text" :readonly="mode != 'settings'" v-model="question" />
       </div>
     </div>
     <div class="card__item">
-      <div class="card__item_container">
+      <div
+        class="card__item_container"
+        v-for="(variant, varIndex) of answers"
+        :key="varIndex"
+      >
         <input
-          v-if="item.hasOwnProperty('correct') || !editable"
-          :checked="item.correct"
-          :name="difficult + '_' + index"
+          v-if="mode != 'settings'"
           type="radio"
+          :name="difficult + '_' + index"
+          :value="variant"
+          v-model="check"
+          :checked="mode == 'statistic' && variant == check"
+          :disabled="mode == 'statistic'"
         />
         <input
-          type="text"
-          :readonly="!editing"
-          v-model="answer"
-          @keyup="edit($event, 'answer')"
           :class="{
-            correct: item.correct,
-            wrong: item.hasOwnProperty('correct') && !item.correct,
-            editing: editing,
+            correct: mode == 'statistic' && varIndex == correctIndex,
+            wrong: mode == 'statistic' && varIndex != correctIndex,
           }"
-        />
-      </div>
-      <div class="card__item_container">
-        <input
-          v-if="correctAnswer"
-          :checked="!item.correct"
-          :name="difficult + '_' + index"
-          type="radio"
-        />
-        <input
-          v-if="correctAnswer"
           type="text"
-          :class="{ correct: !item.correct, wrong: item.correct }"
-          v-model="correctAnswer"
+          :value="variant"
+          :readonly="mode != 'settings'"
+          @click="check = variant"
         />
       </div>
     </div>
-    <div class="card__item tool" :class="{ show: editing }" v-if="editable">
+    <div
+      v-if="mode == 'settings'"
+      class="card__item tool"
+      :class="{ show: editing }"
+    >
       <img v-if="!editing" src="@/assets/edit.svg" @click="editing = true" />
       <img
         v-if="!editing"
@@ -69,37 +59,77 @@
 
 <script>
 export default {
+  /*
+  пропсы из настроек для новой записи
+v-if="activeIndex == difficult"
+              :index="'newValue'"
+              :item="{}"
+              :editable="true"
+              @editRecord="editRecord"
+
+пропсы для остальных
+v-for="item of settings.dictionary[difficult]"
+            :key="item.question"
+            :item="item"
+            :index="item.question"
+            :editable="true"
+            @deleteRecord="deleteRecord(item)"
+            @editRecord="editRecord"
+
+  */
   name: "CardItem",
   props: {
     item: Object,
-    index: String,
-    voice: {
-      type: Boolean,
-      default: false,
-      required: false,
-    },
-    difficult: {
+    difficult: String,
+    index: Number,
+    mode: {
       type: String,
-      default: "",
-      required: false,
-    },
-    editable: {
-      type: Boolean,
-      default: false,
-      required: false,
+      required: true,
     },
   },
   data() {
     return {
-      editing: this.index == "newValue",
-      question: this.item.question,
-      answer: this.item.answer,
-      correctAnswer: this.item.correctAnswer,
+      editing: this.mode == "settings" && this.index == "newValue",
+      correctIndex: 0,
+      answers: [],
+      question: "",
+      check: "",
+      correct: false,
     };
+  },
+  watch: {
+    check: function (value) {
+      let correct = value == this.answers[this.correctIndex];
+      let answer = {
+        question: this.question,
+        answer: [
+          {
+            answer: this.check,
+            correct,
+          },
+        ],
+      };
+      if (!correct) answer.answer.push(this.answers[this.correctIndex]);
+      this.$emit("updateAnswers", {
+        answer,
+        difficult: this.difficult,
+        index: this.index,
+      });
+    },
+  },
+  mounted() {
+    this.question = this.item.question;
+    this.correctIndex = this.item.answer.findIndex((e) => e instanceof Object);
+    this.answers = [...this.item.answer];
+    this.answers[this.correctIndex] = this.answers[this.correctIndex].answer;
+    if (this.mode == "statistic") {
+      this.check = this.item.answer[this.correctIndex].answer;
+      this.correctIndex = this.item.answer.length - 1;
+    }
   },
   methods: {
     speech(event) {
-      let text = event.target.previousElementSibling.innerText;
+      let text = event.target.nextElementSibling.innerText;
       var utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = "en-US";
       utterance.rate = 0.75;
@@ -140,22 +170,33 @@ export default {
     &_container {
       display: flex;
       align-items: center;
+
+      label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
     }
 
     input[type="text"] {
       height: 2rem;
-      background-color: peachpuff;
+      background-color: transparent;
       outline: 0;
       border-width: 0;
       font-family: "serif";
       font-size: 1.5rem;
       padding-left: 0.5rem;
       width: 100%;
+      cursor: default;
 
       &.editing {
         border: 1px solid black;
         margin: -1px;
       }
+    }
+
+    input[type="radio"] {
+      transform: scale(2, 2);
     }
 
     &.tool {
@@ -176,38 +217,20 @@ export default {
         height: 100%;
       }
     }
-
-    &_edit {
-      background-color: peachpuff;
-      font-size: 2rem;
-      font-family: "serif";
-      border-width: 0;
-
-      &:focus-visible {
-        outline: none;
-        border: 1px solid black;
-        margin: -1px;
-      }
-    }
-
-    .correct,
-    .wrong {
-      font-weight: 700;
-      pointer-events: none;
-    }
-
-    .correct {
-      color: green;
-    }
-
-    .wrong {
-      color: red;
-    }
   }
 
   .voice {
     margin-left: 1rem;
     cursor: pointer;
+  }
+
+  .wrong {
+    color: red;
+    font-weight: 700;
+  }
+  .correct {
+    color: green;
+    font-weight: 700;
   }
 }
 </style>

@@ -1,31 +1,41 @@
 <template>
-  <div
-    class="difficult"
-    v-for="(array, difficult) in difficults"
-    :key="difficult"
-  >
-    <div class="difficult__item">
+  <div class="difficult" v-for="difficult of order" :key="difficult">
+    <div class="difficult__item" :class="{ congratulations: congratulations }">
       <span>{{ difficult }}</span>
     </div>
     <keep-alive>
       <card-item
-        v-for="(item,index) of array"
+        v-for="(item, index) of difficults[difficult]"
         :key="item.question"
         :item="item"
         :index="index"
         :difficult="difficult"
+        :mode="'statistic'"
       ></card-item>
     </keep-alive>
   </div>
 </template>
 
 <script>
-import CardItem from "./CardItem.vue";
+import CardItem from "@/components/CardItem.vue";
 export default {
   components: { CardItem },
   name: "DifficultList",
   props: {
     difficults: Object,
+    congratulations: {
+      type: Boolean,
+      default: false,
+      required: true,
+    },
+  },
+  data() {
+    return {
+      order: [],
+    };
+  },
+  mounted() {
+    this.order = this.$store.getters.getInfo("order");
   },
 };
 </script>
@@ -49,6 +59,10 @@ export default {
     display: flex;
     justify-content: center;
     padding: 0.5rem 0;
+
+    &.congratulations {
+      background-color: darkseagreen;
+    }
   }
 }
 </style>

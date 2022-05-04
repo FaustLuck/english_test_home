@@ -1,6 +1,7 @@
 <template>
   <div
     class="test"
+    :class="{ congratulations: value.congratulations }"
     v-for="(value, time) in tests"
     :key="time"
     @click="activeTime = time"
@@ -19,10 +20,15 @@
       <span> Кол-во верных ответов / вопросов: </span>
       <span> {{ value.correctAnswers }} / {{ value.questions }} </span>
     </div>
+    <div class="test__detail">
+      <span>Причина:</span>
+      <span>{{ value.reason }} </span>
+    </div>
     <keep-alive>
       <difficult-list
         v-if="activeTime === time"
         :difficults="value.answers"
+        :congratulations="value.congratulations"
       ></difficult-list>
     </keep-alive>
   </div>
@@ -52,6 +58,10 @@ export default {
   flex-direction: column;
   border: 1px solid black;
   margin: -1px;
+
+  &.congratulations {
+    background-color: darkseagreen;
+  }
   &__detail {
     display: flex;
     justify-content: space-between;
