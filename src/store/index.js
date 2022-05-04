@@ -4,7 +4,9 @@ export default createStore({
   state: {
     settings: {},
     statistic: {},
-    order: ['easy', 'medium', 'hard']
+    order: ['easy', 'medium', 'hard'],
+    answer: {},
+    errors: []
   },
   mutations: {
     SAVE_DATA(state, data) {
@@ -29,10 +31,16 @@ export default createStore({
     setData({ commit }, { path, data }) {
       const dbRef = ref(getDatabase(), `${path}/`);
       set(dbRef, data)
+        .then(() => true)
       commit('SAVE_DATA', {
         path,
         data
       })
+    },
+    setStatistic({ commit }, { data, date, time }) {
+      const dbRef = ref(getDatabase(), `statistic/${date}/${time}`);
+      set(dbRef, data).then(() => true)
+      commit('SAVE_DATA', { path: 'answer', data })
     }
   },
   getters: {

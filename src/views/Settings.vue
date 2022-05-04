@@ -38,18 +38,18 @@
               v-if="activeIndex == difficult"
               :index="'newValue'"
               :item="{}"
-              :editable="true"
+              :mode="'settings'"
               @editRecord="editRecord"
             ></card-item>
           </keep-alive>
         </div>
         <keep-alive v-if="activeIndex === difficult">
           <card-item
-            v-for="item of settings.dictionary[difficult]"
+            v-for="(item, index) of settings.dictionary[difficult]"
             :key="item.question"
             :item="item"
-            :index="item.question"
-            :editable="true"
+            :index="index"
+            :mode="'settings'"
             @deleteRecord="deleteRecord(item)"
             @editRecord="editRecord"
           >
@@ -152,6 +152,7 @@ export default {
     outline: none;
     font-size: 40px;
     text-align: center;
+    font-family: "serif";
 
     &[type="number"] {
       width: 60px;
@@ -164,7 +165,7 @@ export default {
     &[type="button"] {
       padding: 0.5rem 1rem;
       margin: 0 auto;
-      font-size: 1.5rem;
+      font-size: 2rem;
       position: sticky;
       bottom: 0;
     }
