@@ -172,12 +172,17 @@ export default {
   margin: -1px;
   border: 1px solid black;
 
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    font-size: 1rem;
+    justify-content: flex-start;
+  }
+
   &:hover > .tool {
     opacity: 1;
   }
 
   &__item {
-    width: 50%;
     padding: 0.5rem 1rem;
 
     &_container {
@@ -202,6 +207,10 @@ export default {
       width: 100%;
       cursor: default;
 
+      @media screen and (max-width: 768px) {
+        font-size: 1rem;
+      }
+
       &.editing {
         border: 1px solid black;
         margin: -1px;
@@ -210,18 +219,28 @@ export default {
 
     input[type="radio"] {
       transform: scale(2, 2);
+      @media screen and (max-width: 768px) {
+        transform: scale(1, 1);
+      }
     }
 
     &.tool {
       cursor: pointer;
-      opacity: 0;
-      width: 10%;
+      opacity: 1;
       padding: 0;
       height: 2rem;
       flex-direction: row;
       justify-content: space-between;
       position: absolute;
       right: -5rem;
+      @media (any-hover: hover) {
+        opacity: 0;
+      }
+
+      @media screen and (max-width: 768px) {
+        right: 1rem;
+      }
+
       &.show {
         opacity: 1;
         justify-content: center;

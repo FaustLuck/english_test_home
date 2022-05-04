@@ -148,10 +148,15 @@ export default {
         correctAnswers,
       };
       this.$store.dispatch("setStatistic", { data: obj, date, time });
-      setTimeout(() => {
+      if (this.timerSec) {
         this.ready = false;
         this.$router.push("result");
-      }, 10000);
+      } else {
+        setTimeout(() => {
+          this.ready = false;
+          this.$router.push("result");
+        }, 10000);
+      }
     },
     countdown() {
       this.counterId = setInterval(() => {
@@ -230,6 +235,13 @@ header {
   justify-content: space-around;
   padding: 0.5rem 0;
 
+  @media screen and (max-width: 768px) {
+    position: sticky;
+    top: 5rem;
+    z-index: 2;
+    background: peachpuff;
+  }
+
   &.warning {
     animation: wave 4s linear alternate infinite;
   }
@@ -239,13 +251,21 @@ header {
   }
 
   & > * {
-    width: 30%;
+    width: 100%;
     text-align: center;
+  }
+  @media screen and (max-width: 768px) {
+    & > *:nth-child(3) {
+      width: 0;
+    }
   }
 
   input[type="button"] {
     font-size: 2rem;
     font-family: "serif";
+    @media screen and (max-width: 768px) {
+      font-size: 1rem;
+    }
   }
 }
 

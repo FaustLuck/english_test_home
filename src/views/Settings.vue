@@ -132,12 +132,21 @@ export default {
 .settings {
   cursor: default;
 
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+
   &__detail {
     border: 1px solid black;
     margin: -1px;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 0.5rem 0;
+
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap;
+    }
 
     & > span {
       padding: 0 1rem;
@@ -149,6 +158,9 @@ export default {
     z-index: 1;
     top: 0;
     background-color: peachpuff;
+    @media screen and (max-width: 768px) {
+      top: 5rem;
+    }
   }
 
   .update {
@@ -168,6 +180,10 @@ export default {
       width: 60px;
       cursor: default;
 
+      @media screen and (max-width: 768px) {
+        font-size: 1.5rem;
+      }
+
       &::-webkit-inner-spin-button {
         display: none;
       }
@@ -178,6 +194,9 @@ export default {
       font-size: 2rem;
       position: sticky;
       bottom: 0;
+      @media screen and (max-width: 768px) {
+        font-size: 1rem;
+      }
     }
   }
 }
