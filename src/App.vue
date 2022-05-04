@@ -3,7 +3,9 @@
     <router-link to="/settings">⚙️</router-link>
     <router-link to="/statistic">📊</router-link>
   </nav>
-  <router-view />
+  <form>
+    <router-view />
+  </form>
 </template>
 <script>
 export default {};
