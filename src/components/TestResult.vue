@@ -55,7 +55,7 @@ export default {
     if (this.testsFromParent === undefined) {
       this.tests = this.$store.getters.getInfo("answer");
       this.activeTime = Object.keys(this.tests)[0];
-      if (this.tests.congratulations) this.toWait();
+      if (this.tests[this.activeTime].congratulations) this.toWait();
     } else {
       this.tests = this.testsFromParent;
     }
@@ -63,7 +63,7 @@ export default {
   methods: {
     toWait() {
       this.timerId = setTimeout(() => {
-        this.$router.push("firework");
+        this.$router.push("fireworks");
       }, 5000);
     },
   },
@@ -76,6 +76,10 @@ export default {
   flex-direction: column;
   border: 1px solid black;
   margin: -1px;
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+    padding-top: 5rem;
+  }
 
   &.congratulations {
     background-color: darkseagreen;

@@ -74,12 +74,15 @@ export default {
   border: 1px solid black;
   cursor: default;
   margin: -1px;
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
 
   &__info {
     padding: 0.5rem 0;
     display: flex;
     justify-content: space-between;
-
+    align-items: center;
     & > span {
       padding: 0 1rem;
     }

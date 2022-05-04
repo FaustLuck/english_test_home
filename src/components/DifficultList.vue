@@ -54,11 +54,14 @@ export default {
     z-index: 1;
     font-size: 60px;
     border-bottom: 1px solid black;
-    font-size: 60px;
     width: 100%;
     display: flex;
     justify-content: center;
     padding: 0.5rem 0;
+    @media screen and (max-width: 768px) {
+      font-size: 2rem;
+      top: 5rem;
+    }
 
     &.congratulations {
       background-color: darkseagreen;
