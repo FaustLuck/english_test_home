@@ -100,7 +100,6 @@ export default {
       ].filter((el) => el.question != item.question);
     },
     editRecord(item) {
-      console.log(item);
       let dictionary = this.settings.dictionary[this.activeIndex];
       let param = item.index == "newValue" ? item.question : item.index;
       let index = dictionary.findIndex((el) => el.question == param);
