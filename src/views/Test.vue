@@ -1,7 +1,12 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <form v-else>
-    <header>
+  <form v-else :class="{ fail: timerSec == 0 }">
+    <header
+      :class="{
+        warning: timerSec > 10 && timerSec < 31,
+        alert: timerSec < 11 && timerSec > 0,
+      }"
+    >
       <input
         @click="!ready ? createTest() : cancelTest()"
         type="button"
@@ -52,7 +57,10 @@ export default {
   watch: {
     timerSec: function (value) {
       this.timerString = this.timeToString(value);
-      if (!value) this.cancelTest();
+      if (!value)
+        setTimeout(() => {
+          this.cancelTest();
+        }, 5000);
     },
   },
   async mounted() {
@@ -144,6 +152,7 @@ export default {
         correctAnswers,
       };
       this.$store.dispatch("setStatistic", { data: obj, date, time });
+      this.$router.push("result");
     },
     countdown() {
       this.counterId = setInterval(() => {
@@ -196,16 +205,17 @@ export default {
       this.answers[difficult][index] = answer;
     },
     getDate() {
-      return new Intl.DateTimeFormat("ru-Ru", {
-        year: "2-digit",
+      let date = new Intl.DateTimeFormat("ru-Ru", {
+        year: "numeric",
         month: "2-digit",
         day: "2-digit",
         hour: "2-digit",
         minute: "2-digit",
       })
         .format(new Date())
-        .replaceAll(".", "-")
         .split(", ");
+      date[0] = date[0].split(".").reverse().join("-");
+      return date;
     },
   },
 };
@@ -217,6 +227,14 @@ header {
   justify-content: space-around;
   padding: 0.5rem 0;
 
+  &.warning {
+    animation: wave 4s linear alternate infinite;
+  }
+
+  &.alert {
+    animation: flash 1s linear infinite;
+  }
+
   & > * {
     width: 30%;
     text-align: center;
@@ -225,6 +243,34 @@ header {
   input[type="button"] {
     font-size: 2rem;
     font-family: "serif";
+  }
+}
+
+@keyframes wave {
+  from {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: red;
+  }
+}
+
+@keyframes flash {
+  from {
+    background-color: red;
+  }
+
+  49.9% {
+    background-color: red;
+  }
+
+  50% {
+    background-color: transparent;
+  }
+
+  to {
+    background-color: transparent;
   }
 }
 </style>

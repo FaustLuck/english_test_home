@@ -1,8 +1,8 @@
 <template>
   <div
     class="test"
-    :class="{ congratulations: value.congratulations }"
     v-for="(value, time) in tests"
+    :class="{ congratulations: value.congratulations }"
     :key="time"
     @click="activeTime = time"
   >
@@ -42,12 +42,28 @@ export default {
     DifficultList,
   },
   props: {
-    tests: Object,
+    testsFromParent: Object,
   },
   data() {
     return {
       activeTime: "",
+      tests: [],
+      timerId: 0,
     };
+  },
+  mounted() {
+    if (this.testsFromParent === undefined) {
+      this.tests = this.$store.getters.getInfo("answer");
+      this.activeTime = Object.keys(this.tests)[0];
+      if (this.tests.congratulations) this.toWait();
+    }
+  },
+  methods: {
+    toWait() {
+      this.timerId = setTimeout(() => {
+        this.$router.push("firework");
+      }, 5000);
+    },
   },
 };
 </script>

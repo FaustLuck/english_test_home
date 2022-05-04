@@ -3,17 +3,21 @@
     <div class="card__item">
       <div class="card__item_container">
         <a v-if="mode == 'test'" class="voice" @click="speech">🔉</a>
-        <input type="text" :readonly="mode != 'settings'" v-model="question" />
+        <input
+          type="text"
+          :readonly="!editing"
+          v-model="question"
+          :class="{ editing: editing }"
+        />
       </div>
     </div>
-    <div class="card__item">
+    <div class="card__item" v-if="mode != 'settings'">
       <div
         class="card__item_container"
         v-for="(variant, varIndex) of answers"
         :key="varIndex"
       >
         <input
-          v-if="mode != 'settings'"
           type="radio"
           :name="difficult + '_' + index"
           :value="variant"
@@ -27,12 +31,25 @@
             wrong: mode == 'statistic' && varIndex != correctIndex,
           }"
           type="text"
-          :value="variant"
-          :readonly="mode != 'settings'"
+          readonly
           @click="check = variant"
+          :value="variant"
         />
       </div>
     </div>
+    <div class="card__item" v-else>
+      <div class="card__item_container">
+        <input
+          :class="{
+            editing: editing,
+          }"
+          type="text"
+          :readonly="!editing"
+          v-model="answers[0]"
+        />
+      </div>
+    </div>
+
     <div
       v-if="mode == 'settings'"
       class="card__item tool"
@@ -49,7 +66,7 @@
         src="@/assets/done.svg"
         @click="
           editing = index == 'newValue' || false;
-          $emit('editRecord', { answer, question, index });
+          $emit('editRecord', { answers, question, index });
           clear();
         "
       />
@@ -59,29 +76,11 @@
 
 <script>
 export default {
-  /*
-  пропсы из настроек для новой записи
-v-if="activeIndex == difficult"
-              :index="'newValue'"
-              :item="{}"
-              :editable="true"
-              @editRecord="editRecord"
-
-пропсы для остальных
-v-for="item of settings.dictionary[difficult]"
-            :key="item.question"
-            :item="item"
-            :index="item.question"
-            :editable="true"
-            @deleteRecord="deleteRecord(item)"
-            @editRecord="editRecord"
-
-  */
   name: "CardItem",
   props: {
     item: Object,
     difficult: String,
-    index: Number,
+    index: [Number, String],
     mode: {
       type: String,
       required: true,
@@ -99,6 +98,7 @@ v-for="item of settings.dictionary[difficult]"
   },
   watch: {
     check: function (value) {
+      if (this.mode == "settings") return;
       let correct = value == this.answers[this.correctIndex];
       let answer = {
         question: this.question,
@@ -116,12 +116,30 @@ v-for="item of settings.dictionary[difficult]"
         index: this.index,
       });
     },
+    answers: {
+      deep: true,
+      handler(value) {
+        let regexp = /[^а-яА-ЯёЁa-zA-Z.,!?\s]/g;
+        if (regexp.exec(value))
+          this.answers[0] = this.answers[0].replaceAll(regexp, "");
+      },
+    },
+    question: function (value) {
+      let regexp = /[^а-яА-ЯёЁa-zA-Z.,!?\s]/g;
+      if (regexp.exec(value)) this.question = value.replaceAll(regexp, "");
+    },
   },
   mounted() {
+    if (this.index == "newValue") return;
     this.question = this.item.question;
-    this.correctIndex = this.item.answer.findIndex((e) => e instanceof Object);
-    this.answers = [...this.item.answer];
-    this.answers[this.correctIndex] = this.answers[this.correctIndex].answer;
+    this.answers =
+      this.mode == "settings" ? [this.item.answer] : [...this.item.answer];
+    if (this.mode != "settings") {
+      this.correctIndex = this.item.answer.findIndex(
+        (e) => e instanceof Object
+      );
+      this.answers[this.correctIndex] = this.answers[this.correctIndex].answer;
+    }
     if (this.mode == "statistic") {
       this.check = this.item.answer[this.correctIndex].answer;
       this.correctIndex = this.item.answer.length - 1;
@@ -135,15 +153,10 @@ v-for="item of settings.dictionary[difficult]"
       utterance.rate = 0.75;
       window.speechSynthesis.speak(utterance);
     },
-    edit(e, prop) {
-      let regexp = /[^а-яА-ЯёЁa-zA-Z.,!?\s]/g;
-      if (regexp.exec(e.key))
-        this[prop] = e.target.value.replaceAll(regexp, "");
-    },
     clear() {
       if (this.index != "newValue") return;
       this.question = "";
-      this.answer = "";
+      this.answers[0] = "";
     },
   },
 };
