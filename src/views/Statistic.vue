@@ -3,24 +3,26 @@
   <form v-else>
     <div
       class="tests"
-      v-for="(value, day) in this.tests"
-      :key="day"
+      v-for="date of dateArray"
+      :key="date.day"
       @click="
-        activeDay = day;
-        openTests(value);
+        activeDay = date.day;
+        testsOfDay = tests[date.day];
       "
-      :class="{ open: activeDay === day }"
     >
       <div class="tests__info">
         <span>Дата теста: </span>
-        <span class="date">{{ day }}</span>
+        <span class="date">{{ date.output }}</span>
       </div>
       <div class="tests__info">
         <span>Количество тестов: </span>
-        <span>{{ Object.keys(value).length }}</span>
+        <span>{{ Object.keys(tests[date.day]).length }}</span>
       </div>
       <keep-alive>
-        <test-result v-if="activeDay === day" :testsFromParent="testsOfDay"></test-result>
+        <test-result
+          v-if="activeDay == date.day"
+          :testsFromParent="testsOfDay"
+        ></test-result>
       </keep-alive>
     </div>
   </form>
@@ -40,6 +42,7 @@ export default {
       activeDay: "",
       testsOfDay: {},
       path: "statistic",
+      dateArray: [],
     };
   },
   async mounted() {
@@ -48,10 +51,19 @@ export default {
       ? statisticStore
       : await this.$store.dispatch("fetchData", { path: this.path });
     this.loading = false;
+    this.dateArray = Object.keys(this.tests).reverse();
+    this.prepareDate();
   },
   methods: {
-    openTests(value) {
-      this.testsOfDay = value;
+    prepareDate() {
+      for (let i = 0; i < this.dateArray.length; i++) {
+        let date = this.dateArray[i];
+        date = {
+          day: date,
+          output: date.split("-").reverse().join("."),
+        };
+        this.dateArray[i] = date;
+      }
     },
   },
 };

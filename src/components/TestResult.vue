@@ -56,6 +56,8 @@ export default {
       this.tests = this.$store.getters.getInfo("answer");
       this.activeTime = Object.keys(this.tests)[0];
       if (this.tests.congratulations) this.toWait();
+    } else {
+      this.tests = this.testsFromParent;
     }
   },
   methods: {
