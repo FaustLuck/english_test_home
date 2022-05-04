@@ -1,6 +1,6 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <form v-else>
+  <div v-else>
     <div
       class="tests"
       v-for="date of dateArray"
@@ -25,7 +25,7 @@
         ></test-result>
       </keep-alive>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>

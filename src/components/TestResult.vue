@@ -78,7 +78,6 @@ export default {
   margin: -1px;
   @media screen and (max-width: 768px) {
     font-size: 1rem;
-    padding-top: 5rem;
   }
 
   &.congratulations {

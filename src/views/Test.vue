@@ -1,6 +1,6 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <form v-else :class="{ fail: timerSec == 0 }">
+  <div v-else :class="{ fail: timerSec == 0 }">
     <header
       :class="{
         warning: timerSec > 10 && timerSec < 31,
@@ -28,7 +28,7 @@
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -226,7 +226,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-form.fail {
+.fail {
   background-color: red;
   pointer-events: none;
 }

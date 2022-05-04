@@ -1,6 +1,6 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <form v-else>
+  <div v-else>
     <div class="settings">
       <div class="settings__detail">
         <span>Ограничение по времени:</span>
@@ -64,7 +64,7 @@
         <input type="button" value="Обновить настройки" @click="saveData" />
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
