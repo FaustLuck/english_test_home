@@ -57,10 +57,7 @@ export default {
   watch: {
     timerSec: function (value) {
       this.timerString = this.timeToString(value);
-      if (!value)
-        setTimeout(() => {
-          this.cancelTest();
-        }, 5000);
+      if (!value) this.cancelTest();
     },
   },
   async mounted() {
@@ -127,7 +124,6 @@ export default {
     },
     cancelTest() {
       clearInterval(this.counterId);
-      this.ready = false;
       let [date, time] = this.getDate();
       let questions = Object.values(this.answers).reduce(
         (prev, cur) => prev + cur.length,
@@ -152,7 +148,10 @@ export default {
         correctAnswers,
       };
       this.$store.dispatch("setStatistic", { data: obj, date, time });
-      this.$router.push("result");
+      setTimeout(() => {
+        this.ready = false;
+        this.$router.push("result");
+      }, 10000);
     },
     countdown() {
       this.counterId = setInterval(() => {
@@ -222,6 +221,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+form.fail {
+  background-color: red;
+  pointer-events: none;
+}
 header {
   display: flex;
   justify-content: space-around;
