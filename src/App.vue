@@ -3,7 +3,6 @@
     <router-link to="/settings">⚙️</router-link>
     <router-link to="/statistic">📊</router-link>
   </nav>
-  <div id="buttonDiv"></div>
   <form>
     <router-view />
   </form>
