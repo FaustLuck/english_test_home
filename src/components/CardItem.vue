@@ -165,7 +165,7 @@ export default {
 <style lang="scss" scoped>
 .card {
   display: flex;
-  justify-content: space-between;
+  justify-content: space-evenly;
   align-items: center;
   position: relative;
   font-size: 2rem;
