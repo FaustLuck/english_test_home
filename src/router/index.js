@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import TestPage from '@/views/Test.vue'
 import StatisticPage from '@/views/Statistic.vue'
 import SettingsPage from '@/views/Settings.vue'
-import FireworksPage from '@/views/Fireworks.vue'
+import FireshowPage from '@/views/Fireshow.vue'
 import TestResult from '@/components/TestResult.vue'
 
 const routes = [
@@ -28,9 +28,9 @@ const routes = [
     component: TestResult
   },
   {
-    path: '/fireworks',
-    name: 'fireworks',
-    component: FireworksPage
+    path: '/fireshow',
+    name: 'fireshow',
+    component: FireshowPage
   },
 
 ]

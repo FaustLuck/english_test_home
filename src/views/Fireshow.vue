@@ -2,12 +2,12 @@
   <canvas ref="canvas"></canvas>
 </template>
 <script>
-import fireShow from "@/utils";
+import fireshow from "@/utils/fireshow";
 export default {
-  name: "FireworksPage",
+  name: "FireshowPage",
   mounted() {
     let canvas = this.$refs.canvas;
-    fireShow(canvas);
+    fireshow(canvas);
   },
 };
 </script>

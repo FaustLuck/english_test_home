@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container__preloader">
     <div class="preloader">
       <div class="outer circle">
         <div class="spinner"></div>
@@ -14,7 +14,7 @@ export default {};
 </script>
 
 <style lang="scss" scoped>
-.container {
+.container__preloader {
   position: absolute;
   top: 0;
   bottom: 0;

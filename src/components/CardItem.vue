@@ -75,6 +75,7 @@
 </template>
 
 <script>
+import submitTextToVoice from "@/utils/voice";
 export default {
   name: "CardItem",
   props: {
@@ -146,12 +147,8 @@ export default {
     }
   },
   methods: {
-    speech(event) {
-      let text = event.target.nextElementSibling.innerText;
-      var utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "en-US";
-      utterance.rate = 0.75;
-      window.speechSynthesis.speak(utterance);
+    speech() {
+      submitTextToVoice(this.question);
     },
     clear() {
       if (this.index != "newValue") return;
