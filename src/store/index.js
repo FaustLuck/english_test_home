@@ -1,17 +1,22 @@
 import { createStore } from 'vuex'
 import { getDatabase, ref, get, set } from "firebase/database";
+import auth from './auth'
 export default createStore({
   state: {
     settings: {},
     statistic: {},
     order: ['easy', 'medium', 'hard'],
     answer: {},
-    errors: []
+    errors: ''
   },
   mutations: {
     SAVE_DATA(state, data) {
       state[data.path] = data.data
+    },
+    SET_ERROR(state, e) {
+      state.errors = e
     }
+
   },
   actions: {
     async fetchData({ commit }, { path }) {
@@ -44,9 +49,14 @@ export default createStore({
         [time]: data
       }
       commit('SAVE_DATA', { path: 'answer', data })
-    }
+    },
+
   },
   getters: {
-    getInfo: state => path => state[path]
+    getInfo: state => path => state[path],
+    getError: state => state.errors
+  },
+  modules: {
+    auth
   }
 })

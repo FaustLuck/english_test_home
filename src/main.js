@@ -15,13 +15,20 @@ const firebaseConfig = {
   appId: "1:223596466893:web:bafc299ab7409de7cccf84"
 };
 const firebase = initializeApp(firebaseConfig);
+
 export default firebase
 
-createApp(App)
-.use(store)
-.use(router)
-.component('LoaderSpinner', LoaderSpinner)
-.mount('#app')
+
+//let app;
+
+//firebase.auth.onAuthStateChanged(() => {
+ // if (app) return
+  createApp(App)
+    .use(store)
+    .use(router)
+    .component('LoaderSpinner', LoaderSpinner)
+    .mount('#app')
+//})
 
 
 

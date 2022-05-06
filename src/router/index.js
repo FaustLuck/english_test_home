@@ -3,6 +3,7 @@ import TestPage from '@/views/Test.vue'
 import StatisticPage from '@/views/Statistic.vue'
 import SettingsPage from '@/views/Settings.vue'
 import FireshowPage from '@/views/Fireshow.vue'
+import LoginPage from '@/views/Login.vue'
 import TestResult from '@/components/TestResult.vue'
 
 const routes = [
@@ -31,6 +32,11 @@ const routes = [
     path: '/fireshow',
     name: 'fireshow',
     component: FireshowPage
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: LoginPage
   },
 
 ]
