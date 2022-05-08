@@ -1,10 +1,10 @@
 <template>
-  <input type="button" value="click" @click="loginMe" />
+  <input type="button" value="Войти" @click="loginMe" />
 </template>
 
 <script>
 export default {
-  name: "loginPage",
+  name: "LoginButton",
   methods: {
     loginMe() {
       this.$store.dispatch("login", {});

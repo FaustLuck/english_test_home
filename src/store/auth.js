@@ -6,7 +6,7 @@ export default {
       const provider = new GoogleAuthProvider();
       try {
         let result = await signInWithPopup(auth, provider)
-        const credential = await GoogleAuthProvider.credentialFromResult(result);
+        const credential = await provider.credentialFromResult(result);
         console.dir(credential)
       } catch (e) {
         commit('SET_ERROR', e)

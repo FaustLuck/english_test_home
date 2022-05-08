@@ -3,6 +3,7 @@
     <nav class="menu">
       <router-link to="/settings">⚙️</router-link>
       <router-link to="/statistic">📊</router-link>
+      <login-button></login-button>
     </nav>
   </div>
   <form>
@@ -10,7 +11,12 @@
   </form>
 </template>
 <script>
-export default {};
+import LoginButton from "@/components/LoginButton.vue";
+export default {
+  components: {
+    LoginButton,
+  },
+};
 </script>
 <style lang="scss" scoped>
 .container__menu {
