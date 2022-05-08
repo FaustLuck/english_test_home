@@ -1,6 +1,7 @@
 import { createStore } from 'vuex'
 import { ref, get, set } from "firebase/database";
 import { firebase } from '@/main'
+import getDate from '@/utils/date'
 import auth from './auth'
 export default createStore({
   state: {
@@ -13,11 +14,7 @@ export default createStore({
   mutations: {
     SAVE_DATA(state, data) {
       state[data.path] = data.data
-    },
-    SET_ERROR(state, e) {
-      state.errors = e
     }
-
   },
   actions: {
     async fetchData({ commit }, { path }) {
@@ -43,19 +40,22 @@ export default createStore({
         data
       })
     },
-    setStatistic({ commit }, { data, date, time }) {
+    async setStatistic({ commit }, { data, date, time }) {
       const dbRef = ref(firebase, `statistic/${date}/${time}`);
-      set(dbRef, data).then(() => true)
+      await set(dbRef, data)
       data = {
         [time]: data
       }
       commit('SAVE_DATA', { path: 'answer', data })
     },
-
+    async setError(e) {
+      const [date, time] = getDate();
+      const dbRef = ref(firebase, `errors/${date}/${time}`)
+      await set(dbRef, JSON.stringify(e))
+    }
   },
   getters: {
     getInfo: state => path => state[path],
-    getError: state => state.errors
   },
   modules: {
     auth

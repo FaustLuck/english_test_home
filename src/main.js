@@ -18,13 +18,9 @@ const firebaseConfig = {
 const firebaseApp = initializeApp(firebaseConfig);
 export const firebase = getDatabase(firebaseApp)
 
-//let app;
 
-//firebase.auth.onAuthStateChanged(() => {
-// if (app) return
 createApp(App)
   .use(store)
   .use(router)
   .component('LoaderSpinner', LoaderSpinner)
   .mount('#app')
-//})

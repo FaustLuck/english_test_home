@@ -4,9 +4,10 @@
       <router-link title="Настройки" to="/settings">
         <img src="@/assets/settings.svg"
       /></router-link>
-      <router-link title="Статистика" to="/statistic"><img src="@/assets/statistic.svg"
+      <router-link title="Статистика" to="/statistic"
+        ><img src="@/assets/statistic.svg"
       /></router-link>
-      <login-button title="Войти с помощью Google"></login-button>
+      <login-button></login-button>
     </nav>
   </div>
   <form>
@@ -26,10 +27,26 @@ export default {
   position: fixed;
   right: 0;
   top: 0;
-  padding: 0.5rem;
   z-index: 5;
+  .menu {
+    height: 2.5rem;
+    display: flex;
+    flex-direction: column;
+
+    & > a {
+      height: 100%;
+      padding: 0.5rem;
+
+      & > * {
+        height: 100%;
+      }
+    }
+    @media screen and (max-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
   @media screen and (max-width: 768px) {
-    margin: 0;
     left: 0;
     display: flex;
     justify-content: center;
