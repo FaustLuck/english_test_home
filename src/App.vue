@@ -1,9 +1,12 @@
 <template>
   <div class="container__menu">
     <nav class="menu">
-      <router-link to="/settings">⚙️</router-link>
-      <router-link to="/statistic">📊</router-link>
-      <login-button></login-button>
+      <router-link title="Настройки" to="/settings">
+        <img src="@/assets/settings.svg"
+      /></router-link>
+      <router-link title="Статистика" to="/statistic"><img src="@/assets/statistic.svg"
+      /></router-link>
+      <login-button title="Войти с помощью Google"></login-button>
     </nav>
   </div>
   <form>

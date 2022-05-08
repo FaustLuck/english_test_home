@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
-import { getDatabase, ref, get, set } from "firebase/database";
+import { ref, get, set } from "firebase/database";
+import { firebase } from '@/main'
 import auth from './auth'
 export default createStore({
   state: {
@@ -20,7 +21,7 @@ export default createStore({
   },
   actions: {
     async fetchData({ commit }, { path }) {
-      const dbRef = ref(getDatabase(), `${path}/`);
+      const dbRef = ref(firebase, `${path}/`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let data = snapshot.val();
@@ -34,7 +35,7 @@ export default createStore({
       }
     },
     setData({ commit }, { path, data }) {
-      const dbRef = ref(getDatabase(), `${path}/`);
+      const dbRef = ref(firebase, `${path}/`);
       set(dbRef, data)
         .then(() => true)
       commit('SAVE_DATA', {
@@ -43,7 +44,7 @@ export default createStore({
       })
     },
     setStatistic({ commit }, { data, date, time }) {
-      const dbRef = ref(getDatabase(), `statistic/${date}/${time}`);
+      const dbRef = ref(firebase, `statistic/${date}/${time}`);
       set(dbRef, data).then(() => true)
       data = {
         [time]: data
