@@ -33,6 +33,7 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
+import getDate from "@/utils/date";
 export default {
   name: "TestPage",
   components: {
@@ -124,7 +125,7 @@ export default {
     },
     cancelTest() {
       clearInterval(this.counterId);
-      let [date, time] = this.getDate();
+      let [date, time] = getDate();
       let questions = Object.values(this.answers).reduce(
         (prev, cur) => prev + cur.length,
         0
@@ -147,7 +148,8 @@ export default {
         questions,
         correctAnswers,
       };
-      this.$store.dispatch("setStatistic", { data: obj, date, time });
+      const uid = this.$store.getters.getUid();
+      if (uid) this.$store.dispatch("setStatistic", { data: obj, date, time });
       if (this.timerSec) {
         this.ready = false;
         this.$router.push("result");
@@ -207,19 +209,6 @@ export default {
     },
     updateAnswers({ answer, difficult, index }) {
       this.answers[difficult][index] = answer;
-    },
-    getDate() {
-      let date = new Intl.DateTimeFormat("ru-Ru", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-        .format(new Date())
-        .split(", ");
-      date[0] = date[0].split(".").reverse().join("-");
-      return date;
     },
   },
 };
