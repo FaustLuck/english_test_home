@@ -33,7 +33,6 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
-import getDate from "@/utils/date";
 export default {
   name: "TestPage",
   components: {
@@ -62,14 +61,15 @@ export default {
     },
   },
   async mounted() {
-    let settingsStore = this.$store.getters.getInfo(this.path);
-    this.settings = Object.keys(settingsStore).length
-      ? settingsStore
-      : await this.$store.dispatch("fetchData", { path: this.path });
+    let settingsStore = this.$store.getters.getSettings;
+    if (!Object.keys(settingsStore).length) {
+      await this.$store.dispatch("getSettings");
+    }
+    this.settings = this.$store.getters.getSettings;
     this.loading = false;
     this.timerSec = this.timerStart =
       this.settings.timer.min * 60 + this.settings.timer.sec;
-    this.order = this.$store.getters.getInfo("order");
+    this.order = this.$store.getters.getOrder;
   },
   methods: {
     timeToString(value) {
@@ -125,7 +125,6 @@ export default {
     },
     cancelTest() {
       clearInterval(this.counterId);
-      let [date, time] = getDate();
       let questions = Object.values(this.answers).reduce(
         (prev, cur) => prev + cur.length,
         0
@@ -148,8 +147,7 @@ export default {
         questions,
         correctAnswers,
       };
-      const uid = this.$store.getters.getUid();
-      if (uid) this.$store.dispatch("setStatistic", { data: obj, date, time });
+      this.$store.dispatch("setStatistic", obj);
       if (this.timerSec) {
         this.ready = false;
         this.$router.push("result");
