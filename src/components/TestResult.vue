@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     if (this.testsFromParent === undefined) {
-      this.tests = this.$store.getters.getInfo("answer");
+      this.tests = this.$store.getters.getAnswer;
       this.activeTime = Object.keys(this.tests)[0];
       if (this.tests[this.activeTime].congratulations) this.toWait();
     } else {

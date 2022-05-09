@@ -31,7 +31,7 @@
 <script>
 import TestResult from "@/components/TestResult.vue";
 export default {
-  name: "StatisticPage",
+  name: "StatisticPage_new",
   components: {
     TestResult,
   },

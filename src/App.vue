@@ -1,13 +1,13 @@
 <template>
   <div class="container__menu">
     <nav class="menu">
-      <router-link title="Настройки" to="/settings">
+      <router-link v-if="info.admin" title="Настройки" to="/settings">
         <img src="@/assets/settings.svg"
       /></router-link>
-      <router-link title="Статистика" to="/statistic"
+      <router-link v-if="info.login" title="Статистика" to="/statistic"
         ><img src="@/assets/statistic.svg"
       /></router-link>
-      <login-button></login-button>
+      <login-button v-if="info" :info="info"></login-button>
     </nav>
   </div>
   <form>
@@ -19,6 +19,23 @@ import LoginButton from "@/components/LoginButton.vue";
 export default {
   components: {
     LoginButton,
+  },
+  data() {
+    return {
+      info: {},
+    };
+  },
+  watch: {
+    info: {
+      handler(value) {
+        if (value.admin) this.$router.replace("statistic");
+      },
+      deep: true,
+    },
+  },
+  async created() {
+    await this.$store.dispatch("recovery");
+    this.info = this.$store.getters.getUserInfo;
   },
 };
 </script>
@@ -63,7 +80,7 @@ form {
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    padding-top: 5rem;
+    padding-top: 4rem;
   }
 }
 </style>

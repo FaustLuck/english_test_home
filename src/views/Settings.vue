@@ -79,7 +79,6 @@ export default {
       order: [],
       settings: {},
       loading: true,
-      path: "settings",
       activeIndex: "",
     };
   },
@@ -92,7 +91,7 @@ export default {
       if (value > 59) this.settings.timer.sec = 59;
     },
     saveData() {
-      this.$store.dispatch("setData", { path: this.path, data: this.settings });
+      this.$store.dispatch("setSettings", { data: this.settings });
     },
     deleteRecord(item) {
       this.settings.dictionary[this.activeIndex] = this.settings.dictionary[
@@ -118,12 +117,13 @@ export default {
     },
   },
   async mounted() {
-    let settingsStore = this.$store.getters.getInfo(this.path);
-    this.settings = Object.keys(settingsStore).length
-      ? settingsStore
-      : await this.$store.dispatch("fetchData", { path: this.path });
+    let settingsStore = this.$store.getters.getSettings;
+    if (!Object.keys(settingsStore).length) {
+      await this.$store.dispatch("getSettings");
+    }
+    this.settings = this.$store.getters.getSettings;
     this.loading = false;
-    this.order = this.$store.getters.getInfo("order");
+    this.order = this.$store.getters.getOrder;
   },
 };
 </script>
@@ -159,7 +159,7 @@ export default {
     top: 0;
     background-color: peachpuff;
     @media screen and (max-width: 768px) {
-      top: 5rem;
+      top: 4rem;
     }
   }
 

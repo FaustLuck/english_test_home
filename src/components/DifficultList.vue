@@ -35,7 +35,7 @@ export default {
     };
   },
   mounted() {
-    this.order = this.$store.getters.getInfo("order");
+    this.order = this.$store.getters.getOrder;
   },
 };
 </script>
@@ -60,7 +60,7 @@ export default {
     padding: 0.5rem 0;
     @media screen and (max-width: 768px) {
       font-size: 2rem;
-      top: 5rem;
+      top: 4rem;
     }
 
     &.congratulations {

@@ -1,69 +1,73 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { get, ref, set } from 'firebase/database'
-import { firebase } from '@/main'
+import { firebase } from '@/main';
+import { getUID, setUID } from '@/utils/localStorage'
 
 export default {
   state: {
     uid: '',
     name: '',
     photo: '',
+    login: false,
     admin: false,
-    privileged: false
+    privileged: false,
   },
   mutations: {
-    SAVE_ID(state, user) {
-      state.uid = user.uid;
-      state.name = user.displayName;
-      state.photo = user.photoURL
-    },
-    SAVE_USER_INFO(state, data) {
-      state.admin = data.admin || false;
-      state.privileged = data.privileged || false
+    SAVE_INFO(state, info) {
+      state.uid = info.uid;
+      state.name = info.displayName || info.name;
+      state.photo = info.photoURL || info.photo;
+      state.login = true;
+      state.admin = info.admin || false;
     }
   },
   actions: {
-    async login({ commit, dispatch }) {
-      const auth = getAuth();
+    async recovery({ dispatch }) {
+      let uid = getUID();
+      if (uid) {
+        await dispatch('getUserInfo', uid);
+      }
+    },
+    async login({ dispatch, getters }) {
+      const auth = firebase.auth;
       const provider = new GoogleAuthProvider();
       try {
         let result = await signInWithPopup(auth, provider)
-        const user = result.user;
-        dispatch('getUserInfoFromDB', { user })
-        commit('SAVE_ID', user)
-      } catch (e) {
-        dispatch('setError', e)
+        let user = result.user;
+        if (!(await dispatch('getUserInfo', user.uid))) dispatch('setUserInfo', user)
+        setUID(user.uid);
+        let answer = getters.getAnswer;
+        if (Object.keys(answer).length) {
+          answer = answer[Object.keys(answer)]
+          dispatch('setStatistic', answer)
+        }
+      } catch (error) {
+        console.log(error)
       }
     },
-    async logout() {
-      await signOut()
-    },
-    async getUserInfoFromDB({ commit, dispatch }, { user }) {
-      const dbref = ref(firebase, `users/${user.uid}`);
-      let snapshot = await get(dbref);
+    async getUserInfo({ commit }, uid) {
+      const dbRef = ref(firebase.realtime, `users/${uid}`);
+      let snapshot = await get(dbRef);
       if (snapshot.exists()) {
-        let data = snapshot.val();
-        commit('SAVE_USER_INFO', data)
+        let info = await snapshot.val();
+        info.uid = uid;
+        commit('SAVE_INFO', info)
+        return true
       } else {
-        dispatch('setUserInfo', user)
+        return false
       }
     },
     async setUserInfo({ commit }, user) {
-      const dbref = ref(firebase, `users/${user.uid}`);
-      let data = {
+      const dbRef = ref(firebase.realtime, `users/${user.uid}`);
+      set(dbRef, {
         name: user.displayName,
         photo: user.photoURL
-      }
-      await set(dbref, data)
-      commit('SAVE_USER_INFO', data)
-    }
+      });
+      commit('SAVE_INFO', user)
+    },
   },
   getters: {
-    getUID: state => state.uid,
-    getUserInfo(state) {
-      return {
-        title: state.name,
-        src: state.photo
-      }
-    },
+    getUserInfo: state => state,
+    getLogin: state => state.login,
   }
 }
