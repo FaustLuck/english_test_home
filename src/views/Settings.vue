@@ -1,68 +1,66 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <div v-else>
-    <div class="settings">
-      <div class="settings__detail">
-        <span>Ограничение по времени:</span>
-        <span class="time">
-          <input type="number" v-model.number="settings.timer.min" />
-          :
-          <input
-            type="number"
-            v-model.number="settings.timer.sec"
-            @input="checkTime($event.target.value)"
-          />
-        </span>
-      </div>
-      <div class="settings__detail">
-        <span>Количество вариантов:</span>
-        <span>
-          <input type="number" v-model.number="settings.variants" />
-        </span>
-      </div>
-      <div v-for="difficult of order" :key="difficult">
-        <div class="difficult">
-          <div
-            class="settings__detail"
-            @click="activeIndex = difficult"
-            v-if="settings.dictionary[difficult].length"
-          >
-            <span>Количество вопросов {{ difficult }}</span>
-            <span>
-              <input
-                type="number"
-                @click.stop
-                v-model.number="settings.tests[difficult]"
-                @input="checkCount($event.target.value, difficult)"
-              />
-            </span>
-          </div>
-          <keep-alive>
-            <card-item
-              v-if="activeIndex == difficult"
-              :index="'newValue'"
-              :item="{}"
-              :mode="'settings'"
-              @editRecord="editRecord"
-            ></card-item>
-          </keep-alive>
+  <div v-else class="settings">
+    <div class="settings__detail">
+      <span>Ограничение по времени:</span>
+      <span class="time">
+        <input type="number" v-model.number="settings.timer.min" />
+        :
+        <input
+          type="number"
+          v-model.number="settings.timer.sec"
+          @input="checkTime($event.target.value)"
+        />
+      </span>
+    </div>
+    <div class="settings__detail">
+      <span>Количество вариантов:</span>
+      <span>
+        <input type="number" v-model.number="settings.variants" />
+      </span>
+    </div>
+    <div v-for="difficult of order" :key="difficult">
+      <div class="difficult">
+        <div
+          class="settings__detail"
+          @click="activeIndex = difficult"
+          v-if="settings.dictionary[difficult].length"
+        >
+          <span>Количество вопросов {{ difficult }}</span>
+          <span>
+            <input
+              type="number"
+              @click.stop
+              v-model.number="settings.tests[difficult]"
+              @input="checkCount($event.target.value, difficult)"
+            />
+          </span>
         </div>
-        <keep-alive v-if="activeIndex === difficult">
+        <keep-alive>
           <card-item
-            v-for="(item, index) of settings.dictionary[difficult]"
-            :key="item.question"
-            :item="item"
-            :index="index"
+            v-if="activeIndex == difficult"
+            :index="'newValue'"
+            :item="{}"
             :mode="'settings'"
-            @deleteRecord="deleteRecord(item)"
             @editRecord="editRecord"
-          >
-          </card-item>
+          ></card-item>
         </keep-alive>
       </div>
-      <div class="settings__detail update">
-        <input type="button" value="Обновить настройки" @click="saveData" />
-      </div>
+      <keep-alive v-if="activeIndex === difficult">
+        <card-item
+          v-for="(item, index) of settings.dictionary[difficult]"
+          :key="item.question"
+          :item="item"
+          :index="index"
+          :mode="'settings'"
+          @deleteRecord="deleteRecord(item)"
+          @editRecord="editRecord"
+        >
+        </card-item>
+      </keep-alive>
+    </div>
+    <div class="settings__detail update">
+      <input type="button" value="Обновить настройки" @click="saveData" />
     </div>
   </div>
 </template>
@@ -91,7 +89,7 @@ export default {
       if (value > 59) this.settings.timer.sec = 59;
     },
     saveData() {
-      this.$store.dispatch("setSettings", { data: this.settings });
+      this.$store.dispatch("setSettings", this.settings);
     },
     deleteRecord(item) {
       this.settings.dictionary[this.activeIndex] = this.settings.dictionary[
@@ -118,7 +116,7 @@ export default {
   },
   async mounted() {
     let settingsStore = this.$store.getters.getSettings;
-    if (!Object.keys(settingsStore).length) {
+    if (!settingsStore) {
       await this.$store.dispatch("getSettings");
     }
     this.settings = this.$store.getters.getSettings;

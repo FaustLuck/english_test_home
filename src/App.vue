@@ -7,7 +7,7 @@
       <router-link v-if="info.login" title="Статистика" to="/statistic"
         ><img src="@/assets/statistic.svg"
       /></router-link>
-      <login-button v-if="info" :info="info"></login-button>
+      <login-button @click="loginMe"></login-button>
     </nav>
   </div>
   <form>
@@ -21,21 +21,22 @@ export default {
     LoginButton,
   },
   data() {
-    return {
-      info: {},
-    };
+    return {};
   },
-  watch: {
-    info: {
-      handler(value) {
-        if (value.admin) this.$router.replace("statistic");
-      },
-      deep: true,
+  computed: {
+    info() {
+      return this.$store.getters.getUserInfo;
     },
   },
   async created() {
     await this.$store.dispatch("recovery");
-    this.info = this.$store.getters.getUserInfo;
+  },
+  methods: {
+    async loginMe() {
+      let login = this.$store.getters.getLogin;
+      if (login) return;
+      await this.$store.dispatch("login", {});
+    },
   },
 };
 </script>

@@ -1,81 +1,59 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <div v-else>
-    <div
-      class="tests"
-      v-for="date of dateArray"
-      :key="date.day"
-      @click="
-        activeDay = date.day;
-        testsOfDay = tests[date.day];
-      "
-    >
-      <div class="tests__info">
-        <span>Дата теста: </span>
-        <span class="date">{{ date.output }}</span>
-      </div>
-      <div class="tests__info">
-        <span>Количество тестов: </span>
-        <span>{{ Object.keys(tests[date.day]).length }}</span>
-      </div>
-      <keep-alive>
-        <test-result
-          v-if="activeDay == date.day"
-          :testsFromParent="testsOfDay"
-        ></test-result>
-      </keep-alive>
+  <div
+    v-else
+    class="user"
+    :class="{ priveleged: user.info.priveleged }"
+    v-for="(user, uid) of statistic"
+    :key="uid"
+    @click="activeUser = uid"
+  >
+    <div class="user__info">
+      <span>Имя: </span>
+      <span class="date">{{ user.info.displayName }}</span>
     </div>
+    <keep-alive>
+      <date-list :tests="user.statistic" v-if="activeUser == uid"></date-list>
+    </keep-alive>
   </div>
 </template>
 
 <script>
-import TestResult from "@/components/TestResult.vue";
+import DateList from "@/components/DateList.vue";
 export default {
   name: "StatisticPage",
   components: {
-    TestResult,
+    DateList,
   },
   data() {
     return {
-      tests: {},
       loading: true,
-      activeDay: "",
-      testsOfDay: {},
-      dateArray: [],
+      activeUser: "",
     };
   },
-  async mounted() {
-    let statisticStore = this.$store.getters.getStatistic;
-    let uid = this.$store.getters.getUserInfo.uid;
-    this.tests = Object.keys(statisticStore).length
-      ? statisticStore
-      : await this.$store.dispatch("getStatistic", uid);
-    this.loading = false;
-    this.dateArray = Object.keys(this.tests).reverse();
-    this.prepareDate();
+  watch: {
+    statistic: function (value) {
+      if (value) this.loading = false;
+    },
   },
-  methods: {
-    prepareDate() {
-      for (let i = 0; i < this.dateArray.length; i++) {
-        let date = this.dateArray[i];
-        date = {
-          day: date,
-          output: date.split("-").reverse().join("."),
-        };
-        this.dateArray[i] = date;
-      }
+  computed: {
+    statistic() {
+      return this.$store.getters.getStatistic;
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.tests {
+.user {
   border: 1px solid black;
-  cursor: default;
   margin: -1px;
+  cursor: default;
   @media screen and (max-width: 768px) {
     font-size: 1rem;
+  }
+  &.priveleged {
+    order: 0;
   }
 
   &__info {
@@ -85,6 +63,9 @@ export default {
     align-items: center;
     & > span {
       padding: 0 1rem;
+    }
+    @media screen and (max-width: 768px) {
+      flex-wrap: wrap;
     }
   }
 }
