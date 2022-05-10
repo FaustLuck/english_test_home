@@ -1,35 +1,16 @@
 <template>
-  <a @click="loginMe" :title="name"><img :src="photo" /></a>
+  <a :title="displayName"><img :src="photoURL" /></a>
 </template>
 
 <script>
 export default {
   name: "LoginButton",
-  props: {
-    info: Object,
-  },
-  data() {
-    return {
-      photo: require("@/assets/google.svg"),
-      name: "Войти с помощью Google",
-      login: false,
-    };
-  },
-  watch: {
-    info: function (value) {
-      this.photo = value.photo ? value.photo : require("@/assets/google.svg");
-      this.name = value.name ? value.name : "Войти с помощью Google";
-      this.login = value.login ? value.login : false;
+  computed: {
+    displayName() {
+      return this.$store.getters.getUserInfo.displayName;
     },
-  },
-  methods: {
-    async loginMe() {
-      if (this.login) return;
-      await this.$store.dispatch("login", {});
-      let info = this.$store.getters.getUserInfo;
-      this.photo = info.photo;
-      this.name = info.name;
-      this.login = info.login;
+    photoURL() {
+      return this.$store.getters.getUserInfo.photoURL;
     },
   },
 };

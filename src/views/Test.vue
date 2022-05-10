@@ -40,7 +40,6 @@ export default {
   },
   data() {
     return {
-      settings: {},
       path: "settings",
       timerString: "",
       timerSec: 0,
@@ -49,7 +48,6 @@ export default {
       loading: true,
       ready: false,
       test: {},
-      order: [],
       answers: {},
       reason: "",
     };
@@ -59,17 +57,23 @@ export default {
       this.timerString = this.timeToString(value);
       if (!value) this.cancelTest();
     },
+    settings: function (value) {
+      if (!value) return;
+      this.loading = false;
+      this.timerSec = this.timerStart =
+        this.settings.timer.min * 60 + this.settings.timer.sec;
+    },
   },
-  async mounted() {
-    let settingsStore = this.$store.getters.getSettings;
-    if (!Object.keys(settingsStore).length) {
-      await this.$store.dispatch("getSettings");
-    }
-    this.settings = this.$store.getters.getSettings;
-    this.loading = false;
-    this.timerSec = this.timerStart =
-      this.settings.timer.min * 60 + this.settings.timer.sec;
-    this.order = this.$store.getters.getOrder;
+  async created() {
+    this.$store.dispatch("getSettings");
+  },
+  computed: {
+    settings() {
+      return this.$store.getters.getSettings;
+    },
+    order() {
+      return this.$store.getters.getOrder;
+    },
   },
   methods: {
     timeToString(value) {
