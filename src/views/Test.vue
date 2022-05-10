@@ -33,6 +33,8 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
+import { mapState } from "vuex";
+import {compare} from '@/utils'
 export default {
   name: "TestPage",
   components: {
@@ -66,15 +68,9 @@ export default {
   },
   async created() {
     this.$store.dispatch("getSettings");
+    this.$store.dispatch("getSpeech");
   },
-  computed: {
-    settings() {
-      return this.$store.getters.getSettings;
-    },
-    order() {
-      return this.$store.getters.getOrder;
-    },
-  },
+  computed: mapState(["settings", "order"]),
   methods: {
     timeToString(value) {
       let sec = (value % 60).toString().padStart(2, "0");
@@ -89,7 +85,7 @@ export default {
           dictionaryOfDifficult,
           this.settings.tests[difficult]
         );
-        questionsOfDifficult = questionsOfDifficult.sort(this.compare);
+        questionsOfDifficult = questionsOfDifficult.sort(compare);
         questionsOfDifficult = this.toFillVariants(
           this.settings.tests[difficult],
           questionsOfDifficult,
@@ -101,11 +97,6 @@ export default {
       this.ready = true;
       this.timerSec = this.timerStart;
       this.countdown();
-    },
-    compare(a, b) {
-      if (a.question < b.question) return -1;
-      if (a.question > b.question) return 1;
-      return 0;
     },
     prepareAnswers() {
       this.answers = {};

@@ -67,6 +67,8 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
+import { mapState } from "vuex";
+import { compare } from "@/utils";
 export default {
   name: "SettingsPage",
   components: {
@@ -74,11 +76,16 @@ export default {
   },
   data() {
     return {
-      order: [],
-      settings: {},
       loading: true,
       activeIndex: "",
     };
+  },
+  computed: mapState(["settings", "order"]),
+  watch: {
+    settings: function (value) {
+      if (!value) return;
+      this.loading = false;
+    },
   },
   methods: {
     checkCount(value, difficult) {
@@ -89,6 +96,7 @@ export default {
       if (value > 59) this.settings.timer.sec = 59;
     },
     saveData() {
+      this.sortDictionary(this.settings.dictionary);
       this.$store.dispatch("setSettings", this.settings);
     },
     deleteRecord(item) {
@@ -113,15 +121,15 @@ export default {
         dictionary[item.index].answer = item.answers;
       }
     },
+    sortDictionary(dictionary) {
+      for (let difficult in dictionary) {
+        let dictionaryOfDifficult = dictionary[difficult];
+        dictionaryOfDifficult.sort(compare);
+      }
+    },
   },
-  async mounted() {
-    let settingsStore = this.$store.getters.getSettings;
-    if (!settingsStore) {
-      await this.$store.dispatch("getSettings");
-    }
-    this.settings = this.$store.getters.getSettings;
-    this.loading = false;
-    this.order = this.$store.getters.getOrder;
+  async created() {
+    await this.$store.dispatch("getSettings");
   },
 };
 </script>
