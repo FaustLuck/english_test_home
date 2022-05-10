@@ -20,6 +20,7 @@
 
 <script>
 import DateList from "@/components/DateList.vue";
+import { mapState } from "vuex";
 export default {
   name: "StatisticPage",
   components: {
@@ -27,19 +28,19 @@ export default {
   },
   data() {
     return {
-      loading: true,
       activeUser: "",
+      loading: true,
     };
   },
+  computed: mapState(["statistic"]),
   watch: {
     statistic: function (value) {
-      if (value) this.loading = false;
+      if (!value) return;
+      this.loading = false;
     },
   },
-  computed: {
-    statistic() {
-      return this.$store.getters.getStatistic;
-    },
+  async created() {
+    await this.$store.dispatch("getStatistic");
   },
 };
 </script>

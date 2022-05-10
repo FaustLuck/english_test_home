@@ -28,6 +28,14 @@ export default {
       return this.$store.getters.getUserInfo;
     },
   },
+  watch: {
+    info: {
+      deep: true,
+      handler() {
+        if (this.info.admin) this.$router.replace({ path: "/statistic" });
+      },
+    },
+  },
   async created() {
     await this.$store.dispatch("recovery");
   },

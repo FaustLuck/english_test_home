@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card__item">
       <div class="card__item_container">
-        <a v-if="mode == 'test'" class="voice" @click="speech">🔉</a>
+        <a v-if="mode == 'test'" class="voice" @click="toSpeech">🔉</a>
         <input
           type="text"
           :readonly="!editing"
@@ -75,7 +75,7 @@
 </template>
 
 <script>
-import submitTextToVoice from "@/utils/voice";
+import { speech } from "@/utils";
 export default {
   name: "CardItem",
   props: {
@@ -147,8 +147,8 @@ export default {
     }
   },
   methods: {
-    speech() {
-      submitTextToVoice(this.question);
+    toSpeech() {
+      return speech(this.question);
     },
     clear() {
       if (this.index != "newValue") return;

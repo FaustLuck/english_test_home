@@ -4,8 +4,7 @@ import { ref, get, set } from "firebase/database";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { firebase } from '@/main'
 
-import getDate from "@/utils/date";
-import { getUID, setUID } from '@/utils/localStorage'
+import { getDate, getUID, setUID } from "@/utils";
 
 export default createStore({
   state: {
@@ -20,7 +19,8 @@ export default createStore({
       login: false,
       admin: false,
       priveleged: false,
-    }
+    },
+    speech: null
   },
   mutations: {
     SAVE_STATISTIC(state, data) {
@@ -39,6 +39,9 @@ export default createStore({
       state.info.login = true;
       state.info.admin = info.admin || false;
       state.info.priveleged = info.priveleged || false;
+    },
+    SAVE_SPEECH(state, data) {
+      state.speech = data
     }
   },
   actions: {
@@ -64,21 +67,17 @@ export default createStore({
         await dispatch('getUserInfo', uid);
       }
     },
-    async login({ dispatch, getters }) {
+    async login({ getters, dispatch }) {
       const auth = firebase.auth;
       const provider = new GoogleAuthProvider();
-      try {
-        let result = await signInWithPopup(auth, provider)
-        let user = result.user;
-        if (!(await dispatch('getUserInfo', user.uid))) await dispatch('setUserInfo', user)
-        setUID(user.uid);
-        let answer = getters.getAnswer;
-        if (answer) {
-          answer = answer[Object.keys(answer)]
-          dispatch('setStatistic', answer)
-        }
-      } catch (error) {
-        console.log(error)
+      let result = await signInWithPopup(auth, provider)
+      let user = result.user;
+      if (!(await dispatch('getUserInfo', user.uid))) await dispatch('setUserInfo', user)
+      setUID(user.uid);
+      let answer = getters.getAnswer;
+      if (answer) {
+        answer = answer[Object.keys(answer)]
+        dispatch('setStatistic', answer)
       }
     },
     async getUserInfo({ commit, dispatch }, uid) {
@@ -103,15 +102,15 @@ export default createStore({
       commit('SAVE_INFO', user)
     },
 
-    async getStatistic({ commit, getters }) {
+    async getStatistic({ getters, commit }) {
       let info = getters.getUserInfo;
       let path = (info.admin) ? '' : `${info.uid}/statistic`;
       const dbRef = ref(firebase.realtime, `users/${path}/`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let statistic = await snapshot.val();
-        for (let key in statistic){
-          if(!statistic[key]?.statistic) delete statistic[key]         
+        for (let key in statistic) {
+          if (!statistic[key]?.statistic) delete statistic[key]
         }
         commit('SAVE_STATISTIC', statistic)
       }
@@ -128,6 +127,14 @@ export default createStore({
       }
       commit('SAVE_ANSWER', data)
     },
+    async getSpeech({ commit }) {
+      const dbRef = ref(firebase.realtime, `speech/`)
+      let snapshot = await get(dbRef);
+      if (snapshot.exists()) {
+        let speech = await snapshot.val();
+        commit('SAVE_SPEECH', speech)
+      }
+    },
   },
   getters: {
     getSettings: state => state.settings,
@@ -135,6 +142,7 @@ export default createStore({
     getOrder: state => state.order,
     getAnswer: state => state.answer,
     getUserInfo: state => state.info,
-    getLogin: state => state.info.login
+    getLogin: state => state.info.login,
+    getSpeech: state => state.speech
   }
 })
