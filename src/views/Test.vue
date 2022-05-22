@@ -1,6 +1,6 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <div v-else :class="{ fail: timerSec == 0 }">
+  <div v-else :class="{ fail: timerSec === 0 }">
     <header
       :class="{
         warning: timerSec > 10 && timerSec < 31,
@@ -136,7 +136,7 @@ export default {
       correctAnswers = questions * 2 - correctAnswers;
       let obj = {
         answers: this.answers,
-        congratulations: correctAnswers == questions,
+        congratulations: correctAnswers === questions,
         reason,
         "time spent": this.timeToString(this.timerStart - this.timerSec),
         questions,
@@ -159,8 +159,7 @@ export default {
       }, 1000);
     },
     getRandom(array) {
-      let item = array[Math.floor(Math.random() * array.length)];
-      return item;
+      return  array[Math.floor(Math.random() * array.length)];
     },
     toFill(array, limit) {
       let output = [];
@@ -175,9 +174,9 @@ export default {
     deleteRepeat(item, array) {
       return array.filter((e) => {
         if (item instanceof Object) {
-          return e.question != item.question;
+          return e.question !== item.question;
         }
-        return e != item;
+        return e !== item;
       });
     },
     toFillVariants(limit, questions, dictionary) {
@@ -185,12 +184,12 @@ export default {
         let question = { ...questions[i] };
         let correctAnswer = question.answer;
         let variants = this.toFill(
-          dictionary.map((e) => e.answer).filter((e) => e != correctAnswer),
+          dictionary.map((e) => e.answer).filter((e) => e !== correctAnswer),
           this.settings.variants - 1
         );
         variants.push(correctAnswer);
         variants.sort();
-        let index = variants.findIndex((e) => e == correctAnswer);
+        let index = variants.findIndex((e) => e === correctAnswer);
         variants[index] = {
           answer: correctAnswer,
           correct: true,

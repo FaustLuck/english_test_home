@@ -2,7 +2,7 @@
   <div class="container__menu">
     <nav class="menu">
       <router-link v-if="info.admin" title="Настройки" to="/settings">
-        <img src="@/assets/settings.svg"
+        <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
       <router-link v-if="info.login" title="Статистика" to="/statistic"
         ><img src="@/assets/statistic.svg"

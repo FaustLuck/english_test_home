@@ -63,7 +63,7 @@ export function fireshow(canvas) {
   let listFire = [];
   let listFirework = [];
   let fireNumber = 20;
-  let center = { x: canvas.width / 2, y: canvas.height / 2 };
+  let center = {x: canvas.width / 2, y: canvas.height / 2};
   let range = 400;
   for (let i = 0; i < fireNumber; i++) {
     let fire = {
