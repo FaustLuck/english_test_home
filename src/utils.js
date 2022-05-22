@@ -30,7 +30,7 @@ export async function speech(text) {
       let blob = await response.blob()
       let src = URL.createObjectURL(blob)
       const audio = new Audio(src);
-      audio.play()
+      await audio.play()
     }
   } catch (e) {
     console.log(e)
@@ -46,7 +46,7 @@ export function compare(a, b) {
 export function fireshow(canvas) {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
-  var ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext("2d");
 
   // resize
   window.addEventListener("resize", () => {
