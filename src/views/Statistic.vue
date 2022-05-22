@@ -13,7 +13,7 @@
       <span class="date">{{ user.info.displayName }}</span>
     </div>
     <keep-alive>
-      <date-list :tests="user.statistic" v-if="activeUser == uid"></date-list>
+      <date-list :tests="user.statistic" v-if="activeUser === uid"></date-list>
     </keep-alive>
   </div>
 </template>

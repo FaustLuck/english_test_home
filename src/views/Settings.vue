@@ -38,7 +38,7 @@
         </div>
         <keep-alive>
           <card-item
-            v-if="activeIndex == difficult"
+            v-if="activeIndex === difficult"
             :index="'newValue'"
             :item="{}"
             :mode="'settings'"
@@ -69,9 +69,11 @@
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { compare } from "@/utils";
+import LoaderSpinner from "@/components/LoaderSpinner";
 export default {
   name: "SettingsPage",
   components: {
+    LoaderSpinner,
     CardItem,
   },
   data() {
@@ -102,14 +104,14 @@ export default {
     deleteRecord(item) {
       this.settings.dictionary[this.activeIndex] = this.settings.dictionary[
         this.activeIndex
-      ].filter((el) => el.question != item.question);
+      ].filter((el) => el.question !== item.question);
     },
     editRecord(item) {
       let dictionary = this.settings.dictionary[this.activeIndex];
-      let param = item.index == "newValue" ? item.question : item.index;
-      let index = dictionary.findIndex((el) => el.question == param);
+      let param = item.index === "newValue" ? item.question : item.index;
+      let index = dictionary.findIndex((el) => el.question === param);
       item.answers = item.answers[0];
-      if (item.index == "newValue") {
+      if (item.index === "newValue") {
         if (index > -1) return;
         let newItem = {
           question: item.question,
