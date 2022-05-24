@@ -33,8 +33,9 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
-import { mapState } from "vuex";
+import {mapState} from "vuex";
 import {compare} from '@/utils'
+
 export default {
   name: "TestPage",
   components: {
@@ -70,7 +71,9 @@ export default {
     this.$store.dispatch("getSettings");
     this.$store.dispatch("getSpeech");
   },
-  computed: mapState(["settings", "order"]),
+  computed: {
+    ...mapState(["settings", "order"])
+  },
   methods: {
     timeToString(value) {
       let sec = (value % 60).toString().padStart(2, "0");
@@ -159,7 +162,7 @@ export default {
       }, 1000);
     },
     getRandom(array) {
-      return  array[Math.floor(Math.random() * array.length)];
+      return array[Math.floor(Math.random() * array.length)];
     },
     toFill(array, limit) {
       let output = [];
@@ -181,7 +184,7 @@ export default {
     },
     toFillVariants(limit, questions, dictionary) {
       for (let i = 0; i < limit; i++) {
-        let question = { ...questions[i] };
+        let question = {...questions[i]};
         let correctAnswer = question.answer;
         let variants = this.toFill(
           dictionary.map((e) => e.answer).filter((e) => e !== correctAnswer),
@@ -195,11 +198,11 @@ export default {
           correct: true,
         };
         question.answer = variants;
-        questions[i] = { ...question };
+        questions[i] = {...question};
       }
       return questions;
     },
-    updateAnswers({ answer, difficult, index }) {
+    updateAnswers({answer, difficult, index}) {
       this.answers[difficult][index] = answer;
     },
   },
@@ -211,6 +214,7 @@ export default {
   background-color: red;
   pointer-events: none;
 }
+
 header {
   display: flex;
   justify-content: space-around;
@@ -235,6 +239,7 @@ header {
     width: 100%;
     text-align: center;
   }
+
   @media screen and (max-width: 768px) {
     & > *:nth-child(3) {
       width: 0;
