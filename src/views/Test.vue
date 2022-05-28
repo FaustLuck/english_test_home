@@ -33,8 +33,8 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
-import {mapState} from "vuex";
-import {compare} from '@/utils'
+import { mapState } from "vuex";
+import { compare } from '@/utils'
 
 export default {
   name: "TestPage",
@@ -78,7 +78,7 @@ export default {
     timeToString(value) {
       let sec = (value % 60).toString().padStart(2, "0");
       let min = (value - sec) / 60;
-      return `${min}:${sec}`;
+      return `${ min }:${ sec }`;
     },
     createTest() {
       this.test = {};
@@ -184,7 +184,7 @@ export default {
     },
     toFillVariants(limit, questions, dictionary) {
       for (let i = 0; i < limit; i++) {
-        let question = {...questions[i]};
+        let question = { ...questions[i] };
         let correctAnswer = question.answer;
         let variants = this.toFill(
           dictionary.map((e) => e.answer).filter((e) => e !== correctAnswer),
@@ -198,11 +198,11 @@ export default {
           correct: true,
         };
         question.answer = variants;
-        questions[i] = {...question};
+        questions[i] = { ...question };
       }
       return questions;
     },
-    updateAnswers({answer, difficult, index}) {
+    updateAnswers({ answer, difficult, index }) {
       this.answers[difficult][index] = answer;
     },
   },

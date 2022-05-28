@@ -2,7 +2,8 @@
   <canvas ref="canvas"></canvas>
 </template>
 <script>
-import {fireshow} from "@/utils";
+import { fireshow } from "@/utils";
+
 export default {
   name: "FireshowPage",
   mounted() {
@@ -11,7 +12,7 @@ export default {
   },
 };
 </script>
-  <style lang="scss" scoped>
+<style lang="scss" scoped>
 canvas {
   position: absolute;
   top: 0;

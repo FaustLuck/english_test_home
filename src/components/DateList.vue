@@ -27,6 +27,7 @@
 
 <script>
 import TestResult from "@/components/TestResult.vue";
+
 export default {
   name: "StatisticPage",
   components: {
@@ -76,6 +77,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     & > span {
       padding: 0 1rem;
     }

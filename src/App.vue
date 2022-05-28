@@ -2,7 +2,7 @@
   <layout-component></layout-component>
   <menu-component></menu-component>
   <form>
-    <router-view/>
+    <router-view />
   </form>
 </template>
 
