@@ -109,9 +109,9 @@ export default createStore({
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let statistic = await snapshot.val();
-        // for (let key in statistic) {
-        //   if (!statistic[key]?.statistic) delete statistic[key]
-        // }
+         for (let key in statistic) {
+           if (!statistic[key]?.statistic) delete statistic[key]
+         }
         commit('SAVE_STATISTIC', statistic)
       }
     },
