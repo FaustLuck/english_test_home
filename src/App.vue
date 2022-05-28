@@ -3,19 +3,20 @@
     <nav class="menu">
       <router-link v-if="info.admin" title="Настройки" to="/settings">
         <img src="@/assets/settings.svg" alt="Настройки"
-      /></router-link>
+        /></router-link>
       <router-link v-if="info.login" title="Статистика" to="/statistic"
-        ><img src="@/assets/statistic.svg"
+      ><img src="@/assets/statistic.svg"
       /></router-link>
       <login-button @click="loginMe"></login-button>
     </nav>
   </div>
   <form>
-    <router-view />
+    <router-view/>
   </form>
 </template>
 <script>
 import LoginButton from "@/components/LoginButton.vue";
+
 export default {
   components: {
     LoginButton,
@@ -54,6 +55,7 @@ export default {
   right: 0;
   top: 0;
   z-index: 5;
+
   .menu {
     height: 2.5rem;
     display: flex;
@@ -67,6 +69,7 @@ export default {
         height: 100%;
       }
     }
+
     @media screen and (max-width: 768px) {
       flex-direction: row;
     }

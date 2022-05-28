@@ -4,7 +4,7 @@
     <div class="settings__detail">
       <span>Ограничение по времени:</span>
       <span class="time">
-        <input type="number" v-model.number="settings.timer.min" />
+        <input type="number" v-model.number="settings.timer.min"/>
         :
         <input
           type="number"
@@ -16,7 +16,7 @@
     <div class="settings__detail">
       <span>Количество вариантов:</span>
       <span>
-        <input type="number" v-model.number="settings.variants" />
+        <input type="number" v-model.number="settings.variants"/>
       </span>
     </div>
     <div v-for="difficult of order" :key="difficult">
@@ -60,7 +60,7 @@
       </keep-alive>
     </div>
     <div class="settings__detail update">
-      <input type="button" value="Обновить настройки" @click="saveData" />
+      <input type="button" value="Обновить настройки" @click="saveData"/>
     </div>
   </div>
 </template>
@@ -70,6 +70,7 @@ import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { compare } from "@/utils";
 import LoaderSpinner from "@/components/LoaderSpinner";
+
 export default {
   name: "SettingsPage",
   components: {
@@ -106,7 +107,7 @@ export default {
     deleteRecord(item) {
       this.settings.dictionary[this.activeIndex] = this.settings.dictionary[
         this.activeIndex
-      ].filter((el) => el.question !== item.question);
+        ].filter((el) => el.question !== item.question);
     },
     editRecord(item) {
       let dictionary = this.settings.dictionary[this.activeIndex];
@@ -198,6 +199,7 @@ export default {
         display: none;
       }
     }
+
     &[type="button"] {
       padding: 0.5rem 1rem;
       margin: 0 auto;

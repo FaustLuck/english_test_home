@@ -8,6 +8,7 @@ import LoaderSpinner from '@/components/LoaderSpinner.vue'
 import { initializeApp } from "firebase/app"
 import { getDatabase } from 'firebase/database'
 import { getAuth } from 'firebase/auth'
+
 const firebaseConfig = {
   apiKey: "AIzaSyCLchFcQWRGJxElVnI0Cv7JGgAvrC8yDZ4",
   authDomain: "english-test-home.firebaseapp.com",

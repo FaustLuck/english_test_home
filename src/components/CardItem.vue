@@ -78,6 +78,7 @@
 
 <script>
 import { speech } from "@/utils";
+
 export default {
   name: "CardItem",
   props: {
@@ -244,6 +245,7 @@ export default {
         opacity: 1;
         justify-content: center;
       }
+
       img {
         height: 100%;
       }
@@ -259,6 +261,7 @@ export default {
     color: red;
     font-weight: 700;
   }
+
   .correct {
     color: green;
     font-weight: 700;

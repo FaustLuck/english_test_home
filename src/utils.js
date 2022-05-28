@@ -63,7 +63,7 @@ export function fireshow(canvas) {
   let listFire = [];
   let listFirework = [];
   let fireNumber = 20;
-  let center = {x: canvas.width / 2, y: canvas.height / 2};
+  let center = { x: canvas.width / 2, y: canvas.height / 2 };
   let range = 400;
   for (let i = 0; i < fireNumber; i++) {
     let fire = {
@@ -88,7 +88,7 @@ export function fireshow(canvas) {
     let r = Math.floor(Math.random() * 256);
     let g = Math.floor(Math.random() * 256);
     let b = Math.floor(Math.random() * 256);
-    return `rgb(${r},${g},${b}`
+    return `rgb(${ r },${ g },${ b }`
   }
 
   (function loop() {

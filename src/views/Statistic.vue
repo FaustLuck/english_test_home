@@ -20,7 +20,7 @@
 
 <script>
 import DateList from "@/components/DateList.vue";
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "StatisticPage",

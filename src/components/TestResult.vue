@@ -36,6 +36,7 @@
 
 <script>
 import DifficultList from "@/components/DifficultList.vue";
+
 export default {
   name: "TestResult",
   components: {
@@ -83,9 +84,11 @@ export default {
   &.congratulations {
     background-color: darkseagreen;
   }
+
   &__detail {
     display: flex;
     justify-content: space-between;
+
     span {
       padding: 0.5rem 1rem;
     }

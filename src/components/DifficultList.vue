@@ -18,6 +18,7 @@
 
 <script>
 import CardItem from "@/components/CardItem.vue";
+
 export default {
   components: { CardItem },
   name: "DifficultList",
