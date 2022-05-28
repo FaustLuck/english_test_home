@@ -2,7 +2,7 @@
   <div class="card">
     <div class="card__item">
       <div class="card__item_container">
-        <a v-if="mode == 'test'" class="voice" @click="toSpeech">🔉</a>
+        <a v-if="mode === 'test'" class="voice" @click="toSpeech">🔉</a>
         <input
           type="text"
           :readonly="!editing"
@@ -11,7 +11,7 @@
         />
       </div>
     </div>
-    <div class="card__item" v-if="mode != 'settings'">
+    <div class="card__item" v-if="mode !== 'settings'">
       <div
         class="card__item_container"
         v-for="(variant, varIndex) of answers"
@@ -22,13 +22,13 @@
           :name="difficult + '_' + index"
           :value="variant"
           v-model="check"
-          :checked="mode == 'statistic' && variant == check"
-          :disabled="mode == 'statistic'"
+          :checked="mode === 'statistic' && variant === check"
+          :disabled="mode === 'statistic'"
         />
         <input
           :class="{
-            correct: mode == 'statistic' && varIndex == correctIndex,
-            wrong: mode == 'statistic' && varIndex != correctIndex,
+            correct: mode === 'statistic' && varIndex === correctIndex,
+            wrong: mode === 'statistic' && varIndex !== correctIndex,
           }"
           type="text"
           readonly
@@ -51,24 +51,26 @@
     </div>
 
     <div
-      v-if="mode == 'settings'"
+      v-if="mode === 'settings'"
       class="card__item tool"
       :class="{ show: editing }"
     >
-      <img v-if="!editing" src="@/assets/edit.svg" @click="editing = true" />
+      <img v-if="!editing" src="@/assets/edit.svg" @click="editing = true" alt="Редактировать"/>
       <img
         v-if="!editing"
         src="@/assets/delete.svg"
         @click="$emit('deleteRecord', item)"
+        alt="Удалить"
       />
       <img
         v-if="editing"
         src="@/assets/done.svg"
         @click="
-          editing = index == 'newValue' || false;
+          editing = index === 'newValue' || false;
           $emit('editRecord', { answers, question, index });
           clear();
         "
+        alt="Готово"
       />
     </div>
   </div>
@@ -89,7 +91,7 @@ export default {
   },
   data() {
     return {
-      editing: this.mode == "settings" && this.index == "newValue",
+      editing: this.mode === "settings" && this.index === "newValue",
       correctIndex: 0,
       answers: [],
       question: "",
@@ -99,8 +101,8 @@ export default {
   },
   watch: {
     check: function (value) {
-      if (this.mode == "settings") return;
-      let correct = value == this.answers[this.correctIndex];
+      if (this.mode === "settings") return;
+      let correct = value === this.answers[this.correctIndex];
       let answer = {
         question: this.question,
         answer: [
@@ -131,17 +133,17 @@ export default {
     },
   },
   mounted() {
-    if (this.index == "newValue") return;
+    if (this.index === "newValue") return;
     this.question = this.item.question;
     this.answers =
-      this.mode == "settings" ? [this.item.answer] : [...this.item.answer];
-    if (this.mode != "settings") {
+      this.mode === "settings" ? [this.item.answer] : [...this.item.answer];
+    if (this.mode !== "settings") {
       this.correctIndex = this.item.answer.findIndex(
         (e) => e instanceof Object
       );
       this.answers[this.correctIndex] = this.answers[this.correctIndex].answer;
     }
-    if (this.mode == "statistic") {
+    if (this.mode === "statistic") {
       this.check = this.item.answer[this.correctIndex].answer;
       this.correctIndex = this.item.answer.length - 1;
     }
@@ -151,7 +153,7 @@ export default {
       return speech(this.question);
     },
     clear() {
-      if (this.index != "newValue") return;
+      if (this.index !== "newValue") return;
       this.question = "";
       this.answers[0] = "";
     },

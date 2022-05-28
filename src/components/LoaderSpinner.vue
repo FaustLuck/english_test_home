@@ -21,14 +21,12 @@ export default {};
   left: 0;
   right: 0;
   display: flex;
-  display: flex;
   align-items: center;
   justify-content: center;
 
   .preloader {
     width: 10rem;
     height: 10rem;
-    background: radial-gradient(var(--menu_bg_color) 1.5rem, transparent 4rem);
     display: flex;
     justify-content: center;
     align-items: center;

@@ -18,7 +18,7 @@
     </div>
     <keep-alive>
       <test-result
-        v-if="activeDay == date.day"
+        v-if="activeDay === date.day"
         :testsFromParent="testsOfDay"
       ></test-result>
     </keep-alive>
@@ -28,7 +28,7 @@
 <script>
 import TestResult from "@/components/TestResult.vue";
 export default {
-  name: "StatisticPage123",
+  name: "StatisticPage",
   components: {
     TestResult,
   },
