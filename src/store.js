@@ -101,10 +101,9 @@ export default createStore({
       });
       commit('SAVE_INFO', user)
     },
-
     async getStatistic({ getters, commit }) {
       let info = getters.getUserInfo;
-      let path = (info.admin) ? '' : `${ info.uid }/statistic`;
+      let path = (info.admin) ? '' : `${ info.uid }`;
       const dbRef = ref(firebase.realtime, `users/${ path }/`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
