@@ -20,7 +20,8 @@
 
 <script>
 import DateList from "@/components/DateList.vue";
-import { mapState } from "vuex";
+import {mapState} from "vuex";
+
 export default {
   name: "StatisticPage",
   components: {
@@ -32,7 +33,9 @@ export default {
       loading: true,
     };
   },
-  computed: mapState(["statistic"]),
+  computed: {
+    ...mapState(["statistic"])
+  },
   watch: {
     statistic: function (value) {
       if (!value) return;
@@ -53,6 +56,7 @@ export default {
   @media screen and (max-width: 768px) {
     font-size: 1rem;
   }
+
   &.priveleged {
     order: 0;
   }
@@ -62,9 +66,11 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
     & > span {
       padding: 0 1rem;
     }
+
     @media screen and (max-width: 768px) {
       flex-wrap: wrap;
     }

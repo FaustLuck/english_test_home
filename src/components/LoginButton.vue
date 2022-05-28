@@ -1,5 +1,5 @@
 <template>
-  <a :title="displayName"><img :src="photoURL" /></a>
+  <a :title="displayName"><img :src="photoURL" alt="Аватар"/></a>
 </template>
 
 <script>

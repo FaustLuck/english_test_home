@@ -1,10 +1,10 @@
-import { createStore } from 'vuex'
+import {createStore} from 'vuex'
 
-import { ref, get, set } from "firebase/database";
-import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { firebase } from '@/main'
+import {ref, get, set} from "firebase/database";
+import {signInWithPopup, GoogleAuthProvider} from "firebase/auth";
+import {firebase} from '@/main'
 
-import { getDate, getUID, setUID } from "@/utils";
+import {getDate, getUID, setUID} from "@/utils";
 
 export default createStore({
   state: {
@@ -45,7 +45,7 @@ export default createStore({
     }
   },
   actions: {
-    async getSettings({ commit }) {
+    async getSettings({commit}) {
       const dbRef = ref(firebase.realtime, `settings/`);
       let snapshot = await get(dbRef)
       if (snapshot.exists()) {
@@ -55,19 +55,19 @@ export default createStore({
         console.log("No data available");
       }
     },
-    async setSettings({ commit }, settings) {
+    async setSettings({commit}, settings) {
       const dbRef = ref(firebase.realtime, `settings/`);
       await set(dbRef, settings)
       commit('SAVE_SETTINGS', settings)
     },
 
-    async recovery({ dispatch }) {
+    async recovery({dispatch}) {
       let uid = getUID();
       if (uid) {
         await dispatch('getUserInfo', uid);
       }
     },
-    async login({ getters, dispatch }) {
+    async login({getters, dispatch}) {
       const auth = firebase.auth;
       const provider = new GoogleAuthProvider();
       let result = await signInWithPopup(auth, provider)
@@ -109,13 +109,13 @@ export default createStore({
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let statistic = await snapshot.val();
-        for (let key in statistic) {
-          if (!statistic[key]?.statistic) delete statistic[key]
-        }
+        // for (let key in statistic) {
+        //   if (!statistic[key]?.statistic) delete statistic[key]
+        // }
         commit('SAVE_STATISTIC', statistic)
       }
     },
-    async setStatistic({ commit, getters }, data) {
+    async setStatistic({commit, getters}, data) {
       let uid = getters.getUserInfo.uid
       let [date, time] = getDate()
       if (uid) {
@@ -127,7 +127,7 @@ export default createStore({
       }
       commit('SAVE_ANSWER', data)
     },
-    async getSpeech({ commit }) {
+    async getSpeech({commit}) {
       const dbRef = ref(firebase.realtime, `speech/`)
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {

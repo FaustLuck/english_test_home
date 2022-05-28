@@ -82,7 +82,9 @@ export default {
       activeIndex: "",
     };
   },
-  computed: mapState(["settings", "order"]),
+  computed: {
+    ...mapState(["settings", "order"])
+  },
   watch: {
     settings: function (value) {
       if (!value) return;

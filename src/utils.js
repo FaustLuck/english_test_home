@@ -88,11 +88,7 @@ export function fireshow(canvas) {
     let r = Math.floor(Math.random() * 256);
     let g = Math.floor(Math.random() * 256);
     let b = Math.floor(Math.random() * 256);
-    let color = "rgb($r, $g, $b)";
-    color = color.replace("$r", r);
-    color = color.replace("$g", g);
-    color = color.replace("$b", b);
-    return color;
+    return `rgb(${r},${g},${b}`
   }
 
   (function loop() {
