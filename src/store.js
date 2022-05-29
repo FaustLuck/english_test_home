@@ -95,7 +95,7 @@ export default createStore({
     },
     async setUserInfo({ commit }, user) {
       const dbRef = ref(firebase.realtime, `users/${ user.uid }/info/`);
-      set(dbRef, {
+      await set(dbRef, {
         displayName: user.displayName,
         photoURL: user.photoURL
       });
