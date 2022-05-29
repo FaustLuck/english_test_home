@@ -3,7 +3,7 @@
   <div
     v-else
     class="user"
-    :class="{ priveleged: user.info.priveleged }"
+    :class="{ priveleged: user.info?.priveleged }"
     v-for="(user, uid) of statistic"
     :key="uid"
     @click="activeUser = uid"

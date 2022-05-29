@@ -68,9 +68,8 @@ export default createStore({
       }
     },
     async login({ getters, dispatch }) {
-      const auth = firebase.auth;
       const provider = new GoogleAuthProvider();
-      let result = await signInWithPopup(auth, provider)
+      let result = await signInWithPopup(firebase.auth, provider)
       let user = result.user;
       if (!(await dispatch('getUserInfo', user.uid))) await dispatch('setUserInfo', user)
       setUID(user.uid);
@@ -101,17 +100,16 @@ export default createStore({
       });
       commit('SAVE_INFO', user)
     },
+    //todo не возвращает статистику пользователя
     async getStatistic({ getters, commit }) {
       let info = getters.getUserInfo;
-      let path = (info.admin) ? '' : `${ info.uid }`;
-      const dbRef = ref(firebase.realtime, `users/${ path }/`);
+      let path = (info.admin) ? '' : `${ info.uid }/`;
+      const dbRef = ref(firebase.realtime, `users/${ path }`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
-        let statistic = await snapshot.val();
-         for (let key in statistic) {
-           if (!statistic[key]?.statistic) delete statistic[key]
-         }
-        commit('SAVE_STATISTIC', statistic)
+        let userInfo = await snapshot.val();
+        if (!userInfo.length) userInfo = [userInfo]
+        commit('SAVE_STATISTIC', userInfo)
       }
     },
     async setStatistic({ commit, getters }, data) {
