@@ -108,7 +108,11 @@ export default createStore({
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let userInfo = await snapshot.val();
-        if (!userInfo.length) userInfo = [userInfo]
+        for (let info  of Object.values(userInfo)) {
+
+          console.log(info)
+        }
+        userInfo = Object.entries(userInfo)
         commit('SAVE_STATISTIC', userInfo)
       }
     },
