@@ -100,7 +100,6 @@ export default createStore({
       });
       commit('SAVE_INFO', user)
     },
-    //todo не возвращает статистику пользователя
     async getStatistic({ getters, commit }) {
       let info = getters.getUserInfo;
       let path = (info.admin) ? '' : `${ info.uid }/`;
@@ -108,11 +107,9 @@ export default createStore({
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let userInfo = await snapshot.val();
-        for (let info  of Object.values(userInfo)) {
-
-          console.log(info)
+        for (let [key, data] of Object.entries(userInfo)) {
+          if(!data?.statistic) delete userInfo[key]
         }
-        userInfo = Object.entries(userInfo)
         commit('SAVE_STATISTIC', userInfo)
       }
     },
