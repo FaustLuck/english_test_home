@@ -3,17 +3,17 @@
   <div
     v-else
     class="user"
-    v-for="(uid, userInfo) of statistic"
-    :class="{ priveleged: userInfo.info?.priveleged }"
+    v-for="(info, uid) of statistic"
+    :class="{ priveleged: info.info?.priveleged }"
     :key="uid"
     @click="activeUser = uid"
   >
     <div class="user__info">
       <span>Имя: </span>
-      <span class="date">{{ userInfo.info?.displayName }}</span>
+      <span class="date">{{ info.info?.displayName }}</span>
     </div>
     <keep-alive>
-      <date-list :tests="userInfo.statistic" v-if="activeUser === uid"></date-list>
+      <date-list :tests="info.statistic" v-if="activeUser === uid"></date-list>
     </keep-alive>
   </div>
 </template>
