@@ -3,15 +3,12 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "LoginButton",
   computed: {
-    displayName() {
-      return this.$store.getters.getUserInfo.displayName;
-    },
-    photoURL() {
-      return this.$store.getters.getUserInfo.photoURL;
-    },
+    ...mapState('authorization', ['displayName', 'photoURL'])
   },
 };
 </script>
