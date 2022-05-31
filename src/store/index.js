@@ -2,14 +2,14 @@ import { createStore } from 'vuex'
 
 import { ref, get, set } from "firebase/database";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { firebase } from '@/main'
+import { auth, realtime } from '@/main'
 
-import { getDate, getUID, setUID } from "@/utils";
+import { getUID, setUID } from "@/utils";
+import { statistic } from "@/store/statistic";
 
 export default createStore({
   state: {
     settings: null,
-    statistic: null,
     order: ['easy', 'medium', 'hard'],
     answer: null,
     info: {
@@ -23,9 +23,6 @@ export default createStore({
     speech: null
   },
   mutations: {
-    SAVE_STATISTIC(state, data) {
-      state.statistic = data
-    },
     SAVE_SETTINGS(state, data) {
       state.settings = data
     },
@@ -46,7 +43,7 @@ export default createStore({
   },
   actions: {
     async getSettings({ commit }) {
-      const dbRef = ref(firebase.realtime, `settings/`);
+      const dbRef = ref(realtime, `settings/`);
       let snapshot = await get(dbRef)
       if (snapshot.exists()) {
         let settings = snapshot.val();
@@ -56,7 +53,7 @@ export default createStore({
       }
     },
     async setSettings({ commit }, settings) {
-      const dbRef = ref(firebase.realtime, `settings/`);
+      const dbRef = ref(realtime, `settings/`);
       await set(dbRef, settings)
       commit('SAVE_SETTINGS', settings)
     },
@@ -69,64 +66,39 @@ export default createStore({
     },
     async login({ getters, dispatch }) {
       const provider = new GoogleAuthProvider();
-      let result = await signInWithPopup(firebase.auth, provider)
+      let result = await signInWithPopup(auth, provider)
       let user = result.user;
       if (!(await dispatch('getUserInfo', user.uid))) await dispatch('setUserInfo', user)
       setUID(user.uid);
       let answer = getters.getAnswer;
       if (answer) {
         answer = answer[Object.keys(answer)]
-        dispatch('setStatistic', answer)
+        dispatch('statistic/setStatistic', answer)
       }
     },
     async getUserInfo({ commit, dispatch }, uid) {
-      const dbRef = ref(firebase.realtime, `users/${ uid }/info`);
+      const dbRef = ref(realtime, `users/${ uid }/info`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let info = await snapshot.val();
         info.uid = uid;
         commit('SAVE_INFO', info)
-        await dispatch('getStatistic')
+        await dispatch('statistic/getStatistic')
         return true
       } else {
         return false
       }
     },
     async setUserInfo({ commit }, user) {
-      const dbRef = ref(firebase.realtime, `users/${ user.uid }/info/`);
+      const dbRef = ref(realtime, `users/${ user.uid }/info/`);
       await set(dbRef, {
         displayName: user.displayName,
         photoURL: user.photoURL
       });
       commit('SAVE_INFO', user)
     },
-    async getStatistic({ getters, commit }) {
-      let info = getters.getUserInfo;
-      let path = (info.admin) ? '' : `${ info.uid }/`;
-      const dbRef = ref(firebase.realtime, `users/${ path }`);
-      let snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        let userInfo = await snapshot.val();
-        for (let [key, data] of Object.entries(userInfo)) {
-          if(!data?.statistic) delete userInfo[key]
-        }
-        commit('SAVE_STATISTIC', userInfo)
-      }
-    },
-    async setStatistic({ commit, getters }, data) {
-      let uid = getters.getUserInfo.uid
-      let [date, time] = getDate()
-      if (uid) {
-        const dbRef = ref(firebase.realtime, `users/${ uid }/statistic/${ date }/${ time }`);
-        await set(dbRef, data)
-      }
-      data = {
-        [time]: data
-      }
-      commit('SAVE_ANSWER', data)
-    },
     async getSpeech({ commit }) {
-      const dbRef = ref(firebase.realtime, `speech/`)
+      const dbRef = ref(realtime, `speech/`)
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let speech = await snapshot.val();
@@ -136,11 +108,13 @@ export default createStore({
   },
   getters: {
     getSettings: state => state.settings,
-    getStatistic: state => state.statistic,
     getOrder: state => state.order,
     getAnswer: state => state.answer,
     getUserInfo: state => state.info,
     getLogin: state => state.info.login,
     getSpeech: state => state.speech
+  },
+  modules: {
+    statistic
   }
 })
