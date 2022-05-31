@@ -35,7 +35,6 @@ export default {
   },
   computed: {
     ...mapState('statistic', ["statistic"]),
-    ...mapState(["info"])
   },
   watch: {
     statistic: function (value) {

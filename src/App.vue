@@ -1,10 +1,10 @@
 <template>
   <div class="container__menu">
     <nav class="menu">
-      <router-link v-if="info.admin" title="Настройки" to="/settings">
+      <router-link v-if="admin" title="Настройки" to="/settings">
         <img src="@/assets/settings.svg" alt="Настройки"
         /></router-link>
-      <router-link v-if="info.login" title="Статистика" to="/statistic"
+      <router-link v-if="login" title="Статистика" to="/statistic"
       ><img src="@/assets/statistic.svg"
       /></router-link>
       <login-button @click="loginMe"></login-button>
@@ -16,6 +16,8 @@
 </template>
 <script>
 import LoginButton from "@/components/LoginButton.vue";
+import { mapState } from "vuex";
+
 
 export default {
   components: {
@@ -25,26 +27,25 @@ export default {
     return {};
   },
   computed: {
-    info() {
-      return this.$store.getters.getUserInfo;
-    },
+    ...mapState('authorization', ['admin']),
+    ...mapState(['login'])
   },
   watch: {
-    info: {
+    admin: {
       deep: true,
       handler() {
-        if (this.info.admin) this.$router.replace({ path: "/statistic" });
+        if (this.admin) this.$router.replace({ path: "/statistic" });
       },
     },
   },
   async created() {
-    await this.$store.dispatch("recovery");
+    await this.$store.dispatch("authorization/restoreLogin");
   },
   methods: {
     async loginMe() {
       let login = this.$store.getters.getLogin;
       if (login) return;
-      await this.$store.dispatch("login", {});
+      await this.$store.dispatch("authorization/login");
     },
   },
 };

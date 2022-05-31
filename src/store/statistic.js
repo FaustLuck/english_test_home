@@ -4,7 +4,9 @@ import { getDate } from "@/utils";
 
 export const statistic = {
   namespaced: true,
-  state: null,
+  state: {
+    statistic: null
+  },
   mutations: {
     SAVE_STATISTIC(state, data) {
       state.statistic = data
@@ -12,7 +14,10 @@ export const statistic = {
   },
   actions: {
     async getStatistic({ commit, rootGetters }) {
-      let { uid, admin } = rootGetters.getUserInfo;
+      let login = rootGetters.getLogin;
+      console.log(login)
+      if (!login) return
+      let { uid, admin } = rootGetters['authorization/getUserInfo'];
       let path = (admin) ? '' : `${ uid }/`;
       const dbRef = ref(realtime, `users/${ path }`);
       let snapshot = await get(dbRef);
@@ -30,7 +35,7 @@ export const statistic = {
         commit('SAVE_STATISTIC', data)
       }
     },
-    async setStatistic({ rootCommits, rootGetters }, data) {
+    async setStatistic({ commit, rootGetters }, data) {
       let { uid } = rootGetters.getUserInfo;
       let [date, time] = getDate();
       if (uid) {
@@ -40,7 +45,7 @@ export const statistic = {
       data = {
         [time]: data
       }
-      rootCommits('SAVE_ANSWER')
+      commit('SAVE_ANSWER', data, { root: true })
     }
   }
 }
