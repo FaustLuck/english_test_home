@@ -34,7 +34,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(["statistic", "info"])
+    ...mapState('statistic', ["statistic"]),
+    ...mapState(["info"])
   },
   watch: {
     statistic: function (value) {
@@ -43,7 +44,7 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch("getStatistic");
+    await this.$store.dispatch("statistic/getStatistic");
   },
 };
 </script>
