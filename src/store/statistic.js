@@ -13,11 +13,7 @@ export const statistic = {
     }
   },
   actions: {
-    async getStatistic({ commit, rootGetters }) {
-      let login = rootGetters.getLogin;
-      console.log(login)
-      if (!login) return
-      let { uid, admin } = rootGetters['authorization/getUserInfo'];
+    async getStatistic({ commit }, { uid, admin }) {
       let path = (admin) ? '' : `${ uid }/`;
       const dbRef = ref(realtime, `users/${ path }`);
       let snapshot = await get(dbRef);

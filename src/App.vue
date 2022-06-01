@@ -5,7 +5,7 @@
         <img src="@/assets/settings.svg" alt="Настройки"
         /></router-link>
       <router-link v-if="login" title="Статистика" to="/statistic"
-      ><img src="@/assets/statistic.svg"
+      ><img src="@/assets/statistic.svg" alt="Статистика"
       /></router-link>
       <login-button @click="loginMe"></login-button>
     </nav>
@@ -27,24 +27,14 @@ export default {
     return {};
   },
   computed: {
-    ...mapState('authorization', ['admin']),
-    ...mapState(['login'])
-  },
-  watch: {
-    admin: {
-      deep: true,
-      handler() {
-        if (this.admin) this.$router.replace({ path: "/statistic" });
-      },
-    },
+    ...mapState('authorization', ['admin', 'login']),
   },
   async created() {
     await this.$store.dispatch("authorization/restoreLogin");
   },
   methods: {
     async loginMe() {
-      let login = this.$store.getters.getLogin;
-      if (login) return;
+      if (this.login) return;
       await this.$store.dispatch("authorization/login");
     },
   },

@@ -6,7 +6,7 @@
     v-for="(info, uid) of statistic"
     :class="{ priveleged: info.info?.priveleged }"
     :key="uid"
-    @click="activeUser = uid"
+    @click="activeUser =uid"
   >
     <div class="user__info">
       <span>Имя: </span>
@@ -35,16 +35,21 @@ export default {
   },
   computed: {
     ...mapState('statistic', ["statistic"]),
+    ...mapState('authorization', ['uid', 'admin', 'login']),
   },
   watch: {
     statistic: function (value) {
+      console.log(value)
       if (!value) return;
       this.loading = false;
     },
+    login: async function (value) {
+      if (value) await this.$store.dispatch("statistic/getStatistic", { uid: this.uid, admin: this.admin });
+    }
   },
   async created() {
-    await this.$store.dispatch("statistic/getStatistic");
-  },
+    await this.$store.dispatch("statistic/getStatistic", { uid: this.uid, admin: this.admin });
+  }
 };
 </script>
 

@@ -11,6 +11,7 @@ export const authorization = {
     photoURL: require("@/assets/google.svg"),
     admin: false,
     priveleged: false,
+    login:false
   },
   mutations: {
     SAVE_INFO(state, info) {
@@ -20,34 +21,30 @@ export const authorization = {
       state.admin = info.admin || false;
       state.priveleged = info.priveleged || false;
     },
+    LOGIN(state, login) {
+      state.login = login
+    },
   },
   actions: {
     async restoreLogin({ dispatch }) {
       let uid = getUID();
       if (uid) await dispatch('getUserInfo', uid)
     },
-    async login({ dispatch/*, rootGetters */ }) {
+    async login({ dispatch }) {
       const provider = new GoogleAuthProvider();
       let result = await signInWithPopup(auth, provider)
       let user = result.user;
-      //todo может вспомогательную ф-цию?
       if (!(await dispatch('getUserInfo', user.uid))) await dispatch('setUserInfo', user)
       setUID(user.uid);
-      // let answer = rootGetters.getAnswer;
-      // if (answer) {
-      //   answer = answer[Object.keys(answer)];
-      //   dispatch('statistic/setStatistic', answer, { root: true })
-      // }
     },
-    async getUserInfo({ /*dispatch,*/ commit }, uid) {
+    async getUserInfo({ commit }, uid) {
       const dbRef = ref(realtime, `users/${ uid }/info`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let data = await snapshot.val();
         data.uid = uid;
         commit('SAVE_INFO', data);
-        commit('LOGIN', true, { root: true })
-        // await dispatch('statistic/getStatistic', { root: true });
+        commit('LOGIN', true)
         return true
       } else {
         return false
@@ -60,7 +57,7 @@ export const authorization = {
         photoURL: user.photoURL
       });
       commit('SAVE_INFO', user)
-      commit('LOGIN', true, { root: true })
+      commit('LOGIN', true)
     }
   },
   getters: {

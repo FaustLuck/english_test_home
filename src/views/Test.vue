@@ -16,7 +16,7 @@
       <div></div>
     </header>
     <div v-if="ready">
-      <div v-for="difficult of order" :key="difficult">
+      <div v-for="difficult of settings.order" :key="difficult">
         <div v-for="(question, index) of test[difficult]" :key="question">
           <card-item
             :index="index"
@@ -69,10 +69,9 @@ export default {
   },
   async created() {
     this.$store.dispatch("getSettings");
-    this.$store.dispatch("getSpeech");
   },
   computed: {
-    ...mapState(["settings", "order"])
+    ...mapState(["settings"])
   },
   methods: {
     timeToString(value) {
@@ -82,7 +81,7 @@ export default {
     },
     createTest() {
       this.test = {};
-      for (let difficult of this.order) {
+      for (let difficult of this.settings.order) {
         let dictionaryOfDifficult = this.settings.dictionary[difficult];
         let questionsOfDifficult = this.toFill(
           dictionaryOfDifficult,
