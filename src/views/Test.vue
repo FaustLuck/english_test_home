@@ -30,12 +30,11 @@
     </div>
   </div>
 </template>
-
 <script>
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { compare } from '@/utils'
-
+//todo this.order is not iterable
 export default {
   name: "TestPage",
   components: {
