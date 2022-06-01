@@ -82,11 +82,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["settings"]),
+    ...mapState('settings', ['settings'])
   },
   watch: {
     settings: function (value) {
-      console.log(value)
       if (!value) return;
       this.loading = false;
     },
@@ -101,7 +100,7 @@ export default {
     },
     saveData() {
       this.sortDictionary(this.settings.dictionary);
-      this.$store.dispatch("setSettings", this.settings);
+      this.$store.dispatch("settings/setSettings", this.settings);
     },
     deleteRecord(item) {
       this.settings.dictionary[this.activeIndex] = this.settings.dictionary[
@@ -133,7 +132,7 @@ export default {
     },
   },
   async created() {
-    await this.$store.dispatch("getSettings");
+    await this.$store.dispatch("settings/getSettings");
   },
 };
 </script>

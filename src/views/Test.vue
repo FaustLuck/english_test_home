@@ -68,10 +68,10 @@ export default {
     },
   },
   async created() {
-    this.$store.dispatch("getSettings");
+    this.$store.dispatch("settings/getSettings");
   },
   computed: {
-    ...mapState(["settings"])
+    ...mapState('settings', ['settings'])
   },
   methods: {
     timeToString(value) {
