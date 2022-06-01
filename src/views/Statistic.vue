@@ -40,7 +40,6 @@ export default {
   },
   watch: {
     statistic: function (value) {
-      console.log(value)
       if (!value) return;
       this.loading = false;
     },

@@ -4,11 +4,17 @@ import { realtime } from "@/main";
 export const settings = {
   namespaced: true,
   state: {
-    settings: null
+    settings: {
+      order: null,
+      speech: null
+    }
   },
   mutations: {
     SAVE_SETTINGS(state, data) {
       state.settings = data
+    },
+    SAVE_ORDER(state, data) {
+      state.settings.order = data
     },
   },
   actions: {
@@ -16,16 +22,27 @@ export const settings = {
       const dbRef = ref(realtime, `settings/`);
       let snapshot = await get(dbRef)
       if (snapshot.exists()) {
-        let settings = snapshot.val();
-        commit('SAVE_SETTINGS', settings)
+        let data = snapshot.val();
+        commit('SAVE_SETTINGS', data)
       } else {
         console.log("No data available");
       }
     },
-    async setSettings({ commit }, settings) {
+    async setSettings({ commit }, data) {
       const dbRef = ref(realtime, `settings/`);
-      await set(dbRef, settings)
-      commit('SAVE_SETTINGS', settings)
+      await set(dbRef, data)
+      commit('SAVE_SETTINGS', data)
+    },
+    async getOrder({ commit, getters }) {
+      if (getters.getOrder?.length>0) return
+      const dbRef = ref(realtime, `settings/order/`);
+      let snapshot = await get(dbRef)
+      if (snapshot.exists()) {
+        let data = snapshot.val();
+        commit('SAVE_ORDER', data)
+      } else {
+        console.log("No data available");
+      }
     }
   },
   getters: {
