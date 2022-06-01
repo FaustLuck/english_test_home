@@ -26,6 +26,7 @@ export default {
   name: "StatisticPage",
   components: {
     DateList,
+
   },
   data() {
     return {

@@ -8,7 +8,11 @@
     </div>
   </div>
 </template>
-
+<script>
+export default {
+  name: 'LoaderSpinner'
+}
+</script>
 <style lang="scss" scoped>
 .container__preloader {
   position: absolute;
