@@ -19,7 +19,7 @@
         <input type="number" v-model.number="settings.variants"/>
       </span>
     </div>
-    <div v-for="difficult of order" :key="difficult">
+    <div v-for="difficult of settings.order" :key="difficult">
       <div class="difficult">
         <div
           class="settings__detail"
@@ -69,12 +69,10 @@
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { compare } from "@/utils";
-import LoaderSpinner from "@/components/LoaderSpinner";
 
 export default {
   name: "SettingsPage",
   components: {
-    LoaderSpinner,
     CardItem,
   },
   data() {
@@ -84,10 +82,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["settings", "order"])
+    ...mapState(["settings"]),
   },
   watch: {
     settings: function (value) {
+      console.log(value)
       if (!value) return;
       this.loading = false;
     },

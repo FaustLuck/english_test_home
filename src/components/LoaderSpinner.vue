@@ -9,10 +9,6 @@
   </div>
 </template>
 
-<script>
-export default {};
-</script>
-
 <style lang="scss" scoped>
 .container__preloader {
   position: absolute;

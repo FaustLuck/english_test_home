@@ -2,7 +2,7 @@
   <canvas ref="canvas"></canvas>
 </template>
 <script>
-import { fireshow } from "@/utils";
+import { fireshow } from "@/utils/fireshow";
 
 export default {
   name: "FireshowPage",
