@@ -9,8 +9,8 @@
     <div class="test__detail">
       <span> Время выполнения теста: </span>
       <span class="time">
-        {{ time }}
-      </span>
+            {{ time }}
+          </span>
     </div>
     <div class="test__detail">
       <span> Затраченное время: </span>
@@ -36,6 +36,7 @@
 
 <script>
 import DifficultList from "@/components/DifficultList.vue";
+import { mapState } from "vuex";
 
 export default {
   name: "TestResult",
@@ -43,7 +44,10 @@ export default {
     DifficultList,
   },
   props: {
-    testsFromParent: Object,
+    testsFromParent: {
+      type: Object,
+      default: undefined
+    },
   },
   data() {
     return {
@@ -52,9 +56,22 @@ export default {
       timerId: 0,
     };
   },
-  mounted() {
+  computed: {
+    ...mapState('authorization', ['login', 'uid'])
+  },
+  watch: {
+    login: function (){
+      return this.saveStatistic()
+    }
+  },
+  created() {
+    if (this.login) this.saveStatistic();
     if (this.testsFromParent === undefined) {
+      let time = this.$store.getters.getTime[1];
       this.tests = this.$store.getters.getAnswer;
+      let tmp = {};
+      tmp[time] = { ...this.tests };
+      this.tests = tmp;
       this.activeTime = Object.keys(this.tests)[0];
       if (this.tests[this.activeTime].congratulations) this.toWait();
     } else {
@@ -67,6 +84,11 @@ export default {
         this.$router.push("fireworks");
       }, 5000);
     },
+    saveStatistic() {
+      if (!this.login) return;
+      let data = this.$store.getters.getAnswer;
+      this.$store.dispatch('statistic/setStatistic', { data, uid: this.uid })
+    }
   },
 };
 </script>

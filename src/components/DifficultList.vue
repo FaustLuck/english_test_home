@@ -1,5 +1,5 @@
 <template>
-  <div class="difficult" v-for="difficult of getOrder" :key="difficult">
+  <div class="difficult" v-for="difficult of order" :key="difficult">
     <div class="difficult__item" :class="{ congratulations: congratulations }">
       <span>{{ difficult }}</span>
     </div>
@@ -17,7 +17,6 @@
 </template>
 <script>
 import CardItem from "@/components/CardItem.vue";
-import { mapGetters } from "vuex";
 
 export default {
   components: { CardItem },
@@ -27,13 +26,17 @@ export default {
     congratulations: {
       type: Boolean,
       default: false,
-      required: true,
+      required: true
     },
   },
-  computed: { ...mapGetters('settings', ['getOrder']) },
+  computed: {
+    order() {
+      return this.$store.getters['settings/getOrder']
+    }
+  },
   created() {
     this.$store.dispatch('settings/getOrder');
-  },
+  }
 };
 </script>
 

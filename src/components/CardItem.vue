@@ -67,7 +67,7 @@
         src="@/assets/done.svg"
         @click="
           editing = index === 'newValue' || false;
-          $emit('editRecord', { answers, question, index });
+          $emit('changeRecord', { answers, question, index });
           clear();
         "
         alt="Готово"
@@ -75,7 +75,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import { speech } from "@/utils";
 
