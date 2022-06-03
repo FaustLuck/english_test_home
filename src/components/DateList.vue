@@ -24,7 +24,6 @@
     </keep-alive>
   </div>
 </template>
-
 <script>
 import TestResult from "@/components/TestResult.vue";
 

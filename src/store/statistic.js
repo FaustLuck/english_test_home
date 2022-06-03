@@ -1,6 +1,5 @@
 import { realtime } from "@/main";
 import { ref, get, set } from "firebase/database";
-import { getDate } from "@/utils";
 
 export const statistic = {
   namespaced: true,
@@ -31,9 +30,8 @@ export const statistic = {
         commit('SAVE_STATISTIC', data)
       }
     },
-    async setStatistic({ commit, rootGetters }, data) {
-      let { uid } = rootGetters.getUserInfo;
-      let [date, time] = getDate();
+    async setStatistic({ commit, rootGetters }, { data, uid }) {
+      let [date, time] = rootGetters.getTime;
       if (uid) {
         const dbRef = ref(realtime, `users/${ uid }/statistic/${ date }/${ time }`);
         await set(dbRef, data);

@@ -34,7 +34,7 @@
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { compare } from '@/utils'
-//todo this.order is not iterable
+
 export default {
   name: "TestPage",
   components: {
@@ -60,10 +60,10 @@ export default {
       if (!value) this.cancelTest();
     },
     settings: function (value) {
-      if (!value) return;
+      if(!value?.timer) return
       this.loading = false;
       this.timerSec = this.timerStart =
-        this.settings.timer.min * 60 + this.settings.timer.sec;
+        value.timer.min * 60 + value.timer.sec;
     },
   },
   async created() {
@@ -101,7 +101,7 @@ export default {
     },
     prepareAnswers() {
       this.answers = {};
-      for (let difficult of this.order) {
+      for (let difficult of this.settings.order) {
         let tmp = [];
         for (let item of this.test[difficult]) {
           let index = item.answer.findIndex((e) => e instanceof Object);
@@ -126,7 +126,7 @@ export default {
         0
       );
       let correctAnswers = 0;
-      for (let difficult of this.order) {
+      for (let difficult of this.settings.order) {
         correctAnswers += this.answers[difficult].reduce(
           (prev, cur) => prev + cur.answer.length,
           0
@@ -143,7 +143,7 @@ export default {
         questions,
         correctAnswers,
       };
-      this.$store.dispatch("setStatistic", obj);
+      this.$store.commit("SAVE_ANSWER", obj);
       if (this.timerSec) {
         this.ready = false;
         this.$router.push("result");

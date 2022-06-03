@@ -42,7 +42,7 @@
             :index="'newValue'"
             :item="{}"
             :mode="'settings'"
-            @editRecord="editRecord"
+            @editRecord="changeRecord"
           ></card-item>
         </keep-alive>
       </div>
@@ -53,8 +53,8 @@
           :item="item"
           :index="index"
           :mode="'settings'"
-          @deleteRecord="deleteRecord(item)"
-          @editRecord="editRecord"
+          @deleteRecord="deleteRecord"
+          @editRecord="changeRecord"
         >
         </card-item>
       </keep-alive>
@@ -68,7 +68,7 @@
 <script>
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
-import { compare } from "@/utils";
+import { record } from "@/utils/record";
 
 export default {
   name: "SettingsPage",
@@ -88,7 +88,7 @@ export default {
     settings: function (value) {
       if (!value) return;
       this.loading = false;
-    },
+    }
   },
   methods: {
     checkCount(value, difficult) {
@@ -99,36 +99,17 @@ export default {
       if (value > 59) this.settings.timer.sec = 59;
     },
     saveData() {
-      this.sortDictionary(this.settings.dictionary);
       this.$store.dispatch("settings/setSettings", this.settings);
     },
     deleteRecord(item) {
-      this.settings.dictionary[this.activeIndex] = this.settings.dictionary[
-        this.activeIndex
-        ].filter((el) => el.question !== item.question);
+      this.settings.dictionary[this.activeIndex] = record.delete(
+        this.settings.dictionary[this.activeIndex], item
+      )
     },
-    editRecord(item) {
-      let dictionary = this.settings.dictionary[this.activeIndex];
-      let param = item.index === "newValue" ? item.question : item.index;
-      let index = dictionary.findIndex((el) => el.question === param);
-      item.answers = item.answers[0];
-      if (item.index === "newValue") {
-        if (index > -1) return;
-        let newItem = {
-          question: item.question,
-          answer: item.answers,
-        };
-        dictionary.push(newItem);
-      } else {
-        dictionary[item.index].question = item.question;
-        dictionary[item.index].answer = item.answers;
-      }
-    },
-    sortDictionary(dictionary) {
-      for (let difficult in dictionary) {
-        let dictionaryOfDifficult = dictionary[difficult];
-        dictionaryOfDifficult.sort(compare);
-      }
+    changeRecord(item) {
+      this.settings.dictionary[this.activeIndex] = (item.index === "newValue") ?
+        record.add(this.settings.dictionary[this.activeIndex], item) :
+        record.edit(this.settings.dictionary[this.activeIndex], item);
     },
   },
   async created() {

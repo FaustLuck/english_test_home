@@ -23,7 +23,7 @@ export function getUID() {
 }
 
 export async function speech(text) {
-  let speech = store.getters.getSpeech;
+  let speech = store.getters['settings/getSpeech'];
   try {
     let response = await fetch(speech + text)
     if (response.ok) {

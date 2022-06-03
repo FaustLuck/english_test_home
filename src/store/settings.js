@@ -34,7 +34,7 @@ export const settings = {
       commit('SAVE_SETTINGS', data)
     },
     async getOrder({ commit, getters }) {
-      if (getters.getOrder?.length>0) return
+      if (getters.getOrder?.length > 0) return
       const dbRef = ref(realtime, `settings/order/`);
       let snapshot = await get(dbRef)
       if (snapshot.exists()) {
@@ -47,6 +47,7 @@ export const settings = {
   },
   getters: {
     getOrder: state => state.settings.order,
-    getSpeech: state => state.settings.speech
+    getSpeech: state => state.settings.speech,
+    getSettings: state => state
   },
 }

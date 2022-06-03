@@ -11,7 +11,7 @@ export const authorization = {
     photoURL: require("@/assets/google.svg"),
     admin: false,
     priveleged: false,
-    login:false
+    login: false
   },
   mutations: {
     SAVE_INFO(state, info) {
@@ -61,9 +61,6 @@ export const authorization = {
     }
   },
   getters: {
-    getAdmin: state => state.admin,
-    getUserInfo:state=>state
+    getLogin: state => state.login
   }
-
-
 }

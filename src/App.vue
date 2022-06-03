@@ -23,9 +23,6 @@ export default {
   components: {
     LoginButton,
   },
-  data() {
-    return {};
-  },
   computed: {
     ...mapState('authorization', ['admin', 'login']),
   },
