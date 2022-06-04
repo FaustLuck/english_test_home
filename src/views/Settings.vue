@@ -54,13 +54,13 @@
           :index="index"
           :mode="'settings'"
           @deleteRecord="deleteRecord"
-          @editRecord="changeRecord"
+          @changeRecord="changeRecord"
         >
         </card-item>
       </keep-alive>
     </div>
     <div class="settings__detail update">
-      <input type="button" value="Обновить настройки" @click="saveData"/>
+      <input type="button" value="Сохранить настройки" @click="saveData"/>
     </div>
   </div>
 </template>
