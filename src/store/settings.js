@@ -24,8 +24,10 @@ export const settings = {
       if (snapshot.exists()) {
         let data = snapshot.val();
         commit('SAVE_SETTINGS', data)
+        return true
       } else {
         console.log("No data available");
+        return false
       }
     },
     async setSettings({ commit }, data) {
