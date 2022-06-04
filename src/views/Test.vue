@@ -33,7 +33,7 @@
 <script>
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
-import { compare } from '@/utils'
+import { test } from "@/utils/test";
 
 export default {
   name: "TestPage",
@@ -60,7 +60,7 @@ export default {
       if (!value) this.cancelTest();
     },
     settings: function (value) {
-      if(!value?.timer) return
+      if (!value?.timer) return
       this.loading = false;
       this.timerSec = this.timerStart =
         value.timer.min * 60 + value.timer.sec;
@@ -79,71 +79,18 @@ export default {
       return `${ min }:${ sec }`;
     },
     createTest() {
-      this.test = {};
-      for (let difficult of this.settings.order) {
-        let dictionaryOfDifficult = this.settings.dictionary[difficult];
-        let questionsOfDifficult = this.toFill(
-          dictionaryOfDifficult,
-          this.settings.tests[difficult]
-        );
-        questionsOfDifficult = questionsOfDifficult.sort(compare);
-        questionsOfDifficult = this.toFillVariants(
-          this.settings.tests[difficult],
-          questionsOfDifficult,
-          dictionaryOfDifficult
-        );
-        this.test[difficult] = questionsOfDifficult;
-      }
-      this.prepareAnswers();
+      [this.test, this.answers] = test.create(this.settings);
       this.ready = true;
       this.timerSec = this.timerStart;
-      this.countdown();
-    },
-    prepareAnswers() {
-      this.answers = {};
-      for (let difficult of this.settings.order) {
-        let tmp = [];
-        for (let item of this.test[difficult]) {
-          let index = item.answer.findIndex((e) => e instanceof Object);
-          tmp.push({
-            question: item.question,
-            answer: [
-              {
-                answer: "Не выбрано",
-                correct: false,
-              },
-              item.answer[index].answer,
-            ],
-          });
-        }
-        this.answers[difficult] = tmp;
-      }
+      this.start();
+
     },
     cancelTest() {
       clearInterval(this.counterId);
-      let questions = Object.values(this.answers).reduce(
-        (prev, cur) => prev + cur.length,
-        0
-      );
-      let correctAnswers = 0;
-      for (let difficult of this.settings.order) {
-        correctAnswers += this.answers[difficult].reduce(
-          (prev, cur) => prev + cur.answer.length,
-          0
-        );
-      }
-      let reason =
-        this.timerStart - this.timerSec ? "Тест завершен" : "Время истекло";
-      correctAnswers = questions * 2 - correctAnswers;
-      let obj = {
-        answers: this.answers,
-        congratulations: correctAnswers === questions,
-        reason,
-        "time spent": this.timeToString(this.timerStart - this.timerSec),
-        questions,
-        correctAnswers,
-      };
-      this.$store.commit("SAVE_ANSWER", obj);
+      let data = test.cancel(this.answers)
+      data.reason = this.timerStart - this.timerSec ? "Тест завершен" : "Время истекло";
+      data["time spent"] = this.timeToString(this.timerStart - this.timerSec)
+      this.$store.commit("SAVE_ANSWER", data);
       if (this.timerSec) {
         this.ready = false;
         this.$router.push("result");
@@ -154,51 +101,10 @@ export default {
         }, 10000);
       }
     },
-    countdown() {
+    start() {
       this.counterId = setInterval(() => {
         this.timerSec--;
       }, 1000);
-    },
-    getRandom(array) {
-      return array[Math.floor(Math.random() * array.length)];
-    },
-    toFill(array, limit) {
-      let output = [];
-      let tmp = [...array];
-      for (let i = 0; i < limit; i++) {
-        let item = this.getRandom(tmp);
-        output.push(item);
-        tmp = this.deleteRepeat(item, tmp);
-      }
-      return output;
-    },
-    deleteRepeat(item, array) {
-      return array.filter((e) => {
-        if (item instanceof Object) {
-          return e.question !== item.question;
-        }
-        return e !== item;
-      });
-    },
-    toFillVariants(limit, questions, dictionary) {
-      for (let i = 0; i < limit; i++) {
-        let question = { ...questions[i] };
-        let correctAnswer = question.answer;
-        let variants = this.toFill(
-          dictionary.map((e) => e.answer).filter((e) => e !== correctAnswer),
-          this.settings.variants - 1
-        );
-        variants.push(correctAnswer);
-        variants.sort();
-        let index = variants.findIndex((e) => e === correctAnswer);
-        variants[index] = {
-          answer: correctAnswer,
-          correct: true,
-        };
-        question.answer = variants;
-        questions[i] = { ...question };
-      }
-      return questions;
     },
     updateAnswers({ answer, difficult, index }) {
       this.answers[difficult][index] = answer;

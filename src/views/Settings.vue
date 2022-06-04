@@ -31,7 +31,7 @@
             <input
               type="number"
               @click.stop
-              v-model.number="settings.tests[difficult]"
+              v-model.number="settings.limits[difficult]"
               @input="checkCount($event.target.value, difficult)"
             />
           </span>
@@ -93,7 +93,7 @@ export default {
   methods: {
     checkCount(value, difficult) {
       let max = this.settings.dictionary[difficult].length;
-      if (value > max) this.settings.tests[difficult] = max;
+      if (value > max) this.settings.limits[difficult] = max;
     },
     checkTime(value) {
       if (value > 59) this.settings.timer.sec = 59;
