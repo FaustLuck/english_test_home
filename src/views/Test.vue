@@ -7,15 +7,11 @@
         alert: timerSec < 11 && timerSec > 0,
       }"
     >
-      <input
-        @click="!ready ? createTest() : cancelTest()"
-        type="button"
-        :value="ready ? 'Завершить тест' : 'Начать тест'"
-      />
+      <start-button></start-button>
       <span>{{ timerString }}</span>
       <div></div>
     </header>
-    <div v-if="ready">
+    <div v-if="readyToTest">
       <div v-for="difficult of settings.order" :key="difficult">
         <div v-for="(question, index) of test[difficult]" :key="question">
           <card-item
@@ -34,21 +30,21 @@
 import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { test } from "@/utils/test";
+import StartButton from "@/components/UI/StartButton";
 
 export default {
   name: "TestPage",
   components: {
     CardItem,
+    StartButton,
   },
   data() {
     return {
-      path: "settings",
       timerString: "",
       timerSec: 0,
       timerStart: 0,
       counterId: "",
       loading: true,
-      ready: false,
       test: {},
       answers: {},
       reason: "",
@@ -60,43 +56,43 @@ export default {
       if (!value) this.cancelTest();
     },
     settings: function (value) {
-      if (!value?.timer) return
+      if (!value?.timer) return;
       this.loading = false;
-      this.timerSec = this.timerStart =
-        value.timer.min * 60 + value.timer.sec;
+      this.timerSec = this.timerStart = value.timer.min * 60 + value.timer.sec;
+    },
+    readyToTest: function (value) {
+      value ? this.createTest() : this.cancelTest();
     },
   },
   async created() {
     this.$store.dispatch("settings/getSettings");
   },
   computed: {
-    ...mapState('settings', ['settings'])
+    ...mapState("settings", ["settings"]),
+    ...mapState(["readyToTest"]),
   },
   methods: {
     timeToString(value) {
       let sec = (value % 60).toString().padStart(2, "0");
       let min = (value - sec) / 60;
-      return `${ min }:${ sec }`;
+      return `${min}:${sec}`;
     },
     createTest() {
       [this.test, this.answers] = test.create(this.settings);
-      this.ready = true;
       this.timerSec = this.timerStart;
       this.start();
-
     },
     cancelTest() {
       clearInterval(this.counterId);
-      let data = test.cancel(this.answers)
-      data.reason = this.timerStart - this.timerSec ? "Тест завершен" : "Время истекло";
-      data["time spent"] = this.timeToString(this.timerStart - this.timerSec)
+      let data = test.cancel(this.answers, this.settings.limits);
+      data.reason =
+        this.timerStart - this.timerSec ? "Тест завершен" : "Время истекло";
+      data["time spent"] = this.timeToString(this.timerStart - this.timerSec);
       this.$store.commit("SAVE_ANSWER", data);
       if (this.timerSec) {
-        this.ready = false;
         this.$router.push("result");
       } else {
         setTimeout(() => {
-          this.ready = false;
           this.$router.push("result");
         }, 10000);
       }
@@ -147,14 +143,6 @@ header {
   @media screen and (max-width: 768px) {
     & > *:nth-child(3) {
       width: 0;
-    }
-  }
-
-  input[type="button"] {
-    font-size: 2rem;
-    font-family: "serif";
-    @media screen and (max-width: 768px) {
-      font-size: 1rem;
     }
   }
 }

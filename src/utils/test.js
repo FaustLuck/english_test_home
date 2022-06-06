@@ -6,39 +6,42 @@ export const test = {
     let answers = {};
     for (let difficult of order) {
       let localDictionary = dictionary[difficult];
-      let limit = limits[difficult]
+      let limit = limits[difficult];
       let questions = toFill(localDictionary, limit).sort(compare);
-      answers[difficult] = questions.map(e => {
+      answers[difficult] = questions.map((e) => {
         return {
           question: e.question,
           answer: [
             {
               answer: "Не выбрано",
-              correct: false
+              correct: false,
             },
-            e.answer
-          ]
-        }
-      })
-      questions = toFillVariants(limit, questions, localDictionary, variants)
-      test[difficult] = questions
+            e.answer,
+          ],
+        };
+      });
+      questions = toFillVariants(limit, questions, localDictionary, variants);
+      test[difficult] = questions;
     }
-    return [test, answers]
+    return [test, answers];
   },
-  cancel: function (answers) {
-    let questions = Object.values(answers).reduce((acc, cur) => acc + cur.length, 0)
+  cancel: function (answers, limits) {
+    let questions = Object.values(limits).reduce(
+      (acc, cur) => acc + cur,
+      0
+    );
     let correctAnswers = 0;
-    Object.values(answers).forEach(e => {
-      correctAnswers += e.reduce((acc, cur) => acc + cur.answer.length, 0)
-    })
+    Object.values(answers).forEach((e) => {
+      correctAnswers += e.reduce((acc, cur) => acc + cur.answer.length, 0);
+    });
     correctAnswers = questions * 2 - correctAnswers;
     return {
       answers,
       congratulations: correctAnswers === questions,
       questions,
       correctAnswers,
-    }
-  }
+    };
+  },
 };
 
 function toFillVariants(limit, questions, dictionary, limitVariant) {
@@ -46,20 +49,20 @@ function toFillVariants(limit, questions, dictionary, limitVariant) {
     let question = { ...questions[i] };
     let correctAnswer = question.answer;
     let variants = toFill(
-      dictionary.map(e => e.answer).filter(e => e !== correctAnswer),
+      dictionary.map((e) => e.answer).filter((e) => e !== correctAnswer),
       limitVariant - 1
-    )
-    variants.push(correctAnswer)
+    );
+    variants.push(correctAnswer);
     variants.sort();
-    let index = variants.findIndex(e => e === correctAnswer);
+    let index = variants.findIndex((e) => e === correctAnswer);
     variants[index] = {
       answer: correctAnswer,
-      correct: true
-    }
+      correct: true,
+    };
     question.answer = variants;
-    questions[i] = { ...question }
+    questions[i] = { ...question };
   }
-  return questions
+  return questions;
 }
 
 function toFill(array, limit) {
@@ -74,14 +77,14 @@ function toFill(array, limit) {
 }
 
 function deleteItem(item, array) {
-  return array.filter(e => {
+  return array.filter((e) => {
     if (item instanceof Object) {
       return e.question !== item.question;
     }
     return e !== item;
-  })
+  });
 }
 
 function getRandom(array) {
-  return array[Math.floor(Math.random() * array.length)]
+  return array[Math.floor(Math.random() * array.length)];
 }

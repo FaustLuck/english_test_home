@@ -4,7 +4,7 @@
     <div class="settings__detail">
       <span>Ограничение по времени:</span>
       <span class="time">
-        <input type="number" v-model.number="settings.timer.min"/>
+        <input type="number" v-model.number="settings.timer.min" />
         :
         <input
           type="number"
@@ -16,7 +16,7 @@
     <div class="settings__detail">
       <span>Количество вариантов:</span>
       <span>
-        <input type="number" v-model.number="settings.variants"/>
+        <input type="number" v-model.number="settings.variants" />
       </span>
     </div>
     <div v-for="difficult of settings.order" :key="difficult">
@@ -42,7 +42,8 @@
             :index="'newValue'"
             :item="{}"
             :mode="'settings'"
-            @editRecord="changeRecord"
+            :difficult="difficult"
+            @changeRecord="changeRecord"
           ></card-item>
         </keep-alive>
       </div>
@@ -60,7 +61,7 @@
       </keep-alive>
     </div>
     <div class="settings__detail update">
-      <input type="button" value="Сохранить настройки" @click="saveData"/>
+      <input type="button" value="Сохранить настройки" @click="saveData" />
     </div>
   </div>
 </template>
@@ -82,13 +83,13 @@ export default {
     };
   },
   computed: {
-    ...mapState('settings', ['settings'])
+    ...mapState("settings", ["settings"]),
   },
   watch: {
     settings: function (value) {
       if (!value) return;
       this.loading = false;
-    }
+    },
   },
   methods: {
     checkCount(value, difficult) {
@@ -103,13 +104,16 @@ export default {
     },
     deleteRecord(item) {
       this.settings.dictionary[this.activeIndex] = record.delete(
-        this.settings.dictionary[this.activeIndex], item
-      )
+        this.settings.dictionary[this.activeIndex],
+        item
+      );
     },
     changeRecord(item) {
-      this.settings.dictionary[this.activeIndex] = (item.index === "newValue") ?
-        record.add(this.settings.dictionary[this.activeIndex], item) :
-        record.edit(this.settings.dictionary[this.activeIndex], item);
+      console.log(item);
+      this.settings.dictionary[this.activeIndex] =
+        item.index === "newValue"
+          ? record.add(this.settings.dictionary[this.activeIndex], item)
+          : record.edit(this.settings.dictionary[this.activeIndex], item);
     },
   },
   async created() {

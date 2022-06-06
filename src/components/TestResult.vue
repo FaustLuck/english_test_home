@@ -1,4 +1,7 @@
 <template>
+  <start-button
+    v-if="this.$router.currentRoute.value.path === '/result'"
+  ></start-button>
   <div
     class="test"
     v-for="(value, time) in tests"
@@ -9,8 +12,8 @@
     <div class="test__detail">
       <span> Время выполнения теста: </span>
       <span class="time">
-            {{ time }}
-          </span>
+        {{ time }}
+      </span>
     </div>
     <div class="test__detail">
       <span> Затраченное время: </span>
@@ -37,16 +40,18 @@
 <script>
 import DifficultList from "@/components/DifficultList.vue";
 import { mapState } from "vuex";
+import StartButton from "@/components/UI/StartButton";
 
 export default {
   name: "TestResult",
   components: {
+    StartButton,
     DifficultList,
   },
   props: {
     testsFromParent: {
       type: Object,
-      default: undefined
+      default: undefined,
     },
   },
   data() {
@@ -57,12 +62,12 @@ export default {
     };
   },
   computed: {
-    ...mapState('authorization', ['login', 'uid'])
+    ...mapState("authorization", ["login", "uid"]),
   },
   watch: {
-    login: function (){
-      return this.saveStatistic()
-    }
+    login: function () {
+      return this.saveStatistic();
+    },
   },
   created() {
     if (this.login) this.saveStatistic();
@@ -81,14 +86,14 @@ export default {
   methods: {
     toWait() {
       this.timerId = setTimeout(() => {
-        this.$router.push("fireworks");
+        this.$router.push("fireshow");
       }, 5000);
     },
     saveStatistic() {
       if (!this.login) return;
       let data = this.$store.getters.getAnswer;
-      this.$store.dispatch('statistic/setStatistic', { data, uid: this.uid })
-    }
+      this.$store.dispatch("statistic/setStatistic", { data, uid: this.uid });
+    },
   },
 };
 </script>
@@ -117,4 +122,3 @@ export default {
   }
 }
 </style>
-

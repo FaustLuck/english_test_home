@@ -1,13 +1,13 @@
 <template>
   <div class="card">
-    <div class="card__item">
+    <div class="card__item" @click="toSpeech">
       <div class="card__item_container">
-        <a v-if="mode === 'test'" class="voice" @click="toSpeech">🔉</a>
+        <a class="voice" v-if="mode === 'test'">🔉</a>
         <input
+          :class="{ voice: mode === 'test', editing: editing }"
           type="text"
           :readonly="!editing"
           v-model="question"
-          :class="{ editing: editing }"
         />
       </div>
     </div>
@@ -49,37 +49,30 @@
         />
       </div>
     </div>
-
-    <div
+    <tool-menu
       v-if="mode === 'settings'"
-      class="card__item tool"
-      :class="{ show: editing }"
+      :newValue="index === 'newValue'"
+      @editRecord="(payload) => (this.editing = payload)"
+      @deleteRecord="$emit('deleteRecord', item)"
+      @changeRecord="
+        $emit('changeRecord', {
+          answers: this.answers,
+          question: this.question,
+          index: this.index,
+        });
+        clear();
+      "
     >
-      <img v-if="!editing" src="@/assets/edit.svg" @click="editing = true" alt="Редактировать"/>
-      <img
-        v-if="!editing"
-        src="@/assets/delete.svg"
-        @click="$emit('deleteRecord', item)"
-        alt="Удалить"
-      />
-      <img
-        v-if="editing"
-        src="@/assets/done.svg"
-        @click="
-          editing = index === 'newValue' || false;
-          $emit('changeRecord', { answers, question, index });
-          clear();
-        "
-        alt="Готово"
-      />
-    </div>
+    </tool-menu>
   </div>
 </template>
 <script>
 import { speech } from "@/utils";
+import ToolMenu from "@/components/UI/ToolMenu";
 
 export default {
   name: "CardItem",
+  components: { ToolMenu },
   props: {
     item: Object,
     difficult: String,
@@ -122,13 +115,13 @@ export default {
     answers: {
       deep: true,
       handler(value) {
-        let regexp = /[^а-яА-ЯёЁa-zA-Z.,!?\s]/g;
+        let regexp = /[^а-яА-ЯёЁ.,!?\s]/g;
         if (regexp.exec(value))
           this.answers[0] = this.answers[0].replaceAll(regexp, "");
       },
     },
     question: function (value) {
-      let regexp = /[^а-яА-ЯёЁa-zA-Z.,!?\s]/g;
+      let regexp = /[^a-zA-Z.,!?\s]/g;
       if (regexp.exec(value)) this.question = value.replaceAll(regexp, "");
     },
   },
@@ -150,7 +143,7 @@ export default {
   },
   methods: {
     toSpeech() {
-      return speech(this.question);
+      if (this.mode === "test") return speech(this.question);
     },
     clear() {
       if (this.index !== "newValue") return;
@@ -214,6 +207,10 @@ export default {
         border: 1px solid black;
         margin: -1px;
       }
+
+      &.voice {
+        cursor: pointer;
+      }
     }
 
     input[type="radio"] {
@@ -222,38 +219,6 @@ export default {
         transform: scale(1, 1);
       }
     }
-
-    &.tool {
-      cursor: pointer;
-      opacity: 1;
-      padding: 0;
-      height: 2rem;
-      flex-direction: row;
-      justify-content: space-between;
-      position: absolute;
-      right: -5rem;
-      @media (any-hover: hover) {
-        opacity: 0;
-      }
-
-      @media screen and (max-width: 768px) {
-        right: 1rem;
-      }
-
-      &.show {
-        opacity: 1;
-        justify-content: center;
-      }
-
-      img {
-        height: 100%;
-      }
-    }
-  }
-
-  .voice {
-    margin-left: 1rem;
-    cursor: pointer;
   }
 
   .wrong {
