@@ -1,32 +1,38 @@
 <template>
   <loader-spinner v-if="loading"></loader-spinner>
-  <div
-    v-else
-    class="user"
-    v-for="(info, userUID) of statistic"
-    :class="{ priveleged: info.info?.priveleged }"
-    :key="userUID"
-    @click="activeUser =userUID"
-  >
-    <div class="user__info">
-      <span>Имя: </span>
-      <span class="date">{{ info.info?.displayName }}</span>
+  <div v-else>
+      <start-button></start-button>
+    <div
+      class="user"
+      v-for="(info, userUID) of statistic"
+      :class="{ first: info.info?.priveleged }"
+      :key="userUID"
+      @click="activeUser = userUID"
+    >
+      <div class="user__info">
+        <span>Имя: </span>
+        <span class="date">{{ info.info?.displayName }}</span>
+      </div>
+      <keep-alive>
+        <date-list
+          :tests="info.statistic"
+          v-if="activeUser === userUID"
+        ></date-list>
+      </keep-alive>
     </div>
-    <keep-alive>
-      <date-list :tests="info.statistic" v-if="activeUser === userUID"></date-list>
-    </keep-alive>
   </div>
 </template>
 
 <script>
 import DateList from "@/components/DateList.vue";
 import { mapState } from "vuex";
+import StartButton from "@/components/UI/StartButton";
 
 export default {
   name: "StatisticPage",
   components: {
+    StartButton,
     DateList,
-
   },
   data() {
     return {
@@ -35,8 +41,8 @@ export default {
     };
   },
   computed: {
-    ...mapState('statistic', ["statistic"]),
-    ...mapState('authorization', ['uid', 'admin', 'login']),
+    ...mapState("statistic", ["statistic"]),
+    ...mapState("authorization", ["uid", "admin", "login"]),
   },
   watch: {
     statistic: function (value) {
@@ -44,12 +50,19 @@ export default {
       this.loading = false;
     },
     login: async function (value) {
-      if (value) await this.$store.dispatch("statistic/getStatistic", { uid: this.uid, admin: this.admin });
-    }
+      if (value)
+        await this.$store.dispatch("statistic/getStatistic", {
+          uid: this.uid,
+          admin: this.admin,
+        });
+    },
   },
   async created() {
-    await this.$store.dispatch("statistic/getStatistic", { uid: this.uid, admin: this.admin });
-  }
+    await this.$store.dispatch("statistic/getStatistic", {
+      uid: this.uid,
+      admin: this.admin,
+    });
+  },
 };
 </script>
 
@@ -62,7 +75,7 @@ export default {
     font-size: 1rem;
   }
 
-  &.priveleged {
+  &.first {
     order: 0;
   }
 
