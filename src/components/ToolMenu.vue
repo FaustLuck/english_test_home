@@ -3,22 +3,19 @@
     <img
       v-if="!editing"
       src="@/assets/edit.svg"
-      @click="editRecord(true)"
+      @click="changeEditing(true)"
       alt="Редактировать"
     />
     <img
       v-if="!editing"
       src="@/assets/delete.svg"
-      @click="$emit('deleteRecord')"
+      @click="deleteRecord"
       alt="Удалить"
     />
     <img
       v-if="editing"
       src="@/assets/done.svg"
-      @click="
-        editRecord(false);
-        $emit('changeRecord');
-      "
+      @click="changeEditing(false)"
       alt="Готово"
     />
   </div>
@@ -28,17 +25,21 @@
 export default {
   name: "ToolMenu",
   props: {
-    newValue: Boolean,
+    index: Number,
   },
   data() {
     return {
-      editing: this.newValue,
+      editing: this.index === -1,
     };
   },
   methods: {
-    editRecord(flag) {
-      this.editing = this.newValue || flag;
-      this.$emit("editRecord", this.editing);
+    changeEditing(flag) {
+      if (this.index === -1) return this.$emit("addRecord");
+      this.editing = flag;
+      this.$emit("changeEditing", flag);
+    },
+    deleteRecord() {
+      this.$emit("deleteRecord");
     },
   },
 };

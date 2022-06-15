@@ -6,7 +6,7 @@ import { ref, get, set } from "firebase/database";
 export const authorization = {
   namespaced: true,
   state: {
-    uid: null,
+    uid: 'unauthorizedUser',
     displayName: "Войти с помощью Google",
     photoURL: require("@/assets/google.svg"),
     admin: false,
@@ -59,8 +59,5 @@ export const authorization = {
       commit('SAVE_INFO', user)
       commit('LOGIN', true)
     }
-  },
-  getters: {
-    getLogin: state => state.login
   }
 }

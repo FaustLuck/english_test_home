@@ -14,12 +14,12 @@
     </div>
     <div class="tests__info">
       <span>Количество тестов: </span>
-      <span>{{ Object.keys(tests[date.day]).length }}</span>
+      <span>{{ testsOnDay(tests[date.day]) }}</span>
     </div>
     <keep-alive>
       <test-result
         v-if="activeDay === date.day"
-        :testsFromParent="testsOfDay"
+        :tests="testsOfDay"
       ></test-result>
     </keep-alive>
   </div>
@@ -28,7 +28,7 @@
 import TestResult from "@/components/TestResult.vue";
 
 export default {
-  name: "StatisticPage",
+  name: "DateList",
   components: {
     TestResult,
   },
@@ -40,23 +40,28 @@ export default {
       loading: true,
       activeDay: "",
       testsOfDay: {},
-      dateArray: [],
     };
   },
-  async mounted() {
-    this.dateArray = Object.keys(this.tests).reverse();
-    this.prepareDate();
+  computed: {
+    dateArray() {
+      let dateList = Object.keys(this.tests).reverse();
+      return this.prepareDate(dateList);
+    },
+    testsOnDay() {
+      return (array) => Object.keys(array).length;
+    },
   },
   methods: {
-    prepareDate() {
-      for (let i = 0; i < this.dateArray.length; i++) {
-        let date = this.dateArray[i];
+    prepareDate(dateArray) {
+      for (let i = 0; i < dateArray.length; i++) {
+        let date = dateArray[i];
         date = {
           day: date,
           output: date.split("-").reverse().join("."),
         };
-        this.dateArray[i] = date;
+        dateArray[i] = date;
       }
+      return dateArray;
     },
   },
 };
