@@ -73,7 +73,6 @@ export default {
     },
   },
   async created() {
-    if (Object.keys(this.statistic).length) this.loading = false;
     if (this.login && this.mode === "result")
       this.$store.dispatch("setAnswer", { uid: this.uid });
     if (this.mode === "statistic") {
