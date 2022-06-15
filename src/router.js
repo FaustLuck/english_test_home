@@ -1,43 +1,36 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import TestPage from '@/views/Test.vue'
-import StatisticPage from '@/views/Statistic.vue'
-import SettingsPage from '@/views/Settings.vue'
-import FireshowPage from '@/views/Fireshow.vue'
-import TestResult from '@/components/TestResult.vue'
+import { createRouter, createWebHistory } from "vue-router";
 
 const routes = [
-
   {
-    path: '/',
-    name: 'test',
-    component: TestPage
+    path: "/",
+    name: "test",
+    component: () => import("@/views/Test.vue"),
   },
   {
-    path: '/statistic',
-    name: 'statistic',
-    component: StatisticPage
+    path: "/statistic",
+    name: "statistic",
+    component: () => import("@/views/Statistic.vue"),
   },
   {
-    path: '/settings',
-    name: 'settings',
-    component: SettingsPage
+    path: "/settings",
+    name: "settings",
+    component: () => import("@/views/Settings.vue"),
   },
   {
-    path: '/result',
-    name: 'result',
-    component: TestResult
+    path: "/result",
+    name: "result",
+    component: () => import("@/views/Statistic.vue"),
   },
   {
-    path: '/fireshow',
-    name: 'fireshow',
-    component: FireshowPage
-  }
-
-]
+    path: "/fireshow",
+    name: "fireshow",
+    component: () => import("@/views/Fireshow.vue"),
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;

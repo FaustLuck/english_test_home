@@ -3,28 +3,27 @@
     <nav class="menu">
       <router-link v-if="admin" title="Настройки" to="/settings">
         <img src="@/assets/settings.svg" alt="Настройки"
-        /></router-link>
+      /></router-link>
       <router-link v-if="login" title="Статистика" to="/statistic"
-      ><img src="@/assets/statistic.svg" alt="Статистика"
+        ><img src="@/assets/statistic.svg" alt="Статистика"
       /></router-link>
       <login-button @click="loginMe"></login-button>
     </nav>
   </div>
   <form>
-    <router-view/>
+    <router-view />
   </form>
 </template>
 <script>
 import LoginButton from "@/components/LoginButton.vue";
 import { mapState } from "vuex";
 
-
 export default {
   components: {
     LoginButton,
   },
   computed: {
-    ...mapState('authorization', ['admin', 'login']),
+    ...mapState("authorization", ["admin", "login"]),
   },
   async created() {
     await this.$store.dispatch("authorization/restoreLogin");

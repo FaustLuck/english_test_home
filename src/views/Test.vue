@@ -12,30 +12,21 @@
       <div></div>
     </header>
     <div v-if="readyToTest">
-      <div v-for="difficult of settings.order" :key="difficult">
-        <div v-for="(question, index) of test[difficult]" :key="question">
-          <card-item
-            :index="index"
-            :item="question"
-            :mode="'test'"
-            :difficult="difficult"
-            @updateAnswers="updateAnswers"
-          ></card-item>
-        </div>
-      </div>
+      <difficult-list :questions="test"></difficult-list>
     </div>
   </div>
 </template>
 <script>
-import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
 import { test } from "@/utils/test";
-import StartButton from "@/components/UI/StartButton";
+import StartButton from "@/components/StartButton";
+import DifficultList from "@/components/DifficultList";
 
 export default {
   name: "TestPage",
   components: {
-    CardItem,
+    DifficultList,
+    // CardItem,
     StartButton,
   },
   data() {
@@ -46,14 +37,12 @@ export default {
       counterId: "",
       loading: true,
       test: {},
-      answers: {},
-      reason: "",
     };
   },
   watch: {
     timerSec: function (value) {
       this.timerString = this.timeToString(value);
-      if (!value) this.cancelTest();
+      if (!value) this.cancel();
     },
     settings: function (value) {
       if (!value?.timer) return;
@@ -61,7 +50,7 @@ export default {
       this.timerSec = this.timerStart = value.timer.min * 60 + value.timer.sec;
     },
     readyToTest: function (value) {
-      value ? this.createTest() : this.cancelTest();
+      value ? this.begin() : this.cancel();
     },
   },
   async created() {
@@ -69,7 +58,8 @@ export default {
   },
   computed: {
     ...mapState("settings", ["settings"]),
-    ...mapState(["readyToTest"]),
+    ...mapState(["readyToTest", "answers"]),
+    ...mapState("authorization", ["displayName"]),
   },
   methods: {
     timeToString(value) {
@@ -77,24 +67,28 @@ export default {
       let min = (value - sec) / 60;
       return `${min}:${sec}`;
     },
-    createTest() {
-      [this.test, this.answers] = test.create(this.settings);
+    begin() {
+      let answers;
+      [this.test, answers] = test.create(this.settings);
       this.timerSec = this.timerStart;
+      this.$store.commit("SAVE_ANSWERS", answers);
       this.start();
     },
-    cancelTest() {
+    cancel() {
       clearInterval(this.counterId);
-      let data = test.cancel(this.answers, this.settings.limits);
-      data.reason =
+      let timeSpent = this.timeToString(this.timerStart - this.timerSec);
+      let reason =
         this.timerStart - this.timerSec ? "Тест завершен" : "Время истекло";
-      data["time spent"] = this.timeToString(this.timerStart - this.timerSec);
-      this.$store.commit("SAVE_ANSWER", data);
+      let data = test.cancel(this.answers, timeSpent, reason, this.settings);
+      console.log(data);
+      this.$store.dispatch("saveAnswers", data);
+      this.$store.dispatch("changeReady", false);
       if (this.timerSec) {
         this.$router.push("result");
       } else {
         setTimeout(() => {
           this.$router.push("result");
-        }, 10000);
+        }, 2500);
       }
     },
     start() {
@@ -102,14 +96,28 @@ export default {
         this.timerSec--;
       }, 1000);
     },
-    updateAnswers({ answer, difficult, index }) {
-      this.answers[difficult][index] = answer;
-    },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.question {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  font-size: 2rem;
+  margin: -1px;
+  border: 1px solid black;
+  padding: 0.5rem;
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+    font-size: 1rem;
+    justify-content: flex-start;
+  }
+}
+
 .fail {
   background-color: red;
   pointer-events: none;

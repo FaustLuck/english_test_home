@@ -1,7 +1,4 @@
 <template>
-  <start-button
-    v-if="this.$router.currentRoute.value.path === '/result'"
-  ></start-button>
   <div
     class="test"
     v-for="(value, time) in tests"
@@ -30,7 +27,7 @@
     <keep-alive>
       <difficult-list
         v-if="activeTime === time"
-        :difficults="value.answers"
+        :questions="value.test"
         :congratulations="value.congratulations"
       ></difficult-list>
     </keep-alive>
@@ -39,61 +36,20 @@
 
 <script>
 import DifficultList from "@/components/DifficultList.vue";
-import { mapState } from "vuex";
-import StartButton from "@/components/UI/StartButton";
 
 export default {
   name: "TestResult",
   components: {
-    StartButton,
     DifficultList,
   },
   props: {
-    testsFromParent: {
-      type: Object,
-      default: undefined,
-    },
+    tests: Object,
   },
   data() {
     return {
       activeTime: "",
-      tests: [],
       timerId: 0,
     };
-  },
-  computed: {
-    ...mapState("authorization", ["login", "uid"]),
-  },
-  watch: {
-    login: function () {
-      return this.saveStatistic();
-    },
-  },
-  created() {
-    if (this.login) this.saveStatistic();
-    if (this.testsFromParent === undefined) {
-      let time = this.$store.getters.getTime[1];
-      this.tests = this.$store.getters.getAnswer;
-      let tmp = {};
-      tmp[time] = { ...this.tests };
-      this.tests = tmp;
-      this.activeTime = Object.keys(this.tests)[0];
-      if (this.tests[this.activeTime].congratulations) this.toWait();
-    } else {
-      this.tests = this.testsFromParent;
-    }
-  },
-  methods: {
-    toWait() {
-      this.timerId = setTimeout(() => {
-        this.$router.push("fireshow");
-      }, 5000);
-    },
-    saveStatistic() {
-      if (!this.login) return;
-      let data = this.$store.getters.getAnswer;
-      this.$store.dispatch("statistic/setStatistic", { data, uid: this.uid });
-    },
   },
 };
 </script>

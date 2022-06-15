@@ -1,46 +1,64 @@
 import { compare } from "@/utils";
+import { getDate } from "@/utils";
 
 export const test = {
-  create: function ({ order, dictionary, limits, variants }) {
+  create: function ({ dictionary, limits, variants }) {
     let test = {};
-    let answers = {};
-    for (let difficult of order) {
+    let answer = {};
+    for (let difficult in dictionary) {
       let localDictionary = dictionary[difficult];
       let limit = limits[difficult];
       let questions = toFill(localDictionary, limit).sort(compare);
-      answers[difficult] = questions.map((e) => {
+      answer[difficult] = [...questions];
+      answer[difficult] = answer[difficult].map((e) => {
         return {
+          answer: undefined,
           question: e.question,
-          answer: [
-            {
-              answer: "Не выбрано",
-              correct: false,
-            },
-            e.answer,
-          ],
         };
       });
       questions = toFillVariants(limit, questions, localDictionary, variants);
       test[difficult] = questions;
     }
-    return [test, answers];
+    return [test, answer];
   },
-  cancel: function (answers, limits) {
-    let questions = Object.values(limits).reduce(
-      (acc, cur) => acc + cur,
+  cancel: function (answers, timeSpent, reason, { dictionary }) {
+    let questions = Object.values(answers).reduce(
+      (acc, cur) => acc + cur.length,
       0
     );
+    for (let difficult in dictionary) {
+      for (let answer of answers[difficult]) {
+        let correctAnswer = dictionary[difficult].find(
+          (e) => e.question === answer.question
+        );
+        if (!answer.answer) answer.answer = "Не выбрано";
+        answer.answer =
+          correctAnswer.answer === answer.answer
+            ? [correctAnswer.answer]
+            : [answer.answer, correctAnswer.answer].sort();
+        answer.correct = answer.answer.length === 1;
+        answer.index = answer.answer.findIndex(
+          (e) => e === correctAnswer.answer
+        );
+      }
+    }
     let correctAnswers = 0;
     Object.values(answers).forEach((e) => {
       correctAnswers += e.reduce((acc, cur) => acc + cur.answer.length, 0);
     });
     correctAnswers = questions * 2 - correctAnswers;
-    return {
-      answers,
+    let data = {};
+    let [date, time] = getDate();
+    data[date] = {};
+    data[date][time] = {
+      test:answers,
       congratulations: correctAnswers === questions,
+      reason,
+      ["time spent"]: timeSpent,
       questions,
       correctAnswers,
     };
+    return data;
   },
 };
 
@@ -54,11 +72,6 @@ function toFillVariants(limit, questions, dictionary, limitVariant) {
     );
     variants.push(correctAnswer);
     variants.sort();
-    let index = variants.findIndex((e) => e === correctAnswer);
-    variants[index] = {
-      answer: correctAnswer,
-      correct: true,
-    };
     question.answer = variants;
     questions[i] = { ...question };
   }

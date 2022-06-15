@@ -19,47 +19,13 @@
         <input type="number" v-model.number="settings.variants" />
       </span>
     </div>
-    <div v-for="difficult of settings.order" :key="difficult">
-      <div class="difficult">
-        <div
-          class="settings__detail"
-          @click="activeIndex = difficult"
-          v-if="settings.dictionary[difficult].length"
-        >
-          <span>Количество вопросов {{ difficult }}</span>
-          <span>
-            <input
-              type="number"
-              @click.stop
-              v-model.number="settings.limits[difficult]"
-              @input="checkCount($event.target.value, difficult)"
-            />
-          </span>
-        </div>
-        <keep-alive>
-          <card-item
-            v-if="activeIndex === difficult"
-            :index="'newValue'"
-            :item="{}"
-            :mode="'settings'"
-            :difficult="difficult"
-            @changeRecord="changeRecord"
-          ></card-item>
-        </keep-alive>
-      </div>
-      <keep-alive v-if="activeIndex === difficult">
-        <card-item
-          v-for="(item, index) of settings.dictionary[difficult]"
-          :key="item.question"
-          :item="item"
-          :index="index"
-          :mode="'settings'"
-          @deleteRecord="deleteRecord"
-          @changeRecord="changeRecord"
-        >
-        </card-item>
-      </keep-alive>
-    </div>
+    <keep-alive>
+      <difficult-list
+        :questions="settings.dictionary"
+        :limits="settings.limits"
+      >
+      </difficult-list>
+    </keep-alive>
     <div class="settings__detail update">
       <input type="button" value="Сохранить настройки" @click="saveData" />
     </div>
@@ -67,14 +33,13 @@
 </template>
 
 <script>
-import CardItem from "@/components/CardItem.vue";
 import { mapState } from "vuex";
-import { record } from "@/utils/record";
+import DifficultList from "@/components/DifficultList";
 
 export default {
   name: "SettingsPage",
   components: {
-    CardItem,
+    DifficultList,
   },
   data() {
     return {
@@ -101,19 +66,6 @@ export default {
     },
     saveData() {
       this.$store.dispatch("settings/setSettings", this.settings);
-    },
-    deleteRecord(item) {
-      this.settings.dictionary[this.activeIndex] = record.delete(
-        this.settings.dictionary[this.activeIndex],
-        item
-      );
-    },
-    changeRecord(item) {
-      console.log(item);
-      this.settings.dictionary[this.activeIndex] =
-        item.index === "newValue"
-          ? record.add(this.settings.dictionary[this.activeIndex], item)
-          : record.edit(this.settings.dictionary[this.activeIndex], item);
     },
   },
   async created() {

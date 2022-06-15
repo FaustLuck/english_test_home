@@ -1,5 +1,9 @@
-import store from '@/store'
+import store from "@/store";
 
+/**
+ *
+ * @returns {string[date,time]}
+ */
 export function getDate() {
   let date = new Intl.DateTimeFormat("ru-Ru", {
     year: "numeric",
@@ -15,25 +19,25 @@ export function getDate() {
 }
 
 export function setUID(uid) {
-  window.localStorage.setItem('uid', uid)
+  window.localStorage.setItem("uid", uid);
 }
 
 export function getUID() {
-  return window.localStorage.getItem('uid')
+  return window.localStorage.getItem("uid");
 }
 
 export async function speech(text) {
-  let speech = store.getters['settings/getSpeech'];
+  let speech = store.getters["settings/getSpeech"];
   try {
-    let response = await fetch(speech + text)
+    let response = await fetch(speech + text);
     if (response.ok) {
-      let blob = await response.blob()
-      let src = URL.createObjectURL(blob)
+      let blob = await response.blob();
+      let src = URL.createObjectURL(blob);
       const audio = new Audio(src);
-      await audio.play()
+      await audio.play();
     }
   } catch (e) {
-    console.log(e)
+    console.log(e);
   }
 }
 
@@ -43,3 +47,6 @@ export function compare(a, b) {
   return 0;
 }
 
+export function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}

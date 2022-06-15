@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import LoaderSpinner from "@/components/UI/LoaderSpinner.vue";
+import LoaderSpinner from "@/components/LoaderSpinner.vue";
 
 import { initializeApp } from "firebase/app"
 import { getDatabase } from "firebase/database"
