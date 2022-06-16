@@ -18,8 +18,9 @@
     </div>
     <keep-alive>
       <test-result
-        v-if="activeDay === date.day"
+        v-if="mode === 'result' || activeDay === date.day"
         :tests="testsOfDay"
+        :mode="mode"
       ></test-result>
     </keep-alive>
   </div>
@@ -34,13 +35,17 @@ export default {
   },
   props: {
     tests: Object,
+    mode: String,
   },
   data() {
     return {
-      loading: true,
       activeDay: "",
       testsOfDay: {},
     };
+  },
+  created() {
+    let firstDate = Object.keys(this.tests);
+    if (this.mode === "result") this.testsOfDay = this.tests[firstDate];
   },
   computed: {
     dateArray() {

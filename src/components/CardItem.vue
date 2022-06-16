@@ -2,7 +2,7 @@
   <label @click="update" class="item">
     <a @click="toSpeech" v-if="/[a-zA-Z]/g.test(item) && mode === 'test'">🔉</a>
     <input
-      v-if="mode !== 'settings'"
+      v-if="mode !== 'settings' && prop==='answer'"
       type="radio"
       :class="{}"
       :name="difficult + '_' + index"

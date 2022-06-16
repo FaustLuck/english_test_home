@@ -4,19 +4,20 @@
     <start-button></start-button>
     <div
       class="user"
-      v-for="(info, userUID) of statistic"
-      :class="{ first: info.info?.priveleged }"
+      v-for="(value, userUID) of localStatistic"
+      :class="{ first: value.info?.priveleged }"
       :key="userUID"
       @click="activeUser = userUID"
     >
       <div class="user__info" :class="{ single: !login }">
-        <span v-if="login">Имя: </span>
-        <span>{{ info.info.displayName }}</span>
+        <span v-if="login">Пользователь: </span>
+        <span>{{ value.info.displayName }}</span>
       </div>
       <keep-alive>
         <date-list
-          :tests="info.statistic"
-          v-if="activeUser === userUID"
+          :tests="value.statistic"
+          v-if="mode === 'result' || activeUser === userUID"
+          :mode="mode"
         ></date-list>
       </keep-alive>
     </div>
@@ -38,31 +39,23 @@ export default {
     return {
       activeUser: "",
       loading: true,
+      localStatistic: null,
     };
   },
   computed: {
     ...mapState("authorization", ["uid", "admin", "login", "displayName"]),
+    ...mapState("statistic", ["statistic"]),
+    ...mapState(["answers"]),
     mode() {
       return this.$router.currentRoute.value.name;
-    },
-    statistic() {
-      if (this.mode === "statistic") {
-        return this.$store.getters["statistic/getStatistic"];
-      }
-      let tmp = {};
-      tmp[this.uid] = {
-        info: {
-          displayName: this.login ? this.displayName : "Вход не выполнен",
-        },
-        statistic: this.$store.getters["getAnswer"],
-      };
-      return tmp;
     },
   },
   watch: {
     statistic: function (value) {
+      if (this.mode !== "statistic") return;
       if (!value || !Object.keys(value).length) return;
       this.loading = false;
+      this.localStatistic = this.statistic;
     },
     login: async function (value) {
       if (value && this.mode === "statistic")
@@ -71,10 +64,29 @@ export default {
           admin: this.admin,
         });
     },
+    mode: async function (value) {
+      if (this.login && this.mode === "result") {
+        this.$store.dispatch("setAnswer", { uid: this.uid });
+      }
+      if (value === "statistic") {
+        await this.$store.dispatch("statistic/getStatistic", {
+          uid: this.uid,
+          admin: this.admin,
+        });
+      }
+    },
+    /*    loading: function (value) {
+      if (value) return;
+      if (this.mode !== "result") return;
+      this.activeUser = this.uid;
+    },*/
   },
   async created() {
-    if (this.login && this.mode === "result")
+    if (this.login && this.mode === "result") {
       this.$store.dispatch("setAnswer", { uid: this.uid });
+      this.localStatistic = this.createResultStatistic();
+      this.loading = false;
+    }
     if (this.mode === "statistic") {
       await this.$store.dispatch("statistic/getStatistic", {
         uid: this.uid,
@@ -82,18 +94,17 @@ export default {
       });
     }
   },
-  beforeRouteLeave() {
-    this.loading = true;
-  },
-  async updated() {
-    if (this.login && this.mode === "result")
-      this.$store.dispatch("setAnswer", { uid: this.uid });
-    if (this.mode === "statistic") {
-      await this.$store.dispatch("statistic/getStatistic", {
-        uid: this.uid,
-        admin: this.admin,
-      });
-    }
+  methods: {
+    createResultStatistic() {
+      let tmp = {};
+      tmp[this.uid] = {
+        info: {
+          displayName: this.login ? this.displayName : "Вход не выполнен",
+        },
+        statistic: this.answers,
+      };
+      return tmp;
+    },
   },
 };
 </script>
