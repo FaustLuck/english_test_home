@@ -11,7 +11,6 @@ export default createStore({
   state: {
     answers: {},
     readyToTest: false,
-    mode: "",
   },
   mutations: {
     SAVE_ANSWERS(state, data) {
@@ -39,9 +38,6 @@ export default createStore({
       const dbRef = ref(realtime, `users/${uid}/statistic/${date}/${time}`);
       await set(dbRef, data);
     },
-  },
-  getters: {
-    getAnswer: (state) => state.answers,
   },
   modules: {
     statistic,

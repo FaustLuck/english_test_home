@@ -26,7 +26,6 @@ export default {
   name: "TestPage",
   components: {
     DifficultList,
-    // CardItem,
     StartButton,
   },
   data() {
@@ -80,7 +79,6 @@ export default {
       let reason =
         this.timerStart - this.timerSec ? "Тест завершен" : "Время истекло";
       let data = test.cancel(this.answers, timeSpent, reason, this.settings);
-      console.log(data);
       this.$store.dispatch("saveAnswers", data);
       this.$store.dispatch("changeReady", false);
       if (this.timerSec) {

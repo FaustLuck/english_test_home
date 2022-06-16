@@ -26,7 +26,7 @@
     </div>
     <keep-alive>
       <difficult-list
-        v-if="activeTime === time"
+        v-if="mode === 'result' || activeTime === time"
         :questions="value.test"
         :congratulations="value.congratulations"
       ></difficult-list>
@@ -44,11 +44,11 @@ export default {
   },
   props: {
     tests: Object,
+    mode: String,
   },
   data() {
     return {
       activeTime: "",
-      timerId: 0,
     };
   },
 };

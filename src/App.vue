@@ -11,7 +11,7 @@
     </nav>
   </div>
   <form>
-    <router-view />
+    <router-view :key="$route.fullPath"/>
   </form>
 </template>
 <script>
