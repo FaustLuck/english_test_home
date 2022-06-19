@@ -124,7 +124,6 @@ export default {
 header {
   display: flex;
   justify-content: space-around;
-  padding: 0.5rem 0;
 
   @media screen and (max-width: 768px) {
     position: sticky;

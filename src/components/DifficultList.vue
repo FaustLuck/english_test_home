@@ -134,6 +134,10 @@ export default {
       font-size: 2.5rem;
       justify-content: space-between;
       padding: 0.5rem 1rem;
+
+      @media screen and (max-width: 768px) {
+        font-size: 1.5rem;
+      }
     }
   }
 
