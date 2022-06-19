@@ -1,9 +1,9 @@
 <template>
-  <header>
-    <div v-if="path !== '/'"></div>
+  <div class="start_btn">
+    <div v-if="path !== 'test'"></div>
     <input type="button" :value="title" @click="changeReady" />
-    <div v-if="path !== '/'"></div>
-  </header>
+    <div v-if="path !== 'test'"></div>
+  </div>
 </template>
 
 <script>
@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       title: "Начать тест",
-      path: this.$router.currentRoute.value.path,
+      path: this.$router.currentRoute.value.name,
     };
   },
   computed: {
@@ -39,21 +39,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
-header {
+.start_btn {
   display: flex;
   justify-content: space-around;
-  padding: 0.5rem 0;
+  margin: 0.5rem 0;
 
   @media screen and (max-width: 768px) {
     position: sticky;
-    top: 5rem;
+    top: 4rem;
     z-index: 2;
     background: peachpuff;
-  }
-
-  & > * {
-    width: 100%;
-    text-align: center;
   }
 
   @media screen and (max-width: 768px) {
