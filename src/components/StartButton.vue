@@ -42,7 +42,8 @@ export default {
 .start_btn {
   display: flex;
   justify-content: space-around;
-  margin: 0.5rem 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid black;
 
   @media screen and (max-width: 768px) {
     position: sticky;
