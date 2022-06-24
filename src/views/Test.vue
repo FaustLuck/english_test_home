@@ -11,7 +11,7 @@
       <span>{{ timerString }}</span>
       <div></div>
     </header>
-    <div v-if="readyToTest">
+    <div class="test_container" v-if="readyToTest">
       <difficult-list :questions="test"></difficult-list>
     </div>
   </div>
@@ -99,21 +99,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.question {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  position: relative;
-  font-size: 2rem;
-  margin: -1px;
-  border: 1px solid black;
-  padding: 0.5rem;
-
-  @media screen and (max-width: 768px) {
-    flex-wrap: wrap;
-    font-size: 1rem;
-    justify-content: flex-start;
-  }
+.test_container {
+  margin-top: 1px;
 }
 
 .fail {

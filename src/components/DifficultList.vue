@@ -107,7 +107,7 @@ export default {
   &__container {
     position: sticky;
     background-color: peachpuff;
-    top: 0;
+    top: 4rem;
     z-index: 1;
     font-size: 3.75rem;
     border-bottom: 1px solid black;
@@ -117,7 +117,7 @@ export default {
     padding: 0.5rem 0;
     @media screen and (max-width: 768px) {
       font-size: 2rem;
-      top: 4rem;
+      top: 6.5rem;
     }
 
     &.congratulations {
@@ -127,6 +127,7 @@ export default {
     &.settings {
       display: block;
       padding: 0;
+      top: 0;
     }
 
     &_item {
