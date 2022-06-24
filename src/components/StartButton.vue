@@ -1,8 +1,8 @@
 <template>
-  <div class="start_btn">
-    <div v-if="path !== 'test'"></div>
+  <div class="start_btn" :class="{ test: mode === 'test' }">
+    <div v-if="mode !== 'test'"></div>
     <input type="button" :value="title" @click="changeReady" />
-    <div v-if="path !== 'test'"></div>
+    <div v-if="mode !== 'test'"></div>
   </div>
 </template>
 
@@ -14,20 +14,25 @@ export default {
   data() {
     return {
       title: "Начать тест",
-      path: this.$router.currentRoute.value.name,
     };
   },
   computed: {
     ...mapState(["readyToTest"]),
+    mode() {
+      return `${this.$router.currentRoute.value.name}`;
+    },
   },
   watch: {
     readyToTest: function (value) {
       this.changeTitle(value);
     },
+    mode: function (value) {
+      if (value !== "test") this.$store.dispatch("changeReady", false);
+    },
   },
   methods: {
     changeReady() {
-      this.path !== "/"
+      this.mode !== "test"
         ? this.$router.push("/")
         : this.$store.dispatch("changeReady", !this.readyToTest);
     },
@@ -40,16 +45,21 @@ export default {
 
 <style scoped lang="scss">
 .start_btn {
+  position: sticky;
+  top: 0;
+  z-index: 2;
   display: flex;
   justify-content: space-around;
   padding: 0.5rem 0;
+  background: peachpuff;
   border-bottom: 1px solid black;
 
+  &.test {
+    border-bottom: none;
+  }
+
   @media screen and (max-width: 768px) {
-    position: sticky;
     top: 4rem;
-    z-index: 2;
-    background: peachpuff;
   }
 
   @media screen and (max-width: 768px) {
