@@ -1,7 +1,14 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/">Home</router-link>
+    |
+    <router-link :to="{name:'result'}">Result</router-link>
+    |
+    <router-link :to="{name:'statistic'}">Statistic</router-link>
+    |
+    <router-link :to="{name:'settings'}">Settings</router-link>
+    |
+    <router-link :to="{name:'fire-show'}">FireShow</router-link>
   </nav>
   <router-view/>
 </template>
