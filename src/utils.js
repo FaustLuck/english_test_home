@@ -18,14 +18,6 @@ export function getDate() {
   return date;
 }
 
-export function setUID(uid) {
-  window.localStorage.setItem("uid", uid);
-}
-
-export function getUID() {
-  return window.localStorage.getItem("uid");
-}
-
 export async function speech(text) {
   let speech = store.getters["settings/getSpeech"];
   try {

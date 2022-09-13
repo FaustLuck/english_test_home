@@ -1,38 +1,35 @@
 <template>
   <div class="container__menu">
     <nav class="menu">
-      <router-link v-if="admin" title="Настройки" to="/settings">
+      <router-link v-if="isAdmin" title="Настройки" to="/settings">
         <img src="@/assets/settings.svg" alt="Настройки"
+        /></router-link>
+      <router-link v-if="isLogin" title="Статистика" to="/statistic"
+      ><img src="@/assets/statistic.svg" alt="Статистика"
       /></router-link>
-      <router-link v-if="login" title="Статистика" to="/statistic"
-        ><img src="@/assets/statistic.svg" alt="Статистика"
-      /></router-link>
-      <login-button @click="loginMe"></login-button>
+      <login-button @click="toLogin"></login-button>
     </nav>
   </div>
   <form>
-    <router-view :key="$route.fullPath"/>
+    <router-view :key="$route.name"/>
   </form>
 </template>
 <script>
-import LoginButton from "@/components/LoginButton.vue";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
+import { defineAsyncComponent } from "vue";
 
 export default {
   components: {
-    LoginButton,
+    LoginButton: defineAsyncComponent(() => import("@/components/LoginButton.vue")),
   },
   computed: {
-    ...mapState("authorization", ["admin", "login"]),
+    ...mapState("authorization", ["isAdmin", "isLogin"]),
   },
   async created() {
-    await this.$store.dispatch("authorization/restoreLogin");
+    await this.restoreLogin();
   },
   methods: {
-    async loginMe() {
-      if (this.login) return;
-      await this.$store.dispatch("authorization/login");
-    },
+    ...mapActions("authorization", ["restoreLogin", "toLogin"]),
   },
 };
 </script>
