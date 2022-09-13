@@ -75,11 +75,11 @@ export default {
         });
       }
     },
-    /*    loading: function (value) {
+    loading: function (value) {
       if (value) return;
       if (this.mode !== "result") return;
       this.activeUser = this.uid;
-    },*/
+    },
   },
   async created() {
     if (this.login && this.mode === "result") {
@@ -105,7 +105,7 @@ export default {
       };
       return tmp;
     },
-  },
+  }
 };
 </script>
 
