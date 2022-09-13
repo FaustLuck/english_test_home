@@ -5,12 +5,12 @@
     <div
       class="user"
       v-for="(value, userUID) of localStatistic"
-      :class="{ first: value.info?.priveleged }"
+      :class="{ first: value.info?.isPrivileged }"
       :key="userUID"
       @click="activeUser = userUID"
     >
-      <div class="user__info" :class="{ single: !login }">
-        <span v-if="login">Пользователь: </span>
+      <div class="user__info" :class="{ single: !isLogin }">
+        <span v-if="isLogin">Пользователь: </span>
         <span>{{ value.info.displayName }}</span>
       </div>
       <keep-alive>
@@ -43,7 +43,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("authorization", ["uid", "admin", "login", "displayName"]),
+    ...mapState("authorization", ["uid", "isAdmin", "isLogin", "displayName"]),
     ...mapState("statistic", ["statistic"]),
     ...mapState(["answers"]),
     mode() {
@@ -61,17 +61,17 @@ export default {
       if (value && this.mode === "statistic")
         await this.$store.dispatch("statistic/getStatistic", {
           uid: this.uid,
-          admin: this.admin,
+          isAdmin: this.isAdmin,
         });
     },
     mode: async function (value) {
-      if (this.login && this.mode === "result") {
+      if (this.isLogin && this.mode === "result") {
         this.$store.dispatch("setAnswer", { uid: this.uid });
       }
       if (value === "statistic") {
         await this.$store.dispatch("statistic/getStatistic", {
           uid: this.uid,
-          admin: this.admin,
+          isAdmin: this.isAdmin,
         });
       }
     },
@@ -82,15 +82,15 @@ export default {
     },
   },
   async created() {
-    if (this.login && this.mode === "result") {
-      this.$store.dispatch("setAnswer", { uid: this.uid });
+    if (this.mode === "result") {
+      if (this.isLogin) this.$store.dispatch("setAnswer", {uid: this.uid});
       this.localStatistic = this.createResultStatistic();
       this.loading = false;
     }
     if (this.mode === "statistic") {
       await this.$store.dispatch("statistic/getStatistic", {
         uid: this.uid,
-        admin: this.admin,
+        isAdmin: this.isAdmin,
       });
     }
   },
@@ -99,7 +99,7 @@ export default {
       let tmp = {};
       tmp[this.uid] = {
         info: {
-          displayName: this.login ? this.displayName : "Вход не выполнен",
+          displayName: this.isLogin ? this.displayName : "Вход не выполнен",
         },
         statistic: this.answers,
       };

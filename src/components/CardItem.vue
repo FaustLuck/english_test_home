@@ -4,7 +4,6 @@
     <input
       v-if="mode !== 'settings' && prop==='answer'"
       type="radio"
-      :class="{}"
       :name="difficult + '_' + index"
       :value="localItem"
       v-model="check"
@@ -124,12 +123,12 @@ export default {
       border: 1px solid black;
       margin: -1px;
     }
+  }
 
-    input[type="radio"] {
-      transform: scale(2, 2);
-      @media screen and (max-width: 768px) {
-        transform: scale(1, 1);
-      }
+  input[type="radio"] {
+    transform: scale(2, 2);
+    @media screen and (max-width: 768px) {
+      transform: scale(1, 1);
     }
   }
 
