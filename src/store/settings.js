@@ -5,7 +5,8 @@ export const settings = {
   namespaced: true,
   state: {
     settings: {
-      speech: null
+      speech: null,
+      timer: null
     }
   },
   mutations: {
@@ -30,6 +31,7 @@ export const settings = {
     }
   },
   getters: {
-    getSpeech: (state) => state.settings.speech
+    getSpeech: (state) => state.settings.speech,
+    getTimer: (state) => state.settings.timer
   }
 };
