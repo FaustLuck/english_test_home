@@ -51,6 +51,14 @@ export default {
       activeTime: "",
     };
   },
+  created() {
+    let test = Object.values(this.tests)[0];
+    if (!(this.mode === "result" && test.congratulations)) return;
+    setTimeout(() => {
+      this.$router.push("/fireshow");
+    }, 2000);
+
+  }
 };
 </script>
 
