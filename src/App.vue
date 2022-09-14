@@ -1,37 +1,51 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link>
-    |
-    <router-link :to="{name:'result'}">Result</router-link>
-    |
-    <router-link :to="{name:'statistic'}">Statistic</router-link>
-    |
-    <router-link :to="{name:'settings'}">Settings</router-link>
-    |
-    <router-link :to="{name:'fire-show'}">FireShow</router-link>
-  </nav>
-  <router-view/>
+  <menu-component></menu-component>
+  <form>
+    <router-view/>
+  </form>
 </template>
 
+<script>
+import { defineAsyncComponent } from "vue";
+import { mapActions } from "vuex";
+
+export default {
+  components: {
+    menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
+  },
+  methods: {
+    ...mapActions("settings", ["getSettings"])
+  },
+  async created() {
+    await this.getSettings();
+  }
+};
+</script>
+
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+*{
+  margin: 0;
+  padding: 0;
 }
 
-nav {
-  padding: 30px;
+body {
+  font-family: 'serif';
+  background-color: peachpuff;
+}
 
-  a {
-    font-weight: bold;
-    color: #2c3e50;
+#app {
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+  font-size: 40px;
+}
 
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+form {
+  width: 80%;
+  max-width: 1200px;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding-top: 4rem;
   }
 }
 </style>
