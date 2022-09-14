@@ -5,7 +5,9 @@ import { statistic } from "@/store/statistic";
 import { test } from "@/store/test";
 
 export default createStore({
-  state: {},
+  state: {
+    orderDifficult: ["easy", "medium", "hard"]
+  },
   getters: {},
   mutations: {},
   actions: {},

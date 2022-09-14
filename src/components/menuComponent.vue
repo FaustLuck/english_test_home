@@ -39,10 +39,14 @@ export default {
 
   & > a {
     height: 100%;
-    padding: 0.5rem;
+    margin: 0.5rem;
+    @media screen and (max-width: 768px) {
+      height: auto;
+    }
 
     & > img {
       height: 100%;
+      border-radius: 50%;
     }
   }
 

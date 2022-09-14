@@ -1,4 +1,4 @@
-export function compare(a, b) {
+function compare(a, b) {
   return (a.question < b.question) ? -1 : 1;
 }
 
@@ -15,10 +15,7 @@ export function toFill(dictionary, limit) {
 
 function deleteItem(item, array) {
   return array.filter((e) => {
-    if (item instanceof Object) {
-      return e.question !== item.question;
-    }
-    return e !== item;
+    return (item instanceof Object) ? e.question !== item.question : e !== item;
   });
 }
 
