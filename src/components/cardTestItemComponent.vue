@@ -72,11 +72,12 @@ export default {
   }
 
   &.speech {
-    padding-left: 2rem;
+    padding-left: 3rem;
   }
 
   & > input[type="radio"] {
     transform: scale(2, 2);
+    cursor: pointer;
   }
 }
 

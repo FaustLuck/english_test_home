@@ -74,6 +74,9 @@ export default {
 
 <style lang="scss" scoped>
 header {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  min-height: 3rem;
 }
 </style>

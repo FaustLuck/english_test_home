@@ -45,7 +45,7 @@ export default {
 .card {
   display: flex;
   align-items: center;
-  border-radius: 1rem;
+  border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   margin: 2rem 0;
   padding: .5rem;
