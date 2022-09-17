@@ -25,8 +25,6 @@ export default {
   components: {
     HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     PreloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    // StartButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
-    // TimerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
     CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   data() {
@@ -91,10 +89,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-header {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  min-height: 3rem;
-}
 </style>
