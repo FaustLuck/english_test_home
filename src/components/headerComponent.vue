@@ -25,11 +25,14 @@ export default {
 
 <style lang="scss" scoped>
 header {
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   min-height: 3rem;
   margin-bottom: 2rem;
+  background-color: #FFDAB9;
 
   &.center {
     justify-content: center;
