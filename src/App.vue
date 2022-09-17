@@ -7,17 +7,10 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapActions } from "vuex";
 
 export default {
   components: {
     menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
-  },
-  methods: {
-    ...mapActions("settings", ["getSettings"])
-  },
-  async created() {
-    await this.getSettings();
   }
 };
 </script>

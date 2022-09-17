@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState, mapMutations } from "vuex";
+import { mapGetters, mapMutations } from "vuex";
 
 export default {
   name: "timerComponent",
@@ -15,8 +15,8 @@ export default {
   },
   computed: {
     ...mapGetters("settings", ["getTimer"]),
-    ...mapState("test", ["isTesting"]),
     timerStart() {
+      if (!this.getTimer) return;
       let {min, sec} = this.getTimer;
       return min * 60 + sec;
     },
@@ -26,23 +26,18 @@ export default {
       return `${min}:${sec}`;
     }
   },
-  watch: {
-    isTesting(value) {
-      (value) ? this.start() : this.cancel();
-    }
-  },
   methods: {
-    ...mapMutations("test", ["saveTimeSpent"]),
-    start() {
-      this.timerSec = this.timerStart;
-      this.timerID = setInterval(() => {
-        this.timerSec--;
-      }, 1000);
-    },
-    cancel() {
-      clearInterval(this.timerID);
-      this.saveTimeSpent(this.timerStart - this.timerSec);
-    }
+    ...mapMutations("test", ["saveTimes"]),
+  },
+  created() {
+    this.timerSec = this.timerStart;
+    this.timerID = setInterval(() => {
+      this.timerSec--;
+    }, 1000);
+  },
+  beforeUnmount() {
+    clearInterval(this.timerID);
+    this.saveTimes(this.timerStart - this.timerSec);
   }
 };
 </script>

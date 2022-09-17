@@ -1,11 +1,7 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
   <div v-else>
-    <header>
-      <start-button-component></start-button-component>
-      <timer-component v-if="isTesting"></timer-component>
-      <div></div>
-    </header>
+    <header-component></header-component>
     <div v-if="isTesting">
       <card-test-component
         v-for="(item,i) of test"

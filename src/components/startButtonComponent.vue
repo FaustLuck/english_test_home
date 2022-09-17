@@ -14,11 +14,15 @@ export default {
     ...mapState("test", ["isTesting"]),
     title() {
       return (this.isTesting) ? "Завершить тест" : "Начать тест";
+    },
+    mode() {
+      return this.$route.name;
     }
   },
   methods: {
     ...mapMutations("test", ["changeTestStatus"]),
     changeStatus() {
+      if (this.mode !== "test") this.$router.replace({name: "test"});
       this.changeTestStatus(!this.isTesting);
     }
   }
