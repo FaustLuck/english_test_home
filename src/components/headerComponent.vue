@@ -29,6 +29,7 @@ header {
   justify-content: space-evenly;
   align-items: center;
   min-height: 3rem;
+  margin-bottom: 2rem;
 
   &.center {
     justify-content: center;
