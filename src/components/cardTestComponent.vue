@@ -1,5 +1,9 @@
 <template>
-  <div class="card">
+  <div class="card"
+  :class="{
+    right:mode!=='test'&& testItem.answer===testItem.choice,
+    wrong:mode!=='test'&& testItem.answer!==testItem.choice
+  }">
     <div class="card__col">
       <card-test-item-component
         :item="testItem.question"
@@ -80,6 +84,15 @@ export default {
   box-shadow: 0 0 10px 5px #e9a66a;
   margin: 2rem 0;
   padding: .5rem;
+  background: #FFDAB9;
+
+  &.right{
+    background: #8fbc8f;
+  }
+
+  &.wrong{
+    background: #ff8c69;
+  }
 
   &__col {
     width: 50%;

@@ -10,7 +10,11 @@
       :checked="checked"
       :disabled="mode==='result'"
     />
-    <span>{{ item }}</span>
+    <span class="item__title"
+          :class="{
+      right:mode!=='test' && type==='answer' && checked,
+      wrong:mode!=='test' && type==='answer' && !checked
+      }">{{ item }}</span>
   </label>
 </template>
 
@@ -78,6 +82,16 @@ export default {
   & > input[type="radio"] {
     transform: scale(2, 2);
     cursor: pointer;
+  }
+
+  &__title {
+    &.right {
+      color: #008000;
+    }
+
+    &.wrong {
+      color: #FF0000;
+    }
   }
 }
 

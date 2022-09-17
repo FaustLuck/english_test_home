@@ -82,6 +82,7 @@ export default {
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   padding: 1rem;
+  background: #FFDAB9;
 
   &__login {
     text-align: center;
