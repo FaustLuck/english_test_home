@@ -17,6 +17,24 @@
         @updateChoice="updateChoice"
       ></card-test-item-component>
     </div>
+
+    <div v-else class="card__col">
+      <card-test-item-component
+        :type="'answer'"
+        :name="testItem.difficult+index"
+        :item="testItem.answer"
+        :checked="testItem.answer===testItem.choice"
+      >
+      </card-test-item-component>
+      <card-test-item-component
+        v-if="testItem?.choice && testItem.answer!==testItem.choice"
+        :type="'answer'"
+        :name="testItem.difficult+index"
+        :item="testItem.choice"
+        :checked="testItem.answer!==testItem.choice"
+      >
+      </card-test-item-component>
+    </div>
   </div>
 </template>
 

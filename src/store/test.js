@@ -6,6 +6,8 @@ export const test = {
     answers: null,
     isTesting: false,
     timeSpent: null,
+    date: null,
+    time: null
   },
   mutations: {
     prepareAnswers(state, {dictionary, limits}) {
@@ -17,6 +19,17 @@ export const test = {
     },
     saveTimes(state, timeSpent) {
       state.timeSpent = timeSpent;
+      let date = new Intl.DateTimeFormat("ru-Ru", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+        .format(new Date())
+        .split(", ");
+      date[0] = date[0].split(".").reverse().join("-");
+      [state.date, state.time] = date;
     },
     changeTestStatus(state, isTesting) {
       state.isTesting = isTesting;

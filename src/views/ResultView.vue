@@ -1,34 +1,75 @@
 <template>
-<span>1</span>
+  <header-component></header-component>
+  <div>{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
+  <div>
+    <span>Время тестирования:</span>
+    <span>{{ date }} {{ time }}</span>
+  </div>
+  <div>
+    <span>Кол-во верных ответов / вопросов:</span>
+    <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
+  </div>
+  <div>
+    <span>Времени затрачено:</span>
+    <span>{{ time }}</span>
+  </div>
+  <div v-if="isFail">
+    <span>Вышло время!</span>
+  </div>
+  <div v-for="difficult in orderDifficult" :key="difficult">
+    <div>{{ difficult }}</div>
+    <card-test-component
+      v-for="(answer,index) of answers[difficult]"
+      :key="answer.answer"
+      :test-item="{...answer,difficult}"
+      :index="index"
+    >
+    </card-test-component>
+  </div>
 </template>
 
 <script>
-import { useRouter } from "vue-router";
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
+import CardTestComponent from "@/components/cardTestComponent";
+import HeaderComponent from "@/components/headerComponent";
 
 export default {
   name: "ResultView",
-  data() {
-    return {};
-  },
+  components: {HeaderComponent, CardTestComponent},
   computed: {
-    ...mapState("test", ["answers"]),
+    ...mapState("test", ["answers", "timeSpent", "date", "time"]),
+    ...mapState("auth", ["displayName", "isLogin"]),
     ...mapState(["orderDifficult"]),
-    congratulation() {
-      let lengthAnswers = (Object.values(this.answers)).reduce((acc, cur) => acc + cur.length, 0);
-      let rightAnswers = (Object.values(this.answers)).reduce((acc, cur) => {
+    lengthAnswers() {
+      return (Object.values(this.answers)).reduce((acc, cur) => acc + cur.length, 0);
+    },
+    correctAnswers() {
+      return (Object.values(this.answers)).reduce((acc, cur) => {
         return acc + cur.filter(el => el.answer === el.choice).length;
       }, 0);
-      return lengthAnswers === rightAnswers;
+    },
+    isFail() {
+      return (this.timeSpent === 300);
+    },
+    congratulation() {
+      return this.lengthAnswers === this.correctAnswers;
+    },
+    time() {
+      let sec = (this.timeSpent % 60).toString().padStart(2, "0");
+      let min = (this.timeSpent - sec) / 60;
+      return `${min}:${sec}`;
     }
-  },
-  created() {
-    if (!this.answers) return useRouter().replace({name: "test"});
   },
   mounted() {
     if (this.congratulation) setTimeout(() => {
-      useRouter().push({name: "fire-show"});
-    },3000);
+      this.$router.push({name: "fire-show"});
+    }, 3000);
+  },
+  methods: {
+    ...mapMutations("test", ["saveTimes"])
+  },
+  beforeRouteEnter(to, from, next) {
+    (from.name !== "test") ? next({name: "test"}) : next();
   }
 };
 </script>

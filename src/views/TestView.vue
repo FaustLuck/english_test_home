@@ -77,6 +77,14 @@ export default {
       };
     }
   },
+  async created() {
+    await this.getSettings();
+  },
+  beforeRouteEnter(to, from, next) {
+    (from.name === "result") ? next(vm => {
+      vm.prepareAnswers(vm.settings);
+    }) : next();
+  }
 };
 </script>
 
