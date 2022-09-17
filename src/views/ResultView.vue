@@ -1,23 +1,26 @@
 <template>
   <header-component></header-component>
-  <div>{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
-  <div>
-    <span>Время тестирования:</span>
-    <span>{{ date }} {{ time }}</span>
-  </div>
-  <div>
-    <span>Кол-во верных ответов / вопросов:</span>
-    <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
-  </div>
-  <div>
-    <span>Времени затрачено:</span>
-    <span>{{ time }}</span>
-  </div>
-  <div v-if="isFail">
-    <span>Вышло время!</span>
-  </div>
+  <section class="info">
+    <div class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
+    <div class="info__detail">
+      <span>Время тестирования:</span>
+      <span>{{ date }} {{ time }}</span>
+    </div>
+    <div class="info__detail">
+      <span>Кол-во верных ответов / вопросов:</span>
+      <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
+    </div>
+    <div class="info__detail">
+      <span>Времени затрачено:</span>
+      <span>{{ time }}</span>
+    </div>
+    <div class="info__detail" v-if="isFail">
+      <span>Вышло время!</span>
+    </div>
+  </section>
+
   <div v-for="difficult in orderDifficult" :key="difficult">
-    <div>{{ difficult }}</div>
+    <div class="result__difficult">{{ difficult }}</div>
     <card-test-component
       v-for="(answer,index) of answers[difficult]"
       :key="answer.answer"
@@ -75,5 +78,28 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.info {
+  border-radius: 2rem;
+  box-shadow: 0 0 10px 5px #e9a66a;
+  padding: 1rem;
 
+  &__login {
+    text-align: center;
+  }
+
+  &__detail {
+    display: flex;
+    justify-content: space-between;
+    padding: .5rem;
+  }
+}
+
+.result__difficult {
+  text-align: center;
+  font-size: 60px;
+  margin-top: 1rem;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  box-shadow: 0 5px 0 0 #e9a66a;
+}
 </style>
