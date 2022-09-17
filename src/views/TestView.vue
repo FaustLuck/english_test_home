@@ -23,9 +23,10 @@ import { useRouter } from "vue-router";
 export default {
   name: "TestView",
   components: {
+    HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     PreloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    StartButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
-    TimerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
+    // StartButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
+    // TimerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
     CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   data() {
