@@ -3,21 +3,18 @@
     <div class="card__col">
       <card-test-item-component
         :item="testItem.question"
-        :difficult="testItem.difficult"
-        :index="index"
         :type="'question'"
       ></card-test-item-component>
     </div>
-    <div class="card__col">
+    <div v-if="mode==='test'" class="card__col">
       <card-test-item-component
         v-for="answer of testItem.answer"
         :key="answer"
-        :index="index"
-        :difficult="testItem.difficult"
+        :name="testItem.difficult+index"
         :item="answer"
         :type="'answer'"
         :choice="testItem.choice"
-        @changeAnswer="(item)=>this.$emit('changeAnswer', item, this.index)"
+        @updateChoice="updateChoice"
       ></card-test-item-component>
     </div>
   </div>
@@ -25,6 +22,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
+import { mapMutations } from "vuex";
 
 export default {
   name: "cardTestComponent",
@@ -38,6 +36,21 @@ export default {
     },
     index: Number
   },
+  computed: {
+    mode() {
+      return this.$route.name;
+    }
+  },
+  methods: {
+    ...mapMutations("test", ["saveChoice"]),
+    updateChoice(choice) {
+      this.saveChoice({
+        choice,
+        question: this.testItem.question,
+        difficult: this.testItem.difficult
+      });
+    },
+  }
 };
 </script>
 

@@ -15,7 +15,7 @@ export const test = {
       }
       state.answers = answers;
     },
-    saveTimeSpent(state, timeSpent) {
+    saveTimes(state, timeSpent) {
       state.timeSpent = timeSpent;
     },
     changeTestStatus(state, isTesting) {

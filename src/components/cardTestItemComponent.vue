@@ -2,11 +2,14 @@
   <label class="item" :class="{speech:!isSpeech}">
     <a v-if="isSpeech">🔉</a>
     <input
-      v-show="type==='answer'"
-      @click="toVoice"
       @change="update"
+      @click="toVoice"
+      v-show="type==='answer'"
       type="radio"
-      :name="difficult+index"/>
+      :name="name"
+      :checked="checked"
+      :disabled="mode==='result'"
+    />
     <span>{{ item }}</span>
   </label>
 </template>
@@ -21,27 +24,24 @@ export default {
       type: String,
       required: true
     },
-    difficult: {
-      type: String,
-      required: true
-    },
-    index: {
-      type: Number,
-      required: true
-    },
+    name: String,
     type: String,
-    choice: String
+    choice: String,
+    checked: Boolean,
   },
   computed: {
     isSpeech() {
-      return /[a-zA-Z]/g.test(this.item);
+      return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
     ...mapGetters("settings", ["getSpeech"]),
+    mode() {
+      return this.$route.name;
+    }
   },
   methods: {
     update() {
       if (this.type !== "answer") return;
-      this.$emit("changeAnswer", this.item);
+      this.$emit("updateChoice", this.item);
     },
     async toVoice() {
       if (!this.isSpeech) return;

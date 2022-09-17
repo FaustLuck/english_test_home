@@ -6,19 +6,17 @@
       <card-test-component
         v-for="(item,i) of test"
         :key="item.question+i"
-        :testItem="item"
+        :test-item="item"
         :index="i"
-        @changeAnswer="(choice)=>this.test[i].choice=choice"
       ></card-test-component>
     </div>
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { toFill } from "@/utils";
 import { defineAsyncComponent } from "vue";
-import { useRouter } from "vue-router";
 
 export default {
   name: "TestView",
@@ -40,31 +38,25 @@ export default {
   },
   watch: {
     settings(value) {
-      if (!value?.dictionary) return;
+      if (!Object.keys(value).length) return;
       this.isLoading = false;
     },
     answers(value) {
       if (!(Object.keys(value)).length) return;
       this.createTest();
     },
-    isTesting(newVal, oldVal) {
-      return (newVal > oldVal) ? this.prepareAnswers(this.settings) : this.addChoices();
+    isTesting(value) {
+      return (value) ? this.prepareAnswers(this.settings) : this.$router.push({name: "result"});
     }
   },
   methods: {
-    ...mapMutations("test", ["prepareAnswers", "saveChoice"]),
+    ...mapMutations("test", ["prepareAnswers"]),
+    ...mapActions("settings", ["getSettings"]),
     createTest() {
       this.test = [];
       for (let difficult of this.orderDifficult) {
         this.answers[difficult].forEach(el => this.test.push(this.createTestItem(el, difficult)));
       }
-    },
-    addChoices() {
-      this.test.forEach(item => {
-        if (!item?.choice) return;
-        this.saveChoice({...item});
-      });
-      useRouter().push({name: "result"});
     },
     toFillVariants(answer, dictionary, limitVariant) {
       let variants = toFill(
