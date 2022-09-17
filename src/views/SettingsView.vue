@@ -3,14 +3,19 @@
 </template>
 
 <script>
-import { useRoute } from "vue-router/dist/vue-router";
+import { mapState } from "vuex";
+import { useRouter, useRoute } from "vue-router";
 
 export default {
   name: "SettingsView",
   computed: {
+    ...mapState("auth", ["isAdmin"]),
     title() {
       return useRoute().name;
     }
+  },
+  created() {
+    if (!this.isAdmin) useRouter.replace({name: "test"});
   }
 };
 </script>

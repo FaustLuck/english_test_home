@@ -3,7 +3,7 @@
   <div v-else>
     <header>
       <start-button-component></start-button-component>
-      <timer-component></timer-component>
+      <timer-component v-if="isTesting"></timer-component>
       <div></div>
     </header>
     <div v-if="isTesting">
@@ -19,9 +19,10 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { toFill } from "@/utils";
 import { defineAsyncComponent } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   name: "TestView",
@@ -48,21 +49,27 @@ export default {
       this.isLoading = false;
     },
     answers(value) {
-      if (!value?.easy) return;
+      if (!(Object.keys(value)).length) return;
       this.createTest();
     },
-    isTesting(value) {
-      if (!value) return;
-      this.prepareAnswers(this.settings);
+    isTesting(newVal, oldVal) {
+      return (newVal > oldVal) ? this.prepareAnswers(this.settings) : this.addChoices();
     }
   },
   methods: {
-    ...mapActions("test", ["prepareAnswers"]),
+    ...mapMutations("test", ["prepareAnswers", "saveChoice"]),
     createTest() {
       this.test = [];
       for (let difficult of this.orderDifficult) {
         this.answers[difficult].forEach(el => this.test.push(this.createTestItem(el, difficult)));
       }
+    },
+    addChoices() {
+      this.test.forEach(item => {
+        if (!item?.choice) return;
+        this.saveChoice({...item});
+      });
+      useRouter().push({name: "result"});
     },
     toFillVariants(answer, dictionary, limitVariant) {
       let variants = toFill(
@@ -78,7 +85,6 @@ export default {
       dictionary = dictionary[difficult].map(e => e.answer);
       return {
         answer: this.toFillVariants(el.answer, dictionary, variants),
-        choice: undefined,
         difficult,
         question: el.question
       };

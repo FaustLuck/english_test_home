@@ -8,7 +8,11 @@ export const test = {
     timeSpent: null,
   },
   mutations: {
-    saveAnswers(state, answers) {
+    prepareAnswers(state, {dictionary, limits}) {
+      let answers = {};
+      for (let difficult in dictionary) {
+        answers[difficult] = toFill(dictionary[difficult], limits[difficult]);
+      }
       state.answers = answers;
     },
     saveTimeSpent(state, timeSpent) {
@@ -16,16 +20,10 @@ export const test = {
     },
     changeTestStatus(state, isTesting) {
       state.isTesting = isTesting;
-    }
-  },
-  actions: {
-    prepareAnswers({commit}, {dictionary, limits}) {
-      let answers = {};
-      for (let difficult in dictionary) {
-        answers[difficult] = toFill(dictionary[difficult], limits[difficult]);
-      }
-      commit("saveAnswers", answers);
     },
-  },
-  getters: {}
+    saveChoice(state, {choice, question, difficult}) {
+      let i = state.answers[difficult].findIndex(el => el.question === question);
+      state.answers[difficult][i].choice = choice;
+    }
+  }
 };

@@ -1,5 +1,5 @@
 <template>
-  <span v-if="timerID">{{ time }}</span>
+  <span>{{ time }}</span>
 </template>
 
 <script>
