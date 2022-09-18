@@ -14,7 +14,7 @@
       <span>Времени затрачено:</span>
       <span>{{ timeSpentToString }}</span>
     </div>
-    <div class="info__detail" v-if="isFail">
+    <div class="info__detail-fail" v-if="isFail">
       <span>Вышло время!</span>
     </div>
   </section>
@@ -40,7 +40,7 @@ export default {
   name: "ResultView",
   components: {HeaderComponent, CardTestComponent},
   computed: {
-    ...mapState("test", ["answers", "timeSpent", "date", "time"]),
+    ...mapState("test", ["answers", "timeSpent", "timeLeft", "date", "time"]),
     ...mapState("auth", ["displayName", "isLogin"]),
     ...mapState(["orderDifficult"]),
     lengthAnswers() {
@@ -52,7 +52,7 @@ export default {
       }, 0);
     },
     isFail() {
-      return (this.timeSpent === 300);
+      return (this.timeLeft === 0);
     },
     congratulation() {
       return this.lengthAnswers === this.correctAnswers;
@@ -95,6 +95,12 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: .5rem;
+
+    &-fail {
+      text-align: center;
+      font-weight: 900;
+      color: #FF0000;
+    }
   }
 }
 

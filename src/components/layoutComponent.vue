@@ -9,7 +9,7 @@ export default {
   name: "layoutComponent",
   data() {
     return {
-      color: {
+      colorWarning: {
         r: 255,
         g: 140,
         b: 105
@@ -20,7 +20,7 @@ export default {
       deltaGreen: 0,
       deltaBlue: 0,
       duration: 0,
-      intervalID: null
+      intervalChangeFlagID: null,
     };
   },
   computed: {
@@ -34,14 +34,14 @@ export default {
       if (value > this.timeAlert && value <= this.timeWarning) {
         if (this.isColored === null) {
           this.isColored = true;
-          this.intervalID = setInterval(this.changeFlag, this.duration * 1000 - 100);
+          this.intervalChangeFlagID = setInterval(this.changeFlag, this.duration * 1000 - 100);
         }
-        this.color.g -= this.deltaGreen;
-        this.color.b -= this.deltaBlue;
+        this.colorWarning.g -= this.deltaGreen;
+        this.colorWarning.b -= this.deltaBlue;
         this.setColor();
       }
       if (value > 0 && value <= this.timeAlert) {
-        clearInterval(this.intervalID);
+        clearInterval(this.intervalChangeFlagID);
         this.$el.style = "";
         this.$el.classList.add("alert");
       }
@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     setColor() {
-      let {r, g, b} = this.color;
+      let {r, g, b} = this.colorWarning;
       this.$el.style.backgroundColor = (this.isColored) ? "rgb(255,218,185)" : `rgb(${r}, ${g}, ${b})`;
     },
     changeFlag() {
@@ -68,8 +68,8 @@ export default {
   },
   mounted() {
     this.duration = +window.getComputedStyle(this.$el).transitionDuration.replace("s", "");
-    this.deltaGreen = Math.round((this.color.g) / (this.timeWarning - this.timeAlert));
-    this.deltaBlue = Math.round((this.color.b) / (this.timeWarning - this.timeAlert));
+    this.deltaGreen = Math.round((this.colorWarning.g) / (this.timeWarning - this.timeAlert));
+    this.deltaBlue = Math.round((this.colorWarning.b) / (this.timeWarning - this.timeAlert));
   }
 };
 </script>
