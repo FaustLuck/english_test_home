@@ -28,11 +28,19 @@ export default {
   },
   watch: {
     timerSec(value) {
-      if (value === 0) clearInterval(this.timerID);
+      if (value === 0) {
+        clearInterval(this.timerID);
+        document.body.classList.add("fail");
+        setTimeout(() => {
+          this.changeTestStatus(false);
+          this.$router.push("result");
+          document.body.classList.remove("fail");
+        }, 3000);
+      }
     }
   },
   methods: {
-    ...mapMutations("test", ["saveTimes", "setTimerSec"]),
+    ...mapMutations("test", ["saveTimes", "setTimerSec", "changeTestStatus"]),
   },
   created() {
     this.timerSec = this.timerStart;
