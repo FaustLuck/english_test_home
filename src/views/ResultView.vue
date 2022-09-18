@@ -1,24 +1,9 @@
 <template>
   <header-component></header-component>
-  <section class="info">
-    <div class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
-    <div class="info__detail">
-      <span>Время тестирования:</span>
-      <span>{{ dateToString }} {{ time }}</span>
-    </div>
-    <div class="info__detail">
-      <span>Кол-во верных ответов / вопросов:</span>
-      <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
-    </div>
-    <div class="info__detail">
-      <span>Времени затрачено:</span>
-      <span>{{ timeSpentToString }}</span>
-    </div>
-    <div class="info__detail-fail" v-if="isFail">
-      <span>Время вышло!</span>
-    </div>
-  </section>
-
+  <info-detail-component
+    @congratulation="showCongratulation"
+  >
+  </info-detail-component>
   <div v-for="difficult in orderDifficult" :key="difficult">
     <div class="result__difficult">{{ difficult }}</div>
     <card-test-component
@@ -35,44 +20,22 @@
 import { mapMutations, mapState } from "vuex";
 import CardTestComponent from "@/components/cardTestComponent";
 import HeaderComponent from "@/components/headerComponent";
+import InfoDetailComponent from "@/components/infoDetailComponent";
 
 export default {
   name: "ResultView",
-  components: {HeaderComponent, CardTestComponent},
+  components: {InfoDetailComponent, HeaderComponent, CardTestComponent},
   computed: {
-    ...mapState("test", ["answers", "timeSpent", "timeLeft", "date", "time"]),
-    ...mapState("auth", ["displayName", "isLogin"]),
+    ...mapState("test", ["answers"]),
     ...mapState(["orderDifficult"]),
-    lengthAnswers() {
-      return (Object.values(this.answers)).reduce((acc, cur) => acc + cur.length, 0);
-    },
-    correctAnswers() {
-      return (Object.values(this.answers)).reduce((acc, cur) => {
-        return acc + cur.filter(el => el.answer === el.choice).length;
-      }, 0);
-    },
-    isFail() {
-      return (this.timeLeft === 0);
-    },
-    congratulation() {
-      return this.lengthAnswers === this.correctAnswers;
-    },
-    timeSpentToString() {
-      let sec = (this.timeSpent % 60).toString().padStart(2, "0");
-      let min = (this.timeSpent - sec) / 60;
-      return `${min}:${sec}`;
-    },
-    dateToString(){
-      return this.date.split('-').reverse().join('.')
-    }
-  },
-  mounted() {
-    if (this.congratulation) setTimeout(() => {
-      this.$router.push({name: "fire-show"});
-    }, 3000);
   },
   methods: {
-    ...mapMutations("test", ["saveTimes"])
+    ...mapMutations("test", ["saveTimes"]),
+    showCongratulation() {
+      setTimeout(() => {
+        this.$router.push({name: "fire-show"});
+      }, 3000);
+    }
   },
   beforeRouteEnter(to, from, next) {
     (from.name !== "test") ? next({name: "test"}) : next();
@@ -81,29 +44,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.info {
-  border-radius: 2rem;
-  box-shadow: 0 0 10px 5px #e9a66a;
-  padding: 1rem;
-  background: #FFDAB9;
-
-  &__login {
-    text-align: center;
-  }
-
-  &__detail {
-    display: flex;
-    justify-content: space-between;
-    padding: .5rem;
-
-    &-fail {
-      text-align: center;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: #FF0000;
-    }
-  }
-}
 
 .result__difficult {
   text-align: center;
