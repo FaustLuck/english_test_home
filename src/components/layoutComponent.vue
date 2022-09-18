@@ -1,5 +1,5 @@
 <template>
-  <div class="layout"></div>
+  <div class="layout transition"></div>
 </template>
 
 <script>
@@ -24,7 +24,10 @@ export default {
     };
   },
   computed: {
-    ...mapState("test", ["timeLeft"])
+    ...mapState("test", ["timeLeft"]),
+    mode() {
+      return this.$route.name;
+    }
   },
   watch: {
     timeLeft(value) {
@@ -42,11 +45,17 @@ export default {
         this.$el.style = "";
         this.$el.classList.add("alert");
       }
-      if (value <= 0) {
+      if (value === 0) {
         this.$el.classList.remove("alert");
         this.$el.style.backgroundColor = "transparent";
       }
     },
+    mode(newVal, oldVal) {
+      if (oldVal === "test" && newVal === "result") {
+        this.$el.classList.remove('transition')
+        this.$el.style = "";
+      }
+    }
   },
   methods: {
     setColor() {
@@ -74,7 +83,10 @@ export default {
   left: 0;
   background-color: #FFDAB9;
   z-index: -1;
-  transition: background-color 2s linear;
+
+  &.transition{
+    transition: background-color 2s linear;
+  }
 
   &.alert {
     animation: flash 1s linear infinite;
