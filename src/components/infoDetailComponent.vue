@@ -1,6 +1,6 @@
 <template>
   <section class="info">
-    <div class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
+    <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
       <span>Время тестирования:</span>
       <span>{{ dateToString }} {{ time }}</span>
@@ -20,13 +20,27 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "infoDetailComponent",
+  props: {
+    date: String,
+    time: String,
+    answers: Object,
+    timeSpent: Number
+  },
   computed: {
     ...mapState("auth", ["displayName", "isLogin"]),
-    ...mapState("test", ["answers", "date", "time", "timeSpent", "timeLeft"]),
+    ...mapGetters("settings", ["getTimer"]),
+    timerStart() {
+      if (!this.getTimer) return;
+      let {min, sec} = this.getTimer;
+      return min * 60 + sec;
+    },
+    mode() {
+      return this.$route.name;
+    },
     lengthAnswers() {
       return (Object.values(this.answers)).reduce((acc, cur) => acc + cur.length, 0);
     },
@@ -44,7 +58,7 @@ export default {
       return `${min}:${sec}`;
     },
     isFail() {
-      return (this.timeLeft === 0);
+      return (this.timerStart === this.timeSpent);
     },
   },
   created() {

@@ -1,6 +1,10 @@
 <template>
   <header-component></header-component>
   <info-detail-component
+    :date="date"
+    :time="time"
+    :answers="answers"
+    :time-spent="timeSpent"
     @congratulation="showCongratulation"
   >
   </info-detail-component>
@@ -18,7 +22,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapMutations, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "ResultView",
@@ -28,11 +32,10 @@ export default {
     CardTestComponent:defineAsyncComponent(()=>import("@/components/cardTestComponent"))
   },
   computed: {
-    ...mapState("test", ["answers"]),
+    ...mapState("test", ["answers", "date", "time", "timeSpent"]),
     ...mapState(["orderDifficult"]),
   },
   methods: {
-    ...mapMutations("test", ["saveTimes"]),
     showCongratulation() {
       setTimeout(() => {
         this.$router.push({name: "fire-show"});
