@@ -15,7 +15,7 @@
       <span>{{ timeSpentToString }}</span>
     </div>
     <div class="info__detail-fail" v-if="isFail">
-      <span>Вышло время!</span>
+      <span>Время вышло!</span>
     </div>
   </section>
 
@@ -99,6 +99,7 @@ export default {
     &-fail {
       text-align: center;
       font-weight: 900;
+      text-transform: uppercase;
       color: #FF0000;
     }
   }
