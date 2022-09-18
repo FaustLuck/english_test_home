@@ -1,21 +1,24 @@
 <template>
-  <span>{{title}}</span>
+  <span>statistic</span>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { useRouter ,useRoute} from "vue-router";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "StatisticView",
   computed: {
-    ...mapState("auth", ["isLogin"]),
-    title() {
-      return useRoute().name;
-    }
+    ...mapState("auth", ["isLogin", "isAdmin", "uid"]),
   },
-  created() {
-    if (!this.isLogin) useRouter().replace({name: "test"});
+  methods: {
+    ...mapActions("statistic", ["getStatistic"]),
+  },
+  async created() {
+    if (!this.isLogin) this.$router.replace({name: "test"});
+    await this.getStatistic({
+      uid: this.uid,
+      isAdmin: this.isAdmin
+    });
   }
 };
 </script>
