@@ -33,16 +33,16 @@ export default {
     statistic(value) {
       if (Object.keys(value).length) this.isLoading = false;
     },
-    isLogin(value) {
-      if (value) {
-        this.getStatistic({
-          uid: this.uid,
-          isAdmin: this.isAdmin
-        });
-      } else {
-        this.$router.replace({name: "test"});
-      }
-    },
+   async isLogin(value) {
+     if (value) {
+       await this.getStatistic({
+         uid: this.uid,
+         isAdmin: this.isAdmin
+       });
+     } else {
+       this.$router.replace({name: "test"});
+     }
+   },
     activeUser(value) {
       console.log(value);
     }
@@ -52,6 +52,10 @@ export default {
   },
   async created() {
     // if (!this.isLogin) this.$router.replace({name: "test"});
+    if (this.isLogin) await this.getStatistic({
+      uid: this.uid,
+      isAdmin: this.isAdmin
+    });
   }
 };
 </script>
