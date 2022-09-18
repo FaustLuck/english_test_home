@@ -4,7 +4,7 @@
     <div class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
       <span>Время тестирования:</span>
-      <span>{{ date }} {{ time }}</span>
+      <span>{{ dateToString }} {{ time }}</span>
     </div>
     <div class="info__detail">
       <span>Кол-во верных ответов / вопросов:</span>
@@ -12,7 +12,7 @@
     </div>
     <div class="info__detail">
       <span>Времени затрачено:</span>
-      <span>{{ time }}</span>
+      <span>{{ timeSpentToString }}</span>
     </div>
     <div class="info__detail" v-if="isFail">
       <span>Вышло время!</span>
@@ -57,10 +57,13 @@ export default {
     congratulation() {
       return this.lengthAnswers === this.correctAnswers;
     },
-    time() {
+    timeSpentToString() {
       let sec = (this.timeSpent % 60).toString().padStart(2, "0");
       let min = (this.timeSpent - sec) / 60;
       return `${min}:${sec}`;
+    },
+    dateToString(){
+      return this.date.split('-').reverse().join('.')
     }
   },
   mounted() {
