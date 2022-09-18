@@ -32,7 +32,6 @@ header {
   align-items: center;
   min-height: 3rem;
   margin-bottom: 2rem;
-  background-color: #FFDAB9;
 
   &.center {
     justify-content: center;
