@@ -1,5 +1,7 @@
 <template>
-  <div class="layout transition"></div>
+  <div class="layout"
+       :class="{alert:timeLeft>0 && timeLeft<=timeAlert && mode==='test'}"
+  ></div>
 </template>
 
 <script>
@@ -9,18 +11,16 @@ export default {
   name: "layoutComponent",
   data() {
     return {
-      colorWarning: {
-        r: 255,
-        g: 140,
-        b: 105
-      },
       isColored: null,
       timeWarning: 30,
       timeAlert: 10,
-      deltaGreen: 0,
-      deltaBlue: 0,
-      duration: 0,
-      intervalChangeFlagID: null,
+      animationStart: null,
+      animationID: 0,
+      colorDefault: {r: 255, g: 218, b: 185},
+      colorWarning: {r: 255, g: 140, b: 105},
+      colorAlert: {r: 255, g: 0, b: 0},
+      colorDelta: {},
+      durationStep: 4000,
     };
   },
   computed: {
@@ -32,44 +32,66 @@ export default {
   watch: {
     timeLeft(value) {
       if (value > this.timeAlert && value <= this.timeWarning) {
-        if (this.isColored === null) {
-          this.isColored = true;
-          this.intervalChangeFlagID = setInterval(this.changeFlag, this.duration * 1000 - 100);
-        }
-        this.colorWarning.g -= this.deltaGreen;
-        this.colorWarning.b -= this.deltaBlue;
-        this.setColor();
+        if (value === 18) this.durationStep = 2000;
+        this.colorWarning = this.addDelta(this.colorWarning, this.colorDelta);
+        if (this.isColored === null) this.isColored = false;
       }
       if (value > 0 && value <= this.timeAlert) {
-        clearInterval(this.intervalChangeFlagID);
+        cancelAnimationFrame(this.animationID);
         this.$el.style = "";
-        this.$el.classList.add("alert");
       }
-      if (value === 0) {
-        this.$el.classList.remove("alert");
-        this.$el.style.backgroundColor = "transparent";
-      }
+      if (value === 0) this.$el.style.backgroundColor = "transparent";
     },
     mode(newVal, oldVal) {
       if (oldVal === "test" && newVal === "result") {
-        this.$el.classList.remove('transition')
         this.$el.style = "";
       }
+    },
+    isColored() {
+      cancelAnimationFrame(this.animationID);
+      this.animationStart = null;
+      if (this.timeLeft <= this.timeAlert) return;
+      this.animationID = requestAnimationFrame(this.animate);
     }
   },
   methods: {
-    setColor() {
-      let {r, g, b} = this.colorWarning;
-      this.$el.style.backgroundColor = (this.isColored) ? "rgb(255,218,185)" : `rgb(${r}, ${g}, ${b})`;
-    },
-    changeFlag() {
+    changeColor() {
       this.isColored = !this.isColored;
+    },
+    animate() {
+      if (!this.animationStart) this.animationStart = performance.now();
+      let progress = (performance.now() - this.animationStart) / this.durationStep;
+      if (progress > 1) {
+        progress = 1;
+      }
+      let color = (this.isColored) ? this.calculateColor(this.colorDefault, this.colorWarning, progress) : this.calculateColor(this.colorWarning, this.colorDefault, progress);
+      this.draw(color);
+      if (progress < 1) requestAnimationFrame(this.animate);
+      if (progress === 1) this.changeColor();
+    },
+    draw({r, g, b}) {
+      this.$el.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
+    },
+    calculateColor(cancelColor, beginColor, progress) {
+      let output = {};
+      for (let key in cancelColor) {
+        output[key] = beginColor[key] + (cancelColor[key] - beginColor[key]) * progress;
+      }
+      return output;
+    },
+    addDelta(color, delta) {
+      let output = {};
+      for (let key in color) {
+        output[key] = color[key] + delta[key];
+      }
+      return output;
     }
   },
-  mounted() {
-    this.duration = +window.getComputedStyle(this.$el).transitionDuration.replace("s", "");
-    this.deltaGreen = Math.round((this.colorWarning.g) / (this.timeWarning - this.timeAlert));
-    this.deltaBlue = Math.round((this.colorWarning.b) / (this.timeWarning - this.timeAlert));
+  created() {
+    let deltaTime = (this.timeWarning - this.timeAlert);
+    for (let key in this.colorAlert) {
+      this.colorDelta[key] = (this.colorAlert[key] - this.colorWarning[key]) / deltaTime;
+    }
   }
 };
 </script>
@@ -84,16 +106,10 @@ export default {
   background-color: #FFDAB9;
   z-index: -1;
 
-  &.transition{
-    transition: background-color 2s linear;
-  }
-
   &.alert {
     animation: flash 1s linear infinite;
   }
 }
-
-//todo переработать
 
 @keyframes flash {
   from {
