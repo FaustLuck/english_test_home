@@ -20,6 +20,7 @@ export default {
       colorWarning: {r: 255, g: 140, b: 105},
       colorAlert: {r: 255, g: 0, b: 0},
       colorDelta: {},
+      color: {},
       durationStep: 4000,
     };
   },
@@ -51,6 +52,7 @@ export default {
       cancelAnimationFrame(this.animationID);
       this.animationStart = null;
       if (this.timeLeft <= this.timeAlert) return;
+      if (!this.isColored) this.color = {...this.colorWarning};
       this.animationID = requestAnimationFrame(this.animate);
     }
   },
@@ -62,7 +64,7 @@ export default {
       if (!this.animationStart) this.animationStart = performance.now();
       let progress = (performance.now() - this.animationStart) / this.durationStep;
       if (progress > 1) progress = 1;
-      let color = (this.isColored) ? this.calculateColor(this.colorDefault, this.colorWarning, progress) : this.calculateColor(this.colorWarning, this.colorDefault, progress);
+      let color = (this.isColored) ? this.calculateColor(this.colorDefault, this.color, progress) : this.calculateColor(this.color, this.colorDefault, progress);
       this.draw(color);
       if (progress < 1) requestAnimationFrame(this.animate);
       if (progress === 1) this.changeColor();
