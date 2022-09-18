@@ -26,13 +26,19 @@ export default {
       return `${min}:${sec}`;
     }
   },
+  watch: {
+    timerSec(value) {
+      if (value === 0) clearInterval(this.timerID);
+    }
+  },
   methods: {
-    ...mapMutations("test", ["saveTimes"]),
+    ...mapMutations("test", ["saveTimes", "setTimerSec"]),
   },
   created() {
     this.timerSec = this.timerStart;
     this.timerID = setInterval(() => {
       this.timerSec--;
+      this.setTimerSec(this.timerSec);
     }, 1000);
   },
   beforeUnmount() {

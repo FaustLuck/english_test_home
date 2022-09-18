@@ -7,7 +7,8 @@ export const test = {
     isTesting: false,
     timeSpent: null,
     date: null,
-    time: null
+    time: null,
+    timeLeft: null
   },
   mutations: {
     prepareAnswers(state, {dictionary, limits}) {
@@ -37,6 +38,9 @@ export const test = {
     saveChoice(state, {choice, question, difficult}) {
       let i = state.answers[difficult].findIndex(el => el.question === question);
       state.answers[difficult][i].choice = choice;
+    },
+    setTimerSec(state, secondsLeft) {
+      state.timeLeft = secondsLeft;
     }
   }
 };
