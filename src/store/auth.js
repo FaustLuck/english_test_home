@@ -34,34 +34,35 @@ export const auth = {
       const provider = new GoogleAuthProvider();
       let result = await signInWithPopup(Oauth, provider);
       let user = result.user;
-      if (!(await dispatch("getUserInfo", user.uid)))
-        await dispatch("setUserInfo", user);
-      dispatch("setUID", user.uid);
+      if (!(await dispatch("getUserInfo", user.uid))) await dispatch("setUserInfo", user);
+
     },
-    async getUserInfo({commit}, uid) {
-      const dbRef = ref(realtime, `users/${uid}/info`);
+    async getUserInfo({dispatch, commit}, uid) {
+      const dbRef = ref(realtime, `users2/${uid}/info`);//todo =>users
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let data = await snapshot.val();
         data.uid = uid;
         commit("saveUserInfo", data);
+        dispatch("setUID");
         commit("changeLoginStatus", true);
         return true;
       } else {
         return false;
       }
     },
-    async setUserInfo({commit}, user) {
-      const dbRef = ref(realtime, `users/${user.uid}/info/`);
+    async setUserInfo({dispatch, commit}, user) {
+      const dbRef = ref(realtime, `users2/${user.uid}/info/`);//todo =>users
       await set(dbRef, {
         displayName: user.displayName,
         photoURL: user.photoURL,
       });
       commit("saveUserInfo", user);
+      dispatch("setUID");
       commit("changeLoginStatus", true);
     },
-    setUID(uid) {
-      window.localStorage.setItem("uid", uid);
+    setUID({state}) {
+      window.localStorage.setItem("uid", state.uid);
     },
     getUID() {
       return window.localStorage.getItem("uid");
