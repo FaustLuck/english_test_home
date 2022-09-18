@@ -61,9 +61,7 @@ export default {
     animate() {
       if (!this.animationStart) this.animationStart = performance.now();
       let progress = (performance.now() - this.animationStart) / this.durationStep;
-      if (progress > 1) {
-        progress = 1;
-      }
+      if (progress > 1) progress = 1;
       let color = (this.isColored) ? this.calculateColor(this.colorDefault, this.colorWarning, progress) : this.calculateColor(this.colorWarning, this.colorDefault, progress);
       this.draw(color);
       if (progress < 1) requestAnimationFrame(this.animate);

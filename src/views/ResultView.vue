@@ -17,14 +17,16 @@
 </template>
 
 <script>
+import { defineAsyncComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
-import CardTestComponent from "@/components/cardTestComponent";
-import HeaderComponent from "@/components/headerComponent";
-import InfoDetailComponent from "@/components/infoDetailComponent";
 
 export default {
   name: "ResultView",
-  components: {InfoDetailComponent, HeaderComponent, CardTestComponent},
+  components: {
+    InfoDetailComponent:defineAsyncComponent(()=>import("@/components/infoDetailComponent")),
+    HeaderComponent:defineAsyncComponent(()=>import("@/components/headerComponent")),
+    CardTestComponent:defineAsyncComponent(()=>import("@/components/cardTestComponent"))
+  },
   computed: {
     ...mapState("test", ["answers"]),
     ...mapState(["orderDifficult"]),
