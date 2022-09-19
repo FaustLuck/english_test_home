@@ -2,7 +2,7 @@
   <header-component></header-component>
   <info-detail-component
     :timestamp="timestamp"
-    :answers="answers"
+    :test="answers"
     :time-spent="timeSpent"
     @congratulation="showCongratulation"
   >
