@@ -22,6 +22,7 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapState } from "vuex";
+import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
 
 export default {
   name: "ResultView",
@@ -30,16 +31,26 @@ export default {
     HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
+  watch: {
+    async isLogin(value) {
+      if (value) await this.sendAnswersToDB({uid: this.uid});
+    }
+  },
   computed: {
     ...mapState("test", ["answers", "timestamp", "timeSpent"]),
     ...mapState(["orderDifficult"]),
+    ...mapState("auth", ["isLogin", "uid"])
   },
   methods: {
+    ...mapActions("test", ["sendAnswersToDB"]),
     showCongratulation() {
       setTimeout(() => {
         this.$router.push({name: "fire-show"});
       }, 3000);
     }
+  },
+  async created() {
+    if (this.isLogin) await this.sendAnswersToDB({uid: this.uid});
   },
   beforeRouteEnter(to, from, next) {
     (from.name !== "test") ? next({name: "test"}) : next();

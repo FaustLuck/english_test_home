@@ -1,4 +1,7 @@
 import { toFill } from "@/utils";
+import { firebaseRealtime } from "@/main";
+import { ref, set } from "firebase/database";
+
 
 export const test = {
   namespaced: true,
@@ -30,6 +33,16 @@ export const test = {
     },
     saveTimerSec(state, secondsLeft) {
       state.timeLeft = secondsLeft;
+    }
+  },
+  actions: {
+    async sendAnswersToDB({state}, {uid}) {
+      const dbRef = ref(firebaseRealtime, `users2/${uid}/statistic/${state.timestamp}`);
+      try {
+        await set(dbRef, state.answers);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 };
