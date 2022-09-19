@@ -40,13 +40,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("test", ["saveTimes", "setTimerSec", "changeTestStatus"]),
+    ...mapMutations("test", ["saveTimes", "saveTimerSec", "changeTestStatus"]),
   },
   created() {
     this.timerSec = this.timerStart;
     this.timerID = setInterval(() => {
       this.timerSec--;
-      this.setTimerSec(this.timerSec);
+      this.saveTimerSec(this.timerSec);
     }, 1000);
   },
   beforeUnmount() {

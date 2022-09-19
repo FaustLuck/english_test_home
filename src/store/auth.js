@@ -1,6 +1,6 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { get, ref, set } from "firebase/database";
-import { Oauth, realtime } from "@/main";
+import { firebaseAuth, firebaseRealtime } from "@/main";
 
 export const auth = {
   namespaced: true,
@@ -32,13 +32,13 @@ export const auth = {
     async toLogin({state, dispatch}) {
       if (state.isLogin) return;
       const provider = new GoogleAuthProvider();
-      let result = await signInWithPopup(Oauth, provider);
+      let result = await signInWithPopup(firebaseAuth, provider);
       let user = result.user;
       if (!(await dispatch("getUserInfo", user.uid))) await dispatch("setUserInfo", user);
 
     },
     async getUserInfo({dispatch, commit}, uid) {
-      const dbRef = ref(realtime, `users2/${uid}/info`);//todo =>users
+      const dbRef = ref(firebaseRealtime, `users2/${uid}/info`);//todo =>users
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let data = await snapshot.val();
@@ -52,7 +52,7 @@ export const auth = {
       }
     },
     async setUserInfo({dispatch, commit}, user) {
-      const dbRef = ref(realtime, `users2/${user.uid}/info/`);//todo =>users
+      const dbRef = ref(firebaseRealtime, `users2/${user.uid}/info/`);//todo =>users
       await set(dbRef, {
         displayName: user.displayName,
         photoURL: user.photoURL,

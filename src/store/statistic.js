@@ -1,4 +1,4 @@
-import { realtime } from "@/main";
+import { firebaseRealtime } from "@/main";
 import { get, ref } from "firebase/database";
 
 export const statistic = {
@@ -7,27 +7,27 @@ export const statistic = {
     statistic: null,
   },
   mutations: {
-    saveStatistic(state, data) {
-      state.statistic = data;
+    saveStatistic(state, statistic) {
+      state.statistic = statistic;
     },
   },
   actions: {
     async getStatistic({ commit }, { uid, isAdmin }) {
       let path = isAdmin ? "" : `${uid}/`;
-      const dbRef = ref(realtime, `users2/${path}`);
+      const dbRef = ref(firebaseRealtime, `users2/${path}`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
-        let data = await snapshot.val();
+        let statisticData = await snapshot.val();
         if (isAdmin) {
-          for (let [key, value] of Object.entries(data)) {
-            if (!value?.statistic) delete data[key];
+          for (let [key, value] of Object.entries(statisticData)) {
+            if (!value?.statistic) delete statisticData[key];
           }
         } else {
           let tmp = {};
-          tmp[uid] = data;
-          data = tmp;
+          tmp[uid] = statisticData;
+          statisticData = tmp;
         }
-        commit("saveStatistic", data);
+        commit("saveStatistic", statisticData);
       }
     },
   }

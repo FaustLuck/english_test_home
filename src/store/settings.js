@@ -1,4 +1,4 @@
-import { realtime } from "@/main";
+import { firebaseRealtime } from "@/main";
 import { ref, get } from "firebase/database";
 
 export const settings = {
@@ -16,7 +16,7 @@ export const settings = {
   },
   actions: {
     async getSettings({commit}) {
-      const dbRef = ref(realtime, "/settings");
+      const dbRef = ref(firebaseRealtime, "/settings");
       try {
         let snapshot = await get(dbRef);
         if (snapshot.exists()) {

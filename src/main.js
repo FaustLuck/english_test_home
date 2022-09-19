@@ -16,7 +16,7 @@ const firebaseConfig = {
   appId: "1:223596466893:web:bafc299ab7409de7cccf84"
 };
 const firebaseApp = initializeApp(firebaseConfig);
-export const realtime = getDatabase(firebaseApp)
-export const Oauth = getAuth(firebaseApp)
+export const firebaseRealtime = getDatabase(firebaseApp)
+export const firebaseAuth = getAuth(firebaseApp)
 
 createApp(App).use(store).use(router).mount('#app')

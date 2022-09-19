@@ -39,7 +39,7 @@ export const test = {
       let i = state.answers[difficult].findIndex(el => el.question === question);
       state.answers[difficult][i].choice = choice;
     },
-    setTimerSec(state, secondsLeft) {
+    saveTimerSec(state, secondsLeft) {
       state.timeLeft = secondsLeft;
     }
   }
