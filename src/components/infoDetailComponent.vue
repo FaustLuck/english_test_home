@@ -3,7 +3,7 @@
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
       <span>Время тестирования:</span>
-      <span>{{ dateToString }} {{ time }}</span>
+      <span>{{ date }} {{ time }} </span>
     </div>
     <div class="info__detail">
       <span>Кол-во верных ответов / вопросов:</span>
@@ -25,10 +25,15 @@ import { mapGetters, mapState } from "vuex";
 export default {
   name: "infoDetailComponent",
   props: {
-    date: String,
-    time: String,
+    timestamp: Number,
     answers: Object,
     timeSpent: Number
+  },
+  data() {
+    return {
+      date: "",
+      time: ""
+    };
   },
   computed: {
     ...mapState("auth", ["displayName", "isLogin"]),
@@ -49,9 +54,6 @@ export default {
         return acc + cur.filter(el => el.answer === el.choice).length;
       }, 0);
     },
-    dateToString() {
-      return this.date.split("-").reverse().join(".");
-    },
     timeSpentToString() {
       let sec = (this.timeSpent % 60).toString().padStart(2, "0");
       let min = (this.timeSpent - sec) / 60;
@@ -61,8 +63,22 @@ export default {
       return (this.timerStart === this.timeSpent);
     },
   },
+  methods: {
+    getDate(timestamp) {
+      return new Intl.DateTimeFormat("ru-Ru", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit",
+      })
+        .format(new Date(timestamp))
+        .split(", ");
+    }
+  },
   created() {
     if (this.lengthAnswers === this.correctAnswers) this.$emit("congratulation");
+    [this.date, this.time] = this.getDate(this.timestamp);
   }
 };
 </script>

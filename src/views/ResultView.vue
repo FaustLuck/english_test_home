@@ -1,8 +1,7 @@
 <template>
   <header-component></header-component>
   <info-detail-component
-    :date="date"
-    :time="time"
+    :timestamp="timestamp"
     :answers="answers"
     :time-spent="timeSpent"
     @congratulation="showCongratulation"
@@ -27,12 +26,12 @@ import { mapState } from "vuex";
 export default {
   name: "ResultView",
   components: {
-    InfoDetailComponent:defineAsyncComponent(()=>import("@/components/infoDetailComponent")),
-    HeaderComponent:defineAsyncComponent(()=>import("@/components/headerComponent")),
-    CardTestComponent:defineAsyncComponent(()=>import("@/components/cardTestComponent"))
+    InfoDetailComponent: defineAsyncComponent(() => import("@/components/infoDetailComponent")),
+    HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
+    CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   computed: {
-    ...mapState("test", ["answers", "date", "time", "timeSpent"]),
+    ...mapState("test", ["answers", "timestamp", "timeSpent"]),
     ...mapState(["orderDifficult"]),
   },
   methods: {
