@@ -22,7 +22,8 @@ export const test = {
     },
     saveTimes(state, timeSpent) {
       state.timeSpent = timeSpent;
-      state.timestamp = Date.now();
+      let date = new Date();
+      state.timestamp = date.setSeconds(0, 0);
     },
     changeTestStatus(state, isTesting) {
       state.isTesting = isTesting;
