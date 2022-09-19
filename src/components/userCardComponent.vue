@@ -1,7 +1,7 @@
 <template>
   <div class="user"
        :class="{privileged:user.info.isPrivileged}"
-       @click="()=>this.$emit('changeActiveUser',user.info.displayName)">
+       @click="$emit('changeActiveUser',uid)">
       <span class="user__avatar">
         <img :src="user.info.photoURL" :alt="user.info.displayName">
       </span>
@@ -13,7 +13,8 @@
 export default {
   name: "userCardComponent",
   props: {
-    user: Object
+    user: Object,
+    uid: String
   }
 };
 </script>
@@ -36,7 +37,6 @@ export default {
 
   &__avatar {
     margin: .5rem;
-
 
     & > img {
       height: 100%;
