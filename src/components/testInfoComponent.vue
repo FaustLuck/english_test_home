@@ -89,7 +89,7 @@ export default {
   },
   methods: {
     filterAnswer(difficult, isDisplayModeFull) {
-      if (this.correctAnswers === this.lengthAnswers || isDisplayModeFull) return this.test[difficult];
+      if (this.mode === "result" || this.correctAnswers === this.lengthAnswers || isDisplayModeFull) return this.test[difficult];
       return this.test[difficult].filter(el => el.answer !== el.choice);
     }
   },

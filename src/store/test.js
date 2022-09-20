@@ -40,7 +40,10 @@ export const test = {
     async sendAnswersToDB({state}, {uid}) {
       const dbRef = ref(firebaseRealtime, `users2/${uid}/statistic/${state.timestamp}`);
       try {
-        await set(dbRef, state.answers);
+        await set(dbRef, {
+          test:state.answers,
+          timeSpent:state.timeSpent
+        });
       } catch (e) {
         console.log(e);
       }
