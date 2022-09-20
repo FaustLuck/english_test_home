@@ -15,22 +15,17 @@
     <div v-if="isAdmin" v-show="activeUserUID" @click="activeUserUID=''; activeDate=''" class="users__close">
       <div class="users__close-cross"></div>
     </div>
-    <div v-if="activeUserUID" class="date">
-      <div class="date__item"
-           :class="{open:activeDate===date}"
-           v-for="[date,times] of dateList[activeUserUID]"
-           :key="date"
-           @click.capture="activeDate=(activeDate===date)?'':date"
+    <div v-if="activeUserUID">
+      <date-list-component
+        v-for="[date,timeArray] of dateList[activeUserUID]"
+        :key="date"
+        :active-user-u-i-d="activeUserUID"
+        :active-date="activeDate"
+        :date="date"
+        :time-array="timeArray"
+        @changeDate="activeDate=(activeDate===date)?'':date"
       >
-        <div :class="{'date__item-open':activeDate===date}">{{ date }} Тестов: {{ times.length }}</div>
-        <div v-if="activeDate===date">
-          <info-detail-component
-            v-for="time of times" :key="date+time"
-            :timestamp="timestamp(time)"
-            :uid="activeUserUID"
-          ></info-detail-component>
-        </div>
-      </div>
+      </date-list-component>
     </div>
   </section>
 </template>
@@ -38,12 +33,15 @@
 <script>
 //todo переработать!
 import { mapActions, mapState } from "vuex";
-import PreloaderComponent from "@/components/preloaderComponent";
-import UserCardComponent from "@/components/userCardComponent";
-import InfoDetailComponent from "@/components/infoDetailComponent";
+import { defineAsyncComponent } from "vue";
+
 export default {
   name: "StatisticView",
-  components: {InfoDetailComponent, UserCardComponent, PreloaderComponent},
+  components: {
+    DateListComponent:defineAsyncComponent(()=>import("@/components/dateListComponent")),
+    UserCardComponent:defineAsyncComponent(()=>import("@/components/userCardComponent")),
+    PreloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
+  },
   data() {
     return {
       isLoading: true,
@@ -77,9 +75,6 @@ export default {
     changeActiveUser(activeUser) {
       this.activeUserUID = activeUser;
     },
-    timestamp(time) {
-      return Date.parse(`${this.activeDate.split(".").reverse().join("-")}T${time}`);
-    }
   },
   async created() {
     // if (!this.isLogin) this.$router.replace({name: "test"});
@@ -116,7 +111,6 @@ export default {
       background-color: #FFDAB9;
       box-shadow: 0 0 10px 5px #e9a66a;
       border-radius: 2rem;
-      margin: 1rem;
       padding: 0.5rem;
       cursor: pointer;
 
@@ -136,32 +130,6 @@ export default {
       &::after {
         transform: rotate(-45deg);
       }
-    }
-  }
-}
-
-.date {
-  display: flex;
-  flex-direction: column;
-
-  &__item {
-    text-align: center;
-    background-color: #FFDAB9;
-    box-shadow: 0 0 10px 5px #e9a66a;
-    border-radius: 2rem;
-    padding: .5rem 0;
-    margin: 1rem;
-    cursor: pointer;
-
-    &-open {
-      position: sticky;
-      top: 0;
-      background-color: #FFDAB9;
-      margin-bottom: 1rem;
-    }
-
-    &.open {
-      box-shadow: none;
     }
   }
 }
