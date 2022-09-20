@@ -24,7 +24,7 @@ import { mapGetters, mapState } from "vuex";
 import { getDate } from "@/utils";
 
 export default {
-  name: "infoDetailComponent",
+  name: "infoTestComponent",
   props: {
     timestamp: Number,
     test: Object,

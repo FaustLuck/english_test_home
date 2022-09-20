@@ -5,23 +5,25 @@
   >
     <div :class="{'date__item-open':activeDate===date}">{{ date }} Тестов: {{ timeArray.length }}</div>
     <div v-if="activeDate===date">
-      <info-detail-component
+      <info-test-component
         v-for="time of timeArray" :key="date+time"
         :timestamp="timestamp(time)"
         :uid="activeUserUID"
         @click.stop
-      ></info-detail-component>
+      ></info-test-component>
     </div>
   </div>
 </template>
 
 <script>
 
-import InfoDetailComponent from "@/components/infoDetailComponent";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "dateListComponent",
-  components: {InfoDetailComponent},
+  components: {
+    InfoTestComponent: defineAsyncComponent(() => import("@/components/infoTestComponent"))
+  },
   props: {
     activeUserUID: String,
     activeDate: String,

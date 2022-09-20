@@ -1,22 +1,18 @@
 <template>
   <header-component></header-component>
-  <info-detail-component
+  <info-test-component
     :timestamp="timestamp"
     :test="answers"
     :time-spent="timeSpent"
     @congratulation="showCongratulation"
   >
-  </info-detail-component>
-  <div v-for="difficult in orderDifficult" :key="difficult">
-    <div class="result__difficult">{{ difficult }}</div>
-    <card-test-component
-      v-for="(answer,index) of answers[difficult]"
-      :key="answer.answer"
-      :test-item="{...answer,difficult}"
-      :index="index"
-    >
-    </card-test-component>
-  </div>
+  </info-test-component>
+  <difficult-test-component
+    v-for="difficult of orderDifficult"
+    :key="difficult"
+    :difficult="difficult"
+    :part-answers="answers[difficult]"
+  ></difficult-test-component>
 </template>
 
 <script>
@@ -27,9 +23,9 @@ import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
 export default {
   name: "ResultView",
   components: {
-    InfoDetailComponent: defineAsyncComponent(() => import("@/components/infoDetailComponent")),
+    DifficultTestComponent:defineAsyncComponent(() => import("@/components/difficultTestComponent")),
+    InfoTestComponent: defineAsyncComponent(() => import("@/components/infoTestComponent")),
     HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
-    CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   watch: {
     async isLogin(value) {
@@ -60,12 +56,4 @@ export default {
 
 <style lang="scss" scoped>
 
-.result__difficult {
-  text-align: center;
-  font-size: 60px;
-  margin-top: 1rem;
-  border-bottom-left-radius: 2rem;
-  border-bottom-right-radius: 2rem;
-  box-shadow: 0 5px 0 0 #e9a66a;
-}
 </style>
