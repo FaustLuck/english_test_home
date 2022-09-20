@@ -23,6 +23,7 @@ export default {
 .user {
   display: flex;
   align-items: center;
+  height: 7rem;
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   margin: 1rem;
@@ -37,9 +38,11 @@ export default {
 
   &__avatar {
     margin: .5rem;
+    height: 100%;
 
     & > img {
       height: 100%;
+      width: auto;
       border-radius: 50%;
     }
   }
