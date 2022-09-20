@@ -1,30 +1,35 @@
 <template>
-  <section class="info" :class="{
-    fail:isFail && mode==='statistic',
+  <section class="info"
+           @click.stop="openTest"
+           :class="{
+    fail:isFail && mode==='statistic' && !isOpen,
     congratulation:correctAnswers===lengthAnswers && mode==='statistic' && !isOpen,
   }">
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
-    <div class="info__detail">
-      <span>Время тестирования:</span>
-      <span>{{ localDate }} {{ localTime }} </span>
+    <div class="info__detail-clickable">
+      <div class="info__detail">
+        <span>Время тестирования:</span>
+        <span>{{ localDate }} {{ localTime }} </span>
+      </div>
+      <div class="info__detail">
+        <span>Кол-во верных ответов / вопросов:</span>
+        <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
+      </div>
+      <div class="info__detail">
+        <span>Времени затрачено:</span>
+        <span>{{ timeSpentToString }}</span>
+      </div>
+      <div class="info__detail-fail" v-if="isFail && mode==='result'">
+        <span>Время вышло!</span>
+      </div>
     </div>
-    <div class="info__detail">
-      <span>Кол-во верных ответов / вопросов:</span>
-      <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
-    </div>
-    <div class="info__detail">
-      <span>Времени затрачено:</span>
-      <span>{{ timeSpentToString }}</span>
-    </div>
-    <div class="info__detail-fail" v-if="isFail && mode==='result'">
-      <span>Время вышло!</span>
-    </div>
+
     <div v-if="timestamp ?? isOpen">
       <test-difficult-component
         v-for="difficult of orderDifficult"
         :key="difficult"
         :difficult="difficult"
-        :part-answers="filterAnswer(difficult,false)"
+        :part-answers="filterAnswer(difficult,isFullMode)"
       ></test-difficult-component>
     </div>
   </section>
@@ -45,7 +50,8 @@ export default {
     timestamp: Number,
     date: String,
     time: String,
-    activeTest: String
+    activeTest: String,
+    isFullMode: Boolean
   },
   data() {
     return {
@@ -53,6 +59,7 @@ export default {
       localTime: "",
       test: null,
       timeSpent: 0,
+      top: 0
     };
   },
   computed: {
@@ -91,6 +98,11 @@ export default {
     filterAnswer(difficult, isDisplayModeFull) {
       if (this.mode === "result" || this.correctAnswers === this.lengthAnswers || isDisplayModeFull) return this.test[difficult];
       return this.test[difficult].filter(el => el.answer !== el.choice);
+    },
+    openTest(e) {
+      if (!e.target.closest(".info__detail-clickable")) return;
+      this.$emit("openTest", this.date, this.time);
+
     }
   },
   created() {
@@ -101,6 +113,11 @@ export default {
     } else {
       [this.localDate, this.localTime] = [this.date, this.time];
     }
+  },
+  updated() {
+    if (this.activeTest !== `${this.date}${this.time}`) return;
+    this.top = this.$el.getBoundingClientRect().top;
+    window.scrollBy({top: this.top - 63, behavior: "smooth"});
   }
 };
 </script>

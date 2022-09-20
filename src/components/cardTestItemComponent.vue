@@ -8,7 +8,7 @@
       type="radio"
       :name="name"
       :checked="checked"
-      :disabled="mode==='result'"
+      :disabled="mode!=='test'"
     />
     <span class="item__title"
           :class="{

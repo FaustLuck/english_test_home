@@ -20,7 +20,8 @@
         :time="time"
         :answers="answers(time)"
         :active-test="activeTest"
-        @click.stop="activeTest=`${date}${time}`"
+        :is-full-mode="isFullMode"
+        @openTest="openTest"
       ></test-info-component>
     </div>
   </div>
@@ -45,7 +46,8 @@ export default {
   data() {
     return {
       isTop: false,
-      activeTest: ""
+      activeTest: "",
+      isFullMode: false
     };
   },
   computed: {
@@ -65,6 +67,14 @@ export default {
     changeDate() {
       this.$emit("changeDate");
       this.activeTest = "";
+    },
+    openTest(date, time) {
+      if (this.activeTest === `${date}${time}`) {
+        this.isFullMode = !this.isFullMode;
+      } else {
+        this.activeTest = `${date}${time}`;
+        this.isFullMode = false;
+      }
     }
   },
   created() {
@@ -100,6 +110,7 @@ export default {
       border-bottom-left-radius: 2rem;
       border-bottom-right-radius: 2rem;
       box-shadow: 0 5px 0 0 #e9a66a;
+      z-index: 1;
     }
   }
 }
