@@ -64,6 +64,7 @@ export default {
          uid: this.uid,
          isAdmin: this.isAdmin
        });
+       await this.requestTimer();
      } else {
        this.$router.replace({name: "test"});
      }
