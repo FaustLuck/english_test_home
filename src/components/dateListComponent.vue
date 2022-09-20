@@ -3,7 +3,15 @@
        :class="{open:activeDate===date}"
        @click="$emit('changeDate')"
   >
-    <div :class="{'date__item-open':activeDate===date}">{{ date }} Тестов: {{ timeArray.length }}</div>
+    <div
+      ref="title"
+      :class="{
+        'date__item':activeDate===date,
+        'top':activeDate===date && isTop
+      }"
+    >
+      {{ date }} Тестов: {{ timeArray.length }}
+    </div>
     <div v-if="activeDate===date">
       <info-test-component
         v-for="time of timeArray" :key="date+time"
@@ -30,10 +38,21 @@ export default {
     date: String,
     timeArray: Array
   },
-  methods:{
+  data() {
+    return {
+      isTop: false
+    };
+  },
+  methods: {
     timestamp(time) {
       return Date.parse(`${this.activeDate.split(".").reverse().join("-")}T${time}`);
+    },
+    getTop() {
+      this.isTop = this.$refs.title.getBoundingClientRect().top === 0;
     }
+  },
+  created() {
+    window.addEventListener("scroll", this.getTop);
   }
 };
 </script>
@@ -52,11 +71,17 @@ export default {
     box-shadow: none;
   }
 
-  &__item-open {
+  &__item {
     position: sticky;
     top: 0;
     background-color: #FFDAB9;
     margin-bottom: 1rem;
+
+    &.top {
+      border-bottom-left-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+      box-shadow: 0 5px 0 0 #e9a66a;
+    }
   }
 }
 </style>
