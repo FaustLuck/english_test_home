@@ -12,8 +12,8 @@
       >
       </user-card-component>
     </div>
-    <div v-if="isAdmin" v-show="activeUserUID" @click="activeUserUID=''; activeDate=''" class="users__close">
-      <div class="users__close-cross"></div>
+    <div v-if="isAdmin" v-show="activeUserUID" class="users__close">
+      <div @click="activeUserUID=''; activeDate=''" class="users__close-cross"></div>
     </div>
     <div v-if="activeUserUID">
       <date-list-component
