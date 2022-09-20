@@ -13,12 +13,12 @@
       {{ date }} Тестов: {{ timeArray.length }}
     </div>
     <div v-if="activeDate===date">
-      <info-test-component
+      <test-info-component
         v-for="time of timeArray" :key="date+time"
         :timestamp="timestamp(time)"
         :uid="activeUserUID"
         @click.stop
-      ></info-test-component>
+      ></test-info-component>
     </div>
   </div>
 </template>
@@ -30,7 +30,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "dateListComponent",
   components: {
-    InfoTestComponent: defineAsyncComponent(() => import("@/components/infoTestComponent"))
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
   },
   props: {
     activeUserUID: String,

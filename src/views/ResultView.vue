@@ -1,18 +1,18 @@
 <template>
   <header-component></header-component>
-  <info-test-component
+  <test-info-component
     :timestamp="timestamp"
     :test="answers"
     :time-spent="timeSpent"
     @congratulation="showCongratulation"
   >
-  </info-test-component>
-  <difficult-test-component
+  </test-info-component>
+  <test-difficult-component
     v-for="difficult of orderDifficult"
     :key="difficult"
     :difficult="difficult"
     :part-answers="answers[difficult]"
-  ></difficult-test-component>
+  ></test-difficult-component>
 </template>
 
 <script>
@@ -23,8 +23,8 @@ import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
 export default {
   name: "ResultView",
   components: {
-    DifficultTestComponent:defineAsyncComponent(() => import("@/components/difficultTestComponent")),
-    InfoTestComponent: defineAsyncComponent(() => import("@/components/infoTestComponent")),
+    testDifficultComponent:defineAsyncComponent(() => import("@/components/testDifficultComponent")),
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
     HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
   },
   watch: {
@@ -34,8 +34,8 @@ export default {
   },
   computed: {
     ...mapState("test", ["answers", "timestamp", "timeSpent"]),
-    ...mapState(["orderDifficult"]),
-    ...mapState("auth", ["isLogin", "uid"])
+    ...mapState(["orderDifficult"]), // component
+    ...mapState("auth", ["isLogin", "uid"])//testView
   },
   methods: {
     ...mapActions("test", ["sendAnswersToDB"]),
