@@ -51,7 +51,7 @@ export default {
   },
   methods: {
     ...mapMutations("test", ["prepareAnswers"]),
-    ...mapActions("settings", ["getSettings"]),
+    ...mapActions("settings", ["requestSettings"]),
     createTest() {
       this.test = [];
       for (let difficult of this.orderDifficult) {
@@ -78,7 +78,7 @@ export default {
     }
   },
   async created() {
-    await this.getSettings();
+    await this.requestSettings();
   },
   beforeRouteEnter(to, from, next) {
     (from.name === "result") ? next(vm => {

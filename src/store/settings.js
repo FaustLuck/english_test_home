@@ -10,18 +10,35 @@ export const settings = {
     }
   },
   mutations: {
-    saveSettings(state, settings) {
-      state.settings = settings;
+    saveSettings(state, settingsData) {
+      state.settings = settingsData;
+    },
+    saveTimer(state, timerData) {
+      state.settings = timerData;
     }
   },
   actions: {
-    async getSettings({commit}) {
+    async requestSettings({commit}) {
       const dbRef = ref(firebaseRealtime, "/settings");
       try {
         let snapshot = await get(dbRef);
         if (snapshot.exists()) {
-          let settings = snapshot.val();
-          commit("saveSettings", settings);
+          let settingsData = snapshot.val();
+          commit("saveSettings", settingsData);
+        } else {
+          console.log("No data available");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    },
+    async requestTimer({commit}) {
+      const dbRef = ref(firebaseRealtime, "/settings/timer");
+      try {
+        let snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+          let timerData = snapshot.val();
+          commit("saveTimer", timerData);
         } else {
           console.log("No data available");
         }

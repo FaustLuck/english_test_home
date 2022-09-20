@@ -60,7 +60,7 @@ export default {
     },
    async isLogin(value) {
      if (value) {
-       await this.getStatistic({
+       await this.requestStatistic({
          uid: this.uid,
          isAdmin: this.isAdmin
        });
@@ -70,17 +70,21 @@ export default {
    }
   },
   methods: {
-    ...mapActions("statistic", ["getStatistic"]),
+    ...mapActions("statistic", ["requestStatistic"]),
+    ...mapActions("settings", ["requestTimer"]),
     changeActiveUser(activeUser) {
       this.activeUserUID = activeUser;
     },
   },
   async created() {
     // if (!this.isLogin) this.$router.replace({name: "test"});
-    if (this.isLogin) await this.getStatistic({
-      uid: this.uid,
-      isAdmin: this.isAdmin
-    });
+    if (this.isLogin) {
+      await this.requestStatistic({
+        uid: this.uid,
+        isAdmin: this.isAdmin
+      });
+      await this.requestTimer();
+    }
   }
 };
 </script>

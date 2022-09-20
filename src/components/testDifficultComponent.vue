@@ -13,7 +13,7 @@
 import { defineAsyncComponent } from "vue";
 
 export default {
-  name: "difficultTestComponent",
+  name: "testDifficultComponent",
   components:{
     CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },

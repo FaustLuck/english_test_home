@@ -27,17 +27,17 @@ export const auth = {
   actions: {
     async restoreLogin({dispatch}) {
       let uid = await dispatch("getUID");
-      if (uid) await dispatch("getUserInfo", uid);
+      if (uid) await dispatch("requestUserInfo", uid);
     },
     async toLogin({state, dispatch}) {
       if (state.isLogin) return;
       const provider = new GoogleAuthProvider();
       let result = await signInWithPopup(firebaseAuth, provider);
       let user = result.user;
-      if (!(await dispatch("getUserInfo", user.uid))) await dispatch("setUserInfo", user);
+      if (!(await dispatch("requestUserInfo", user.uid))) await dispatch("sendUserInfo", user);
 
     },
-    async getUserInfo({dispatch, commit}, uid) {
+    async requestUserInfo({dispatch, commit}, uid) {
       const dbRef = ref(firebaseRealtime, `users2/${uid}/info`);//todo =>users
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
@@ -51,7 +51,7 @@ export const auth = {
         return false;
       }
     },
-    async setUserInfo({dispatch, commit}, user) {
+    async sendUserInfo({dispatch, commit}, user) {
       const dbRef = ref(firebaseRealtime, `users2/${user.uid}/info/`);//todo =>users
       await set(dbRef, {
         displayName: user.displayName,

@@ -1,5 +1,5 @@
 <template>
-  <section class="info">
+  <section class="info" :class="{fail:isFail && mode==='statistic'}">
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
       <span>Время тестирования:</span>
@@ -13,7 +13,7 @@
       <span>Времени затрачено:</span>
       <span>{{ timeSpentToString }}</span>
     </div>
-    <div class="info__detail-fail" v-if="isFail">
+    <div class="info__detail-fail" v-if="isFail && mode==='result'">
       <span>Время вышло!</span>
     </div>
   </section>
@@ -24,7 +24,7 @@ import { mapGetters, mapState } from "vuex";
 import { getDate } from "@/utils";
 
 export default {
-  name: "infoTestComponent",
+  name: "testInfoComponent",
   props: {
     timestamp: Number,
     test: Object,
@@ -84,6 +84,10 @@ export default {
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   padding: 1rem;
+
+  .fail {
+    background-color: #ff8c69;
+  }
 
   &__login {
     text-align: center;

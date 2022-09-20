@@ -32,7 +32,7 @@ export const statistic = {
     }
   },
   actions: {
-    async getStatistic({ commit }, { uid, isAdmin }) {
+    async requestStatistic({ commit }, { uid, isAdmin }) {
       let path = isAdmin ? "" : `${uid}/`;
       const dbRef = ref(firebaseRealtime, `users2/${path}`);
       let snapshot = await get(dbRef);
