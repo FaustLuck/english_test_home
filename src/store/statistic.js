@@ -53,14 +53,9 @@ export const statistic = {
     },
   },
   getters: {
-    getTest(state) {
+    getAnswers(state) {
       return function (uid, timestamp) {
-        return state.statistic[uid].statistic[timestamp].test;
-      };
-    },
-    getTimeSpent(state) {
-      return function (uid, timestamp) {
-        return state.statistic[uid].statistic[timestamp].timeSpent;
+        return state.statistic[uid].statistic[timestamp];
       };
     }
   }

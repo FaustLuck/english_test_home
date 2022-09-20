@@ -6,7 +6,7 @@
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
       <span>Время тестирования:</span>
-      <span>{{ date }} {{ time }} </span>
+      <span>{{ localDate }} {{ localTime }} </span>
     </div>
     <div class="info__detail">
       <span>Кол-во верных ответов / вопросов:</span>
@@ -29,27 +29,22 @@ import { getDate } from "@/utils";
 export default {
   name: "testInfoComponent",
   props: {
+    answers: Object,
     timestamp: Number,
-    test: Object,
-    timeSpent: Number,
-    uid: String
+    date: String,
+    time: String
   },
   data() {
     return {
-      date: "",
-      time: ""
+      localDate: "",
+      localTime: "",
+      test: null,
+      timeSpent: 0
     };
   },
   computed: {
     ...mapState("auth", ["displayName", "isLogin"]),
     ...mapGetters("settings", ["getTimer"]),
-    ...mapGetters("statistic", ["getTest", "getTimeSpent"]),
-    localTest() {
-      return this.test ?? this.getTest(this.uid, this.timestamp);
-    },
-    localTimeSpent() {
-      return this.timeSpent ?? this.getTimeSpent(this.uid, this.timestamp);
-    },
     timerStart() {
       if (!this.getTimer) return;
       let {min, sec} = this.getTimer;
@@ -59,25 +54,30 @@ export default {
       return this.$route.name;
     },
     lengthAnswers() {
-      return (Object.values(this.localTest)).reduce((acc, cur) => acc + cur.length, 0);
+      return (Object.values(this.answers.test)).reduce((acc, cur) => acc + cur.length, 0);
     },
     correctAnswers() {
-      return (Object.values(this.localTest)).reduce((acc, cur) => {
+      return (Object.values(this.answers.test)).reduce((acc, cur) => {
         return acc + cur.filter(el => el.answer === el.choice).length;
       }, 0);
     },
     timeSpentToString() {
-      let sec = (this.localTimeSpent % 60).toString().padStart(2, "0");
-      let min = (this.localTimeSpent - sec) / 60;
+      let sec = (this.answers.timeSpent % 60).toString().padStart(2, "0");
+      let min = (this.answers.timeSpent - sec) / 60;
       return `${min}:${sec}`;
     },
     isFail() {
-      return (this.timerStart === this.localTimeSpent);
+      return (this.timerStart === this.answers.timeSpent);
     }
   },
   created() {
+    ({test: this.test, timeSpent: this.timeSpent} = {...this.answers});
     if (this.lengthAnswers === this.correctAnswers) this.$emit("congratulation");
-    [this.date, this.time] = getDate(this.timestamp);
+    if (this.timestamp) {
+      [this.localDate, this.localTime] = getDate(this.timestamp);
+    } else {
+      [this.localDate, this.localTime] = [this.date, this.time];
+    }
   }
 };
 </script>
@@ -87,6 +87,7 @@ export default {
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   padding: 1rem;
+  margin: 2rem 0;
 
   &.fail {
     background-color: #ff8c69;

@@ -14,9 +14,11 @@
     </div>
     <div v-if="activeDate===date">
       <test-info-component
-        v-for="time of timeArray" :key="date+time"
-        :timestamp="timestamp(time)"
-        :uid="activeUserUID"
+        v-for="time of timeArray"
+        :key="date+time"
+        :date="activeDate"
+        :time="time"
+        :answers="answers(time)"
         @click.stop
       ></test-info-component>
     </div>
@@ -26,6 +28,7 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
+import { mapGetters } from "vuex";
 
 export default {
   name: "dateListComponent",
@@ -43,12 +46,18 @@ export default {
       isTop: false
     };
   },
+  computed: {
+    ...mapGetters("statistic", ["getAnswers"]),
+  },
   methods: {
     timestamp(time) {
       return Date.parse(`${this.activeDate.split(".").reverse().join("-")}T${time}`);
     },
     getTop() {
       this.isTop = this.$refs.title.getBoundingClientRect().top === 0;
+    },
+    answers(time) {
+      return this.getAnswers(this.activeUserUID, this.timestamp(time));
     }
   },
   created() {

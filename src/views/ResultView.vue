@@ -2,8 +2,7 @@
   <header-component></header-component>
   <test-info-component
     :timestamp="timestamp"
-    :test="answers"
-    :time-spent="timeSpent"
+    :answers="{test:answers,timeSpent}"
     @congratulation="showCongratulation"
   >
   </test-info-component>
@@ -34,8 +33,8 @@ export default {
   },
   computed: {
     ...mapState("test", ["answers", "timestamp", "timeSpent"]),
-    ...mapState(["orderDifficult"]), // component
-    ...mapState("auth", ["isLogin", "uid"])//testView
+    ...mapState(["orderDifficult"]),
+    ...mapState("auth", ["isLogin", "uid"])
   },
   methods: {
     ...mapActions("test", ["sendAnswersToDB"]),
