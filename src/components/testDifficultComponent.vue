@@ -1,5 +1,5 @@
 <template>
-  <div class="difficult">{{ difficult }}</div>
+  <div v-if="partAnswers.length" class="difficult">{{ difficult }}</div>
   <card-test-component
     v-for="(answer,index) of partAnswers"
     :key="answer.answer"

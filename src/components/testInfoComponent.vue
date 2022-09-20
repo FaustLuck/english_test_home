@@ -24,7 +24,7 @@
         v-for="difficult of orderDifficult"
         :key="difficult"
         :difficult="difficult"
-        :part-answers="test[difficult]"
+        :part-answers="filterAnswer(difficult,false)"
       ></test-difficult-component>
     </div>
   </section>
@@ -74,7 +74,6 @@ export default {
       return (Object.values(this.test)).reduce((acc, cur) => acc + cur.length, 0);
     },
     correctAnswers() {
-
       return (Object.values(this.test)).reduce((acc, cur) => {
         return acc + cur.filter(el => el.answer === el.choice).length;
       }, 0);
@@ -86,6 +85,12 @@ export default {
     },
     isFail() {
       return (this.timerStart === this.answers.timeSpent);
+    }
+  },
+  methods: {
+    filterAnswer(difficult, isDisplayModeFull) {
+      if (this.correctAnswers === this.lengthAnswers || isDisplayModeFull) return this.test[difficult];
+      return this.test[difficult].filter(el => el.answer !== el.choice);
     }
   },
   created() {
