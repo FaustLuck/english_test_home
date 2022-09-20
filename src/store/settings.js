@@ -14,7 +14,7 @@ export const settings = {
       state.settings = settingsData;
     },
     saveTimer(state, timerData) {
-      state.settings = timerData;
+      state.settings.timer = timerData;
     }
   },
   actions: {
