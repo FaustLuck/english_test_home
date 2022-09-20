@@ -35,7 +35,7 @@
         :type="'answer'"
         :name="testItem.difficult+index"
         :item="testItem.choice"
-        :checked="testItem.answer!==testItem.choice"
+        :checked="true"
       >
       </card-test-item-component>
     </div>
