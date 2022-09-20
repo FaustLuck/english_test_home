@@ -53,6 +53,9 @@ export default {
   },
   created() {
     window.addEventListener("scroll", this.getTop);
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.getTop);
   }
 };
 </script>
