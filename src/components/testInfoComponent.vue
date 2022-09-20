@@ -1,5 +1,8 @@
 <template>
-  <section class="info" :class="{fail:isFail && mode==='statistic'}">
+  <section class="info" :class="{
+    fail:isFail && mode==='statistic',
+    congratulation:correctAnswers===lengthAnswers && mode==='statistic'
+  }">
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
       <span>Время тестирования:</span>
@@ -85,8 +88,12 @@ export default {
   box-shadow: 0 0 10px 5px #e9a66a;
   padding: 1rem;
 
-  .fail {
+  &.fail {
     background-color: #ff8c69;
+  }
+
+  &.congratulation {
+    background-color: #8fbc8f;
   }
 
   &__login {
