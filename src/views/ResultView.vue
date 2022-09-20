@@ -4,14 +4,9 @@
     :timestamp="timestamp"
     :answers="{test:answers,timeSpent}"
     @congratulation="showCongratulation"
+    @click="activeTimestamp=timestamp"
   >
   </test-info-component>
-  <test-difficult-component
-    v-for="difficult of orderDifficult"
-    :key="difficult"
-    :difficult="difficult"
-    :part-answers="answers[difficult]"
-  ></test-difficult-component>
 </template>
 
 <script>
@@ -22,9 +17,13 @@ import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
 export default {
   name: "ResultView",
   components: {
-    testDifficultComponent:defineAsyncComponent(() => import("@/components/testDifficultComponent")),
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
     HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
+  },
+  data() {
+    return {
+      activeTimestamp: 0
+    };
   },
   watch: {
     async isLogin(value) {
@@ -33,8 +32,7 @@ export default {
   },
   computed: {
     ...mapState("test", ["answers", "timestamp", "timeSpent"]),
-    ...mapState(["orderDifficult"]),
-    ...mapState("auth", ["isLogin", "uid"])
+    ...mapState("auth", ["isLogin", "uid"]),
   },
   methods: {
     ...mapActions("test", ["sendAnswersToDB"]),

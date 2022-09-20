@@ -1,7 +1,7 @@
 <template>
   <div class="date"
        :class="{open:activeDate===date}"
-       @click="$emit('changeDate')"
+       @click="changeDate"
   >
     <div
       ref="title"
@@ -19,7 +19,8 @@
         :date="activeDate"
         :time="time"
         :answers="answers(time)"
-        @click.stop
+        :active-test="activeTest"
+        @click.stop="activeTest=`${date}${time}`"
       ></test-info-component>
     </div>
   </div>
@@ -28,12 +29,12 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 
 export default {
   name: "dateListComponent",
   components: {
-    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
   },
   props: {
     activeUserUID: String,
@@ -43,11 +44,13 @@ export default {
   },
   data() {
     return {
-      isTop: false
+      isTop: false,
+      activeTest: ""
     };
   },
   computed: {
     ...mapGetters("statistic", ["getAnswers"]),
+    ...mapState(["orderDifficult"])
   },
   methods: {
     timestamp(time) {
@@ -58,6 +61,10 @@ export default {
     },
     answers(time) {
       return this.getAnswers(this.activeUserUID, this.timestamp(time));
+    },
+    changeDate() {
+      this.$emit("changeDate");
+      this.activeTest = "";
     }
   },
   created() {

@@ -1,7 +1,7 @@
 <template>
   <section class="info" :class="{
     fail:isFail && mode==='statistic',
-    congratulation:correctAnswers===lengthAnswers && mode==='statistic'
+    congratulation:correctAnswers===lengthAnswers && mode==='statistic' && !isOpen,
   }">
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail">
@@ -19,32 +19,49 @@
     <div class="info__detail-fail" v-if="isFail && mode==='result'">
       <span>Время вышло!</span>
     </div>
+    <div v-if="timestamp ?? isOpen">
+      <test-difficult-component
+        v-for="difficult of orderDifficult"
+        :key="difficult"
+        :difficult="difficult"
+        :part-answers="test[difficult]"
+      ></test-difficult-component>
+    </div>
   </section>
 </template>
 
 <script>
 import { mapGetters, mapState } from "vuex";
 import { getDate } from "@/utils";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "testInfoComponent",
+  components: {
+    testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent"))
+  },
   props: {
     answers: Object,
     timestamp: Number,
     date: String,
-    time: String
+    time: String,
+    activeTest: String
   },
   data() {
     return {
       localDate: "",
       localTime: "",
       test: null,
-      timeSpent: 0
+      timeSpent: 0,
     };
   },
   computed: {
     ...mapState("auth", ["displayName", "isLogin"]),
     ...mapGetters("settings", ["getTimer"]),
+    ...mapState(["orderDifficult"]),
+    isOpen() {
+      return this.activeTest === `${this.date}${this.time}`;
+    },
     timerStart() {
       if (!this.getTimer) return;
       let {min, sec} = this.getTimer;
@@ -54,16 +71,17 @@ export default {
       return this.$route.name;
     },
     lengthAnswers() {
-      return (Object.values(this.answers.test)).reduce((acc, cur) => acc + cur.length, 0);
+      return (Object.values(this.test)).reduce((acc, cur) => acc + cur.length, 0);
     },
     correctAnswers() {
-      return (Object.values(this.answers.test)).reduce((acc, cur) => {
+
+      return (Object.values(this.test)).reduce((acc, cur) => {
         return acc + cur.filter(el => el.answer === el.choice).length;
       }, 0);
     },
     timeSpentToString() {
-      let sec = (this.answers.timeSpent % 60).toString().padStart(2, "0");
-      let min = (this.answers.timeSpent - sec) / 60;
+      let sec = (this.timeSpent % 60).toString().padStart(2, "0");
+      let min = (this.timeSpent - sec) / 60;
       return `${min}:${sec}`;
     },
     isFail() {
