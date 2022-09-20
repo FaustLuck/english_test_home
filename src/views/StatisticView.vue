@@ -31,7 +31,6 @@
 </template>
 
 <script>
-//todo переработать!
 import { mapActions, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 
