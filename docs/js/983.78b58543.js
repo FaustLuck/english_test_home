@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkenglish_test_home"]=self["webpackChunkenglish_test_home"]||[]).push([[983],{8983:function(e,t,n){n.r(t),n.d(t,{default:function(){return m}});var i=n(3396),r=n(7139);function s(e,t,n,s,u,a){return(0,i.wg)(),(0,i.iD)("span",null,(0,r.zw)(a.title),1)}var u=n(6623),a=n(2483),c={name:"SettingsView",computed:{...(0,u.rn)("auth",["isAdmin"]),title(){return(0,a.yj)().name}},created(){this.isAdmin||a.tv.replace({name:"test"})}},l=n(89);const h=(0,l.Z)(c,[["render",s]]);var m=h}}]);
+//# sourceMappingURL=983.78b58543.js.map
