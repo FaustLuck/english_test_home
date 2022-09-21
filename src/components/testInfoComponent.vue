@@ -1,9 +1,9 @@
 <template>
   <section class="info"
-           :class="{
-    fail:isFail && mode==='statistic',
-    congratulation:correctAnswers===lengthAnswers && mode==='statistic',
-  }">
+           :class="{    fail:isFail && mode==='statistic' && !displayMode,
+    congratulation:isCongratulation && mode==='statistic' && !displayMode  }"
+           @click="changeDisplayMode"
+  >
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail-clickable">
       <div class="info__detail">
@@ -22,13 +22,15 @@
         <span>Время вышло!</span>
       </div>
     </div>
-    <div v-if="timestamp">
-      <test-difficult-component
-        v-for="difficult of orderDifficult"
-        :key="difficult"
-        :difficult="difficult"
-        :part-answers="test[difficult]"
-      ></test-difficult-component>
+    <div v-if="displayMode>0">
+      <keep-alive>
+        <test-difficult-component
+          v-for="difficult of orderDifficult"
+          :key="difficult"
+          :difficult="difficult"
+          :part-answers="displayMode===1?filterTest(difficult):test[difficult]"
+        ></test-difficult-component>
+      </keep-alive>
     </div>
   </section>
 </template>
@@ -55,7 +57,7 @@ export default {
       localTime: "",
       test: null,
       timeSpent: 0,
-      top: 0
+      displayMode: 0
     };
   },
   computed: {
@@ -83,23 +85,36 @@ export default {
       let min = (this.timeSpent - sec) / 60;
       return `${min}:${sec}`;
     },
+    isCongratulation() {
+      return this.lengthAnswers === this.correctAnswers;
+    },
     isFail() {
       return (this.timerStart === this.answers.timeSpent);
+    },
+  },
+  methods: {
+    changeDisplayMode(e) {
+      if (this.timestamp) return;
+      ++this.displayMode;
+      if (this.displayMode === 3) this.displayMode = 0;
+      if (this.isCongratulation && this.displayMode === 1) this.displayMode = 2;
+      let el = e.target.closest(".info");
+      this.scroll(el);
+    },
+    scroll(el) {
+      let top = el.getBoundingClientRect().top;
+      if (top < 63) window.scrollBy({top: top - 63, behavior: "smooth"});
+    },
+    filterTest(difficult) {
+      return this.test[difficult].filter(el => el.answer !== el.choice);
     }
   },
   created() {
     ({test: this.test, timeSpent: this.timeSpent} = {...this.answers});
-    if (this.lengthAnswers === this.correctAnswers) this.$emit("congratulation");
-    if (this.timestamp) {
-      [this.localDate, this.localTime] = getDate(this.timestamp);
-    } else {
-      [this.localDate, this.localTime] = [this.date, this.time];
-    }
-  },
-  // updated() {
-    // this.top = this.$el.getBoundingClientRect().top;
-    // window.scrollBy({top: this.top - 63, behavior: "smooth"});
-  // }
+    if (this.isCongratulation) this.$emit("congratulation");
+    [this.localDate, this.localTime] = (this.timestamp) ? getDate(this.timestamp) : [this.date, this.time];
+    if (this.timestamp) this.displayMode = 2;
+  }
 };
 </script>
 
