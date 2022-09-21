@@ -1,27 +1,18 @@
 <template>
   <div class="date"
-       :class="{open:activeDate===date}"
-       @click="changeDate"
+       :class="{'open':isOpen}"
+       @click="toOpen"
   >
-    <div
-      ref="title"
-      :class="{
-        'date__item':activeDate===date,
-        'top':activeDate===date && isTop
-      }"
-    >
+    <div ref="title" :class="{'top':isTop,'date__item':isOpen}">
       {{ date }} Тестов: {{ timeArray.length }}
     </div>
-    <div v-if="activeDate===date">
+    <div v-show="isOpen">
       <test-info-component
         v-for="time of timeArray"
         :key="date+time"
-        :date="activeDate"
+        :date="date"
         :time="time"
         :answers="answers(time)"
-        :active-test="activeTest"
-        :is-full-mode="isFullMode"
-        @openTest="openTest"
       ></test-info-component>
     </div>
   </div>
@@ -39,15 +30,13 @@ export default {
   },
   props: {
     activeUserUID: String,
-    activeDate: String,
     date: String,
     timeArray: Array
   },
   data() {
     return {
       isTop: false,
-      activeTest: "",
-      isFullMode: false
+      isOpen: false
     };
   },
   computed: {
@@ -56,25 +45,17 @@ export default {
   },
   methods: {
     timestamp(time) {
-      return Date.parse(`${this.activeDate.split(".").reverse().join("-")}T${time}`);
+      return Date.parse(`${this.date.split(".").reverse().join("-")}T${time}`);
     },
     getTop() {
+      if (!this.isOpen) return;
       this.isTop = this.$refs.title.getBoundingClientRect().top === 0;
     },
     answers(time) {
       return this.getAnswers(this.activeUserUID, this.timestamp(time));
     },
-    changeDate() {
-      this.$emit("changeDate");
-      this.activeTest = "";
-    },
-    openTest(date, time) {
-      if (this.activeTest === `${date}${time}`) {
-        this.isFullMode = !this.isFullMode;
-      } else {
-        this.activeTest = `${date}${time}`;
-        this.isFullMode = false;
-      }
+    toOpen(e) {
+      if (e.target === this.$refs.title) this.isOpen = !this.isOpen;
     }
   },
   created() {

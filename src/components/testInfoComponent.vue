@@ -1,9 +1,8 @@
 <template>
   <section class="info"
-           @click.stop="openTest"
            :class="{
-    fail:isFail && mode==='statistic' && !isOpen,
-    congratulation:correctAnswers===lengthAnswers && mode==='statistic' && !isOpen,
+    fail:isFail && mode==='statistic',
+    congratulation:correctAnswers===lengthAnswers && mode==='statistic',
   }">
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
     <div class="info__detail-clickable">
@@ -23,13 +22,12 @@
         <span>Время вышло!</span>
       </div>
     </div>
-
-    <div v-if="timestamp ?? isOpen">
+    <div v-if="timestamp">
       <test-difficult-component
         v-for="difficult of orderDifficult"
         :key="difficult"
         :difficult="difficult"
-        :part-answers="filterAnswer(difficult,isFullMode)"
+        :part-answers="test[difficult]"
       ></test-difficult-component>
     </div>
   </section>
@@ -49,9 +47,7 @@ export default {
     answers: Object,
     timestamp: Number,
     date: String,
-    time: String,
-    activeTest: String,
-    isFullMode: Boolean
+    time: String
   },
   data() {
     return {
@@ -66,9 +62,6 @@ export default {
     ...mapState("auth", ["displayName", "isLogin"]),
     ...mapGetters("settings", ["getTimer"]),
     ...mapState(["orderDifficult"]),
-    isOpen() {
-      return this.activeTest === `${this.date}${this.time}`;
-    },
     timerStart() {
       if (!this.getTimer) return;
       let {min, sec} = this.getTimer;
@@ -94,17 +87,6 @@ export default {
       return (this.timerStart === this.answers.timeSpent);
     }
   },
-  methods: {
-    filterAnswer(difficult, isDisplayModeFull) {
-      if (this.mode === "result" || this.correctAnswers === this.lengthAnswers || isDisplayModeFull) return this.test[difficult];
-      return this.test[difficult].filter(el => el.answer !== el.choice);
-    },
-    openTest(e) {
-      if (!e.target.closest(".info__detail-clickable")) return;
-      this.$emit("openTest", this.date, this.time);
-
-    }
-  },
   created() {
     ({test: this.test, timeSpent: this.timeSpent} = {...this.answers});
     if (this.lengthAnswers === this.correctAnswers) this.$emit("congratulation");
@@ -114,11 +96,10 @@ export default {
       [this.localDate, this.localTime] = [this.date, this.time];
     }
   },
-  updated() {
-    if (this.activeTest !== `${this.date}${this.time}`) return;
-    this.top = this.$el.getBoundingClientRect().top;
-    window.scrollBy({top: this.top - 63, behavior: "smooth"});
-  }
+  // updated() {
+    // this.top = this.$el.getBoundingClientRect().top;
+    // window.scrollBy({top: this.top - 63, behavior: "smooth"});
+  // }
 };
 </script>
 

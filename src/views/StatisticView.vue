@@ -13,17 +13,15 @@
       </user-card-component>
     </div>
     <div v-if="isAdmin" v-show="activeUserUID" class="users__close">
-      <div @click="activeUserUID=''; activeDate=''" class="users__close-cross"></div>
+      <div @click="activeUserUID='';" class="users__close-cross"></div>
     </div>
     <div v-if="activeUserUID">
       <date-list-component
         v-for="[date,timeArray] of dateList[activeUserUID]"
         :key="date"
         :active-user-u-i-d="activeUserUID"
-        :active-date="activeDate"
         :date="date"
         :time-array="timeArray"
-        @changeDate="activeDate=(activeDate===date)?'':date"
       >
       </date-list-component>
     </div>
