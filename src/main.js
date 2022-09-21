@@ -21,5 +21,10 @@ export const firebaseAuth = getAuth(firebaseApp)
 
 createApp(App).use(store).use(router).mount('#app')
 
-//todo fireShow
 //todo Настройки
+//todo fireShow
+//todo адаптивность
+//todo семантика?
+//todo бомба при fail
+//todo черный экран "test over"
+//todo вирт. питомец
