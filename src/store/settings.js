@@ -1,60 +1,54 @@
-import { get, ref, set } from "firebase/database";
-import { realtime } from "@/main";
-import { capitalizeFirstLetter, compare } from "@/utils";
+import { firebaseRealtime } from "@/main";
+import { ref, get } from "firebase/database";
 
 export const settings = {
   namespaced: true,
   state: {
     settings: {
       speech: null,
-    },
+      timer: null
+    }
   },
   mutations: {
-    SAVE_SETTINGS(state, data) {
-      state.settings = data;
+    saveSettings(state, settingsData) {
+      state.settings = settingsData;
     },
-    EDIT_RECORD(state, { difficult, index, record, prop }) {
-      state.settings.dictionary[difficult][index][prop] = record;
-    },
-    DELETE_RECORD(state, { difficult, item }) {
-      state.settings.dictionary[difficult] = state.settings.dictionary[
-        difficult
-      ].filter((e) => e.question !== item.question);
-    },
-    ADD_RECORD(state, { difficult, item }) {
-      if (!item.question || !item.answer) return;
-      item.question = capitalizeFirstLetter(item.question);
-      item.answer = capitalizeFirstLetter(item.answer);
-      let index = state.settings.dictionary[difficult].findIndex(
-        (e) => e.question === item.question
-      );
-      if (index > -1) return;
-      state.settings.dictionary[difficult].push(item);
-      state.settings.dictionary[difficult].sort(compare);
-    },
-    SAVE_LIMIT(state, { difficult, limit }) {
-      state.settings.limits[difficult] = limit;
-    },
+    saveTimer(state, timerData) {
+      state.settings.timer = timerData;
+    }
   },
   actions: {
-    async getSettings({ commit }) {
-      const dbRef = ref(realtime, `settings/`);
-      let snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        let data = snapshot.val();
-        commit("SAVE_SETTINGS", data);
-      } else {
-        console.log("No data available");
+    async requestSettings({commit}) {
+      const dbRef = ref(firebaseRealtime, "/settings");
+      try {
+        let snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+          let settingsData = snapshot.val();
+          commit("saveSettings", settingsData);
+        } else {
+          console.log("No data available");
+        }
+      } catch (e) {
+        console.log(e);
       }
     },
-    async setSettings({ commit }, data) {
-      const dbRef = ref(realtime, `settings/`);
-      await set(dbRef, data);
-      commit("SAVE_SETTINGS", data);
-    },
+    async requestTimer({commit}) {
+      const dbRef = ref(firebaseRealtime, "/settings/timer");
+      try {
+        let snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+          let timerData = snapshot.val();
+          commit("saveTimer", timerData);
+        } else {
+          console.log("No data available");
+        }
+      } catch (e) {
+        console.log(e);
+      }
+    }
   },
   getters: {
     getSpeech: (state) => state.settings.speech,
-    getSettings: (state) => state,
-  },
+    getTimer: (state) => state.settings.timer
+  }
 };
