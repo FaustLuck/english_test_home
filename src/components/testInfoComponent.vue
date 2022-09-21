@@ -49,7 +49,8 @@ export default {
     answers: Object,
     timestamp: Number,
     date: String,
-    time: String
+    time: String,
+    heightTitle: Number
   },
   data() {
     return {
@@ -97,13 +98,16 @@ export default {
       if (this.timestamp) return;
       ++this.displayMode;
       if (this.displayMode === 3) this.displayMode = 0;
-      if (this.isCongratulation && this.displayMode === 1) this.displayMode = 2;
+      if ((this.isCongratulation || !this.correctAnswers) && this.displayMode === 1) this.displayMode = 2;
       let el = e.target.closest(".info");
       this.scroll(el);
     },
     scroll(el) {
       let top = el.getBoundingClientRect().top;
-      if (top < 63) window.scrollBy({top: top - 63, behavior: "smooth"});
+      if (top !== this.heightTitle && this.displayMode > 0) window.scrollBy({
+        top: top - this.heightTitle,
+        behavior: "smooth"
+      });
     },
     filterTest(difficult) {
       return this.test[difficult].filter(el => el.answer !== el.choice);

@@ -14,6 +14,7 @@
           :date="date"
           :time="time"
           :answers="answers(time)"
+          :height-title="heightTitle"
         ></test-info-component>
       </keep-alive>
     </div>
@@ -38,12 +39,13 @@ export default {
   data() {
     return {
       isTop: false,
-      isOpen: false
+      isOpen: false,
+      heightTitle: 0
     };
   },
   computed: {
     ...mapGetters("statistic", ["getAnswers"]),
-    ...mapState(["orderDifficult"])
+    ...mapState(["orderDifficult"]),
   },
   methods: {
     timestamp(time) {
@@ -57,7 +59,13 @@ export default {
       return this.getAnswers(this.activeUserUID, this.timestamp(time));
     },
     toOpen(e) {
-      if (e.target === this.$refs.title) this.isOpen = !this.isOpen;
+      if (e.target !== this.$refs.title) return;
+      this.isOpen = !this.isOpen;
+    },
+    calculateHeightTitle() {
+      if (!this.$refs.title.classList.contains("date__item")) return;
+      let marginBottom = getComputedStyle(this.$refs.title).marginBottom;
+      this.heightTitle = this.$refs.title.getBoundingClientRect().height + parseInt(marginBottom);
     }
   },
   created() {
@@ -65,6 +73,9 @@ export default {
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.getTop);
+  },
+  updated() {
+    this.calculateHeightTitle();
   }
 };
 </script>
