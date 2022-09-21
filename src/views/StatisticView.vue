@@ -49,7 +49,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["isLogin", "isAdmin",]),
+    ...mapState("auth", ["isAdmin",'uid']),
     ...mapState("statistic", ["statistic", "dateList"]),
   },
   watch: {
@@ -58,7 +58,7 @@ export default {
       this.isLoading = false;
       if (!this.isAdmin) this.activeUserUID = Object.keys(this.statistic)[0];
     },
-   async isLogin(value) {
+   async uid(value) {
      if (value) {
        await this.requestStatistic({
          uid: this.uid,
@@ -78,8 +78,8 @@ export default {
     },
   },
   async created() {
-    // if (!this.isLogin) this.$router.replace({name: "test"});
-    if (this.isLogin) {
+    // if (!this.uid) this.$router.replace({name: "test"});
+    if (this.uid) {
       await this.requestStatistic({
         uid: this.uid,
         isAdmin: this.isAdmin
