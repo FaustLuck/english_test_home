@@ -6,14 +6,16 @@
     <div ref="title" :class="{'top':isTop,'date__item':isOpen}">
       {{ date }} Тестов: {{ timeArray.length }}
     </div>
-    <div v-show="isOpen">
-      <test-info-component
-        v-for="time of timeArray"
-        :key="date+time"
-        :date="date"
-        :time="time"
-        :answers="answers(time)"
-      ></test-info-component>
+    <div v-if="isOpen">
+      <keep-alive>
+        <test-info-component
+          v-for="time of timeArray"
+          :key="date+time"
+          :date="date"
+          :time="time"
+          :answers="answers(time)"
+        ></test-info-component>
+      </keep-alive>
     </div>
   </div>
 </template>
