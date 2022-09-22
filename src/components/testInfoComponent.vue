@@ -96,18 +96,21 @@ export default {
   methods: {
     changeDisplayMode(e) {
       if (this.timestamp) return;
-      ++this.displayMode;
-      if (this.displayMode === 3) this.displayMode = 0;
+      this.displayMode++;
+      if (this.displayMode > 2) this.displayMode = 0;
       if ((this.isCongratulation || !this.correctAnswers) && this.displayMode === 1) this.displayMode = 2;
+      if (this.displayMode === 0) return;
       let el = e.target.closest(".info");
-      this.scroll(el);
+      setTimeout(() => this.scroll(el), 0);
     },
     scroll(el) {
       let top = el.getBoundingClientRect().top;
-      if (top !== this.heightTitle && this.displayMode > 0) window.scrollBy({
-        top: top - this.heightTitle,
-        behavior: "smooth"
-      });
+      if (top !== this.heightTitle && this.displayMode > 0) {
+        window.scrollBy({
+          top: top - this.heightTitle,
+          behavior: "smooth"
+        });
+      }
     },
     filterTest(difficult) {
       return this.test[difficult].filter(el => el.answer !== el.choice);

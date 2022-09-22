@@ -61,15 +61,15 @@ export default {
     toOpen(e) {
       if (e.target !== this.$refs.title) return;
       this.isOpen = !this.isOpen;
+      (this.isOpen)
+        ? window.addEventListener("scroll", this.getTop)
+        : window.removeEventListener("scroll", this.getTop);
     },
     calculateHeightTitle() {
       if (!this.$refs.title.classList.contains("date__item")) return;
       let marginBottom = getComputedStyle(this.$refs.title).marginBottom;
       this.heightTitle = this.$refs.title.getBoundingClientRect().height + parseInt(marginBottom);
     }
-  },
-  created() {
-    window.addEventListener("scroll", this.getTop);
   },
   beforeUnmount() {
     window.removeEventListener("scroll", this.getTop);
