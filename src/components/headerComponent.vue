@@ -31,7 +31,16 @@ header {
   justify-content: space-evenly;
   align-items: center;
   min-height: 3rem;
-  margin-bottom: 2rem;
+  padding: 1rem 0;
+  background-color: #FFDAB9;
+  border-bottom-left-radius: 2rem;
+  border-bottom-right-radius: 2rem;
+  box-shadow: 0 5px 0 0 #e9a66a;
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    top: 65px;
+    z-index: 1;
+  }
 
   &.center {
     justify-content: center;

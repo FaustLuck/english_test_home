@@ -86,6 +86,10 @@ export default {
   padding: .5rem;
   background-color: #FFDAB9;
 
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+
   &.right{
     background-color: #8fbc8f;
   }
@@ -98,6 +102,10 @@ export default {
     width: 50%;
     display: flex;
     flex-direction: column;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      padding-left: 1rem;
+    }
   }
 }
 </style>

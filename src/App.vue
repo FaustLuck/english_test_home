@@ -30,13 +30,18 @@ body {
     background-color: red;
     pointer-events: none;
   }
+
 }
 
 #app {
   display: flex;
   justify-content: center;
   min-height: 100vh;
-  font-size: 40px;
+  font-size: 2.5rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
 }
 
 form {

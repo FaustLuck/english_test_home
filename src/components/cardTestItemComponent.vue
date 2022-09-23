@@ -77,11 +77,17 @@ export default {
 
   &.speech {
     padding-left: 3rem;
+    @media screen and (max-width: 768px) {
+      padding-left: 0;
+    }
   }
 
   & > input[type="radio"] {
     transform: scale(2, 2);
     cursor: pointer;
+    @media screen and (max-width: 768px) {
+      transform: scale(1.5, 1.5);
+    }
   }
 
   &__title {
