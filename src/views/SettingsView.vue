@@ -1,21 +1,36 @@
 <template>
-  <span>{{title}}</span>
+  <preloader-component v-if="isLoading"></preloader-component>
+  <span v-else>settings</span>
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { useRouter, useRoute } from "vue-router";
+import { mapActions, mapState } from "vuex";
+import PreloaderComponent from "@/components/preloaderComponent";
 
 export default {
   name: "SettingsView",
+  components: {PreloaderComponent},
+  data() {
+    return {
+      isLoading: true
+    };
+  },
   computed: {
     ...mapState("auth", ["isAdmin"]),
-    title() {
-      return useRoute().name;
+    ...mapState("settings", ["settings"])
+  },
+  watch: {
+    settings(value) {
+      if (!Object.keys(value).length) return;
+      this.isLoading = false;
     }
   },
-  created() {
-    if (!this.isAdmin) useRouter.replace({name: "test"});
+  methods: {
+    ...mapActions("settings", ["requestSettings"])
+  },
+  async created() {
+    // if (!this.isAdmin) this.$router.replace({name: "test"});
+    await this.requestSettings();
   }
 };
 </script>
