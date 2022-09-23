@@ -1,0 +1,1 @@
+*{margin:0;padding:0}body{font-family:"serif"}body.fail{background-color:red;pointer-events:none}#app{display:flex;justify-content:center;min-height:100vh;font-size:2.5rem}@media screen and (max-width:768px){#app{font-size:1.5rem}}form{width:80%;max-width:1200px}@media screen and (max-width:768px){form{width:100%;padding-top:4rem}}
