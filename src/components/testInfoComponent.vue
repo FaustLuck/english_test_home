@@ -132,6 +132,10 @@ export default {
   padding: 1rem;
   margin: 2rem 0;
 
+  @media screen and (max-width: 768px) {
+    padding: 1rem 0;
+  }
+
   &.fail {
     background-color: #ff8c69;
   }
@@ -148,6 +152,11 @@ export default {
     display: flex;
     justify-content: space-between;
     padding: .5rem;
+    @media screen and (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
 
     &-fail {
       text-align: center;
@@ -156,5 +165,4 @@ export default {
       color: #FF0000;
     }
   }
-}
 </style>

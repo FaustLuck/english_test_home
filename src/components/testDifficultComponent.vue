@@ -27,10 +27,13 @@ export default {
 <style scoped lang="scss">
 .difficult {
   text-align: center;
-  font-size: 60px;
+  font-size: 4rem;
   margin-top: 1rem;
   border-bottom-left-radius: 2rem;
   border-bottom-right-radius: 2rem;
   box-shadow: 0 5px 0 0 #e9a66a;
+  @media screen and (max-width: 768px) {
+    font-size:2.5rem;
+  }
 }
 </style>
