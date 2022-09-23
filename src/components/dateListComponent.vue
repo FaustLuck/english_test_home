@@ -9,11 +9,11 @@
     <div v-if="isOpen">
       <keep-alive>
         <test-info-component
-          v-for="time of timeArray"
-          :key="date+time"
+          v-for="timeObj of timeArray"
+          :key="timeObj.timestamp"
           :date="date"
-          :time="time"
-          :answers="answers(time)"
+          :time="timeObj.time"
+          :answers="answers(timeObj.timestamp)"
           :height-title="heightTitle"
         ></test-info-component>
       </keep-alive>
@@ -48,15 +48,12 @@ export default {
     ...mapState(["orderDifficult"]),
   },
   methods: {
-    timestamp(time) {
-      return Date.parse(`${this.date.split(".").reverse().join("-")}T${time}`);
-    },
     getTop() {
       if (!this.isOpen) return;
       this.isTop = this.$refs.title.getBoundingClientRect().top === 0;
     },
-    answers(time) {
-      return this.getAnswers(this.activeUserUID, this.timestamp(time));
+    answers(timestamp) {
+      return this.getAnswers(this.activeUserUID, timestamp);
     },
     toOpen(e) {
       if (e.target !== this.$refs.title) return;

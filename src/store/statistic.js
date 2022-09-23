@@ -17,12 +17,13 @@ export const statistic = {
       for (let user in statisticData) {
         tmp[user] = [];
         for (let timestamp in statisticData[user].statistic) {
+          timestamp=parseInt(timestamp)
           let [date, time] = getDate(timestamp);
           let i = tmp[user].findIndex((el) => el[0] === date);
           if (i > -1) {
-            tmp[user][i][1].push(time);
+            tmp[user][i][1].push({timestamp, time});
           } else {
-            tmp[user].push([date, [time]]);
+            tmp[user].push([date, [{timestamp, time}]]);
           }
         }
         tmp[user].reverse();

@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     changeDisplayMode(e) {
-      if (this.timestamp) return;
+      if (this.mode!=='statistic') return;
       this.displayMode++;
       if (this.displayMode > 2) this.displayMode = 0;
       if ((this.isCongratulation || !this.correctAnswers) && this.displayMode === 1) this.displayMode = 2;
@@ -119,8 +119,8 @@ export default {
   created() {
     ({test: this.test, timeSpent: this.timeSpent} = {...this.answers});
     if (this.isCongratulation) this.$emit("congratulation");
-    [this.localDate, this.localTime] = (this.timestamp) ? getDate(this.timestamp) : [this.date, this.time];
-    if (this.timestamp) this.displayMode = 2;
+    [this.localDate, this.localTime] = (this.mode==='result') ? getDate(this.timestamp) : [this.date, this.time];
+    if (this.mode==='result') this.displayMode = 2;
   }
 };
 </script>
