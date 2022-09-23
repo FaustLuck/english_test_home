@@ -64,7 +64,7 @@ export default {
        });
        await this.requestTimer();
      } else {
-       this.$router.replace({name: "test"});
+       this.$router.replace({path: "/test"});
      }
    }
   },
@@ -76,7 +76,7 @@ export default {
     },
   },
   async created() {
-    // if (!this.uid) this.$router.replace({name: "test"});
+    // if (!this.uid) this.$router.replace({path: "/test"});
     if (this.uid) {
       await this.requestStatistic({
         uid: this.uid,

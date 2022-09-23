@@ -86,8 +86,11 @@ export default {
   padding: .5rem 0;
   margin: 1rem;
   cursor: pointer;
+  @media screen and (max-width: 768px) {
+    margin: 1rem 0;
+  }
 
-  &.open{
+  &.open {
     box-shadow: none;
   }
 
