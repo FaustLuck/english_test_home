@@ -51,7 +51,7 @@ export default {
     getTop() {
       if (!this.isOpen) return;
       let top = this.$refs.title.getBoundingClientRect().top;
-      this.isTop = (window.matchMedia("(max-width: 768px)")) ? top === 65 : top === 0;
+      this.isTop = (window.matchMedia("(max-width: 768px)").matches) ? top === 65 : top === 0;
     },
     answers(timestamp) {
       return this.getAnswers(this.uid, timestamp);
