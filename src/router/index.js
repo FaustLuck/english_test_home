@@ -17,6 +17,12 @@ const routes = [
     component: () => import( "@/views/StatisticView.vue")
   },
   {
+    path: "/statistic/:uid",
+    name: "statistic-user",
+    props: true,
+    component: () => import( "@/views/StatisticUserView.vue")
+  },
+  {
     path: "/settings",
     name: "settings",
     component: () => import( "@/views/SettingsView.vue")

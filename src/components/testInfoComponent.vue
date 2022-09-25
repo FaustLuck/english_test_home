@@ -1,7 +1,7 @@
 <template>
   <section class="info"
-           :class="{    fail:isFail && mode==='statistic' && !displayMode,
-    congratulation:isCongratulation && mode==='statistic' && !displayMode  }"
+           :class="{    fail:isFail && mode!=='result' && !displayMode,
+    congratulation:isCongratulation && mode!=='result' && !displayMode  }"
            @click="changeDisplayMode"
   >
     <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
@@ -95,7 +95,7 @@ export default {
   },
   methods: {
     changeDisplayMode(e) {
-      if (this.mode!=='statistic') return;
+      if (this.mode==='result') return;
       this.displayMode++;
       if (this.displayMode > 2) this.displayMode = 0;
       if ((this.isCongratulation || !this.correctAnswers) && this.displayMode === 1) this.displayMode = 2;

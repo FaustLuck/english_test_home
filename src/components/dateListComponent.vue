@@ -32,7 +32,7 @@ export default {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
   },
   props: {
-    activeUserUID: String,
+    uid: String,
     date: String,
     timeArray: Array
   },
@@ -53,7 +53,7 @@ export default {
       this.isTop = this.$refs.title.getBoundingClientRect().top === 0;
     },
     answers(timestamp) {
-      return this.getAnswers(this.activeUserUID, timestamp);
+      return this.getAnswers(this.uid, timestamp);
     },
     toOpen(e) {
       if (e.target !== this.$refs.title) return;

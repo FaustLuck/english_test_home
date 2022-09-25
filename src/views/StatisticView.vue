@@ -1,6 +1,5 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
-
   <section v-else class="users">
     <div class="users__container" v-show="!activeUserUID">
       <user-card-component
@@ -12,19 +11,6 @@
       >
       </user-card-component>
     </div>
-    <div v-if="isAdmin" v-show="activeUserUID" class="users__close">
-      <div @click="activeUserUID='';" class="users__close-cross"></div>
-    </div>
-    <div v-if="activeUserUID">
-      <date-list-component
-        v-for="[date,timeArray] of dateList[activeUserUID]"
-        :key="date"
-        :active-user-u-i-d="activeUserUID"
-        :date="date"
-        :time-array="timeArray"
-      >
-      </date-list-component>
-    </div>
   </section>
 </template>
 
@@ -35,7 +21,6 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "StatisticView",
   components: {
-    DateListComponent:defineAsyncComponent(()=>import("@/components/dateListComponent")),
     UserCardComponent:defineAsyncComponent(()=>import("@/components/userCardComponent")),
     PreloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
   },
@@ -64,7 +49,7 @@ export default {
        });
        await this.requestTimer();
      } else {
-       this.$router.replace({path: "/test"});
+       this.$router.replace({name: "test"});
      }
    }
   },
@@ -72,7 +57,11 @@ export default {
     ...mapActions("statistic", ["requestStatistic"]),
     ...mapActions("settings", ["requestTimer"]),
     changeActiveUser(activeUser) {
-      this.activeUserUID = activeUser;
+      // this.activeUserUID = activeUser;
+      this.isAdmin
+        ? this.$router.push({name: "statistic-user", params: {uid: activeUser}})
+        : this.$router.replace({name: "statistic-user", params: {uid: activeUser}});
+
     },
   },
   async created() {
