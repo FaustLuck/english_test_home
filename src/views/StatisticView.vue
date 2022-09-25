@@ -85,44 +85,6 @@ export default {
     display: flex;
     flex-direction: column;
   }
-
-  &__close {
-    position: absolute;
-    height: 100%;
-    right: -5rem;
-
-    &-cross {
-      position: sticky;
-      top: 1rem;
-      width: 2rem;
-      height: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #FFDAB9;
-      box-shadow: 0 0 10px 5px #e9a66a;
-      border-radius: 2rem;
-      padding: 0.5rem;
-      cursor: pointer;
-
-      &::before,
-      &::after {
-        position: absolute;
-        content: '';
-        background-color: #000;
-        width: 3px;
-        height: 66%;
-      }
-
-      &::before {
-        transform: rotate(45deg);
-      }
-
-      &::after {
-        transform: rotate(-45deg);
-      }
-    }
-  }
 }
 
 </style>
