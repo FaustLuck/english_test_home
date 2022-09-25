@@ -1,5 +1,4 @@
-import { firebaseRealtime } from "@/main";
-import { get, ref } from "firebase/database";
+import { loadFirebaseRealtime } from "@/main";
 import { getDate } from "@/utils";
 
 export const statistic = {
@@ -35,6 +34,8 @@ export const statistic = {
   actions: {
     async requestStatistic({ commit }, { uid, isAdmin=false }) {
       let path = isAdmin ? "" : `${uid}/`;
+      const firebaseRealtime = await loadFirebaseRealtime();
+      const {ref,get} =await import('firebase/database')
       const dbRef = ref(firebaseRealtime, `users2/${path}`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
