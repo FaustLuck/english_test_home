@@ -23,7 +23,6 @@ async function loadFirebaseAuth() {
 
     firebaseAuth = getAuth(app);
   }
-  /* webpackChunkName: 'firebaseAuth' */
   return firebaseAuth;
 }
 
@@ -42,7 +41,6 @@ export { loadFirebaseAuth, loadFirebaseRealtime };
 
 createApp(App).use(store).use(router).mount("#app");
 
-//todo адаптивность
 //todo семантика?
 //todo бомба при fail
 //todo черный экран "test over"
