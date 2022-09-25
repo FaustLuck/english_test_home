@@ -50,7 +50,8 @@ export default {
   methods: {
     getTop() {
       if (!this.isOpen) return;
-      this.isTop = this.$refs.title.getBoundingClientRect().top === 0;
+      let top = this.$refs.title.getBoundingClientRect().top;
+      this.isTop = (window.matchMedia("(max-width: 768px)")) ? top === 65 : top === 0;
     },
     answers(timestamp) {
       return this.getAnswers(this.uid, timestamp);
@@ -63,9 +64,12 @@ export default {
         : window.removeEventListener("scroll", this.getTop);
     },
     calculateHeightTitle() {
-      if (!this.$refs.title.classList.contains("date__item")) return;
-      let marginBottom = getComputedStyle(this.$refs.title).marginBottom;
-      this.heightTitle = this.$refs.title.getBoundingClientRect().height + parseInt(marginBottom);
+      let title = this.$refs.title;
+      if (!title.classList.contains("date__item")) return;
+      let marginBottom = parseInt(getComputedStyle(title).marginBottom);
+      let height = title.getBoundingClientRect().height;
+      let top = parseInt(getComputedStyle(title).top);
+      this.heightTitle = height + marginBottom + top;
     }
   },
   beforeUnmount() {
@@ -99,6 +103,9 @@ export default {
     top: 0;
     background-color: #FFDAB9;
     margin-bottom: 1rem;
+    @media screen and (max-width: 768px) {
+      top: 65px;
+    }
 
     &.top {
       border-bottom-left-radius: 2rem;
