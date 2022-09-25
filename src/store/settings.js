@@ -1,5 +1,4 @@
-import { firebaseRealtime } from "@/main";
-import { ref, get } from "firebase/database";
+import { loadFirebaseRealtime } from "@/main";
 
 export const settings = {
   namespaced: true,
@@ -19,6 +18,8 @@ export const settings = {
   },
   actions: {
     async requestSettings({commit}) {
+      const firebaseRealtime = await loadFirebaseRealtime();
+      const {ref, get} =await import("firebase/database");
       const dbRef = ref(firebaseRealtime, "/settings");
       try {
         let snapshot = await get(dbRef);
@@ -33,6 +34,8 @@ export const settings = {
       }
     },
     async requestTimer({commit}) {
+      const firebaseRealtime = await loadFirebaseRealtime();
+      const {ref, get} =await import("firebase/database");
       const dbRef = ref(firebaseRealtime, "/settings/timer");
       try {
         let snapshot = await get(dbRef);

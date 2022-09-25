@@ -1,7 +1,5 @@
 import { toFill } from "@/utils";
-import { firebaseRealtime } from "@/main";
-import { ref, set } from "firebase/database";
-
+import { loadFirebaseRealtime } from "@/main";
 
 export const test = {
   namespaced: true,
@@ -38,11 +36,13 @@ export const test = {
   },
   actions: {
     async sendAnswersToDB({state}, {uid}) {
+      const firebaseRealtime = await loadFirebaseRealtime();
+      const {ref, set} = await import("firebase/database");
       const dbRef = ref(firebaseRealtime, `users2/${uid}/statistic/${state.timestamp}`);
       try {
         await set(dbRef, {
-          test:state.answers,
-          timeSpent:state.timeSpent
+          test: state.answers,
+          timeSpent: state.timeSpent
         });
       } catch (e) {
         console.log(e);
