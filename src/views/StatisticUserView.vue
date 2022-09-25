@@ -48,9 +48,7 @@ export default {
     ...mapActions("statistic", ["requestStatistic"])
   },
   beforeRouteEnter(to, from, next) {
-    if (from.name === "statistic") next(vm => vm.isLoading = false);
-    // console.log(to.name);
-    // console.log(from.name);
+    (from.name === "statistic") ? next(vm => vm.isLoading = false) : next();
   }
 };
 </script>
