@@ -14,10 +14,10 @@ const routes = [
   {
     path: "/statistic",
     name: "statistic",
-    component: () => import( "@/views/StatisticView.vue")
+    component: () => import( "@/views/StatisticView.vue"),
   },
   {
-    path: "/statistic/:uid",
+    path: "/statistic:uid",
     name: "statistic-user",
     props: true,
     component: () => import( "@/views/StatisticUserView.vue")
