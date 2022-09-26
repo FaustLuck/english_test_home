@@ -11,16 +11,21 @@ const firebaseConfig = {
   messagingSenderId: "223596466893",
   appId: "1:223596466893:web:bafc299ab7409de7cccf84"
 };
-
+let app = null;
 let firebaseAuth = null;
 let firebaseRealtime = null;
 
+async function initFirebase() {
+  if (!app) {
+    const {initializeApp} = await import(/* webpackChunkName: "initializeApp" */"firebase/app");
+    app = initializeApp(firebaseConfig);
+  }
+  return app;
+}
+
 async function loadFirebaseAuth() {
   if (!firebaseAuth) {
-    const {initializeApp} = await import("firebase/app");
-    const {getAuth} = await import("firebase/auth");
-    const app = initializeApp(firebaseConfig);
-
+    const {getAuth} = await import(/* webpackChunkName: "getAuth" */"firebase/auth");
     firebaseAuth = getAuth(app);
   }
   return firebaseAuth;
@@ -28,9 +33,7 @@ async function loadFirebaseAuth() {
 
 async function loadFirebaseRealtime() {
   if (!firebaseRealtime) {
-    const {initializeApp} = await import("firebase/app");
-    const {getDatabase} = await import("firebase/database");
-    const app = initializeApp(firebaseConfig);
+    const {getDatabase} = await import(/* webpackChunkName: "getDatabase" */"firebase/database");
     firebaseRealtime = getDatabase(app);
   }
   return firebaseRealtime;
@@ -38,8 +41,15 @@ async function loadFirebaseRealtime() {
 
 export { loadFirebaseAuth, loadFirebaseRealtime };
 
+initFirebase()
+  .then((firebase) => {
+    app = firebase;
+    createApp(App).use(store).use(router).mount("#app");
+  })
+  .catch(e => {
+    console.log(e);
+  });
 
-createApp(App).use(store).use(router).mount("#app");
 
 //todo семантика?
 //todo бомба при fail
