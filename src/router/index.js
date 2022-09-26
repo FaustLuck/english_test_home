@@ -4,39 +4,39 @@ const routes = [
   {
     path: "/",
     name: "test",
-    component: () => import( "@/views/TestView.vue")
+    component:()=>import(/* webpackChunkName: "TestView" */ "@/views/TestView.vue")
   },
   {
     path: "/result",
     name: "result",
-    component: () => import( "@/views/ResultView.vue")
+    component: () => import(/* webpackChunkName: "ResultView" */"@/views/ResultView.vue")
   },
   {
     path: "/statistic",
     name: "statistic",
-    component: () => import( "@/views/StatisticView.vue"),
+    component: () => import(/* webpackChunkName: "StatisticView" */"@/views/StatisticView.vue"),
   },
   {
     path: "/statistic:uid",
     name: "statistic-user",
     props: true,
-    component: () => import( "@/views/StatisticUserView.vue")
+    component: () => import(/* webpackChunkName: "StatisticUserView" */"@/views/StatisticUserView.vue")
   },
   {
     path: "/settings",
     name: "settings",
-    component: () => import( "@/views/SettingsView.vue")
+    component: () => import(/* webpackChunkName: "SettingsView" */"@/views/SettingsView.vue")
   },
   {
     path: "/fire-show",
     name: "fire-show",
-    component: () => import( "@/views/FireShowView.vue")
+    component: () => import(/* webpackChunkName: "FireShowView" */"@/views/FireShowView.vue")
   }
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
-})
+});
 
-export default router
+export default router;
