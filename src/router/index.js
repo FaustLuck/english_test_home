@@ -30,12 +30,12 @@ const routes = [
   {
     path: "/fire-show",
     name: "fire-show",
-    component: () => import(/* webpackChunkName: "FireShowView" */"@/views/AnimationShow.vue")
+    component: () => import(/* webpackChunkName: "AnimationShow" */"@/views/AnimationShow.vue")
   },
   {
     path: "/fail-show",
     name: "fail-show",
-    component: () => import(/* webpackChunkName: "FireShowView" */"@/views/AnimationShow.vue")
+    component: () => import(/* webpackChunkName: "AnimationShow" */"@/views/AnimationShow.vue")
   }
 ]
 
