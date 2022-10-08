@@ -38,7 +38,7 @@ export default {
     ...mapActions("test", ["sendAnswersToDB"]),
     showCongratulation() {
       setTimeout(() => {
-        this.$router.push({name: "fire-show"});
+        this.$router.replace({name: "fire-show"});
       }, 3000);
     }
   },
