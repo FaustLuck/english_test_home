@@ -52,7 +52,5 @@ initFirebase()
 
 
 //todo семантика?
-//todo бомба при fail
-//todo черный экран "test over"
 //todo вирт. питомец
 //todo Настройки

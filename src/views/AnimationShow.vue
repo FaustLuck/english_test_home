@@ -4,7 +4,8 @@
 
 <script>
 import { mapState } from "vuex";
-import { failShow, fireShow } from "@/utils";
+import { failShow } from "@/utils/failShow";
+import { fireShow } from "@/utils/fireShow";
 
 export default {
   name: "AnimationShow",
