@@ -26,7 +26,7 @@ export default {
     }
   },
   created() {
-    // if (!this.answers) return this.$router.replace({name: "test"});
+     if (!this.answers) return this.$router.replace({name: "test"});
 
   }
 };

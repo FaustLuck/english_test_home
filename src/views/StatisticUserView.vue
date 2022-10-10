@@ -47,6 +47,10 @@ export default {
   methods: {
     ...mapActions("statistic", ["requestStatistic"])
   },
+  created() {
+    console.log(this.isLogin)
+    if (!this.isLogin) this.$router.replace({name: "test"});
+  },
   beforeRouteEnter(to, from, next) {
     (from.name === "statistic") ? next(vm => vm.isLoading = false) : next();
   }

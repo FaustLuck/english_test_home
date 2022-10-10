@@ -118,9 +118,10 @@ export default {
   },
   created() {
     ({test: this.test, timeSpent: this.timeSpent} = {...this.answers});
-    if (this.isCongratulation) this.$emit("congratulation");
-    [this.localDate, this.localTime] = (this.mode==='result') ? getDate(this.timestamp) : [this.date, this.time];
-    if (this.mode==='result') this.displayMode = 2;
+    if (this.isCongratulation) this.$emit("show", "fire");
+    if (this.isFail) this.$emit("show", "fail");
+    [this.localDate, this.localTime] = (this.mode === "result") ? getDate(this.timestamp) : [this.date, this.time];
+    if (this.mode === "result") this.displayMode = 2;
   }
 };
 </script>

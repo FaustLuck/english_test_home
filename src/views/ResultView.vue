@@ -3,7 +3,7 @@
   <test-info-component
     :timestamp="timestamp"
     :answers="{test:answers,timeSpent}"
-    @congratulation="showCongratulation"
+    @show="show"
     @click="activeTimestamp=timestamp"
   >
   </test-info-component>
@@ -36,9 +36,9 @@ export default {
   },
   methods: {
     ...mapActions("test", ["sendAnswersToDB"]),
-    showCongratulation() {
+    show(nameShow) {
       setTimeout(() => {
-        this.$router.replace({name: "fire-show"});
+        this.$router.replace({name: `${nameShow}-show`});
       }, 3000);
     }
   },

@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["isAdmin",'uid']),
+    ...mapState("auth", ["isAdmin", "isLogin", "uid"]),
     ...mapState("statistic", ["statistic", "dateList"]),
   },
   watch: {
@@ -41,37 +41,38 @@ export default {
       this.isLoading = false;
       if (!this.isAdmin) this.activeUserUID = Object.keys(this.statistic)[0];
     },
-   async uid(value) {
-     if (value) {
-       await this.requestStatistic({
-         uid: this.uid,
-         isAdmin: this.isAdmin
-       });
-       await this.requestTimer();
-     } else {
-       this.$router.replace({name: "test"});
-     }
-   }
+    async isLogin(value) {
+      if (value) {
+        await this.requestStatistic({
+          uid: this.uid,
+          isAdmin: this.isAdmin
+        });
+        await this.requestTimer();
+      } else {
+        this.$router.replace({name: "test"});
+      }
+    }
   },
   methods: {
     ...mapActions("statistic", ["requestStatistic"]),
     ...mapActions("settings", ["requestTimer"]),
     changeActiveUser(activeUser) {
-      // this.activeUserUID = activeUser;
-      this.isAdmin
-        ? this.$router.push({name: "statistic-user", params: {uid: activeUser}})
-        : this.$router.replace({name: "statistic-user", params: {uid: activeUser}});
+      this.activeUserUID = activeUser;
+      if (this.isAdmin) this.$router.push({name: "statistic-user", params: {uid: activeUser}});
+
 
     },
   },
   async created() {
-    // if (!this.uid) this.$router.replace({path: "/test"});
-    if (this.uid) {
+    if (!this.isLogin) {
+      this.$router.replace({name: "test"});
+    } else {
       await this.requestStatistic({
         uid: this.uid,
         isAdmin: this.isAdmin
       });
       await this.requestTimer();
+      this.changeActiveUser(this.uid);
     }
   }
 };
