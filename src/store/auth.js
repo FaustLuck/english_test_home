@@ -5,7 +5,7 @@ import { ref, get } from "firebase/database";
 export const auth = {
   namespaced: true,
   state: {
-    uid: "unauthorizedUser",
+    uid: null,
     displayName: "Войти с помощью Google",
     photoURL: require("@/assets/google.svg"),
     isAdmin: false,
