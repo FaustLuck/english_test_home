@@ -1,5 +1,5 @@
 import { loadFirebaseRealtime, loadFirebaseAuth } from "@/main";
-
+import { onAuthStateChanged } from "firebase/auth";
 export const auth = {
   namespaced: true,
   state: {
@@ -11,10 +11,12 @@ export const auth = {
     isLogin: false,
   },
   mutations: {
-    saveUserInfo(state, info) {
+    saveUserInfoFromGoogle(state, info) {
       state.uid = info.uid;
       state.displayName = info.displayName;
       state.photoURL = info.photoURL;
+    },
+    saveUserInfoFromDB(state, info) {
       state.isAdmin = info.isAdmin ?? false;
       state.isPrivileged = info.isPrivileged ?? false;
     },
@@ -23,53 +25,32 @@ export const auth = {
     },
   },
   actions: {
-    async restoreLogin({dispatch}) {
-      let uid = await dispatch("getUID");
-      if (uid) await dispatch("requestUserInfo", uid);
+    async restoreLogin({dispatch, commit}) {
+      const firebaseAuth = await loadFirebaseAuth();
+      onAuthStateChanged(firebaseAuth, async (user) => {
+        commit("saveUserInfoFromGoogle", user);
+        await dispatch("requestUserInfo", user.uid);
+      });
     },
     async toLogin({state, dispatch}) {
       if (state.isLogin) return;
       const firebaseAuth = await loadFirebaseAuth();
-      const {GoogleAuthProvider, signInWithPopup} =await import("firebase/auth");
+      const {GoogleAuthProvider, signInWithPopup} = await import("firebase/auth");
       const provider = new GoogleAuthProvider();
       let result = await signInWithPopup(firebaseAuth, provider);
       let user = result.user;
-      if (!(await dispatch("requestUserInfo", user.uid))) await dispatch("sendUserInfo", user);
-
+      await dispatch("requestUserInfo", user.uid);
     },
-    async requestUserInfo({dispatch, commit}, uid) {
+    async requestUserInfo({commit}, uid) {
       const firebaseRealtime = await loadFirebaseRealtime();
-      const {ref, get} =await import("firebase/database");
-      const dbRef = ref(firebaseRealtime, `users2/${uid}/info`);//todo =>users
+      const {ref, get} = await import("firebase/database");
+      const dbRef = ref(firebaseRealtime, `users/${uid}/info`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let data = await snapshot.val();
-        data.uid = uid;
-        commit("saveUserInfo", data);
-        dispatch("setUID");
-        commit("changeLoginStatus", true);
-        return true;
-      } else {
-        return false;
+        commit("saveUserInfoFromDB", data);
       }
-    },
-    async sendUserInfo({dispatch, commit}, user) {
-      const firebaseRealtime = await loadFirebaseRealtime();
-      const {ref, set} = import("firebase/database");
-      const dbRef = ref(firebaseRealtime, `users2/${user.uid}/info/`);//todo =>users
-      await set(dbRef, {
-        displayName: user.displayName,
-        photoURL: user.photoURL,
-      });
-      commit("saveUserInfo", user);
-      dispatch("setUID");
       commit("changeLoginStatus", true);
-    },
-    setUID({state}) {
-      window.localStorage.setItem("uid", state.uid);
-    },
-    getUID() {
-      return window.localStorage.getItem("uid");
     }
   }
 };

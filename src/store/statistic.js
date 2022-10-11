@@ -36,7 +36,7 @@ export const statistic = {
       let path = isAdmin ? "" : `${uid}/`;
       const firebaseRealtime = await loadFirebaseRealtime();
       const {ref,get} =await import('firebase/database')
-      const dbRef = ref(firebaseRealtime, `users2/${path}`);
+      const dbRef = ref(firebaseRealtime, `users/${path}`);
       let snapshot = await get(dbRef);
       if (snapshot.exists()) {
         let statisticData = await snapshot.val();

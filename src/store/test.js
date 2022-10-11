@@ -38,7 +38,7 @@ export const test = {
     async sendAnswersToDB({state}, {uid}) {
       const firebaseRealtime = await loadFirebaseRealtime();
       const {ref, set} = await import("firebase/database");
-      const dbRef = ref(firebaseRealtime, `users2/${uid}/statistic/${state.timestamp}`);
+      const dbRef = ref(firebaseRealtime, `users/${uid}/statistic/${state.timestamp}`);
       try {
         await set(dbRef, {
           test: state.answers,
