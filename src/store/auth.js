@@ -1,5 +1,5 @@
 import { loadFirebaseRealtime, loadFirebaseAuth } from "@/main";
-import { onAuthStateChanged } from "firebase/auth";
+
 export const auth = {
   namespaced: true,
   state: {
@@ -27,6 +27,7 @@ export const auth = {
   actions: {
     async restoreLogin({dispatch, commit}) {
       const firebaseAuth = await loadFirebaseAuth();
+      const {onAuthStateChanged} = await import("firebase/auth");
       onAuthStateChanged(firebaseAuth, async (user) => {
         commit("saveUserInfoFromGoogle", user);
         await dispatch("requestUserInfo", user.uid);
