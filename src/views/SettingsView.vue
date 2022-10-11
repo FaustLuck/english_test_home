@@ -29,7 +29,7 @@ export default {
     ...mapActions("settings", ["requestSettings"])
   },
   created() {
-    this.requestSettings();
+    this.requestSettings()
   }
 };
 </script>

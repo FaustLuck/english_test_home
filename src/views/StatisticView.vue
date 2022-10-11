@@ -36,6 +36,9 @@ export default {
     ...mapState("statistic", ["statistic", "dateList"]),
   },
   watch: {
+    isAdmin(value) {
+      if (value) this.getData();
+    },
     statistic(value) {
       if (!Object.keys(value).length) return;
       this.isLoading = false;
@@ -48,13 +51,16 @@ export default {
       this.activeUserUID = activeUser;
       this.$router.push({name: "statistic-user", params: {uid: activeUser}});
     },
+    getData() {
+      this.requestStatistic({
+        uid: this.uid,
+        isAdmin: this.isAdmin
+      });
+      this.requestTimer();
+    }
   },
   created() {
-    this.requestStatistic({
-      uid: this.uid,
-      isAdmin: this.isAdmin
-    });
-    this.requestTimer();
+    this.getData();
   }
 };
 </script>
