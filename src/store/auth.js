@@ -1,4 +1,6 @@
-import { loadFirebaseRealtime, loadFirebaseAuth } from "@/main";
+import { firebaseAuth, firebaseRealtime } from "@/main";
+import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { ref, get } from "firebase/database";
 
 export const auth = {
   namespaced: true,
@@ -26,8 +28,6 @@ export const auth = {
   },
   actions: {
     async restoreLogin({dispatch, commit}) {
-      const firebaseAuth = await loadFirebaseAuth();
-      const {onAuthStateChanged} = await import("firebase/auth");
       onAuthStateChanged(firebaseAuth, async (user) => {
         commit("saveUserInfoFromGoogle", user);
         await dispatch("requestUserInfo", user.uid);
@@ -35,23 +35,27 @@ export const auth = {
     },
     async toLogin({state, dispatch}) {
       if (state.isLogin) return;
-      const firebaseAuth = await loadFirebaseAuth();
-      const {GoogleAuthProvider, signInWithPopup} = await import("firebase/auth");
-      const provider = new GoogleAuthProvider();
-      let result = await signInWithPopup(firebaseAuth, provider);
-      let user = result.user;
-      await dispatch("requestUserInfo", user.uid);
+      try {
+        const provider = new GoogleAuthProvider();
+        let result = await signInWithPopup(firebaseAuth, provider);
+        let user = result.user;
+        await dispatch("requestUserInfo", user.uid);
+      } catch (e) {
+        console.log(e);
+      }
     },
     async requestUserInfo({commit}, uid) {
-      const firebaseRealtime = await loadFirebaseRealtime();
-      const {ref, get} = await import("firebase/database");
       const dbRef = ref(firebaseRealtime, `users/${uid}/info`);
-      let snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        let data = await snapshot.val();
-        commit("saveUserInfoFromDB", data);
+      try {
+        let snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+          let data = await snapshot.val();
+          commit("saveUserInfoFromDB", data);
+        }
+        commit("changeLoginStatus", true);
+      } catch (e) {
+        console.log(e);
       }
-      commit("changeLoginStatus", true);
     }
   }
 };

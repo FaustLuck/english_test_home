@@ -1,4 +1,5 @@
-import { loadFirebaseRealtime } from "@/main";
+import { firebaseRealtime } from "@/main";
+import { ref, get } from "firebase/database";
 import { getDate } from "@/utils";
 
 export const statistic = {
@@ -34,26 +35,28 @@ export const statistic = {
   actions: {
     async requestStatistic({ commit }, { uid, isAdmin=false }) {
       let path = isAdmin ? "" : `${uid}/`;
-      const firebaseRealtime = await loadFirebaseRealtime();
-      const {ref,get} =await import('firebase/database')
       const dbRef = ref(firebaseRealtime, `users/${path}`);
-      let snapshot = await get(dbRef);
-      if (snapshot.exists()) {
-        let statisticData = await snapshot.val();
-        if (isAdmin) {
-          for (let [key, value] of Object.entries(statisticData)) {
-            if (!value?.statistic) delete statisticData[key];
+      try {
+        let snapshot = await get(dbRef);
+        if (snapshot.exists()) {
+          let statisticData = await snapshot.val();
+          if (isAdmin) {
+            for (let [key, value] of Object.entries(statisticData)) {
+              if (!value?.statistic) delete statisticData[key];
+            }
+          } else {
+            let tmp = {};
+            tmp[uid] = statisticData;
+            statisticData = tmp;
           }
+          commit("saveStatistic", statisticData);
+          commit("createDateList", statisticData);
+          return true;
         } else {
-          let tmp = {};
-          tmp[uid] = statisticData;
-          statisticData = tmp;
+          return false;
         }
-        commit("saveStatistic", statisticData);
-        commit("createDateList", statisticData);
-        return true;
-      } else {
-        return false;
+      } catch (e) {
+        console.log(e);
       }
     },
   },
