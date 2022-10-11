@@ -59,21 +59,28 @@ const router = createRouter({
 
 
 router.beforeEach((to, from, next) => {
-  if (to.name === "result" && from.name === "test") {
-    next();
+  if (to.name === "result") {
+    (store.state.test.answers) ? next() : next({name: "test"});
     return;
   }
-  if (to.name.includes("show") && from.name === "result") {
-    next();
+  if (to.name.includes("show")) {
+    (from.name === "result") ? next() : next({name: "test"});
     return;
   }
   if (to.meta.requireAdmin) {
     if (store.state.auth.isAdmin) {
       next();
-    } else if (store.state["auth/uid"] !== "unauthorizedUser") {
-      next({name: "statistic-user", params: {uid: store.state.auth.uid}});
+    } else {
+      if (store.state.auth.uid !== "unauthorizedUser") {
+        next({
+          name: "statistic-user",
+          params: {uid: store.state.auth.uid}
+        });
+      } else {
+        next({name: "test"});
+      }
+      return;
     }
-    return;
   }
   if (to.meta.requireLogin === store.state.auth.isLogin) {
     next();
