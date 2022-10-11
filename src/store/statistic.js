@@ -51,6 +51,9 @@ export const statistic = {
         }
         commit("saveStatistic", statisticData);
         commit("createDateList", statisticData);
+        return true;
+      } else {
+        return false;
       }
     },
   },

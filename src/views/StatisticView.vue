@@ -28,7 +28,7 @@ export default {
     return {
       isLoading: true,
       activeUserUID: "",
-      activeDate: ""
+      activeDate: "",
     };
   },
   computed: {
@@ -39,7 +39,6 @@ export default {
     statistic(value) {
       if (!Object.keys(value).length) return;
       this.isLoading = false;
-      if (!this.isAdmin) this.activeUserUID = Object.keys(this.statistic)[0];
     }
   },
   methods: {
@@ -47,7 +46,7 @@ export default {
     ...mapActions("settings", ["requestTimer"]),
     changeActiveUser(activeUser) {
       this.activeUserUID = activeUser;
-      if (this.isAdmin) this.$router.push({name: "statistic-user", params: {uid: activeUser}});
+      this.$router.push({name: "statistic-user", params: {uid: activeUser}});
     },
   },
   created() {
@@ -56,7 +55,7 @@ export default {
       isAdmin: this.isAdmin
     });
     this.requestTimer();
-    }
+  }
 };
 </script>
 

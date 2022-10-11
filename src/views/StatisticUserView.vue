@@ -1,6 +1,6 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
-  <div v-else>
+  <div v-else-if="isStaticExists">
     <date-list-component
       v-for="[date,timeArray] of dateList[uid]"
       :key="date"
@@ -9,6 +9,9 @@
       :time-array="timeArray"
     >
     </date-list-component>
+  </div>
+  <div v-else>
+    <h1>Пользователь не найден...</h1>
   </div>
 </template>
 
@@ -28,24 +31,25 @@ export default {
   },
   data() {
     return {
-      isLoading: true
+      isLoading: true,
+      isStaticExists: null
     };
   },
   computed: {
     ...mapState("statistic", ["dateList"])
   },
   watch: {
-    dateList(value) {
-      if (Object.keys(value).length) this.isLoading = false;
+    isStaticExists() {
+      this.isLoading = false;
     }
   },
   methods: {
     ...mapActions("statistic", ["requestStatistic"]),
     ...mapActions("settings", ["requestTimer"]),
   },
-  created() {
-    this.requestStatistic({uid: this.uid});
-    this.requestTimer();
+  async created() {
+    this.isStaticExists = await this.requestStatistic({uid: this.uid});
+    if (this.isStaticExists) await this.requestTimer();
   }
 };
 </script>
