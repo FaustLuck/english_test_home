@@ -28,9 +28,8 @@ export default {
   methods: {
     ...mapActions("settings", ["requestSettings"])
   },
-  async created() {
-    if (!this.isAdmin) this.$router.replace({name: "test"});
-    await this.requestSettings();
+  created() {
+    this.requestSettings();
   }
 };
 </script>

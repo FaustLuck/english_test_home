@@ -26,8 +26,8 @@ export default {
     };
   },
   watch: {
-    async isLogin(value) {
-      if (value) await this.sendAnswersToDB({uid: this.uid});
+    isLogin() {
+      this.sendAnswer();
     }
   },
   computed: {
@@ -40,13 +40,13 @@ export default {
       setTimeout(() => {
         this.$router.replace({name: `${nameShow}-show`});
       }, 3000);
+    },
+    sendAnswer() {
+      if (this.isLogin) this.sendAnswersToDB({uid: this.uid});
     }
   },
-  async created() {
-    if (this.isLogin) await this.sendAnswersToDB({uid: this.uid});
-  },
-  beforeRouteEnter(to, from, next) {
-    (from.name !== "test") ? next({name: "test"}) : next();
+  created() {
+    this.sendAnswer();
   }
 };
 </script>

@@ -39,6 +39,7 @@ export default {
   watch: {
     settings(value) {
       if (!Object.keys(value).length) return;
+      this.prepareAnswers(this.settings);
       this.isLoading = false;
     },
     answers(value) {
@@ -79,11 +80,6 @@ export default {
   },
   async created() {
     await this.requestSettings();
-  },
-  beforeRouteEnter(to, from, next) {
-    (from.name === "result") ? next(vm => {
-      vm.prepareAnswers(vm.settings);
-    }) : next();
   }
 };
 </script>

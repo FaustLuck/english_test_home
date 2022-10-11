@@ -24,10 +24,6 @@ export default {
         failShow(this.$refs.canvas);
         break;
     }
-  },
-  created() {
-     if (!this.answers) return this.$router.replace({name: "test"});
-
   }
 };
 </script>

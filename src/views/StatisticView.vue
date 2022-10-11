@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["isAdmin", "isLogin", "uid"]),
+    ...mapState("auth", ["isAdmin", "uid"]),
     ...mapState("statistic", ["statistic", "dateList"]),
   },
   watch: {
@@ -40,17 +40,6 @@ export default {
       if (!Object.keys(value).length) return;
       this.isLoading = false;
       if (!this.isAdmin) this.activeUserUID = Object.keys(this.statistic)[0];
-    },
-    async isLogin(value) {
-      if (value) {
-        await this.requestStatistic({
-          uid: this.uid,
-          isAdmin: this.isAdmin
-        });
-        await this.requestTimer();
-      } else {
-        this.$router.replace({name: "test"});
-      }
     }
   },
   methods: {
@@ -59,22 +48,15 @@ export default {
     changeActiveUser(activeUser) {
       this.activeUserUID = activeUser;
       if (this.isAdmin) this.$router.push({name: "statistic-user", params: {uid: activeUser}});
-
-
     },
   },
-  async created() {
-    if (!this.isLogin) {
-      this.$router.replace({name: "test"});
-    } else {
-      await this.requestStatistic({
-        uid: this.uid,
-        isAdmin: this.isAdmin
-      });
-      await this.requestTimer();
-      this.changeActiveUser(this.uid);
+  created() {
+    this.requestStatistic({
+      uid: this.uid,
+      isAdmin: this.isAdmin
+    });
+    this.requestTimer();
     }
-  }
 };
 </script>
 

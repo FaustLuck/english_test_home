@@ -32,27 +32,20 @@ export default {
     };
   },
   computed: {
-    ...mapState("statistic", ["dateList"]),
-    ...mapState("auth", ["isLogin"])
+    ...mapState("statistic", ["dateList"])
   },
   watch: {
-    isLogin(value) {
-      if (!value) return;
-      this.requestStatistic({uid: this.uid});
-    },
     dateList(value) {
       if (Object.keys(value).length) this.isLoading = false;
     }
   },
   methods: {
-    ...mapActions("statistic", ["requestStatistic"])
+    ...mapActions("statistic", ["requestStatistic"]),
+    ...mapActions("settings", ["requestTimer"]),
   },
   created() {
-    console.log(this.isLogin)
-    if (!this.isLogin) this.$router.replace({name: "test"});
-  },
-  beforeRouteEnter(to, from, next) {
-    (from.name === "statistic") ? next(vm => vm.isLoading = false) : next();
+    this.requestStatistic({uid: this.uid});
+    this.requestTimer();
   }
 };
 </script>
