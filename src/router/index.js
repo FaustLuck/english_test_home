@@ -70,7 +70,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requireAdmin) {
     if (store.state.auth.isAdmin) {
       next();
-    } else {
+    } else if (store.state["auth/uid"] !== "unauthorizedUser") {
       next({name: "statistic-user", params: {uid: store.state.auth.uid}});
     }
     return;
