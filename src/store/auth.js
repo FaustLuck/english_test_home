@@ -10,7 +10,7 @@ export const auth = {
     photoURL: require("@/assets/google.svg"),
     isAdmin: false,
     isPrivileged: false,
-    isLogin: false,
+    isLogin: null,
   },
   mutations: {
     saveUserInfoFromGoogle(state, info) {
@@ -29,6 +29,7 @@ export const auth = {
   actions: {
     async restoreLogin({dispatch, commit}) {
       onAuthStateChanged(firebaseAuth, async (user) => {
+        if (!user) return commit("changeLoginStatus", false);
         commit("saveUserInfoFromGoogle", user);
         await dispatch("requestUserInfo", user.uid);
       });
