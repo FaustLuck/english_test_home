@@ -8,7 +8,7 @@ export const auth = {
     uid: "unauthorizedUser",
     displayName: "Войти с помощью Google",
     photoURL: require("@/assets/google.svg"),
-    isAdmin: false,
+    isAdmin: null,
     isPrivileged: false,
     isLogin: null,
   },
