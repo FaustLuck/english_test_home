@@ -49,9 +49,5 @@ export default {
       border-radius: 50%;
     }
   }
-
-  &__name {
-    text-align: center;
-  }
 }
 </style>
