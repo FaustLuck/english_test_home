@@ -28,10 +28,9 @@ export const auth = {
   },
   actions: {
     async restoreLogin({dispatch, commit}) {
-      onAuthStateChanged(firebaseAuth, async (user) => {
+      await onAuthStateChanged(firebaseAuth, async (user) => {
         if (!user) return commit("changeLoginStatus", false);
-        commit("saveUserInfoFromGoogle", user);
-        await dispatch("requestUserInfo", user.uid);
+        await dispatch("requestUserInfo", user);
       });
     },
     async toLogin({state, dispatch}) {
@@ -40,13 +39,15 @@ export const auth = {
         const provider = new GoogleAuthProvider();
         let result = await signInWithPopup(firebaseAuth, provider);
         let user = result.user;
-        await dispatch("requestUserInfo", user.uid);
+        await dispatch("requestUserInfo", user);
       } catch (e) {
         console.log(e);
       }
     },
-    async requestUserInfo({commit}, uid) {
-      const dbRef = ref(firebaseRealtime, `users/${uid}/info`);
+    async requestUserInfo({commit}, user) {
+      const dbRef = ref(firebaseRealtime, `users/${user.uid}/info`);
+      commit("saveUserInfoFromGoogle", user);
+      window.localStorage.setItem("uid", user.uid);
       try {
         let snapshot = await get(dbRef);
         if (snapshot.exists()) {
@@ -57,6 +58,9 @@ export const auth = {
       } catch (e) {
         console.log(e);
       }
+    },
+    getUID() {
+      return window.localStorage.getItem("uid");
     }
   }
 };
