@@ -27,9 +27,6 @@ const routes = [
     path: "/statistic:uid",
     name: "statistic-user",
     props: true,
-    meta: {
-      requireLogin: true
-    },
     component: () => import(/* webpackChunkName: "StatisticUserView" */"@/views/StatisticUserView.vue")
   },
   {
@@ -58,36 +55,31 @@ const router = createRouter({
 });
 
 
-router.beforeEach((to, from, next) => {
-  if (to.name === "result") {
-    (store.state.test.answers) ? next() : next({name: "test"});
-    return;
-  }
-  if (to.name.includes("show")) {
-    (from.name === "result") ? next() : next({name: "test"});
-    return;
-  }
+router.beforeEach(async (to, from) => {
+  console.log(to);
   if (to.meta.requireAdmin) {
-    if (store.state.auth.isAdmin) {
-      next();
+    const isAdmin = store.state.auth.isAdmin;
+    if (isAdmin) {
+      return true;
     } else {
-      if (store.state.auth.uid !== "unauthorizedUser") {
-        next({
-          name: "statistic-user",
-          params: {uid: store.state.auth.uid}
-        });
-      } else {
-        next({name: "test"});
+      const uid = await store.dispatch("auth/getUID") ?? store.state.auth.uid;
+      if (to.name === "statistic") {
+        return uid !== "unauthorizedUser" ? {name: "statistic-user", params: {uid}} : {name: "test"};
       }
-      return;
     }
   }
-  if (to.meta.requireLogin === store.state.auth.isLogin) {
-    next();
-    return;
+  if (to.name === "statistic-user") {
+    const uid = await store.dispatch("auth/getUID") ?? store.state.auth.uid;
+    if (uid === "unauthorizedUser") return {name: "test"};
+    return (uid === to.params.uid) ? true : {name: "statistic-user", params: {uid}};
   }
-  next();
-});
+  if (to.name === "result") {
+    return (store.state.test.answers) ? true : {name: "test"};
+  }
+  if (to.name.includes("show")) {
+    return (from.name === "result") ? true : {name: "test"};
 
+  }
+});
 
 export default router;
