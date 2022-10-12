@@ -21,17 +21,11 @@ export default {
     ...mapState("auth", ["isAdmin"]),
     ...mapState("settings", ["settings"])
   },
-  watch: {
-    settings(value) {
-      if (!Object.keys(value).length) return;
-      this.isLoading = false;
-    }
-  },
   methods: {
     ...mapActions("settings", ["requestSettings"])
   },
-  created() {
-    this.requestSettings()
+  async created() {
+    this.isLoading = !(await this.requestSettings());
   }
 };
 </script>

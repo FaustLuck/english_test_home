@@ -18,7 +18,8 @@ export const settings = {
     }
   },
   actions: {
-    async requestSettings({commit}) {
+    async requestSettings({commit, state}) {
+      if (Object.keys(state.settings).length > 2) return true;
       const dbRef = ref(firebaseRealtime, "/settings");
       try {
         let snapshot = await get(dbRef);
@@ -26,11 +27,14 @@ export const settings = {
           let settingsData = snapshot.val();
           commit("saveSettings", settingsData);
         }
+        return true;
       } catch (e) {
         console.log(e);
+        return false;
       }
     },
-    async requestTimer({commit}) {
+    async requestTimer({commit, state}) {
+      if (state.settings.timer) return true;
       const dbRef = ref(firebaseRealtime, "/settings/timer");
       try {
         let snapshot = await get(dbRef);
@@ -38,8 +42,10 @@ export const settings = {
           let timerData = snapshot.val();
           commit("saveTimer", timerData);
         }
+        return true;
       } catch (e) {
         console.log(e);
+        return false;
       }
     }
   },

@@ -37,11 +37,6 @@ export default {
     ...mapState(["orderDifficult"])
   },
   watch: {
-    settings(value) {
-      if (!Object.keys(value).length) return;
-      this.prepareAnswers(this.settings);
-      this.isLoading = false;
-    },
     answers(value) {
       if (!(Object.keys(value)).length) return;
       this.createTest();
@@ -79,7 +74,7 @@ export default {
     }
   },
   async created() {
-    await this.requestSettings();
+  this.isLoading=!(await this.requestSettings());
   }
 };
 </script>

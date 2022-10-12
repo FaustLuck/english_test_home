@@ -38,10 +38,6 @@ export default {
   watch: {
     isAdmin(value) {
       if (value) this.getData();
-    },
-    statistic(value) {
-      if (!Object.keys(value).length) return;
-      this.isLoading = false;
     }
   },
   methods: {
@@ -52,15 +48,15 @@ export default {
       this.$router.push({name: "statistic-user", params: {uid: activeUser}});
     },
     getData() {
-      this.requestStatistic({
+      return this.requestStatistic({
         uid: this.uid,
         isAdmin: this.isAdmin
       });
-      this.requestTimer();
     }
   },
-  created() {
-    this.getData();
+  async created() {
+    this.isLoading = !(await this.getData());
+    await this.requestTimer();
   }
 };
 </script>

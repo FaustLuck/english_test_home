@@ -33,7 +33,8 @@ export const statistic = {
     }
   },
   actions: {
-    async requestStatistic({ commit }, { uid, isAdmin=false }) {
+    async requestStatistic({commit, state}, {uid, isAdmin = false}) {
+      if (state.statistic && !isAdmin) return true;
       let path = isAdmin ? "" : `${uid}/`;
       const dbRef = ref(firebaseRealtime, `users/${path}`);
       try {
