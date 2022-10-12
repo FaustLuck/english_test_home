@@ -7,16 +7,14 @@
       {{ date }} Тестов: {{ timeArray.length }}
     </div>
     <div v-if="isOpen">
-      <keep-alive>
-        <test-info-component
-          v-for="timeObj of timeArray"
-          :key="timeObj.timestamp"
-          :date="date"
-          :time="timeObj.time"
-          :answers="answers(timeObj.timestamp)"
-          :height-title="heightTitle"
-        ></test-info-component>
-      </keep-alive>
+      <test-info-component
+        v-for="timeObj of timeArray"
+        :key="timeObj.timestamp"
+        :date="date"
+        :time="timeObj.time"
+        :answers="answers(timeObj.timestamp)"
+        :height-title="heightTitle"
+      ></test-info-component>
     </div>
   </div>
 </template>

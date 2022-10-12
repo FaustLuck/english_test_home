@@ -23,14 +23,12 @@
       </div>
     </div>
     <div v-if="displayMode>0">
-      <keep-alive>
-        <test-difficult-component
-          v-for="difficult of orderDifficult"
-          :key="difficult"
-          :difficult="difficult"
-          :part-answers="displayMode===1?filterTest(difficult):test[difficult]"
-        ></test-difficult-component>
-      </keep-alive>
+      <test-difficult-component
+        v-for="difficult of orderDifficult"
+        :key="difficult"
+        :difficult="difficult"
+        :part-answers="displayMode===1?filterTest(difficult):test[difficult]"
+      ></test-difficult-component>
     </div>
   </section>
 </template>

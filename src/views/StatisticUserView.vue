@@ -10,9 +10,7 @@
     >
     </date-list-component>
   </div>
-  <div v-else>
-    <h1>Пользователь не найден...</h1>
-  </div>
+  <h1 v-else>Пользователь не найден...</h1>
 </template>
 
 <script>
