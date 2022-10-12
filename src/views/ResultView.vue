@@ -18,7 +18,7 @@ export default {
   name: "ResultView",
   components: {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
-    HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
+    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
   },
   data() {
     return {

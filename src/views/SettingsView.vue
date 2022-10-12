@@ -5,11 +5,13 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-import PreloaderComponent from "@/components/preloaderComponent";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "SettingsView",
-  components: {PreloaderComponent},
+  components: {
+    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
+  },
   data() {
     return {
       isLoading: true

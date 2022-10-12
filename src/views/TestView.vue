@@ -21,9 +21,9 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "TestView",
   components: {
-    HeaderComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
-    PreloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
+    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
+    cardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   data() {
     return {

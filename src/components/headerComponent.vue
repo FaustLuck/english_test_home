@@ -13,8 +13,8 @@ import { mapState } from "vuex";
 export default {
   name: "headerComponent",
   components: {
-    StartButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
-    TimerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
+    startButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
+    timerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
   },
   computed: {
     ...mapState("test", ["isTesting"])

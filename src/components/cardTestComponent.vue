@@ -49,7 +49,7 @@ import { mapMutations } from "vuex";
 export default {
   name: "cardTestComponent",
   components: {
-    CardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent"))
+    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent"))
   },
   props: {
     testItem: {

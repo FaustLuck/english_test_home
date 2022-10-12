@@ -15,7 +15,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "testDifficultComponent",
   components:{
-    CardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
+    cardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   props:{
     difficult: String,
