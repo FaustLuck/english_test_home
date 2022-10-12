@@ -64,6 +64,8 @@ router.beforeEach(async (to, from) => {
       const uid = await store.dispatch("auth/getUID") ?? store.state.auth.uid;
       if (to.name === "statistic") {
         return uid !== "unauthorizedUser" ? {name: "statistic-user", params: {uid}} : {name: "test"};
+      } else {
+        return {name: "test"};
       }
     }
   }
