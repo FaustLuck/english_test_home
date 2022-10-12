@@ -3,12 +3,14 @@
   <div v-else>
     <header-component></header-component>
     <div v-if="isTesting">
-      <card-test-component
-        v-for="(item,i) of test"
-        :key="item.question+i"
-        :test-item="item"
-        :index="i"
-      ></card-test-component>
+      <transition name="card-show"
+                  v-for="(item,i) of test"
+                  :key="item.question+i">
+        <card-test-component
+          :test-item="item"
+          :index="i"
+        ></card-test-component>
+      </transition>
     </div>
   </div>
 </template>
@@ -74,10 +76,25 @@ export default {
     }
   },
   async created() {
-  this.isLoading=!(await this.requestSettings());
+    this.isLoading = !(await this.requestSettings());
   }
 };
 </script>
 
 <style lang="scss" scoped>
+.card-show {
+  &-enter {
+    &-from {
+      transform: scaleY(0);
+    }
+
+    &-active {
+      transition: transform 0.5s ease;
+    }
+
+    &-to {
+      transform: scaleY(1);
+    }
+  }
+}
 </style>
