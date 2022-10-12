@@ -1,16 +1,33 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
-  <span v-else>settings</span>
+  <div v-else>
+    <div class="time">
+      <span>Ограничение по времени: </span>
+      <span>{{ settings.timer.min }}</span> : <span>{{ settings.timer.sec }}</span>
+    </div>
+    <div class="variants">
+      <span>Количество вариантов ответов: </span>
+      <span>{{ settings.variants }}</span>
+    </div>
+    <test-difficult-component
+      v-for="difficult of orderDifficult"
+      :key="difficult"
+      :difficult="difficult"
+      :part-answers="settings.dictionary[difficult]"
+    ></test-difficult-component>
+  </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
+import TestDifficultComponent from "@/components/testDifficultComponent";
 
 export default {
   name: "SettingsView",
   components: {
-    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
+    TestDifficultComponent,
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent"))
   },
   data() {
     return {
@@ -19,7 +36,8 @@ export default {
   },
   computed: {
     ...mapState("auth", ["isAdmin"]),
-    ...mapState("settings", ["settings"])
+    ...mapState("settings", ["settings"]),
+    ...mapState(["orderDifficult"])
   },
   methods: {
     ...mapActions("settings", ["requestSettings"])
