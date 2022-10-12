@@ -56,7 +56,6 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from) => {
-  console.log(to);
   if (to.meta.requireAdmin) {
     const isAdmin = store.state.auth.isAdmin;
     if (isAdmin) {
