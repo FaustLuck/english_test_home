@@ -35,11 +35,6 @@ export default {
     ...mapState("auth", ["isAdmin", "uid"]),
     ...mapState("statistic", ["statistic", "dateList"]),
   },
-  watch: {
-    isAdmin(value) {
-      if (value) this.getData();
-    }
-  },
   methods: {
     ...mapActions("statistic", ["requestStatistic"]),
     ...mapActions("settings", ["requestTimer"]),
