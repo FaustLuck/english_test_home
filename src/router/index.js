@@ -56,12 +56,12 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from) => {
+  const isAdmin = store.state.auth.isAdmin;
+  const uid = await store.dispatch("auth/getUID") ?? store.state.auth.uid;
   if (to.meta.requireAdmin) {
-    const isAdmin = store.state.auth.isAdmin;
     if (isAdmin) {
       return true;
     } else {
-      const uid = await store.dispatch("auth/getUID") ?? store.state.auth.uid;
       if (to.name === "statistic") {
         return uid !== "unauthorizedUser" ? {name: "statistic-user", params: {uid}} : {name: "test"};
       } else {
@@ -70,9 +70,8 @@ router.beforeEach(async (to, from) => {
     }
   }
   if (to.name === "statistic-user") {
-    const uid = await store.dispatch("auth/getUID") ?? store.state.auth.uid;
     if (uid === "unauthorizedUser") return {name: "test"};
-    return (uid === to.params.uid) ? true : {name: "statistic-user", params: {uid}};
+    return (uid === to.params.uid || isAdmin) ? true : {name: "statistic-user", params: {uid}};
   }
   if (to.name === "result") {
     return (store.state.test.answers) ? true : {name: "test"};
