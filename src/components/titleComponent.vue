@@ -1,0 +1,105 @@
+<template>
+  <div
+    class="container"
+    :class="{'open':isOpen || mustIsOpen}"
+    @click="toOpen"
+  >
+    <div
+      ref="title"
+      :class="{
+      'top':isTop || mustIsTop,
+      'container__title':isOpen || mustIsTop,
+      'sticky':isOpen}"
+    >{{ title }}
+    </div>
+    <slot
+      v-if="isOpen || mustIsOpen"
+      :heightTitle="heightTitle"
+    ></slot>
+  </div>
+</template>
+
+<script>
+export default {
+  name: "titleComponent",
+  props: {
+    title: String,
+    mustIsOpen: Boolean,
+    mustIsTop: Boolean
+  },
+  data() {
+    return {
+      isOpen: false,
+      isTop: false,
+      heightTitle: 0
+    };
+  },
+  methods: {
+    getTop() {
+      if (!this.isOpen) return;
+      let top = this.$refs.title.getBoundingClientRect().top;
+      this.isTop = (window.matchMedia("(max-width: 768px)").matches) ? top === 65 : top === 0;
+    },
+    toOpen(e) {
+      if (e.target !== this.$refs.title) return;
+      this.isOpen = !this.isOpen;
+      (this.isOpen)
+        ? window.addEventListener("scroll", this.getTop)
+        : window.removeEventListener("scroll", this.getTop);
+    },
+    calculateHeightTitle() {
+      let title = this.$refs.title;
+      if (!title.classList.contains("container__title")) return;
+      let marginBottom = parseInt(getComputedStyle(title).marginBottom);
+      let height = title.getBoundingClientRect().height;
+      let top = parseInt(getComputedStyle(title).top);
+      this.heightTitle = height + marginBottom + top;
+    }
+  },
+  beforeUnmount() {
+    window.removeEventListener("scroll", this.getTop);
+  },
+  updated() {
+    if (this.isOpen) this.calculateHeightTitle();
+  }
+};
+</script>
+
+<style scoped lang="scss">
+.container {
+  text-align: center;
+  background-color: #FFDAB9;
+  box-shadow: 0 0 10px 5px #e9a66a;
+  border-radius: 2rem;
+  padding: .5rem 0;
+  margin: 1rem;
+  cursor: pointer;
+  @media screen and (max-width: 768px) {
+    margin: 1rem 0;
+  }
+
+  &.open {
+    box-shadow: none;
+  }
+
+  &__title {
+    background-color: #FFDAB9;
+    margin-bottom: 1rem;
+    @media screen and (max-width: 768px) {
+      top: 65px;
+    }
+
+    &.sticky {
+      position: sticky;
+      top: 0;
+    }
+
+    &.top {
+      border-bottom-left-radius: 2rem;
+      border-bottom-right-radius: 2rem;
+      box-shadow: 0 5px 0 0 #e9a66a;
+      z-index: 1;
+    }
+  }
+}
+</style>
