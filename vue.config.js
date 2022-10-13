@@ -1,7 +1,18 @@
 const { defineConfig } = require("@vue/cli-service");
 module.exports = defineConfig({
+  chainWebpack(config) {
+    config.optimization
+      .minimizer("terser")
+      .tap(args => {
+        args[0].terserOptions.output = {
+          comments: false
+        };
+        return args;
+      });
+  },
   transpileDependencies: true,
-  outputDir: 'docs',
+  productionSourceMap: false,
+  outputDir: "docs",
   publicPath:
     process.env.NODE_ENV === "production" ? "/english_test_home/" : "/",
   pages: {

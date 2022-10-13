@@ -5,7 +5,7 @@ const routes = [
   {
     path: "/",
     name: "test",
-    component: () => import(/* webpackChunkName: "TestView" */ "@/views/TestView.vue")
+    component: () => import("@/views/TestView.vue")
   },
   {
     path: "/result",
@@ -13,7 +13,7 @@ const routes = [
     meta: {
       requireAnswers: true
     },
-    component: () => import(/* webpackChunkName: "ResultView" */"@/views/ResultView.vue")
+    component: () => import("@/views/ResultView.vue")
   },
   {
     path: "/statistic",
@@ -21,13 +21,13 @@ const routes = [
     meta: {
       requireAdmin: true
     },
-    component: () => import(/* webpackChunkName: "StatisticView" */"@/views/StatisticView.vue"),
+    component: () => import("@/views/StatisticView.vue"),
   },
   {
     path: "/statistic:uid",
     name: "statistic-user",
     props: true,
-    component: () => import(/* webpackChunkName: "StatisticUserView" */"@/views/StatisticUserView.vue")
+    component: () => import("@/views/StatisticUserView.vue")
   },
   {
     path: "/settings",
@@ -35,17 +35,17 @@ const routes = [
     meta: {
       requireAdmin: true
     },
-    component: () => import(/* webpackChunkName: "SettingsView" */"@/views/SettingsView.vue")
+    component: () => import("@/views/SettingsView.vue")
   },
   {
     path: "/fire-show",
     name: "fire-show",
-    component: () => import(/* webpackChunkName: "AnimationShow" */"@/views/AnimationShow.vue")
+    component: () => import("@/views/AnimationShow.vue")
   },
   {
     path: "/fail-show",
     name: "fail-show",
-    component: () => import(/* webpackChunkName: "AnimationShow" */"@/views/AnimationShow.vue")
+    component: () => import("@/views/AnimationShow.vue")
   }
 ]
 
