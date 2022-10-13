@@ -11,7 +11,7 @@ import { defineAsyncComponent } from "vue";
 
 export default {
   components: {
-    LayoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent")),
+    layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent")),
     menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
   }
 };

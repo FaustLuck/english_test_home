@@ -20,7 +20,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "testDifficultComponent",
   components: {
-    TitleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
+    titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     cardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   props: {

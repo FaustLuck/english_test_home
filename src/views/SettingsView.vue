@@ -21,12 +21,11 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
-import TestDifficultComponent from "@/components/testDifficultComponent";
 
 export default {
   name: "SettingsView",
   components: {
-    TestDifficultComponent,
+    testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent"))
   },
   data() {

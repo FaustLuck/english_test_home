@@ -22,7 +22,7 @@ import { mapGetters, mapState } from "vuex";
 export default {
   name: "dateListComponent",
   components: {
-    TitleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
+    titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
 
   },
