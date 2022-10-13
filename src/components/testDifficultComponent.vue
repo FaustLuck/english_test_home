@@ -16,12 +16,11 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import TitleComponent from "@/components/titleComponent";
 
 export default {
   name: "testDifficultComponent",
   components: {
-    TitleComponent,
+    TitleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     cardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
   },
   props: {
