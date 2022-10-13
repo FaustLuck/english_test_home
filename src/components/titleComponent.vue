@@ -20,6 +20,8 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+
 export default {
   name: "titleComponent",
   props: {
@@ -34,18 +36,24 @@ export default {
       heightTitle: 0
     };
   },
+  computed: {
+    ...mapState(["menuHeight"])
+  },
   methods: {
     getTop() {
       if (!this.isOpen) return;
       let top = this.$refs.title.getBoundingClientRect().top;
-      this.isTop = (window.matchMedia("(max-width: 768px)").matches) ? top === 65 : top === 0;
+      this.isTop = top <= this.menuHeight;
     },
     toOpen(e) {
       if (e.target !== this.$refs.title) return;
       this.isOpen = !this.isOpen;
-      (this.isOpen)
-        ? window.addEventListener("scroll", this.getTop)
-        : window.removeEventListener("scroll", this.getTop);
+      if (this.isOpen) {
+        this.$refs.title.style.top = `${this.menuHeight}px`;
+        window.addEventListener("scroll", this.getTop);
+      } else {
+        window.removeEventListener("scroll", this.getTop);
+      }
     },
     calculateHeightTitle() {
       let title = this.$refs.title;
@@ -85,13 +93,9 @@ export default {
   &__title {
     background-color: #FFDAB9;
     margin-bottom: 1rem;
-    @media screen and (max-width: 768px) {
-      top: 65px;
-    }
 
     &.sticky {
       position: sticky;
-      top: 0;
     }
 
     &.top {

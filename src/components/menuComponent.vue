@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   name: "menuComponent",
@@ -19,10 +19,15 @@ export default {
     ...mapState("auth", ["isAdmin", "isLogin", "displayName", "photoURL"])
   },
   methods: {
-    ...mapActions("auth", ["restoreLogin", "toLogin"])
+    ...mapActions("auth", ["restoreLogin", "toLogin"]),
+    ...mapMutations(["setMenuHeight"])
   },
   async created() {
     await this.restoreLogin();
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      let h = this.$el.getBoundingClientRect().height;
+      this.setMenuHeight(h);
+    }
   }
 };
 </script>

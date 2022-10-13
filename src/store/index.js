@@ -6,10 +6,15 @@ import { test } from "@/store/test";
 
 export default createStore({
   state: {
-    orderDifficult: ["easy", "medium", "hard"]
+    orderDifficult: ["easy", "medium", "hard"],
+    menuHeight: 0
   },
   getters: {},
-  mutations: {},
+  mutations: {
+    setMenuHeight(state, h) {
+      state.menuHeight = h;
+    }
+  },
   actions: {},
   modules: {
     auth,
