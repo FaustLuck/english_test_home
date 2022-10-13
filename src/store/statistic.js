@@ -1,6 +1,6 @@
 import { firebaseRealtime } from "@/main";
 import { ref, get } from "firebase/database";
-import { getDate } from "@/utils";
+import { getDate } from "@/utils/getDate";
 
 export const statistic = {
   namespaced: true,

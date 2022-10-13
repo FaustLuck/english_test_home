@@ -1,6 +1,6 @@
-import { toFill } from "@/utils";
 import { firebaseRealtime } from "@/main";
 import { ref, set } from "firebase/database";
+import { toFill } from "@/utils/toFill";
 
 export const test = {
   namespaced: true,

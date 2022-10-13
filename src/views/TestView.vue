@@ -17,8 +17,8 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
-import { toFill } from "@/utils";
 import { defineAsyncComponent } from "vue";
+import { toFill } from "@/utils/toFill";
 
 export default {
   name: "TestView",
