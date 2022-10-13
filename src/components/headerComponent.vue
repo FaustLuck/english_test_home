@@ -1,5 +1,5 @@
 <template>
-  <header :class="{center:!isTesting}">
+  <header>
     <start-button-component></start-button-component>
     <timer-component v-if="isTesting"></timer-component>
   </header>
@@ -40,10 +40,6 @@ header {
   @media screen and (max-width: 768px) {
     padding: 0;
     top: 65px;
-  }
-
-  &.center {
-    justify-content: center;
   }
 }
 </style>
