@@ -20,13 +20,17 @@ export default {
   },
   methods: {
     ...mapActions("auth", ["restoreLogin", "toLogin"]),
-    ...mapMutations(["setMenuHeight"])
+    ...mapMutations(["setMenuHeight"]),
+    setHeight() {
+      let h = this.$el.getBoundingClientRect().height;
+      this.setMenuHeight(h);
+    }
   },
   async created() {
     await this.restoreLogin();
+    window.addEventListener("resize", this.setHeight);
     if (window.matchMedia("(max-width: 768px)").matches) {
-      let h = this.$el.getBoundingClientRect().height;
-      this.setMenuHeight(h);
+      this.setHeight();
     }
   }
 };
