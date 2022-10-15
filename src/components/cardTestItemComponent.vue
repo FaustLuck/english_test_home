@@ -70,6 +70,7 @@ export default {
   display: flex;
   align-items: center;
   cursor: pointer;
+  text-align: left;
 
   & > * {
     margin: 0 .25rem;
