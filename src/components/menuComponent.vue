@@ -3,7 +3,7 @@
     <router-link v-if="isAdmin" title="Настройки" :to="{path:'settings'}">
       <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
-    <router-link v-if="isLogin" title="Статистика" :to="{path:'statistic'}"
+    <router-link v-if="isLogin" title="Статистика" :to="{path:'users'}"
     ><img src="@/assets/statistic.svg" alt="Статистика"
     /></router-link>
     <a @click="toLogin" :title="displayName"><img :src="photoURL" alt="Аватар"/></a>

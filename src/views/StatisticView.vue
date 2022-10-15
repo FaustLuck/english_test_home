@@ -1,69 +1,57 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
-  <section v-else class="users">
-    <div class="users__container" v-show="!activeUserUID">
-      <user-card-component
-        v-for="(userInfo,uid) in statistic"
-        :key="userInfo.info.displayName"
-        :user="userInfo"
-        :uid="uid"
-        @changeActiveUser="changeActiveUser"
-      >
-      </user-card-component>
-    </div>
-  </section>
+  <div v-else-if="isStaticExists">
+    <date-list-component
+      v-for="[date,timeArray] of dateList[uid]"
+      :key="date"
+      :uid="uid"
+      :date="date"
+      :time-array="timeArray"
+    >
+    </date-list-component>
+  </div>
+  <h1 v-else>Пользователь не найден...</h1>
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+
 import { defineAsyncComponent } from "vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "StatisticView",
+  name: "StatisticUserView",
   components: {
-    userCardComponent:defineAsyncComponent(()=>import("@/components/userCardComponent")),
-    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
+    dateListComponent: defineAsyncComponent(() => import("@/components/dateListComponent")),
+  },
+  props: {
+    uid: String
   },
   data() {
     return {
       isLoading: true,
-      activeUserUID: "",
-      activeDate: "",
+      isStaticExists: null
     };
   },
   computed: {
-    ...mapState("auth", ["isAdmin", "uid"]),
-    ...mapState("statistic", ["statistic", "dateList"]),
+    ...mapState("statistic", ["dateList"])
+  },
+  watch: {
+    isStaticExists() {
+      this.isLoading = false;
+    }
   },
   methods: {
     ...mapActions("statistic", ["requestStatistic"]),
     ...mapActions("settings", ["requestTimer"]),
-    changeActiveUser(activeUser) {
-      this.activeUserUID = activeUser;
-      this.$router.push({name: "statistic-user", params: {uid: activeUser}});
-    },
-    getData() {
-      return this.requestStatistic({
-        uid: this.uid,
-        isAdmin: this.isAdmin
-      });
-    }
   },
   async created() {
-    this.isLoading = !(await this.getData());
-    await this.requestTimer();
+    this.isStaticExists = await this.requestStatistic({uid: this.uid});
+    if (this.isStaticExists) await this.requestTimer();
   }
 };
 </script>
 
-<style lang="scss" scoped>
-.users {
-  position: relative;
-
-  &__container {
-    display: flex;
-    flex-direction: column;
-  }
-}
+<style scoped lang="scss">
 
 </style>

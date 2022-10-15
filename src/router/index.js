@@ -16,18 +16,18 @@ const routes = [
     component: () => import("@/views/ResultView.vue")
   },
   {
-    path: "/statistic",
-    name: "statistic",
+    path: "/users",
+    name: "users",
     meta: {
       requireAdmin: true
     },
-    component: () => import("@/views/StatisticView.vue"),
+    component: () => import("@/views/UsersView.vue"),
   },
   {
     path: "/statistic:uid",
-    name: "statistic-user",
+    name: "statistic",
     props: true,
-    component: () => import("@/views/StatisticUserView.vue")
+    component: () => import("@/views/StatisticView.vue")
   },
   {
     path: "/settings",
@@ -62,16 +62,16 @@ router.beforeEach(async (to, from) => {
     if (isAdmin) {
       return true;
     } else {
-      if (to.name === "statistic") {
-        return uid !== "unauthorizedUser" ? {name: "statistic-user", params: {uid}} : {name: "test"};
+      if (to.name === "users") {
+        return uid !== "unauthorizedUser" ? {name: "statistic", params: {uid}} : {name: "test"};
       } else {
         return {name: "test"};
       }
     }
   }
-  if (to.name === "statistic-user") {
+  if (to.name === "users") {
     if (uid === "unauthorizedUser") return {name: "test"};
-    return (uid === to.params.uid || isAdmin) ? true : {name: "statistic-user", params: {uid}};
+    return (uid === to.params.uid || isAdmin) ? true : {name: "statistic", params: {uid}};
   }
   if (to.name === "result") {
     return (store.state.test.answers) ? true : {name: "test"};
