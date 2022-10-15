@@ -1,5 +1,6 @@
 <template>
   <title-component
+    v-if="partAnswers.length"
     :title="difficult"
     :must-is-open="mode!=='settings'"
     :must-is-top="mode!=='settings'"
