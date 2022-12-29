@@ -4,7 +4,6 @@
     :timestamp="timestamp"
     :answers="{test:answers,timeSpent}"
     @show="show"
-    @click="activeTimestamp=timestamp"
   >
   </test-info-component>
 </template>
@@ -19,11 +18,6 @@ export default {
   components: {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
     headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
-  },
-  data() {
-    return {
-      activeTimestamp: 0
-    };
   },
   watch: {
     isLogin() {
