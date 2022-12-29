@@ -3,14 +3,28 @@
   <div v-else>
     <header-component></header-component>
     <div v-if="isTesting">
-      <transition name="card-show"
-                  v-for="(item,i) of test"
-                  :key="item.question+i">
-        <card-test-component
-          :test-item="item"
-          :index="i"
-        ></card-test-component>
-      </transition>
+      <item-component
+        v-for="(item,i) of test"
+        :key="item.question+i"
+      >
+        <div class="item__column">
+          <card-test-item-component
+            :item="item.question"
+            :type="'question'"
+          ></card-test-item-component>
+        </div>
+        <div class="item__column">
+          <card-test-item-component
+            v-for="answer of item.answer"
+            :key="answer"
+            :name="item.difficult+i"
+            :item="answer"
+            :type="'answer'"
+            :choice="item.choice"
+            @updateChoice="updateChoice"
+          ></card-test-item-component>
+        </div>
+      </item-component>
     </div>
   </div>
 </template>
@@ -25,7 +39,8 @@ export default {
   components: {
     headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    cardTestComponent: defineAsyncComponent(() => import("@/components/cardTestComponent"))
+    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent")),
+    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent"))
   },
   data() {
     return {
@@ -73,7 +88,14 @@ export default {
         difficult,
         question: el.question
       };
-    }
+    },
+    updateChoice(choice) {
+      this.saveChoice({
+        choice,
+        question: this.testItem.question,
+        difficult: this.testItem.difficult
+      });
+    },
   },
   async created() {
     this.isLoading = !(await this.requestSettings());
@@ -82,19 +104,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-show {
-  &-enter {
-    &-from {
-      transform: scaleY(0);
-    }
-
-    &-active {
-      transition: transform 0.5s ease;
-    }
-
-    &-to {
-      transform: scaleY(1);
-    }
+.item__column {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding-left: 1rem;
   }
 }
 </style>

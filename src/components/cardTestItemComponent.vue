@@ -77,7 +77,7 @@ export default {
   }
 
   &.speech {
-    padding-left: 3rem;
+    padding-left: 3.25rem;
     @media screen and (max-width: 768px) {
       padding-left: 0;
     }
