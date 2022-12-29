@@ -89,11 +89,11 @@ export default {
         question: el.question
       };
     },
-    updateChoice(choice) {
+    updateChoice(choice, item) {
       this.saveChoice({
         choice,
-        question: this.testItem.question,
-        difficult: this.testItem.difficult
+        question: item.question,
+        difficult: item.difficult
       });
     },
   },
