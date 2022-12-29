@@ -21,7 +21,7 @@
             :item="answer"
             :type="'answer'"
             :choice="item.choice"
-            @updateChoice="updateChoice"
+            @updateChoice="(choice)=>updateChoice(choice,item)"
           ></card-test-item-component>
         </div>
       </item-component>
@@ -63,7 +63,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("test", ["prepareAnswers"]),
+    ...mapMutations("test", ["prepareAnswers", "saveChoice"]),
     ...mapActions("settings", ["requestSettings"]),
     createTest() {
       this.test = [];
