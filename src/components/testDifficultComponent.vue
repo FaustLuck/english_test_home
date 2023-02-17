@@ -6,28 +6,29 @@
     :must-is-top="mode!=='settings'"
   >
     <item-component
-      v-for="(answer,index) of partAnswers"
-      :key="answer.answer"
+      v-for="(item,index) of partAnswers"
+      :key="item.answer"
+      :test-item="item"
     >
       <div class="item__column">
         <card-test-item-component
-          :item="answer.question"
+          :item="item.question"
           :type="'question'"
         ></card-test-item-component>
       </div>
       <div class="item__column">
         <card-test-item-component
           :type="'answer'"
-          :name="answer.difficult+index"
-          :item="answer.answer"
-          :checked="answer.answer===answer.choice"
+          :name="difficult+index"
+          :item="item.answer"
+          :checked="item.answer===item?.choice"
         >
         </card-test-item-component>
         <card-test-item-component
-          v-if="answer?.choice && answer.answer!==answer.choice"
+          v-if="item?.choice && item.answer!==item?.choice"
           :type="'answer'"
-          :name="answer.difficult+index"
-          :item="answer.choice"
+          :name="difficult+index"
+          :item="item?.choice"
           :checked="true"
         >
         </card-test-item-component>
