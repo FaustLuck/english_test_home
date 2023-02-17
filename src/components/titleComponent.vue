@@ -9,7 +9,7 @@
       :class="{
       'top':isTop || mustIsTop,
       'container__title':isOpen || mustIsTop,
-      'sticky':isOpen}"
+      'sticky':isOpen && mode==='settings'}"
     >{{ title }}
     </div>
     <slot
@@ -37,7 +37,10 @@ export default {
     };
   },
   computed: {
-    ...mapState(["menuHeight"])
+    ...mapState(["menuHeight"]),
+    mode() {
+      return this.$route.name;
+    }
   },
   methods: {
     getTop() {
