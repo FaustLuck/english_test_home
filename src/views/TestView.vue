@@ -32,7 +32,6 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
-import { toFill } from "@/utils/toFill";
 
 export default {
   name: "TestView",
@@ -49,56 +48,34 @@ export default {
     };
   },
   computed: {
-    ...mapState("settings", ["settings"]),
-    ...mapState("test", ["answers", "isTesting"]),
-    ...mapState(["orderDifficult"])
+    ...mapState("test", ["test", "isTesting", "SPEECH"]),
+    ...mapState(["isLoading"]),
   },
   watch: {
-    answers(value) {
-      if (!(Object.keys(value)).length) return;
-      this.createTest();
-    },
     isTesting(value) {
-      return (value) ? this.prepareAnswers(this.settings) : this.$router.push({name: "result"});
+      if (!value) return this.$router.push({name: "result"});
     }
   },
   methods: {
-    ...mapMutations("test", ["prepareAnswers", "saveChoice"]),
-    ...mapActions("settings", ["requestSettings"]),
-    createTest() {
-      this.test = [];
-      for (let difficult of this.orderDifficult) {
-        this.answers[difficult].forEach(el => this.test.push(this.createTestItem(el, difficult)));
+    ...mapMutations("test", ["saveChoice"]),
+    ...mapActions("test", ["getTest"]),
+    isSpeech(str) {
+      return /[a-zA-Z]/g.test(str);
+    },
+    async toVoice(str) {
+      if (!this.isSpeech(str)) return;
+      try {
+        let response = await fetch(this.SPEECH + str);
+        if (response.ok) {
+          let blob = await response.blob();
+          let src = URL.createObjectURL(blob);
+          const audio = new Audio(src);
+          await audio.play();
+        }
+      } catch (e) {
+        console.log(e);
       }
-    },
-    toFillVariants(answer, dictionary, limitVariant) {
-      let variants = toFill(
-        dictionary.filter((e) => e !== answer),
-        limitVariant - 1
-      );
-      variants.push(answer);
-      variants.sort();
-      return variants;
-    },
-    createTestItem(el, difficult) {
-      let {dictionary, variants} = this.settings;
-      dictionary = dictionary[difficult].map(e => e.answer);
-      return {
-        answer: this.toFillVariants(el.answer, dictionary, variants),
-        difficult,
-        question: el.question
-      };
-    },
-    updateChoice(choice, item) {
-      this.saveChoice({
-        choice,
-        question: item.question,
-        difficult: item.difficult
-      });
-    },
-  },
-  async created() {
-    this.isLoading = !(await this.requestSettings());
+    }
   }
 };
 </script>

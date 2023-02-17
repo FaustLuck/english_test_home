@@ -1,9 +1,10 @@
 <template>
   <header-component></header-component>
-  <test-info-component
-    :timestamp="timestamp"
-    :answers="{test:answers,timeSpent}"
-    @show="show"
+  <preloader-component v-if="isLoading"></preloader-component>
+  <test-info-component v-else
+                       :timestamp="timestamp"
+                       :answers="{test:answers,timeSpent}"
+                       @show="show"
   >
   </test-info-component>
 </template>
@@ -11,7 +12,7 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapState } from "vuex";
-import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
+// import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
 
 export default {
   name: "ResultView",
@@ -26,21 +27,19 @@ export default {
   },
   computed: {
     ...mapState("test", ["answers", "timestamp", "timeSpent"]),
-    ...mapState("auth", ["isLogin", "uid"]),
+    ...mapState(["isLoading"])
+    // ...mapState("auth", ["isLogin", "uid"]),
   },
   methods: {
-    ...mapActions("test", ["sendAnswersToDB"]),
+    // ...mapActions("test", ["sendAnswersToDB"]),
     show(nameShow) {
       setTimeout(() => {
         this.$router.replace({name: `${nameShow}-show`});
       }, 3000);
     },
-    sendAnswer() {
-      if (this.isLogin) this.sendAnswersToDB({uid: this.uid});
-    }
-  },
-  created() {
-    this.sendAnswer();
+    // sendAnswer() {
+    //   if (this.isLogin) this.sendAnswersToDB({uid: this.uid});
+    // }
   }
 };
 </script>

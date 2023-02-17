@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapGetters, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "timerComponent",
@@ -14,12 +14,8 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("settings", ["getTimer"]),
-    timerStart() {
-      if (!this.getTimer) return;
-      let {min, sec} = this.getTimer;
-      return min * 60 + sec;
-    },
+    ...mapState("test", ["timer"]),
+    ...mapState(["isLoading"]),
     time() {
       let sec = (this.timerSec % 60).toString().padStart(2, "0");
       let min = (this.timerSec - sec) / 60;
@@ -31,19 +27,24 @@ export default {
       if (value === 0) {
         clearInterval(this.timerID);
         document.body.classList.add("fail");
-        setTimeout(() => {
+        setTimeout(async () => {
+          document.body.classList.remove("fail");
           this.changeTestStatus(false);
           this.$router.push("result");
-          document.body.classList.remove("fail");
+          this.setLoading(true);
+          await this.checkTest();
+          this.setLoading(false);
         }, 3000);
       }
     }
   },
   methods: {
     ...mapMutations("test", ["saveTimes", "saveTimerSec", "changeTestStatus"]),
+    ...mapMutations(["setLoading"]),
+    ...mapActions("test", ["checkTest"])
   },
   created() {
-    this.timerSec = this.timerStart;
+    this.timerSec = this.timer;
     this.timerID = setInterval(() => {
       this.timerSec--;
       this.saveTimerSec(this.timerSec);
@@ -51,7 +52,7 @@ export default {
   },
   beforeUnmount() {
     clearInterval(this.timerID);
-    this.saveTimes(this.timerStart - this.timerSec);
+    this.saveTimes(this.timer - this.timerSec);
   }
 };
 </script>
