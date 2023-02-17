@@ -27,14 +27,14 @@
         v-for="difficult of orderDifficult"
         :key="difficult"
         :difficult="difficult"
-        :part-answers="displayMode===1?filterTest(difficult):test[difficult]"
+        :part-answers="displayMode===1?filterTest(difficult):result[difficult]"
       ></test-difficult-component>
     </div>
   </section>
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/getDate";
 
@@ -44,7 +44,6 @@ export default {
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent"))
   },
   props: {
-    answers: Object,
     timestamp: Number,
     date: String,
     time: String,
@@ -54,14 +53,12 @@ export default {
     return {
       localDate: "",
       localTime: "",
-      test: null,
-      timeSpent: 0,
       displayMode: 0
     };
   },
   computed: {
     ...mapState("auth", ["displayName", "isLogin"]),
-    ...mapGetters("settings", ["getTimer"]),
+    ...mapState("test", ["timeSpent", "result"]),
     ...mapState(["orderDifficult"]),
     timerStart() {
       if (!this.getTimer) return;
@@ -72,11 +69,11 @@ export default {
       return this.$route.name;
     },
     lengthAnswers() {
-      return (Object.values(this.test)).reduce((acc, cur) => acc + cur.length, 0);
+      return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
     },
     correctAnswers() {
-      return (Object.values(this.test)).reduce((acc, cur) => {
-        return acc + cur.filter(el => el.answer === el.choice).length;
+      return (Object.values(this.result)).reduce((acc, cur) => {
+        return acc + cur.filter(el => el.answer === el?.choice).length;
       }, 0);
     },
     timeSpentToString() {
@@ -88,7 +85,7 @@ export default {
       return this.lengthAnswers === this.correctAnswers;
     },
     isFail() {
-      return (this.timerStart === this.answers.timeSpent);
+      return (this.timerStart === this.timeSpent);
     },
   },
   methods: {
@@ -111,11 +108,10 @@ export default {
       }
     },
     filterTest(difficult) {
-      return this.test[difficult].filter(el => el.answer !== el.choice);
+      return this.result[difficult].filter(el => el.answer !== el.choice);
     }
   },
   created() {
-    ({test: this.test, timeSpent: this.timeSpent} = {...this.answers});
     if (this.isCongratulation) this.$emit("show", "fire");
     if (this.isFail) this.$emit("show", "fail");
     [this.localDate, this.localTime] = (this.mode === "result") ? getDate(this.timestamp) : [this.date, this.time];
