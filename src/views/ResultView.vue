@@ -3,7 +3,6 @@
   <preloader-component v-if="isLoading"></preloader-component>
   <test-info-component v-else
                        :timestamp="timestamp"
-                       :answers="{test:answers,timeSpent}"
                        @show="show"
   >
   </test-info-component>
@@ -12,13 +11,13 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapState } from "vuex";
-// import { mapActions } from "vuex/dist/vuex.esm-browser.prod";
 
 export default {
   name: "ResultView",
   components: {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
     headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
   },
   watch: {
     isLogin() {
@@ -26,8 +25,8 @@ export default {
     }
   },
   computed: {
-    ...mapState("test", ["answers", "timestamp", "timeSpent"]),
-    ...mapState(["isLoading"])
+    ...mapState("test", ["result", "timestamp", "timeSpent"]),
+    ...mapState(["isLoading"]),
     // ...mapState("auth", ["isLogin", "uid"]),
   },
   methods: {
@@ -37,6 +36,7 @@ export default {
         this.$router.replace({name: `${nameShow}-show`});
       }, 3000);
     },
+
     // sendAnswer() {
     //   if (this.isLogin) this.sendAnswersToDB({uid: this.uid});
     // }
