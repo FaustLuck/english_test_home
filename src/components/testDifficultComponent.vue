@@ -72,5 +72,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.item__column {
+  width: 50%;
+}
 </style>
