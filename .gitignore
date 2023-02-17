@@ -2,8 +2,7 @@
 node_modules
 aaa
 
-/tests/e2e/videos/
-/tests/e2e/screenshots/
+*.cmd
 
 # local env files
 .env.local
