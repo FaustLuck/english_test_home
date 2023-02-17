@@ -44,7 +44,8 @@ export default {
   name: "testDifficultComponent",
   components: {
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
-    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent"))
+    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent")),
+    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent"))
   },
   props: {
     difficult: String,
