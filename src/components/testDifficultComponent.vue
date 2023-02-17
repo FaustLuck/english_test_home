@@ -39,12 +39,10 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import ItemComponent from "@/components/itemComponent";
 
 export default {
   name: "testDifficultComponent",
   components: {
-    ItemComponent,
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent"))
   },
