@@ -7,12 +7,16 @@ import { test } from "@/store/test";
 export default createStore({
   state: {
     orderDifficult: ["easy", "medium", "hard"],
-    menuHeight: 0
+    menuHeight: 0,
+    isLoading: false
   },
   getters: {},
   mutations: {
     setMenuHeight(state, h) {
       state.menuHeight = h;
+    },
+    setLoading(state, flag) {
+      state.isLoading = flag;
     }
   },
   actions: {},
