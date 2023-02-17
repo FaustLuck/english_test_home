@@ -33,19 +33,7 @@
         >
         </card-test-item-component>
       </div>
-
-
     </item-component>
-
-
-
-<!--    <card-test-component-->
-<!--      v-for="(answer,index) of partAnswers"-->
-<!--      :key="answer.answer"-->
-<!--      :test-item="{...answer,difficult}"-->
-<!--      :index="index"-->
-<!--    >-->
-<!--    </card-test-component>-->
   </title-component>
 </template>
 
