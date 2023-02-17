@@ -1,5 +1,10 @@
 <template>
-  <div class="card">
+  <div class="card"
+       :class="{
+    right:mode!=='test'&& testItem.answer===testItem.choice,
+    wrong:mode!=='test'&& testItem.answer!==testItem.choice
+  }"
+  >
     <slot></slot>
   </div>
 </template>
@@ -7,7 +12,15 @@
 <script>
 
 export default {
-  name: "itemComponent"
+  name: "itemComponent",
+  props: {
+    testItem: Object
+  },
+  computed:{
+    mode() {
+      return this.$route.name;
+    }
+  }
 };
 </script>
 

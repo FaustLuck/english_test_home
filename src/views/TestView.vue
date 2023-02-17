@@ -1,30 +1,41 @@
 <template>
-  <preloader-component v-if="isLoading"></preloader-component>
-  <div v-else>
+  <div>
     <header-component></header-component>
-    <div v-if="isTesting">
-      <item-component
-        v-for="(item,i) of test"
-        :key="item.question+i"
+    <div>
+      <preloader-component v-if="isLoading"></preloader-component>
+      <div v-else-if="isTesting" class="card"
+           v-for="(item,i) of test"
+           :key="`${item.question}_${i}`"
       >
-        <div class="item__column">
-          <card-test-item-component
-            :item="item.question"
-            :type="'question'"
-          ></card-test-item-component>
+        <div class="card__column">
+          <label class="item" :class="{speech:!isSpeech(item.question)}">
+            <a v-if="isSpeech(item.question)">🔉</a>
+            <input
+              @click="toVoice(item.question)"
+              v-show="false"
+              type="radio"
+              :name="item.question"
+            />
+            <span class="item__title">{{ item.question }}</span>
+          </label>
         </div>
-        <div class="item__column">
-          <card-test-item-component
-            v-for="answer of item.answer"
-            :key="answer"
-            :name="item.difficult+i"
-            :item="answer"
-            :type="'answer'"
-            :choice="item.choice"
-            @updateChoice="(choice)=>updateChoice(choice,item)"
-          ></card-test-item-component>
+        <div class="card__column">
+          <label class="item"
+                 :class="{speech:!isSpeech(variant)}"
+                 v-for="(variant,index) of item.answer"
+                 :key="`${item.question}_${i}_${index}`"
+          >
+            <a v-if="isSpeech(variant)">🔉</a>
+            <input
+              @change="saveChoice({choice:variant,question:item.question})"
+              @click="toVoice(variant)"
+              type="radio"
+              :name="`${item.question}_${i}`"
+            />
+            <span class="item__title">{{ variant }}</span>
+          </label>
         </div>
-      </item-component>
+      </div>
     </div>
   </div>
 </template>
@@ -38,14 +49,6 @@ export default {
   components: {
     headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent")),
-    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent"))
-  },
-  data() {
-    return {
-      test: [],
-      isLoading: true
-    };
   },
   computed: {
     ...mapState("test", ["test", "isTesting", "SPEECH"]),
@@ -81,13 +84,65 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item__column {
-  width: 50%;
+.card {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  border-radius: 2rem;
+  box-shadow: 0 0 10px 5px #e9a66a;
+  margin: 2rem 0;
+  padding: .5rem;
+  background-color: #FFDAB9;
+
   @media screen and (max-width: 768px) {
-    width: 100%;
-    padding-left: 1rem;
+    flex-direction: column;
+  }
+
+  &__column {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      padding-left: 1rem;
+    }
   }
 }
+
+.item {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  text-align: left;
+
+  & > * {
+    margin: 0 .25rem;
+  }
+
+  &.speech {
+    padding-left: 3.25rem;
+    @media screen and (max-width: 768px) {
+      padding-left: 0;
+    }
+  }
+
+  & > input[type="radio"] {
+    transform: scale(2, 2);
+    cursor: pointer;
+    @media screen and (max-width: 768px) {
+      transform: scale(1.5, 1.5);
+    }
+  }
+
+  &__title {
+    &.right {
+      color: #008000;
+    }
+
+    &.wrong {
+      color: #FF0000;
+    }
+  }
+}
+
+
 </style>
