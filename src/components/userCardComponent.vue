@@ -1,11 +1,11 @@
 <template>
   <div class="user"
-       :class="{privileged:user.info.isPrivileged}"
-       @click="$emit('changeActiveUser',uid)">
+       :class="{privileged:user?.privileged}"
+       @click="$emit('changeActiveUser',user.sub)">
       <span class="user__avatar">
-        <img :src="user.info.photoURL" :alt="user.info.displayName">
+        <img :src="user.picture" :alt="user.name">
       </span>
-    <span class="user__name">{{ user.info.displayName }}</span>
+    <span class="user__name">{{ user.name }}</span>
   </div>
 </template>
 
@@ -14,7 +14,6 @@ export default {
   name: "userCardComponent",
   props: {
     user: Object,
-    uid: String
   }
 };
 </script>
