@@ -21,7 +21,7 @@
 
 <script>
 import { mapState } from "vuex";
-
+//TODO нет передачи heightTitle в testInfoComponent (в слот) родительскийцй компонент для обоих: dateListComponent
 export default {
   name: "titleComponent",
   props: {
