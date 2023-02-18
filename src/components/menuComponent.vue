@@ -4,7 +4,7 @@
       <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
     <router-link v-if="isLogin" title="История" :to="{path:'users'}"
-    ><img src="@/assets/statistic.svg" alt="Статистика"
+    ><img src="@/assets/statistic.svg" alt="История"
     /></router-link>
     <a v-if="!isLogin" id="google"></a>
     <a v-else :title="name"><img :src="picture" alt="Аватар"/></a>
