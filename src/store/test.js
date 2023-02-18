@@ -1,5 +1,4 @@
-// import { firebaseRealtime } from "@/main";
-// import { ref, set } from "firebase/database";
+import { request } from "@/utils/utils";
 
 export const test = {
   namespaced: true,
@@ -40,28 +39,16 @@ export const test = {
   },
   actions: {
     async getTest({commit}, {sub = ""}) {
-      let res = await fetch("http://localhost:8080/test", { //TODO после заменить
-        headers: {"Content-Type": "application/json"},
-        method: "POST",
-        body: JSON.stringify({sub})
-      });
-      if (res.ok) {
-        commit("saveTest", await res.json());
-      }
+      const data = await request("test", {sub});
+      commit("saveTest", data);
     },
     async checkTest({state, commit}) {
       let test = state.test.map(el => {
         if (el?.answer) delete el.answer;
         return el;
       });
-      let res = await fetch("http://localhost:8080/check", { //TODO после заменить
-        headers: {"Content-Type": "application/json"},
-        method: "POST",
-        body: JSON.stringify({test})
-      });
-      if (res.ok) {
-        commit("saveResult", await res.json());
-      }
+      const result = await request("check", {test});
+      commit("saveResult", result);
     }
   }
 };
