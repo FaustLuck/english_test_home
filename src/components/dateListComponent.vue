@@ -1,15 +1,11 @@
 <template>
   <title-component
-    :title="`${date} Тестов: ${timeArray.length}`"
-    v-slot="{heightTitle}"
-  >
+    :title="`${dateString} Тестов: ${count}`" @click="getTime">
     <test-info-component
-      v-for="timeObj of timeArray"
-      :heightTitle="heightTitle"
-      :key="timeObj.timestamp"
-      :date="date"
-      :time="timeObj.time"
-      :answers="answers(timeObj.timestamp)"
+      v-for="(testInfo,timestamp) of timeList"
+      :key="timestamp"
+      :timestamp="+datestamp+ +timestamp"
+      :testInfo="testInfo"
     ></test-info-component>
   </title-component>
 </template>
@@ -17,29 +13,36 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
+import { getDate } from "@/utils/utils";
 
 export default {
   name: "dateListComponent",
   components: {
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
-    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
-
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
   },
   props: {
-    uid: String,
-    date: String,
-    timeArray: Array
+    count: Number,
+    datestamp: String
+  },
+  data() {
+    return {
+      timeList: null,
+    };
   },
   computed: {
-    // ...mapGetters("statistic", ["getAnswers"]),
     ...mapState(["orderDifficult"]),
+    dateString() {
+      return getDate(+this.datestamp)[0];
+    },
   },
   methods: {
-    // answers(timestamp) {
-    //   return this.getAnswers(this.uid, timestamp);
-    // },
-  },
+    ...mapActions("statistic", ["getTimeList"]),
+    async getTime() {
+     if(!this.timeList) this.timeList = await this.getTimeList({sub: this.$route.params.sub, date: this.datestamp});
+    }
+  }
 };
 </script>
 
