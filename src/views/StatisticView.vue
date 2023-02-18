@@ -53,5 +53,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.statistic{
+  display: flex;
+  flex-direction: column-reverse;
+}
 </style>

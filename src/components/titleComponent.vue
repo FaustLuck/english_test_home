@@ -83,8 +83,10 @@ export default {
   box-shadow: 0 0 10px 5px #e9a66a;
   border-radius: 2rem;
   padding: .5rem 0;
-  margin: 1rem;
+  margin: .5rem;
   cursor: pointer;
+  display: flex;
+  flex-direction: column-reverse;
   @media screen and (max-width: 768px) {
     margin: 1rem 0;
   }
@@ -96,6 +98,9 @@ export default {
   &__title {
     background-color: #FFDAB9;
     margin-bottom: 1rem;
+    display: flex;
+    order: 1;
+    justify-content: center;
 
     &.sticky {
       position: sticky;
