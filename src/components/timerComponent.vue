@@ -10,15 +10,14 @@ export default {
   data() {
     return {
       timerID: null,
-      timerSec: null
+      timeLeft: null
     };
   },
   computed: {
     ...mapState("test", ["timer"]),
-    ...mapState(["isLoading"]),
     time() {
-      let sec = (this.timerSec % 60).toString().padStart(2, "0");
-      let min = (this.timerSec - sec) / 60;
+      let sec = (this.timeLeft % 60).toString().padStart(2, "0");
+      let min = (this.timeLeft - sec) / 60;
       return `${min}:${sec}`;
     }
   },
@@ -39,20 +38,20 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("test", ["saveTimes", "saveTimerSec", "changeTestStatus"]),
+    ...mapMutations("test", ["saveTimes", "changeTestStatus", "saveTimerSec"]),
     ...mapMutations(["setLoading"]),
     ...mapActions("test", ["checkTest"])
   },
   created() {
-    this.timerSec = this.timer;
+    this.timeLeft = this.timer;
     this.timerID = setInterval(() => {
-      this.timerSec--;
-      this.saveTimerSec(this.timerSec);
+      this.timeLeft--;
+      this.saveTimerSec(this.timeLeft);
     }, 1000);
   },
   beforeUnmount() {
     clearInterval(this.timerID);
-    this.saveTimes(this.timer - this.timerSec);
+    this.saveTimes(this.timeLeft);
   }
 };
 </script>
