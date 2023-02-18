@@ -1,8 +1,8 @@
 <template>
   <div class="card"
   :class="{
-    right:mode!=='test'&& testItem.answer===testItem.choice,
-    wrong:mode!=='test'&& testItem.answer!==testItem.choice
+    right:right,
+    wrong:!right
   }">
     <div class="card__col">
       <card-test-item-component
@@ -28,6 +28,7 @@
         :name="testItem.difficult+index"
         :item="testItem.answer"
         :checked="testItem.answer===testItem.choice"
+        :right="true"
       >
       </card-test-item-component>
       <card-test-item-component
@@ -36,6 +37,7 @@
         :name="testItem.difficult+index"
         :item="testItem.choice"
         :checked="true"
+        :right="false"
       >
       </card-test-item-component>
     </div>
@@ -61,6 +63,9 @@ export default {
   computed: {
     mode() {
       return this.$route.name;
+    },
+    right(){
+      return this.mode!=='test'&& this.testItem.answer===this.testItem.choice
     }
   },
   methods: {
