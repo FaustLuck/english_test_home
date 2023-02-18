@@ -13,8 +13,8 @@ export const test = {
     timer: null
   },
   mutations: {
-    saveTimes(state, timeSpent) {
-      state.timeSpent = timeSpent;
+    saveTimes(state) {
+      state.timeSpent = state.timer - state.timeLeft;
       let date = new Date();
       state.timestamp = date.setSeconds(0, 0);
     },
@@ -25,8 +25,8 @@ export const test = {
       let [item] = state.test.filter(el => el.question === question);
       item.choice = choice;
     },
-    saveTimerSec(state, secondsLeft) {
-      state.timeLeft = secondsLeft;
+    saveTimerSec(state, timeLeft) {
+      state.timeLeft = timeLeft;
     },
 
 
@@ -39,7 +39,7 @@ export const test = {
   },
   actions: {
     async getTest({commit}, {sub = ""}) {
-      const data = await request("test", {sub});
+      const data = await request(`test/${sub}`, null, "GET");
       commit("saveTest", data);
     },
     async checkTest({state, commit}) {
@@ -47,7 +47,7 @@ export const test = {
         if (el?.answer) delete el.answer;
         return el;
       });
-      const result = await request("check", {test});
+      const result = await request(`check`, {test});
       commit("saveResult", result);
     }
   }

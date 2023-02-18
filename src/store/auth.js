@@ -47,7 +47,7 @@ export const auth = {
       google.accounts.id.prompt();
     },
     async getID() {
-      return  await request('id',null,'GET')
+      return await request("id", null, "GET");
     }
   }
 };
