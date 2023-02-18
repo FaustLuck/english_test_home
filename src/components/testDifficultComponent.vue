@@ -22,6 +22,7 @@
           :name="difficult+index"
           :item="item.answer"
           :checked="item.answer===item?.choice"
+          :right="true"
         >
         </card-test-item-component>
         <card-test-item-component
@@ -30,6 +31,7 @@
           :name="difficult+index"
           :item="item?.choice"
           :checked="true"
+          :right="false"
         >
         </card-test-item-component>
       </div>
