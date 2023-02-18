@@ -1,66 +1,53 @@
-import { firebaseAuth, firebaseRealtime } from "@/main";
-import { onAuthStateChanged, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { ref, get } from "firebase/database";
+import { request } from "@/utils/utils";
 
 export const auth = {
   namespaced: true,
   state: {
-    uid: "unauthorizedUser",
-    displayName: "Войти с помощью Google",
-    photoURL: require("@/assets/google.svg"),
-    isAdmin: null,
-    isPrivileged: false,
+    admin: null,
+    privileged: false,
     isLogin: null,
+    sub: null,
+    name: null,
+    picture: null
   },
   mutations: {
-    saveUserInfoFromGoogle(state, info) {
-      state.uid = info.uid;
-      state.displayName = info.displayName;
-      state.photoURL = info.photoURL;
-    },
-    saveUserInfoFromDB(state, info) {
-      state.isAdmin = info.isAdmin ?? false;
-      state.isPrivileged = info.isPrivileged ?? false;
-    },
-    changeLoginStatus(state, isLogin) {
-      state.isLogin = isLogin;
+    changeLoginStatus(state, info) {
+      Object.assign(state, info);
+      state.isLogin = true;
     },
   },
   actions: {
-    async restoreLogin({dispatch, commit}) {
-      await onAuthStateChanged(firebaseAuth, async (user) => {
-        if (!user) return commit("changeLoginStatus", false);
-        await dispatch("requestUserInfo", user);
-      });
-    },
-    async toLogin({state, dispatch}) {
-      if (state.isLogin) return;
-      try {
-        const provider = new GoogleAuthProvider();
-        let result = await signInWithPopup(firebaseAuth, provider);
-        let user = result.user;
-        await dispatch("requestUserInfo", user);
-      } catch (e) {
-        console.log(e);
-      }
-    },
-    async requestUserInfo({commit}, user) {
-      const dbRef = ref(firebaseRealtime, `users/${user.uid}/info`);
-      commit("saveUserInfoFromGoogle", user);
-      window.localStorage.setItem("uid", user.uid);
-      try {
-        let snapshot = await get(dbRef);
-        if (snapshot.exists()) {
-          let data = await snapshot.val();
-          commit("saveUserInfoFromDB", data);
+    async googleInitialize({dispatch, commit}) {
+      //TODO убрать
+      // eslint-disable-next-line no-undef
+      google.accounts.id.initialize({
+        client_id: await dispatch("getID"),
+        auto_select: true,
+        callback: async (response) => {
+          {
+            const token = response.credential;
+            const info = await request("login", {token});
+            commit("changeLoginStatus", info);
+          }
         }
-        commit("changeLoginStatus", true);
-      } catch (e) {
-        console.log(e);
-      }
+      });
+      //TODO убрать
+      // eslint-disable-next-line no-undef
+      google.accounts.id.renderButton(
+        document.getElementById("google"),
+        {
+          type: "icon",
+          shape: "circle",
+          theme: "outline",
+          size: "large"
+        }
+      );
+      //TODO убрать
+      // eslint-disable-next-line no-undef
+      google.accounts.id.prompt();
     },
-    getUID() {
-      return window.localStorage.getItem("uid");
+    async getID() {
+      return  await request('id',null,'GET')
     }
   }
 };
