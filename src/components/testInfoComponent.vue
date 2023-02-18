@@ -1,4 +1,4 @@
-<template>
+<template v-slot="heightTitle">
   <preloader-component v-if="isLoading && mode==='result'"></preloader-component>
   <section v-else
            class="info"
@@ -24,19 +24,19 @@
         <span>Время вышло!</span>
       </div>
     </div>
-        <div v-if="displayMode>0">
+        <div v-if="displayMode>0 && localTest">
           <test-difficult-component
             v-for="difficult of orderDifficult"
             :key="difficult"
             :difficult="difficult"
-            :part-answers="displayMode===1?filterTest(difficult):result[difficult]"
+            :part-answers="displayMode===1?filterTest(difficult):localTest[difficult]"
           ></test-difficult-component>
         </div>
   </section>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 
@@ -49,14 +49,20 @@ export default {
   },
   props: {
     timestamp: Number,
-    testInfo: Object
+    testInfo: Object,
+    sub: String,
+    heightTitle:Number
   },
   data() {
     return {
       displayMode: 0,
       isLoading: true,
-      date:0,
-      time:0
+      date: 0,
+      time: 0,
+      localTest: this.result,
+      localTimeSpent: this.timeSpent ?? this.testInfo.timeSpent,
+      localTimeLeft: this.timeLeft ?? this.testInfo.timeLeft,
+      tmp: null
     };
   },
   watch: {
@@ -86,9 +92,8 @@ export default {
       return this.testInfo.correct;
     },
     timeSpentToString() {
-      const timeSpent = this.timeSpent ?? this.testInfo.timeSpent;
-      let sec = (timeSpent % 60).toString().padStart(2, "0");
-      let min = (timeSpent - sec) / 60;
+      let sec = (this.localTimeSpent % 60).toString().padStart(2, "0");
+      let min = (this.localTimeSpent - sec) / 60;
       return `${min}:${sec}`;
     },
     isCongratulation() {
@@ -97,22 +102,30 @@ export default {
       return length === correct;
     },
     isFail() {
-      return (this.timeLeft ?? this.testInfo.timeLeft) === 0;
+      return this.localTimeLeft === 0;
     },
   },
   methods: {
+    ...mapActions("statistic", ["getResult"]),
     changeDisplayMode(e) {
-      if (this.mode==='result') return;
+      this.getResultFromBD();
+      if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;
       if (this.displayMode > 2) this.displayMode = 0;
-      if ((this.isCongratulation || !this.correctAnswers) && this.displayMode === 1) this.displayMode = 2;
+      if ((this.isCongratulation || !this.correct) && this.displayMode === 1) this.displayMode = 2;
       if (this.displayMode === 0) return;
       let el = e.target.closest(".info");
       setTimeout(() => this.scroll(el), 0);
     },
+    async getResultFromBD() {
+      if(this.localTest) return
+      this.localTest = await this.getResult({sub: this.sub, timestamp: this.timestamp});
+    },
     scroll(el) {
       let top = el.getBoundingClientRect().top;
+
       if (top !== this.heightTitle && this.displayMode > 0) {
+        console.log(top - this.heightTitle)
         window.scrollBy({
           top: top - this.heightTitle,
           behavior: "smooth"
@@ -120,7 +133,8 @@ export default {
       }
     },
     filterTest(difficult) {
-      return this.result[difficult].filter(el => el.answer !== el.choice);
+      this.tmp = this.localTest[difficult].filter(el => el.answer !== el?.choice);
+      return this.localTest[difficult].filter(el => el.answer !== el?.choice);
     }
   },
   mounted() {
