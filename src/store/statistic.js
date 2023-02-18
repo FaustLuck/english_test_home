@@ -25,10 +25,11 @@ export const statistic = {
       const dateList = await request(`getdatelist/${sub}`, null, "GET");
       commit("saveDateList", dateList);
     },
-    //TODO убрать
-    // eslint-disable-next-line no-empty-pattern
-    async getTimeList({}, {date, sub}) {
+    async getTimeList(_, {date, sub}) {
       return await request(`getTimeList/${sub}/${date}`, null, "GET");
+    },
+    async getResult(_, {sub, timestamp}) {
+      return request(`getTest/${sub}/${timestamp}`, null, "GET");
     }
   }
 };
