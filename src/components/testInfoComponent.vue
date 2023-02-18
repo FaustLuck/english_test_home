@@ -1,4 +1,4 @@
-<template v-slot="heightTitle">
+<template>
   <preloader-component v-if="isLoading && mode==='result'"></preloader-component>
   <section v-else
            class="info"
@@ -123,9 +123,7 @@ export default {
     },
     scroll(el) {
       let top = el.getBoundingClientRect().top;
-
       if (top !== this.heightTitle && this.displayMode > 0) {
-        console.log(top - this.heightTitle)
         window.scrollBy({
           top: top - this.heightTitle,
           behavior: "smooth"
