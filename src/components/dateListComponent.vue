@@ -17,7 +17,7 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapGetters, mapState } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "dateListComponent",
@@ -32,13 +32,13 @@ export default {
     timeArray: Array
   },
   computed: {
-    ...mapGetters("statistic", ["getAnswers"]),
+    // ...mapGetters("statistic", ["getAnswers"]),
     ...mapState(["orderDifficult"]),
   },
   methods: {
-    answers(timestamp) {
-      return this.getAnswers(this.uid, timestamp);
-    },
+    // answers(timestamp) {
+    //   return this.getAnswers(this.uid, timestamp);
+    // },
   },
 };
 </script>

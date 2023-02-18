@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("auth", ["isAdmin", "uid"]),
+    ...mapState("auth", ["admin", "sub"]),
     ...mapState("statistic", ["statistic", "dateList"]),
   },
   methods: {

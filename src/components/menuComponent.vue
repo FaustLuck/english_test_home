@@ -1,12 +1,13 @@
 <template>
   <nav class="menu">
-    <router-link v-if="isAdmin" title="Настройки" :to="{path:'settings'}">
+    <router-link v-if="admin" title="Настройки" :to="{path:'settings'}">
       <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
-    <router-link v-if="isLogin" title="Статистика" :to="{path:'users'}"
+    <router-link v-if="isLogin" title="История" :to="{path:'users'}"
     ><img src="@/assets/statistic.svg" alt="Статистика"
     /></router-link>
-    <a @click="toLogin" :title="displayName"><img :src="photoURL" alt="Аватар"/></a>
+    <a v-if="!isLogin" id="google"></a>
+    <a v-else :title="name"><img :src="picture" alt="Аватар"/></a>
   </nav>
 </template>
 
@@ -16,10 +17,10 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "menuComponent",
   computed: {
-    ...mapState("auth", ["isAdmin", "isLogin", "displayName", "photoURL"])
+    ...mapState("auth", ["admin", "isLogin", "name", "picture"])
   },
   methods: {
-    ...mapActions("auth", ["restoreLogin", "toLogin"]),
+    ...mapActions("auth", ["googleInitialize"]),
     ...mapMutations(["setMenuHeight"]),
     setHeight() {
       let h = this.$el.getBoundingClientRect().height;
@@ -27,7 +28,7 @@ export default {
     }
   },
   async created() {
-    await this.restoreLogin();
+    await this.googleInitialize();
     window.addEventListener("resize", this.setHeight);
     if (window.matchMedia("(max-width: 768px)").matches) {
       this.setHeight();

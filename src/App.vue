@@ -13,7 +13,7 @@ export default {
   components: {
     layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent")),
     menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
-  }
+  },
 };
 </script>
 

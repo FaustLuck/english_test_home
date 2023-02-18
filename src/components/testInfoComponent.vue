@@ -36,7 +36,7 @@
 <script>
 import { mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
-import { getDate } from "@/utils/getDate";
+import { getDate } from "@/utils/utils";
 
 export default {
   name: "testInfoComponent",

@@ -34,7 +34,8 @@ export default {
     };
   },
   computed: {
-    ...mapState("statistic", ["dateList"])
+    ...mapState("statistic", ["dateList"]),
+    ...mapState("auth", ["sub"])
   },
   watch: {
     isStaticExists() {
@@ -42,11 +43,10 @@ export default {
     }
   },
   methods: {
-    ...mapActions("statistic", ["requestStatistic"]),
-    ...mapActions("settings", ["requestTimer"]),
+    ...mapActions("statistic", ["getDateList"])
   },
   async created() {
-    this.isStaticExists = await this.requestStatistic({uid: this.uid});
+    this.isStaticExists = await this.getDateList({sub: this.sub});
     if (this.isStaticExists) await this.requestTimer();
   }
 };
