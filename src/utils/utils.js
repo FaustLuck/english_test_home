@@ -18,5 +18,9 @@ export async function request(path, data, method = "POST") {
     method,
     body
   });
-  if (response.ok) return await response.json();
+  if (response.ok) {
+    return await response.json();
+  } else {
+    return false;
+  }
 }
