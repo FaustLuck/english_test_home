@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from "@/store";
 
 const routes = [
   {
@@ -9,21 +10,15 @@ const routes = [
   {
     path: "/result",
     name: "result",
-    meta: {
-      requireAnswers: true
-    },
     component: () => import("@/views/ResultView.vue")
   },
   {
     path: "/users",
     name: "users",
-    meta: {
-      requireAdmin: true
-    },
     component: () => import("@/views/UsersView.vue"),
   },
   {
-    path: "/statistic:uid",
+    path: "/statistic:sub",
     name: "statistic",
     props: true,
     component: () => import("@/views/StatisticView.vue")
@@ -31,9 +26,6 @@ const routes = [
   {
     path: "/settings",
     name: "settings",
-    meta: {
-      requireAdmin: true
-    },
     component: () => import("@/views/SettingsView.vue")
   },
   {
@@ -51,6 +43,18 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+});
+router.beforeEach(async (to) => {
+  const {sub, isLogin} = store.state.auth;
+  if (!["test", "result"].includes(to.name) && !isLogin) return {name: "test"};
+  if (to.name === "users") {
+    const result = await store.dispatch("statistic/getUsers", {sub});
+    return (result) ? true : {name: "statistic", params: {sub}};
+  }
+  if (to.name === "statistic") {
+    await store.dispatch("statistic/getDateList", to.params.sub);
+    return (isLogin) ? true : {name: "test"};
+  }
 });
 
 
