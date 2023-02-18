@@ -1,7 +1,6 @@
 <template>
   <header-component></header-component>
-  <preloader-component v-if="isLoading"></preloader-component>
-  <test-info-component v-else
+  <test-info-component
                        :timestamp="timestamp"
                        @show="show"
   >
@@ -17,29 +16,17 @@ export default {
   components: {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
     headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
-    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-  },
-  watch: {
-    isLogin() {
-      this.sendAnswer();
-    }
   },
   computed: {
-    ...mapState("test", ["result", "timestamp", "timeSpent"]),
+    ...mapState("test", ["timestamp"]),
     ...mapState(["isLoading"]),
-    // ...mapState("auth", ["isLogin", "uid"]),
   },
   methods: {
-    // ...mapActions("test", ["sendAnswersToDB"]),
     show(nameShow) {
       setTimeout(() => {
         this.$router.replace({name: `${nameShow}-show`});
       }, 3000);
-    },
-
-    // sendAnswer() {
-    //   if (this.isLogin) this.sendAnswersToDB({uid: this.uid});
-    // }
+    }
   }
 };
 </script>
