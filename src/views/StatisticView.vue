@@ -5,6 +5,7 @@
       :key="datestamp"
       :count="count"
       :datestamp="datestamp"
+      :sub="sub"
     >
     </date-list-component>
   </div>
