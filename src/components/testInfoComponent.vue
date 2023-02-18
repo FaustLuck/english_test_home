@@ -1,18 +1,20 @@
 <template>
-  <section class="info"
+  <preloader-component v-if="isLoading && mode==='result'"></preloader-component>
+  <section v-else
+           class="info"
            :class="{    fail:isFail && mode!=='result' && !displayMode,
     congratulation:isCongratulation && mode!=='result' && !displayMode  }"
            @click="changeDisplayMode"
   >
-    <div v-if="mode==='result'" class="info__login">{{ (isLogin) ? displayName : "Вход не выполнен" }}</div>
+    <div v-if="mode==='result'" class="info__login">{{ (name) ? name : "Вход не выполнен" }}</div>
     <div class="info__detail-clickable">
       <div class="info__detail">
         <span>Время тестирования:</span>
-        <span>{{ localDate }} {{ localTime }} </span>
+        <span>{{ date }} {{ time }} </span>
       </div>
       <div class="info__detail">
         <span>Кол-во верных ответов / вопросов:</span>
-        <span>{{ correctAnswers }} / {{ lengthAnswers }}</span>
+        <span>{{ correct }} / {{ length }}</span>
       </div>
       <div class="info__detail">
         <span>Времени затрачено:</span>
@@ -22,14 +24,14 @@
         <span>Время вышло!</span>
       </div>
     </div>
-    <div v-if="displayMode>0">
-      <test-difficult-component
-        v-for="difficult of orderDifficult"
-        :key="difficult"
-        :difficult="difficult"
-        :part-answers="displayMode===1?filterTest(difficult):result[difficult]"
-      ></test-difficult-component>
-    </div>
+        <div v-if="displayMode>0">
+          <test-difficult-component
+            v-for="difficult of orderDifficult"
+            :key="difficult"
+            :difficult="difficult"
+            :part-answers="displayMode===1?filterTest(difficult):result[difficult]"
+          ></test-difficult-component>
+        </div>
   </section>
 </template>
 
@@ -38,54 +40,64 @@ import { mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 
+
 export default {
   name: "testInfoComponent",
   components: {
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent"))
   },
   props: {
     timestamp: Number,
-    date: String,
-    time: String,
-    heightTitle: Number
+    testInfo: Object
   },
   data() {
     return {
-      localDate: "",
-      localTime: "",
-      displayMode: 0
+      displayMode: 0,
+      isLoading: true,
+      date:0,
+      time:0
     };
   },
+  watch: {
+    result(value) {
+      if (value) this.isLoading = false;
+      if (this.isCongratulation) this.$emit("show", "fire");
+      if (this.isFail) this.$emit("show", "fail");
+    }
+  },
   computed: {
-    ...mapState("auth", ["displayName", "isLogin"]),
-    ...mapState("test", ["timeSpent", "result"]),
+    ...mapState("auth", ["name"]),
+    ...mapState("test", ["timeSpent", "result", "timeLeft"]),
     ...mapState(["orderDifficult"]),
-    timerStart() {
-      if (!this.getTimer) return;
-      let {min, sec} = this.getTimer;
-      return min * 60 + sec;
-    },
     mode() {
       return this.$route.name;
     },
-    lengthAnswers() {
-      return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
+    length() {
+      if (this.mode === "result") {
+        return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
+      }
+      return this.testInfo.questions;
     },
-    correctAnswers() {
-      return (Object.values(this.result)).reduce((acc, cur) => {
+    correct() {
+      if (this.mode === "result") return (Object.values(this.result)).reduce((acc, cur) => {
         return acc + cur.filter(el => el.answer === el?.choice).length;
       }, 0);
+      return this.testInfo.correct;
     },
     timeSpentToString() {
-      let sec = (this.timeSpent % 60).toString().padStart(2, "0");
-      let min = (this.timeSpent - sec) / 60;
+      const timeSpent = this.timeSpent ?? this.testInfo.timeSpent;
+      let sec = (timeSpent % 60).toString().padStart(2, "0");
+      let min = (timeSpent - sec) / 60;
       return `${min}:${sec}`;
     },
     isCongratulation() {
-      return this.lengthAnswers === this.correctAnswers;
+      const length = this.length ?? this.testInfo.questions;
+      const correct = this.correct ?? this.testInfo.correct;
+      return length === correct;
     },
     isFail() {
-      return (this.timerStart === this.timeSpent);
+      return (this.timeLeft ?? this.testInfo.timeLeft) === 0;
     },
   },
   methods: {
@@ -111,10 +123,8 @@ export default {
       return this.result[difficult].filter(el => el.answer !== el.choice);
     }
   },
-  created() {
-    if (this.isCongratulation) this.$emit("show", "fire");
-    if (this.isFail) this.$emit("show", "fail");
-    [this.localDate, this.localTime] = (this.mode === "result") ? getDate(this.timestamp) : [this.date, this.time];
+  mounted() {
+    [this.date, this.time] = getDate(this.timestamp);
     if (this.mode === "result") this.displayMode = 2;
   }
 };
@@ -125,7 +135,7 @@ export default {
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   padding: 1rem;
-  margin: 2rem 0;
+  margin: 1rem 0;
 
   @media screen and (max-width: 768px) {
     padding: 1rem 0;
