@@ -1,8 +1,8 @@
 <template>
   <div class="card"
        :class="{
-    right:mode!=='test'&& testItem.answer===testItem?.choice,
-    wrong:mode!=='test'&& testItem.answer!==testItem?.choice
+    right:right,
+    wrong:!right
   }"
   >
     <slot></slot>
@@ -19,6 +19,9 @@ export default {
   computed: {
     mode() {
       return this.$route.name;
+    },
+    right(){
+      return this.mode!=='test'&& this.testItem.answer===this.testItem?.choice
     }
   }
 };
