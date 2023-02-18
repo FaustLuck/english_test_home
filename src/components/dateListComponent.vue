@@ -6,6 +6,7 @@
       :key="timestamp"
       :timestamp="+datestamp+ +timestamp"
       :testInfo="testInfo"
+      :sub="sub"
     ></test-info-component>
   </title-component>
 </template>
@@ -24,7 +25,8 @@ export default {
   },
   props: {
     count: Number,
-    datestamp: String
+    datestamp: String,
+    sub:String
   },
   data() {
     return {
