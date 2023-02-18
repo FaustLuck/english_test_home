@@ -12,8 +12,8 @@
     />
     <span class="item__title"
           :class="{
-      right:mode!=='test' && type==='answer' && checked,
-      wrong:mode!=='test' && type==='answer' && !checked
+      right:right && type!=='question',
+      wrong:!right && type!=='question'
       }">{{ item }}</span>
   </label>
 </template>
@@ -32,6 +32,7 @@ export default {
     type: String,
     choice: String,
     checked: Boolean,
+    right: Boolean
   },
   computed: {
     isSpeech() {
