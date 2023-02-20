@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 
@@ -56,26 +56,29 @@ export default {
   data() {
     return {
       displayMode: 0,
-      isLoading: true,
       date: 0,
       time: 0,
-      localTest: this.result,
-      localTimeSpent: this.timeSpent ?? this.testInfo.timeSpent,
-      localTimeLeft: this.timeLeft ?? this.testInfo.timeLeft,
-      tmp: null
+      localTest: null,
+      localTimeSpent: this.testInfo?.timeSpent,
+      localTimeLeft: this.testInfo?.timeLeft
     };
   },
   watch: {
     result(value) {
-      if (value) this.isLoading = false;
-      if (this.isCongratulation) this.$emit("show", "fire");
-      if (this.isFail) this.$emit("show", "fail");
+      if (value && this.mode === "result") {
+        this.localTest = this.result;
+        this.localTimeSpent = this.timeSpent;
+        this.localTimeLeft = this.timeLeft;
+        if (this.isCongratulation) this.$emit("show", "fire");
+        if (this.isFail) this.$emit("show", "fail");
+        this.setLoading(false);
+      }
     }
   },
   computed: {
     ...mapState("auth", ["name"]),
     ...mapState("test", ["timeSpent", "result", "timeLeft"]),
-    ...mapState(["orderDifficult"]),
+    ...mapState(["orderDifficult", "isLoading"]),
     mode() {
       return this.$route.name;
     },
@@ -97,9 +100,7 @@ export default {
       return `${min}:${sec}`;
     },
     isCongratulation() {
-      const length = this.length ?? this.testInfo.questions;
-      const correct = this.correct ?? this.testInfo.correct;
-      return length === correct;
+      return this.length === this.correct;
     },
     isFail() {
       return this.localTimeLeft === 0;
@@ -107,6 +108,8 @@ export default {
   },
   methods: {
     ...mapActions("statistic", ["getResult"]),
+    ...mapActions("test", ["checkTest"]),
+    ...mapMutations(["setLoading"]),
     changeDisplayMode(e) {
       this.getResultFromBD();
       if (this.mode === "result" && !this.localTest) return;
@@ -131,13 +134,15 @@ export default {
       }
     },
     filterTest(difficult) {
-      this.tmp = this.localTest[difficult].filter(el => el.answer !== el?.choice);
       return this.localTest[difficult].filter(el => el.answer !== el?.choice);
     }
   },
-  mounted() {
+  async mounted() {
     [this.date, this.time] = getDate(this.timestamp);
-    if (this.mode === "result") this.displayMode = 2;
+    if (this.mode === "result") {
+      await this.checkTest();
+      this.displayMode = 2;
+    }
   }
 };
 </script>

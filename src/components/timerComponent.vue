@@ -29,10 +29,8 @@ export default {
         setTimeout(async () => {
           document.body.classList.remove("fail");
           this.changeTestStatus(false);
-          this.$router.push("result");
           this.setLoading(true);
-          await this.checkTest();
-          this.setLoading(false);
+          this.$router.push("result");
         }, 3000);
       }
     }

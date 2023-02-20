@@ -32,10 +32,8 @@ export default {
         this.setLoading(false);
       } else {
         this.changeTestStatus(false);
-        this.$router.push({name: "result"});
         this.setLoading(true);
-        await this.checkTest();
-        this.setLoading(false);
+        this.$router.push({name: "result"});
       }
     }
   }
