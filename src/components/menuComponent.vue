@@ -23,6 +23,7 @@ export default {
     ...mapActions("auth", ["googleInitialize"]),
     ...mapMutations(["setMenuHeight"]),
     setHeight() {
+      if (!window.matchMedia("(max-width: 768px)").matches) return;
       let h = this.$el.getBoundingClientRect().height;
       this.setMenuHeight(h);
     }
@@ -30,9 +31,7 @@ export default {
   async created() {
     await this.googleInitialize();
     window.addEventListener("resize", this.setHeight);
-    if (window.matchMedia("(max-width: 768px)").matches) {
-      this.setHeight();
-    }
+    this.setHeight();
   }
 };
 </script>
