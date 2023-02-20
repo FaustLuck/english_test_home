@@ -81,6 +81,7 @@ export default {
   computed: {
     ...mapState("test", ["timeSpent", "result", "timeLeft"]),
     ...mapState(["orderDifficult", "isLoading"]),
+    ...mapState('auth',['name']),
     mode() {
       return this.$route.name;
     },
