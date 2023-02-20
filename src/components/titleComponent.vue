@@ -96,7 +96,7 @@ export default {
     background-color: #FFDAB9;
     margin-bottom: 1rem;
     display: flex;
-    order: 1;
+    order: -1;
     justify-content: center;
 
     &.sticky {

@@ -9,12 +9,14 @@
       <span>Количество вариантов ответов: </span>
       <span>{{ settings.variants }}</span>
     </div>
-    <test-difficult-component
-      v-for="difficult of orderDifficult"
-      :key="difficult"
-      :difficult="difficult"
-      :part-answers="settings.dictionary[difficult]"
-    ></test-difficult-component>
+    <div class="container">
+      <test-difficult-component
+        v-for="difficult of orderDifficult"
+        :key="difficult"
+        :difficult="difficult"
+        :part-answers="settings.dictionary[difficult]"
+      ></test-difficult-component>
+    </div>
   </div>
 </template>
 
@@ -48,5 +50,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.container{
+  display: flex;
+  flex-direction: column;
+}
 </style>
