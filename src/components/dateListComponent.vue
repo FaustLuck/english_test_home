@@ -2,7 +2,6 @@
   <title-component
     :title="`${dateString} Тестов: ${count}`" @click="getTime">
     <template v-slot:default="slotProps">
-      <keep-alive>
         <test-info-component
           v-for="(testInfo,timestamp) of timeList"
           :key="timestamp"
@@ -11,7 +10,6 @@
           :sub="sub"
           :height-title="slotProps.heightTitle"
         ></test-info-component>
-      </keep-alive>
     </template>
   </title-component>
 </template>

@@ -73,10 +73,12 @@ export default {
         if (this.isFail) this.$emit("show", "fail");
         this.setLoading(false);
       }
-    }
+    },
+    async sub(value) {
+      if (value) await this.saveTest({sub: value});
+    },
   },
   computed: {
-    ...mapState("auth", ["name"]),
     ...mapState("test", ["timeSpent", "result", "timeLeft"]),
     ...mapState(["orderDifficult", "isLoading"]),
     mode() {
@@ -108,7 +110,7 @@ export default {
   },
   methods: {
     ...mapActions("statistic", ["getResult"]),
-    ...mapActions("test", ["checkTest"]),
+    ...mapActions("test", ["checkTest", "saveTest"]),
     ...mapMutations(["setLoading"]),
     changeDisplayMode(e) {
       this.getResultFromBD();
@@ -142,6 +144,7 @@ export default {
     if (this.mode === "result") {
       await this.checkTest();
       this.displayMode = 2;
+      if (this.sub) await this.saveTest({sub: this.sub});
     }
   }
 };

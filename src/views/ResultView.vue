@@ -1,8 +1,9 @@
 <template>
   <header-component></header-component>
   <test-info-component
-                       :timestamp="timestamp"
-                       @show="show"
+    :timestamp="timestamp"
+    :sub="sub"
+    @show="show"
   >
   </test-info-component>
 </template>
@@ -20,6 +21,7 @@ export default {
   computed: {
     ...mapState("test", ["timestamp"]),
     ...mapState(["isLoading"]),
+    ...mapState("auth", ["sub"])
   },
   methods: {
     show(nameShow) {
