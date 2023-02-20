@@ -9,7 +9,7 @@
       :class="{
       'top':isTop || mustIsTop,
       'container__title':isOpen || mustIsTop,
-      'sticky':isOpen && mode==='settings'}"
+      'sticky':isOpen && mode!=='result'}"
     >{{ title }}
     </div>
     <slot
@@ -84,8 +84,6 @@ export default {
   padding: .5rem 0;
   margin: .5rem;
   cursor: pointer;
-  display: flex;
-  flex-direction: column-reverse;
   @media screen and (max-width: 768px) {
     margin: 1rem 0;
   }
