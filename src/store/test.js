@@ -49,6 +49,16 @@ export const test = {
       });
       const result = await request(`check`, {test});
       commit("saveResult", result);
+    },
+    async saveTest({state}, {sub}) {
+      const data = {
+        test: state.result,
+        timeSpent: state.timeSpent,
+        timeLeft: state.timeLeft,
+        timestamp: state.timestamp,
+        sub
+      };
+      await request("save", {data});
     }
   }
 };
