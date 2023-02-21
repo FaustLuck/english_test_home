@@ -114,8 +114,8 @@ export default {
     ...mapActions("statistic", ["getResult"]),
     ...mapActions("test", ["checkTest", "saveTest"]),
     ...mapMutations(["setLoading"]),
-    changeDisplayMode(e) {
-      this.getResultFromBD();
+    async changeDisplayMode(e) {
+      await this.getResultFromBD();
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;
       if (this.displayMode > 2) this.displayMode = 0;
@@ -125,7 +125,7 @@ export default {
       setTimeout(() => this.scroll(el), 0);
     },
     async getResultFromBD() {
-      if(this.localTest) return
+      if (this.localTest) return;
       this.localTest = await this.getResult({sub: this.sub, timestamp: this.timestamp});
     },
     scroll(el) {
