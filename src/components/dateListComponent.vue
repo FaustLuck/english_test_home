@@ -2,6 +2,8 @@
   <title-component
     :title="`${dateString} Тестов: ${count}`" @click="getTime">
     <template v-slot:default="slotProps">
+      <item-preloader v-if="!timeList"></item-preloader>
+      <div v-else>
         <test-info-component
           v-for="(testInfo,timestamp) of timeList"
           :key="timestamp"
@@ -10,6 +12,7 @@
           :sub="sub"
           :height-title="slotProps.heightTitle"
         ></test-info-component>
+      </div>
     </template>
   </title-component>
 </template>
@@ -23,6 +26,7 @@ import { getDate } from "@/utils/utils";
 export default {
   name: "dateListComponent",
   components: {
+    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader")),
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
   },

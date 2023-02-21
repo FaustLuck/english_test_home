@@ -45,14 +45,9 @@ const router = createRouter({
   routes
 });
 router.beforeEach(async (to) => {
-  const {sub, isLogin} = store.state.auth;
+  const {isLogin} = store.state.auth;
   if (!["test", "result"].includes(to.name) && !isLogin) return {name: "test"};
-  if (to.name === "users") {
-    const result = await store.dispatch("statistic/getUsers", {sub});
-    return (result) ? true : {name: "statistic", params: {sub}};
-  }
   if (to.name === "statistic") {
-    await store.dispatch("statistic/getDateList", to.params.sub);
     return (isLogin) ? true : {name: "test"};
   }
 });

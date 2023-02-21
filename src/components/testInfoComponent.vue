@@ -24,14 +24,15 @@
         <span>Время вышло!</span>
       </div>
     </div>
-        <div v-if="displayMode>0 && localTest">
-          <test-difficult-component
-            v-for="difficult of orderDifficult"
-            :key="difficult"
-            :difficult="difficult"
-            :part-answers="displayMode===1?filterTest(difficult):localTest[difficult]"
-          ></test-difficult-component>
-        </div>
+    <item-preloader v-if="displayMode>0 && !localTest"></item-preloader>
+    <div v-if="displayMode>0 && localTest">
+      <test-difficult-component
+        v-for="difficult of orderDifficult"
+        :key="difficult"
+        :difficult="difficult"
+        :part-answers="displayMode===1?filterTest(difficult):localTest[difficult]"
+      ></test-difficult-component>
+    </div>
   </section>
 </template>
 
@@ -40,10 +41,10 @@ import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 
-
 export default {
   name: "testInfoComponent",
   components: {
+    ItemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent"))
   },

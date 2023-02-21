@@ -19,7 +19,6 @@ export const statistic = {
     async getUsers({commit}, {sub}) {
       const users = await request(`getusers/${sub}`, null, "GET");
       commit("saveUsers", users);
-      return users?.length > 1;
     },
     async getDateList({commit}, sub) {
       const dateList = await request(`getdatelist/${sub}`, null, "GET");
