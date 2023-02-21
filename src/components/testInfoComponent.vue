@@ -44,7 +44,7 @@ import { getDate } from "@/utils/utils";
 export default {
   name: "testInfoComponent",
   components: {
-    ItemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader")),
+    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent"))
   },
@@ -115,12 +115,12 @@ export default {
     ...mapActions("test", ["checkTest", "saveTest"]),
     ...mapMutations(["setLoading"]),
     async changeDisplayMode(e) {
-      await this.getResultFromBD();
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;
       if (this.displayMode > 2) this.displayMode = 0;
       if ((this.isCongratulation || !this.correct) && this.displayMode === 1) this.displayMode = 2;
       if (this.displayMode === 0) return;
+      await this.getResultFromBD();
       let el = e.target.closest(".info");
       setTimeout(() => this.scroll(el), 0);
     },
