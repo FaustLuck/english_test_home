@@ -1,5 +1,6 @@
 <template>
-  <section class="users">
+  <preloader-component v-if="!users"></preloader-component>
+  <section class="users" v-else>
     <div class="users__container" v-show="!activeUserSub">
       <user-card-component
         v-for="user of users"
@@ -13,13 +14,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 
 export default {
   name: "StatisticView",
   components: {
     userCardComponent: defineAsyncComponent(() => import("@/components/userCardComponent")),
+    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
+
   },
   data() {
     return {
@@ -28,12 +31,17 @@ export default {
   },
   computed: {
     ...mapState("statistic", ["users"]),
+    ...mapState("auth", ["sub"])
   },
   methods: {
+    ...mapActions("statistic", ["getUsers"]),
     changeActiveUser(sub) {
       this.activeUserSub = sub;
       this.$router.push({name: "statistic", params: {sub: sub}});
     }
+  },
+  async created() {
+    await this.getUsers({sub: this.sub});
   }
 };
 </script>

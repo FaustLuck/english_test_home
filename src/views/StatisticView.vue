@@ -1,5 +1,6 @@
 <template>
-  <div class="statistic">
+  <preloader-component v-if="!dateList"></preloader-component>
+  <div class="statistic" v-else>
     <date-list-component
       v-for="(count,datestamp) in dateList"
       :key="datestamp"
@@ -14,10 +15,11 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "StatisticUserView",
   components: {
+    preloaderComponent:defineAsyncComponent(() => import("@/components/preloaderComponent")),
     dateListComponent: defineAsyncComponent(() => import("@/components/dateListComponent")),
   },
   props: {
@@ -25,7 +27,12 @@ export default {
   },
   computed: {
     ...mapState("statistic", ["dateList"]),
-
+  },
+  methods:{
+    ...mapActions('statistic',['getDateList'])
+  },
+ async created() {
+     await this.getDateList(this.$route.params.sub)
   }
 };
 </script>
