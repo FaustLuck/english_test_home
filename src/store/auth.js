@@ -5,15 +5,14 @@ export const auth = {
   state: {
     admin: null,
     privileged: false,
-    isLogin: null,
     sub: null,
     name: null,
-    picture: null
+    picture: null,
+    tests: null
   },
   mutations: {
     changeLoginStatus(state, info) {
       Object.assign(state, info);
-      state.isLogin = true;
     },
   },
   actions: {

@@ -9,7 +9,7 @@ export const statistic = {
   },
   mutations: {
     saveUsers(state, users) {
-      state.users = users;
+      (users?.length) ? state.users = users : state.users = [users];
     },
     saveDateList(state, dateList) {
       state.dateList = dateList;
