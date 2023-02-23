@@ -1,8 +1,8 @@
 <template>
   <div class="card"
        :class="{
-    right:right,
-    wrong:!right
+    right:mode && right,
+    wrong:mode && !right
   }"
   >
     <slot></slot>
@@ -18,10 +18,10 @@ export default {
   },
   computed: {
     mode() {
-      return this.$route.name;
+      return ["result", "statistic"].includes(this.$route.name);
     },
     right(){
-      return this.mode!=='test'&& this.testItem.answer===this.testItem?.choice
+      return this.testItem.answer === this.testItem?.choice;
     }
   }
 };
@@ -31,6 +31,7 @@ export default {
 .card {
   display: flex;
   align-items: center;
+  justify-content: center;
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   margin: .5rem 0;

@@ -4,6 +4,7 @@
     <input
       @change="update"
       @click="toVoice"
+      v-if="mode!=='settings'"
       v-show="type==='answer'"
       type="radio"
       :name="name"
@@ -12,14 +13,14 @@
     />
     <span class="item__title"
           :class="{
-      right:right && type!=='question',
-      wrong:!right && type!=='question'
+      right:right && type!=='question' && mode!=='settings',
+      wrong:!right && type!=='question' && mode!=='settings'
       }">{{ item }}</span>
   </label>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "cardTestItemComponent",
@@ -35,10 +36,10 @@ export default {
     right: Boolean
   },
   computed: {
+    ...mapState("test", ["SPEECH"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
-    ...mapGetters("settings", ["getSpeech"]),
     mode() {
       return this.$route.name;
     }
@@ -51,7 +52,7 @@ export default {
     async toVoice() {
       if (!this.isSpeech) return;
       try {
-        let response = await fetch(this.getSpeech + this.item);
+        let response = await fetch(this.SPEECH + this.item);
         if (response.ok) {
           let blob = await response.blob();
           let src = URL.createObjectURL(blob);
