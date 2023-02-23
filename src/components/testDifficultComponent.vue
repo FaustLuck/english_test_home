@@ -7,7 +7,7 @@
   >
     <item-component
       v-for="(item,index) of partAnswers"
-      :key="item.answer"
+      :key="item.question"
       :test-item="item"
     >
       <div class="item__column">
@@ -45,6 +45,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "testDifficultComponent",
   components: {
+    ToolComponent:defineAsyncComponent(() => import("@/components/toolComponent")),
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent")),
     itemComponent: defineAsyncComponent(() => import("@/components/itemComponent"))
