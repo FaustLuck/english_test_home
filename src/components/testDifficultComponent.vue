@@ -35,6 +35,9 @@
         >
         </card-test-item-component>
       </div>
+      <tool-component
+      :index="index"
+      ></tool-component>
     </item-component>
   </title-component>
 </template>

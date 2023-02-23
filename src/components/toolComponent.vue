@@ -57,9 +57,9 @@ export default {
   justify-content: space-between;
   position: absolute;
   right: -7rem;
-  @media (any-hover: hover) {
-    opacity: 0;
-  }
+  //@media (any-hover: hover) {
+  //  opacity: 0;
+  //}
   @media screen and (max-width: 768px) {
     right: 0;
     flex-direction: column;
@@ -67,10 +67,10 @@ export default {
     justify-content: center;
     opacity: 1;
   }
-  &.show {
-    opacity: 1;
-    justify-content: center;
-  }
+  //&.show {
+  //  opacity: 1;
+  //  justify-content: center;
+  //}
   img {
     height: 100%;
   }
