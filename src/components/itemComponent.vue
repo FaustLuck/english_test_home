@@ -27,11 +27,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .card {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   margin: .5rem 0;
@@ -48,6 +49,10 @@ export default {
 
   &.wrong {
     background-color: #ff8c69;
+  }
+
+  &:hover > .tool {
+    opacity: 1;
   }
 }
 </style>
