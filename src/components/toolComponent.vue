@@ -1,21 +1,21 @@
 <template>
   <div class="tool" :class="{ show: editing }">
     <img
-      v-if="!editing"
+      v-if="!editing && !excluded"
       src="@/assets/edit.svg"
-      @click="changeEditing(true)"
+      @click="startEditing"
       alt="Редактировать"
     />
     <img
-      v-if="!editing"
+      v-if="!editing  && !excluded"
       src="@/assets/delete.svg"
       @click="deleteRecord"
       alt="Удалить"
     />
     <img
-      v-if="editing"
+      v-if="editing  && !excluded"
       src="@/assets/done.svg"
-      @click="changeEditing(false)"
+      @click="cancelEditItem"
       alt="Готово"
     />
     <img
@@ -28,25 +28,42 @@
 </template>
 
 <script>
+import { mapMutations, mapState } from "vuex";
+
 export default {
   name: "toolComponent",
   props: {
+    difficult: String,
     index: Number,
+    excluded:Boolean
   },
-  data() {
-    return {
-      editing: this.index === -1,
-    };
+  computed: {
+    ...mapState("settings", ["editingDifficult", "editingIndex"]),
+    editing() {
+      return this.difficult === this.editingDifficult && this.index === this.editingIndex;
+    }
   },
   methods: {
-    changeEditing(flag) {
-      if (this.index === -1) return this.$emit("addRecord");
-      this.editing = flag;
-      this.$emit("changeEditing", flag);
+    ...mapMutations("settings", ["startEditItem", "cancelEditItem", "deleteItem",'returnDeletedItem']),
+    startEditing() {
+      this.startEditItem({
+        editingDifficult: this.difficult,
+        editingIndex: this.index
+      });
     },
     deleteRecord() {
-      this.$emit("deleteRecord");
+      this.deleteItem({
+        index: this.index,
+        difficult: this.difficult
+      });
     },
+    UndoExclude(){
+      this.returnDeletedItem({
+        index: this.index,
+        difficult: this.difficult
+      })
+    }
+
   },
 };
 </script>

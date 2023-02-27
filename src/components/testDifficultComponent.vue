@@ -13,6 +13,7 @@
       <div class="item__column">
         <card-test-item-component
           :item="item.question"
+          :excluded="item?.excluded"
           :type="'question'"
         ></card-test-item-component>
       </div>
@@ -21,6 +22,7 @@
           :type="'answer'"
           :name="difficult+index"
           :item="item.answer"
+          :excluded="item?.excluded"
           :checked="item.answer===item?.choice"
           :right="true"
         >
@@ -36,7 +38,10 @@
         </card-test-item-component>
       </div>
       <tool-component
-      :index="index"
+        v-if="mode==='settings'"
+        :index="index"
+        :difficult="difficult"
+        :excluded="item?.excluded"
       ></tool-component>
     </item-component>
   </title-component>
@@ -48,7 +53,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "testDifficultComponent",
   components: {
-    ToolComponent:defineAsyncComponent(() => import("@/components/toolComponent")),
+    toolComponent: defineAsyncComponent(() => import("@/components/toolComponent")),
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
     cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent")),
     itemComponent: defineAsyncComponent(() => import("@/components/itemComponent"))
@@ -62,7 +67,7 @@ export default {
       return this.$route.name;
     }
   }
-};
+}
 </script>
 
 <style scoped lang="scss">

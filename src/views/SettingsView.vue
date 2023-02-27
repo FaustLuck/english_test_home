@@ -14,7 +14,7 @@
         v-for="difficult of orderDifficult"
         :key="difficult"
         :difficult="difficult"
-        :part-answers="dictionary[difficult]"
+        :part-answers="assembleDictionary(difficult)"
       ></test-difficult-component>
     </div>
   </div>
@@ -46,15 +46,18 @@ export default {
     }
   },
   computed: {
-    ...mapState("settings", ["timer", "dictionary", "limits", "variants"]),
+    ...mapState("settings", ["timer", "dictionary", "limits", "variants", "excluded", "included"]),
     ...mapState("auth", ["sub"]),
-    ...mapState(["orderDifficult"])
+    ...mapState(["orderDifficult"]),
   },
   methods: {
     ...mapActions("settings", ["getSettings"]),
     timeToString(time) {
       this.sec = (time % 60).toString().padStart(2, "0");
       this.min = (time - this.sec) / 60;
+    },
+    assembleDictionary(difficult) {
+      return [...this.dictionary[difficult], ...(this.excluded?.[difficult] ? this.excluded[difficult] : [])];
     }
   },
   async mounted() {
