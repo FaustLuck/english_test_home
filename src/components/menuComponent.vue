@@ -4,7 +4,7 @@
       <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
     <router-link v-if="tests" title="История" :to="{path:'users'}"
-    ><img src="@/assets/statistic.svg" alt="История"
+    ><img src="@/assets/history.svg" alt="История"
     /></router-link>
     <a v-if="!sub" id="google"></a>
     <a v-else :title="name"><img :src="picture" alt="Аватар"/></a>
