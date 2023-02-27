@@ -5,24 +5,28 @@
       src="@/assets/edit.svg"
       @click="startEditing"
       alt="Редактировать"
+      title="Редактировать"
     />
     <img
       v-if="!editing  && !excluded"
       src="@/assets/delete.svg"
       @click="deleteRecord"
       alt="Удалить"
+      title="Удалить"
     />
     <img
       v-if="editing  && !excluded"
       src="@/assets/done.svg"
       @click="cancelEditItem"
       alt="Готово"
+      title="Готово"
     />
     <img
     v-if="excluded"
     src="@/assets/undo.svg"
     @click="UndoExclude"
     alt="Отменить"
+    title="Отменить"
     >
   </div>
 </template>
