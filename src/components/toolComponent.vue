@@ -18,6 +18,12 @@
       @click="changeEditing(false)"
       alt="Готово"
     />
+    <img
+    v-if="excluded"
+    src="@/assets/undo.svg"
+    @click="UndoExclude"
+    alt="Отменить"
+    >
   </div>
 </template>
 
