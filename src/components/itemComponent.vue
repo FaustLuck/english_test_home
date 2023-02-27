@@ -2,7 +2,8 @@
   <div class="card"
        :class="{
     right:mode && right,
-    wrong:mode && !right
+    wrong:mode && !right,
+    excluded:testItem?.excluded
   }"
   >
     <slot></slot>
@@ -53,6 +54,13 @@ export default {
 
   &:hover > .tool {
     opacity: 1;
+  }
+
+  &.excluded {
+    user-select: none;
+    cursor: not-allowed;
+    background-color: #c5b6a9;
+    box-shadow: 0 0 10px 5px #c9bcb1;
   }
 }
 </style>

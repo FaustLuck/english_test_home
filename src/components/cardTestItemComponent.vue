@@ -1,5 +1,8 @@
 <template>
-  <label class="item" :class="{speech:!isSpeech}">
+  <label class="item" :class="{
+    speech:!isSpeech,
+    excluded:excluded
+  }">
     <a v-if="isSpeech">🔉</a>
     <input
       @change="update"
@@ -33,7 +36,8 @@ export default {
     type: String,
     choice: String,
     checked: Boolean,
-    right: Boolean
+    right: Boolean,
+    excluded: Boolean
   },
   computed: {
     ...mapState("test", ["SPEECH"]),
@@ -101,6 +105,17 @@ export default {
     &.wrong {
       color: #FF0000;
     }
+  }
+
+  &.excluded {
+    user-select: none;
+    cursor: not-allowed;
+
+    & > span {
+      color: grey;
+      text-decoration: line-through;
+    }
+
   }
 }
 
