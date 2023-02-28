@@ -3,7 +3,8 @@
        :class="{
     right:right,
     wrong:wrong,
-    excluded:testItem?.excluded
+    excluded:testItem?.excluded,
+    included:testItem?.included
   }"
   >
     <slot></slot>
@@ -64,6 +65,11 @@ export default {
     cursor: not-allowed;
     background-color: #c5b6a9;
     box-shadow: 0 0 10px 5px #c9bcb1;
+  }
+
+  &.included {
+    background-color: #8fbc8f;
+    box-shadow: 0 0 10px 5px #8fbc8f;
   }
 }
 </style>
