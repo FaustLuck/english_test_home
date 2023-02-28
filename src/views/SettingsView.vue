@@ -14,7 +14,7 @@
         v-for="difficult of orderDifficult"
         :key="difficult"
         :difficult="difficult"
-        :part-answers="assembleDictionary(difficult)"
+        :part-answers="concatDictionary(difficult)"
       ></test-difficult-component>
     </div>
   </div>
@@ -23,6 +23,7 @@
 <script>
 import { mapActions, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
+import { compare } from "@/utils/utils";
 
 export default {
   name: "SettingsView",
@@ -56,8 +57,12 @@ export default {
       this.sec = (time % 60).toString().padStart(2, "0");
       this.min = (time - this.sec) / 60;
     },
-    assembleDictionary(difficult) {
-      return [...this.dictionary[difficult], ...(this.excluded?.[difficult] ? this.excluded[difficult] : [])];
+    concatDictionary(difficult) {
+      const included = this.included?.[difficult] ? this.included[difficult] : [];
+      const excluded = this.excluded?.[difficult] ? this.excluded[difficult] : [];
+      const dictionary = this.dictionary[difficult];
+      let tmp = dictionary.concat(included).sort(compare);
+      return tmp.concat(excluded);
     }
   },
   async mounted() {
