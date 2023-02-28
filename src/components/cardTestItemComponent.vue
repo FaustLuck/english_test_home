@@ -32,9 +32,9 @@ export default {
       type: String,
       required: true
     },
-    name: String,
+    difficult: String,
+    index: Number,
     type: String,
-    choice: String,
     checked: Boolean,
     right: Boolean,
     excluded: Boolean

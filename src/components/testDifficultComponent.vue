@@ -20,7 +20,8 @@
       <div class="item__column">
         <card-test-item-component
           :type="'answer'"
-          :name="difficult+index"
+          :difficult="difficult"
+          :index="index"
           :item="item.answer"
           :excluded="item?.excluded"
           :checked="item.answer===item?.choice"
@@ -30,7 +31,8 @@
         <card-test-item-component
           v-if="item?.choice && item.answer!==item?.choice"
           :type="'answer'"
-          :name="difficult+index"
+          :difficult="difficult"
+          :index="index"
           :item="item?.choice"
           :checked="true"
           :right="false"
