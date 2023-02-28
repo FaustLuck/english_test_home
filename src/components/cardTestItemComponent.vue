@@ -24,12 +24,12 @@
       }">{{ item }}</span>
   </label>
   <label class="item speech" v-else>
-    <input type="text" :value="editingItem[type]" @input="toEdit">
+    <input type="text" :value="editingItem[type]" @input="toEdit" @keydown.esc="clearEdit" @keydown.enter="finishEdit">
   </label>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   name: "cardTestItemComponent",
@@ -60,6 +60,8 @@ export default {
     }
   },
   methods: {
+    ...mapMutations("settings", ["clearEdit"]),
+    ...mapActions("settings", ["finishEdit"]),
     update() {
       if (this.type !== "answer") return;
       this.$emit("updateChoice", this.item);

@@ -24,9 +24,9 @@ export const settings = {
       state.dictionary[difficult].push(item);
       state.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
     },
-    startEdit(state, {editingIndex, editingDifficult}) {
-      Object.assign(state, {editingIndex, editingDifficult});
-      state.editingItem = {...state.dictionary[editingDifficult][editingIndex]};
+    startEdit(state, {index, difficult}) {
+      Object.assign(state, {editingIndex:index, editingDifficult:difficult});
+      state.editingItem = {...state.dictionary[difficult][index]};
     },
     clearEdit(state) {
       state.editingIndex = null;
@@ -65,7 +65,7 @@ export const settings = {
       const data = await request(`getSettings/${sub}`, null, "GET");
       commit("saveSettings", data);
     },
-    async finishEdit({commit, dispatch/*, state*/}) {
+    async finishEdit({commit, dispatch}) {
       const isChanged = await dispatch("isChanged");
       if (isChanged) {
         commit("editItem");

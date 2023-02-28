@@ -9,6 +9,7 @@
       v-for="(item,index) of partAnswers"
       :key="item.question"
       :test-item="item"
+      @dblclick="startEdit({difficult, index})"
     >
       <div class="item__column">
         <card-test-item-component
@@ -54,7 +55,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "testDifficultComponent",
@@ -70,6 +71,9 @@ export default {
   },
   computed: {
     ...mapState(["mode"])
+  },
+  methods: {
+    ...mapMutations("settings", ["startEdit"])
   }
 }
 </script>

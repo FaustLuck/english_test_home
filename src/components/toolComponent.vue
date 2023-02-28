@@ -3,21 +3,21 @@
     <img
       v-if="!editing && !excluded"
       src="@/assets/edit.svg"
-      @click="startEditing"
+      @click="startEdit({index,difficult})"
       alt="Редактировать"
       title="Редактировать"
     />
     <img
       v-if="!editing  && !excluded"
       src="@/assets/delete.svg"
-      @click="deleteRecord"
+      @click="deleteItem({index,difficult})"
       alt="Удалить"
       title="Удалить"
     />
     <img
       v-if="editing  && !excluded"
       src="@/assets/done.svg"
-      @click="doneEditing"
+      @click="finishEdit"
       alt="Готово"
       title="Готово"
     />
@@ -51,18 +51,6 @@ export default {
   methods: {
     ...mapMutations("settings", ["startEdit", "deleteItem", "returnDeletedItem", "cancelEdit"]),
     ...mapActions("settings", ["finishEdit"]),
-    startEditing() {
-      this.startEdit({
-        editingDifficult: this.difficult,
-        editingIndex: this.index
-      });
-    },
-    deleteRecord() {
-      this.deleteItem({
-        index: this.index,
-        difficult: this.difficult
-      });
-    },
     undoChanges() {
       if (this.excluded) {
         this.returnDeletedItem({
@@ -77,11 +65,7 @@ export default {
           difficult: this.difficult
         });
       }
-    },
-    doneEditing() {
-      this.finishEdit();
     }
-
   },
 };
 </script>
