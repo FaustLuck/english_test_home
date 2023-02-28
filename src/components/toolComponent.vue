@@ -17,29 +17,30 @@
     <img
       v-if="editing  && !excluded"
       src="@/assets/done.svg"
-      @click="cancelEditItem"
+      @click="doneEditing"
       alt="Готово"
       title="Готово"
     />
     <img
-    v-if="excluded"
-    src="@/assets/undo.svg"
-    @click="UndoExclude"
-    alt="Отменить"
-    title="Отменить"
+      v-if="excluded || edited"
+      src="@/assets/undo.svg"
+      @click="undoChanges"
+      alt="Отменить"
+      title="Отменить"
     >
   </div>
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 
 export default {
   name: "toolComponent",
   props: {
     difficult: String,
     index: Number,
-    excluded:Boolean
+    excluded: Boolean,
+    edited: Boolean
   },
   computed: {
     ...mapState("settings", ["editingDifficult", "editingIndex"]),
@@ -48,9 +49,10 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("settings", ["startEditItem", "cancelEditItem", "deleteItem",'returnDeletedItem']),
+    ...mapMutations("settings", ["startEdit", "deleteItem", "returnDeletedItem", "cancelEdit"]),
+    ...mapActions("settings", ["finishEdit"]),
     startEditing() {
-      this.startEditItem({
+      this.startEdit({
         editingDifficult: this.difficult,
         editingIndex: this.index
       });
@@ -61,11 +63,23 @@ export default {
         difficult: this.difficult
       });
     },
-    UndoExclude(){
-      this.returnDeletedItem({
-        index: this.index,
-        difficult: this.difficult
-      })
+    undoChanges() {
+      if (this.excluded) {
+        this.returnDeletedItem({
+          index: this.index,
+          difficult: this.difficult
+        });
+        return;
+      }
+      if (this.edited) {
+        this.cancelEdit({
+          index: this.index,
+          difficult: this.difficult
+        });
+      }
+    },
+    doneEditing() {
+      this.finishEdit();
     }
 
   },

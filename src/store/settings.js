@@ -10,6 +10,7 @@ export const settings = {
     isSaved: true,
     editingIndex: null,
     editingDifficult: null,
+    editingItem: null,
     excluded: {},
     included: {}
   },
@@ -17,35 +18,64 @@ export const settings = {
     saveSettings(state, settings) {
       Object.assign(state, settings);
     },
-    startEditItem(state, {editingIndex, editingDifficult}) {
-      Object.assign(state, {editingIndex, editingDifficult});
+    addItem(state, {difficult, item}) {
+      state.isSaved = false;
+      item.included = true;
+      state.dictionary[difficult].push(item);
+      state.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
     },
-    cancelEditItem(state) {
+    startEdit(state, {editingIndex, editingDifficult}) {
+      Object.assign(state, {editingIndex, editingDifficult});
+      state.editingItem = {...state.dictionary[editingDifficult][editingIndex]};
+    },
+    clearEdit(state) {
       state.editingIndex = null;
       state.editingDifficult = null;
+      state.editingItem = null;
+    },
+    cancelEdit(state, {index, difficult}) {
+      const {oldAnswer, oldQuestion} = state.dictionary[difficult][index];
+      state.dictionary[difficult][index] = {
+        answer: oldAnswer,
+        question: oldQuestion
+      };
     },
     deleteItem(state, {index, difficult}) {
-      state.isSaved=false
+      state.isSaved = false;
       if (!state.excluded[difficult]?.length) state.excluded[difficult] = [];
       let item = state.dictionary[difficult][index];
       item.excluded = true;
-      state.excluded[difficult].push(item);
-      state.dictionary[difficult].splice(index, 1);
-      state.excluded[difficult].sort((prev, next) => prev.question > next.question ? 1 : -1);
     },
-    returnDeletedItem(state,{index,difficult}){
-      index-=state.dictionary[difficult].length;
-      let item = state.excluded[difficult][index];
-      delete item.excluded
-      state.excluded[difficult].splice(index,1)
-      state.dictionary[difficult].push(item);
-      state.dictionary[difficult].sort((prev, next) => prev.question > next.question ? 1 : -1);
+    returnDeletedItem(state, {index, difficult}) {
+      let item = state.dictionary[difficult][index];
+      delete item.excluded;
+    },
+    editItem(state) {
+      state.isSaved = false;
+      const newItem = state.editingItem;
+      const item = state.dictionary[state.editingDifficult][state.editingIndex];
+      item.edited = true;
+      if (!item?.oldAnswer) item.oldAnswer = item.answer;
+      if (!item?.oldQuestion) item.oldQuestion = item.question;
+      Object.assign(item, newItem);
     }
   },
   actions: {
     async getSettings({commit}, {sub}) {
       const data = await request(`getSettings/${sub}`, null, "GET");
       commit("saveSettings", data);
+    },
+    async finishEdit({commit, dispatch/*, state*/}) {
+      const isChanged = await dispatch("isChanged");
+      if (isChanged) {
+        commit("editItem");
+      }
+      commit("clearEdit");
+    },
+    isChanged({state}) {
+      const newItem = state.editingItem;
+      const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
+      return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     }
   }
 };

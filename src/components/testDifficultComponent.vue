@@ -46,6 +46,7 @@
         :index="index"
         :difficult="difficult"
         :excluded="item?.excluded"
+        :edited="item?.edited"
       ></tool-component>
     </item-component>
   </title-component>

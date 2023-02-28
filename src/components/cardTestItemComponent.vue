@@ -1,5 +1,8 @@
 <template>
-  <label class="item" :class="{
+  <label
+    v-if="!editing"
+    class="item"
+    :class="{
     speech:!isSpeech,
     excluded:excluded
   }">
@@ -19,6 +22,9 @@
       right:right && type!=='question' && mode!=='settings',
       wrong:!right && type!=='question' && mode!=='settings'
       }">{{ item }}</span>
+  </label>
+  <label class="item speech" v-else>
+    <input type="text" :value="editingItem[type]" @input="toEdit">
   </label>
 </template>
 
@@ -42,11 +48,15 @@ export default {
   computed: {
     ...mapState(["mode"]),
     ...mapState("test", ["SPEECH"]),
+    ...mapState("settings", ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
     name() {
       return `${this.difficult}${this.index}`;
+    },
+    editing() {
+      return this.difficult === this.editingDifficult && this.index === this.editingIndex;
     }
   },
   methods: {
@@ -67,8 +77,11 @@ export default {
       } catch (e) {
         console.log(e);
       }
+    },
+    toEdit(e) {
+      this.editingItem[this.type] = e.target.value;
     }
-  }
+  },
 };
 </script>
 
@@ -116,7 +129,19 @@ export default {
       color: grey;
       text-decoration: line-through;
     }
+  }
 
+  & > input[type="text"] {
+    width: 90%;
+    font-size: 2.5rem;
+    font-family: "serif";
+    background-color: transparent;
+    border: none;
+    outline: 1px solid black;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.5rem;
+    }
   }
 }
 
