@@ -1,8 +1,8 @@
 <template>
   <div class="card"
        :class="{
-    right:mode && right,
-    wrong:mode && !right,
+    right:right,
+    wrong:wrong,
     excluded:testItem?.excluded
   }"
   >
@@ -22,7 +22,10 @@ export default {
   computed: {
     ...mapState(["mode"]),
     right() {
-      return this.testItem.answer === this.testItem?.choice;
+      return ["result", "statistic"].includes(this.$route.name) && this.testItem.answer === this.testItem?.choice;
+    },
+    wrong() {
+      return ["result", "statistic"].includes(this.$route.name) && !(this.testItem.answer === this.testItem?.choice);
     }
   }
 };
