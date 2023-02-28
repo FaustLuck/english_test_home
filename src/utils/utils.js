@@ -24,7 +24,3 @@ export async function request(path, data, method = "POST") {
     return false;
   }
 }
-
-export function compare(prev, next) {
-  return prev.question > next.question ? 1 : -1;
-}
