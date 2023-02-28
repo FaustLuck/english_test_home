@@ -26,9 +26,7 @@ export default {
   },
   computed: {
     ...mapState("test", ["timeLeft"]),
-    mode() {
-      return this.$route.name;
-    }
+    ...mapState(["mode"])
   },
   watch: {
     timeLeft(value) {

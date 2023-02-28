@@ -12,16 +12,16 @@
 
 <script>
 
+import { mapState } from "vuex";
+
 export default {
   name: "itemComponent",
   props: {
     testItem: Object
   },
   computed: {
-    mode() {
-      return ["result", "statistic"].includes(this.$route.name);
-    },
-    right(){
+    ...mapState(["mode"]),
+    right() {
       return this.testItem.answer === this.testItem?.choice;
     }
   }

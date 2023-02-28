@@ -12,11 +12,9 @@ export default {
   },
   computed: {
     ...mapState("test", ["isTesting"]),
+    ...mapState(["mode"]),
     title() {
       return (this.isTesting) ? "Завершить тест" : "Начать тест";
-    },
-    mode() {
-      return this.$route.name;
     }
   },
   methods: {

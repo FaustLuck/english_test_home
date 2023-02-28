@@ -11,9 +11,7 @@ export default {
   name: "AnimationShow",
   computed: {
     ...mapState("test", ["answers"]),
-    mode() {
-      return this.$route.name;
-    },
+    ...mapState(["mode"])
   },
   mounted() {
     switch (this.mode) {

@@ -81,11 +81,8 @@ export default {
   },
   computed: {
     ...mapState("test", ["timeSpent", "result", "timeLeft"]),
-    ...mapState(["orderDifficult", "isLoading"]),
+    ...mapState(["orderDifficult", "isLoading",'mode']),
     ...mapState('auth',['name']),
-    mode() {
-      return this.$route.name;
-    },
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);

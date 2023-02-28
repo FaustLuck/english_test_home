@@ -36,10 +36,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["menuHeight"]),
-    mode() {
-      return this.$route.name;
-    }
+    ...mapState(["menuHeight", "mode"])
   },
   methods: {
     getTop() {

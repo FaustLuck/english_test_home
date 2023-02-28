@@ -49,6 +49,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
+import { mapState } from "vuex";
 
 export default {
   name: "testDifficultComponent",
@@ -63,9 +64,7 @@ export default {
     partAnswers: Array,
   },
   computed: {
-    mode() {
-      return this.$route.name;
-    }
+    ...mapState(["mode"])
   }
 }
 </script>

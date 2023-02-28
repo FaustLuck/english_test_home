@@ -8,7 +8,8 @@ export default createStore({
   state: {
     orderDifficult: ["easy", "medium", "hard"],
     menuHeight: 0,
-    isLoading: false
+    isLoading: false,
+    mode: null
   },
   getters: {},
   mutations: {
@@ -17,6 +18,9 @@ export default createStore({
     },
     setLoading(state, flag) {
       state.isLoading = flag;
+    },
+    setMode(state, mode) {
+      state.mode = mode;
     }
   },
   actions: {},

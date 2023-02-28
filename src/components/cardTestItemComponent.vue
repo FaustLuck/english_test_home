@@ -40,12 +40,10 @@ export default {
     excluded: Boolean
   },
   computed: {
+    ...mapState(['mode']),
     ...mapState("test", ["SPEECH"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
-    },
-    mode() {
-      return this.$route.name;
     }
   },
   methods: {
