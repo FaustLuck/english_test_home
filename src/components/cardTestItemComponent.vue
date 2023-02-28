@@ -40,10 +40,13 @@ export default {
     excluded: Boolean
   },
   computed: {
-    ...mapState(['mode']),
+    ...mapState(["mode"]),
     ...mapState("test", ["SPEECH"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
+    },
+    name() {
+      return `${this.difficult}${this.index}`;
     }
   },
   methods: {
