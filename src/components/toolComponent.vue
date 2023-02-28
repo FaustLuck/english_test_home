@@ -79,7 +79,7 @@ export default {
   display: flex;
   padding: 1rem;
   height: 2rem;
-  width: 5rem;
+  width: 6rem;
   flex-direction: row;
   justify-content: space-between;
   position: absolute;
@@ -89,10 +89,12 @@ export default {
   }
   @media screen and (max-width: 768px) {
     right: 0;
-    flex-direction: column;
+    flex-direction: row;
     padding: 0;
-    justify-content: center;
+    justify-content: space-evenly;
     opacity: 1;
+    position: relative;
+    width: 50%;
   }
   &.show {
     opacity: 1;
