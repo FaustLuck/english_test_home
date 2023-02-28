@@ -12,7 +12,7 @@
       type="radio"
       :name="name"
       :checked="checked"
-      :disabled="mode!=='test'"
+      disabled="mode!=='test'"
     />
     <span class="item__title"
           :class="{
