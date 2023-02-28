@@ -13,6 +13,8 @@
       <div class="item__column">
         <card-test-item-component
           :item="item.question"
+          :difficult="difficult"
+          :index="index"
           :excluded="item?.excluded"
           :type="'question'"
         ></card-test-item-component>
