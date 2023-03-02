@@ -120,7 +120,6 @@ export default {
       height: 50%;
       cursor: default;
       z-index: 10;
-      position: absolute;
       bottom: 25%;
       left: 25%;
       padding: .5rem;
