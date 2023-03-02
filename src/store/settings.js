@@ -19,6 +19,9 @@ export const settings = {
       Object.assign(state, settings);
     },
     addItem(state, {difficult, item}) {
+      for (let field in item) {
+        item[field] = item[field][0].toUpperCase() + item[field].substr(1, item[field].length);
+      }
       state.isSaved = false;
       item.included = true;
       state.dictionary[difficult].push(item);
@@ -35,16 +38,18 @@ export const settings = {
     },
     cancelEdit(state, {index, difficult}) {
       const {oldAnswer, oldQuestion} = state.dictionary[difficult][index];
-      state.dictionary[difficult][index] = {
-        answer: oldAnswer,
-        question: oldQuestion
-      };
+      state.dictionary[difficult][index].answer = oldAnswer;
+      state.dictionary[difficult][index].question = oldQuestion;
+      delete state.dictionary[difficult][index].edited;
     },
     deleteItem(state, {index, difficult}) {
       state.isSaved = false;
       if (!state.excluded[difficult]?.length) state.excluded[difficult] = [];
       let item = state.dictionary[difficult][index];
       item.excluded = true;
+    },
+    removeIncluded(state, {index, difficult}) {
+      state.dictionary[difficult].splice(index, 1);
     },
     returnDeletedItem(state, {index, difficult}) {
       let item = state.dictionary[difficult][index];
