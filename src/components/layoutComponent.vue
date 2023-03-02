@@ -108,6 +108,7 @@ export default {
   right: 0;
   left: 0;
   background-color: #FFDAB9;
+  z-index: -1;
 
   &.alert {
     animation: flash 1s linear infinite;
