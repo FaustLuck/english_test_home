@@ -24,15 +24,22 @@
       }">{{ item }}</span>
   </label>
   <label class="item speech" v-else>
-    <input type="text" :value="editingItem[type]" @input="toEdit" @keydown.esc="clearEdit" @keydown.enter="finishEdit">
+    <input-item
+      :value="editingItem[type]"
+      @changes="({newValue})=>editingItem[type] = newValue"
+      @keydown.esc="clearEdit"
+      @keydown.enter="finishEdit"
+    ></input-item>
   </label>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import InputItem from "@/components/inputItem";
 
 export default {
   name: "cardTestItemComponent",
+  components: {InputItem},
   props: {
     item: {
       type: String,
@@ -79,9 +86,6 @@ export default {
       } catch (e) {
         console.log(e);
       }
-    },
-    toEdit(e) {
-      this.editingItem[this.type] = e.target.value;
     }
   },
 };

@@ -7,7 +7,10 @@ export default {
   name: "inputItem",
   props: {
     type: String,
-    value: String
+    value: {
+      type: String,
+      required: true
+    }
   },
   data() {
     return {
