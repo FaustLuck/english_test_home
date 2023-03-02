@@ -11,8 +11,6 @@ export const settings = {
     editingIndex: null,
     editingDifficult: null,
     editingItem: null,
-    excluded: {},
-    included: {}
   },
   mutations: {
     saveSettings(state, settings) {
@@ -39,7 +37,7 @@ export const settings = {
       delete state.dictionary[difficult][index].edited;
     },
     deleteItem(state, {index, difficult}) {
-      if (!state.excluded[difficult]?.length) state.excluded[difficult] = [];
+      // if (!state.excluded[difficult]?.length) state.excluded[difficult] = [];
       let item = state.dictionary[difficult][index];
       item.excluded = true;
     },
@@ -98,8 +96,19 @@ export const settings = {
       const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
-    async saveChanges({commit}) {
+    async saveChanges({commit, dispatch}, sub) {
       commit("changeSaved", true);
+      const changes = await dispatch("assembleChanges");
+      await request("saveChanges", {sub, changes});
+    },
+    assembleChanges({state}) {
+      let output = {};
+      for (let difficult in state.dictionary) {
+        let filter = state.dictionary[difficult].filter(el => el.included || el.edited || el.excluded);
+        if (!filter.length) continue;
+        output[difficult] = filter;
+      }
+      return output;
     }
   }
 };

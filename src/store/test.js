@@ -58,7 +58,7 @@ export const test = {
         timestamp: state.timestamp,
         sub
       };
-      await request("save", data);
+      await request("updateHistory", data);
     }
   }
 };

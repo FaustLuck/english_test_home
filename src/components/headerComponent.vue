@@ -1,7 +1,7 @@
 <template>
   <header v-if="mode!=='users' && mode!=='statistic'" :class="{'settings':mode==='settings'}">
     <start-button-component v-if="mode==='test' || mode==='result'"></start-button-component>
-    <input v-if="mode==='settings'" type="button" value="Сохранить" @click="saveChanges">
+    <input v-if="mode==='settings'" type="button" value="Сохранить" @click="saveChanges(sub)">
     <item-add-component v-if="mode==='settings'"></item-add-component>
     <timer-component v-if="isTesting && mode==='test'"></timer-component>
   </header>
@@ -21,6 +21,7 @@ export default {
   },
   computed: {
     ...mapState("test", ["isTesting"]),
+    ...mapState("auth", ["sub"]),
     ...mapState(["mode"]),
   },
   methods: {
