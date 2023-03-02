@@ -1,40 +1,37 @@
 <template>
-  <div>
-    <header-component></header-component>
-    <div>
-      <preloader-component v-if="isLoading"></preloader-component>
-      <div v-else-if="isTesting" class="card"
-           v-for="(item,i) of test"
-           :key="`${item.question}_${i}`"
-      >
-        <div class="card__column">
-          <label class="item" :class="{speech:!isSpeech(item.question)}">
-            <a v-if="isSpeech(item.question)">🔉</a>
-            <input
-              @click="toVoice(item.question)"
-              v-show="false"
-              type="radio"
-              :name="item.question"
-            />
-            <span class="item__title">{{ item.question }}</span>
-          </label>
-        </div>
-        <div class="card__column">
-          <label class="item"
-                 :class="{speech:!isSpeech(variant)}"
-                 v-for="(variant,index) of item.answer"
-                 :key="`${item.question}_${i}_${index}`"
-          >
-            <a v-if="isSpeech(variant)">🔉</a>
-            <input
-              @change="saveChoice({choice:variant,question:item.question})"
-              @click="toVoice(variant)"
-              type="radio"
-              :name="`${item.question}_${i}`"
-            />
-            <span class="item__title">{{ variant }}</span>
-          </label>
-        </div>
+  <preloader-component v-if="isLoading"></preloader-component>
+  <div v-else-if="isTesting">
+    <div class="card"
+         v-for="(item,i) of test"
+         :key="`${item.question}_${i}`"
+    >
+      <div class="card__column">
+        <label class="item" :class="{speech:!isSpeech(item.question)}">
+          <a v-if="isSpeech(item.question)">🔉</a>
+          <input
+            @click="toVoice(item.question)"
+            v-show="false"
+            type="radio"
+            :name="item.question"
+          />
+          <span class="item__title">{{ item.question }}</span>
+        </label>
+      </div>
+      <div class="card__column">
+        <label class="item"
+               :class="{speech:!isSpeech(variant)}"
+               v-for="(variant,index) of item.answer"
+               :key="`${item.question}_${i}_${index}`"
+        >
+          <a v-if="isSpeech(variant)">🔉</a>
+          <input
+            @change="saveChoice({choice:variant,question:item.question})"
+            @click="toVoice(variant)"
+            type="radio"
+            :name="`${item.question}_${i}`"
+          />
+          <span class="item__title">{{ variant }}</span>
+        </label>
       </div>
     </div>
   </div>
@@ -47,7 +44,6 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "TestView",
   components: {
-    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
   },
   computed: {

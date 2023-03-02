@@ -1,6 +1,6 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
-  <div v-else>
+  <div class="settings" v-else>
     <div class="time">
       <span>Ограничение по времени: </span>
       <span>{{ min }}</span> : <span>{{ sec }}</span>
@@ -17,7 +17,6 @@
         :part-answers="dictionary[difficult]"
       ></test-difficult-component>
     </div>
-    <item-add-component></item-add-component>
   </div>
 </template>
 
@@ -28,7 +27,6 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "SettingsView",
   components: {
-    itemAddComponent:defineAsyncComponent(()=>import('@/components/itemAddComponent')),
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent"))
   },
@@ -71,8 +69,31 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container{
-  display: flex;
-  flex-direction: column;
+.settings {
+  position: relative;
+  width: 100%;
+  max-width: inherit;
+
+  & > .container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  & > footer {
+    position: fixed;
+    bottom: 0;
+    width: inherit;
+    max-width: inherit;
+    height: 2rem;
+    background-color: #FFDAB9;
+    border-top-left-radius: 2rem;
+    border-top-right-radius: 2rem;
+    box-shadow: 0 -5px 0 0 #e9a66a;
+  }
 }
+
+
+
+
+
 </style>

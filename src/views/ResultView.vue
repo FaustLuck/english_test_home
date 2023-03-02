@@ -1,5 +1,4 @@
 <template>
-  <header-component></header-component>
   <test-info-component
     :timestamp="timestamp"
     :sub="sub"
@@ -15,8 +14,7 @@ import { mapState } from "vuex";
 export default {
   name: "ResultView",
   components: {
-    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent")),
-    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
   },
   computed: {
     ...mapState("test", ["timestamp"]),
