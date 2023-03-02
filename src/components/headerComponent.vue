@@ -1,7 +1,9 @@
 <template>
-  <header>
-    <start-button-component></start-button-component>
-    <timer-component v-if="isTesting"></timer-component>
+  <header v-if="mode!=='users' && mode!=='statistic'">
+    <start-button-component v-if="mode==='test' || mode==='result'"></start-button-component>
+    <input v-if="mode==='settings'" type="button" value="Сохранить">
+    <item-add-component v-if="mode==='settings'"></item-add-component>
+    <timer-component v-if="isTesting && mode==='test'"></timer-component>
   </header>
 </template>
 
@@ -13,6 +15,7 @@ import { mapState } from "vuex";
 export default {
   name: "headerComponent",
   components: {
+    itemAddComponent: defineAsyncComponent(() => import("@/components/itemAddComponent")),
     startButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
   },
@@ -28,6 +31,8 @@ header {
   position: sticky;
   top: 0;
   display: flex;
+  max-width: 1200px;
+  width: 80%;
   justify-content: space-evenly;
   align-items: center;
   min-height: 3rem;
@@ -38,6 +43,7 @@ header {
   box-shadow: 0 5px 0 0 #e9a66a;
   z-index: 1;
   @media screen and (max-width: 768px) {
+    width: 100%;
     padding: 0;
     top: 65px;
   }
