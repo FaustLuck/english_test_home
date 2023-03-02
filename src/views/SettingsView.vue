@@ -17,6 +17,7 @@
         :part-answers="dictionary[difficult]"
       ></test-difficult-component>
     </div>
+    <item-add-component></item-add-component>
   </div>
 </template>
 
@@ -27,6 +28,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "SettingsView",
   components: {
+    itemAddComponent:defineAsyncComponent(()=>import('@/components/itemAddComponent')),
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent"))
   },
