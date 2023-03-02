@@ -61,13 +61,6 @@ export default {
     updateValue({type, newValue}) {
       this[type] = newValue;
     },
-    // validate(e) {
-    //   const regexp = /[^a-zа-яё,.?!\s]/ig;
-    //   const symbol = e.data;
-    //   const type = e.target.dataset.type;
-    //   const flag = symbol.match(regexp)?.length;
-    //   this[type] = (!flag) ? this[type] : this[type].replace(regexp, "");
-    // },
     add() {
       if (this.question === "" || this.answer === "") return;
       const item = {
@@ -108,7 +101,6 @@ export default {
       width: 50%;
       height: 50%;
       cursor: default;
-      z-index: 11;
       bottom: 25%;
       left: 25%;
       padding: .5rem;

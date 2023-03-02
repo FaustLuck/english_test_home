@@ -1,5 +1,5 @@
 <template>
-  <header v-if="mode!=='users' && mode!=='statistic'">
+  <header v-if="mode!=='users' && mode!=='statistic'" :class="{'settings':mode==='settings'}">
     <start-button-component v-if="mode==='test' || mode==='result'"></start-button-component>
     <input v-if="mode==='settings'" type="button" value="Сохранить">
     <item-add-component v-if="mode==='settings'"></item-add-component>
@@ -43,6 +43,11 @@ header {
   border-bottom-right-radius: 2rem;
   box-shadow: 0 5px 0 0 #e9a66a;
   z-index: 1;
+
+  &.settings{
+    z-index: 10;
+  }
+
   @media screen and (max-width: 768px) {
     width: 100%;
     padding: 0;
