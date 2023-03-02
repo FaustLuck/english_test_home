@@ -1,5 +1,6 @@
 <template>
   <layout-component></layout-component>
+  <header-component></header-component>
   <menu-component></menu-component>
   <form>
     <router-view :key="$route.fullPath"/>
@@ -11,6 +12,7 @@ import { defineAsyncComponent } from "vue";
 
 export default {
   components: {
+    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent")),
     menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
   },
@@ -35,7 +37,8 @@ body {
 
 #app {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   min-height: 100vh;
   font-size: 2.5rem;
   background-color: #FFDAB9;
@@ -54,31 +57,26 @@ form {
   }
 }
 
-label {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
 
-  & > input[type="text"],
-  & > select {
+input[type="text"],
+select {
+  font-size: 2.5rem;
+  font-family: "serif";
+  width: 50%;
+  background-color: transparent;
+  border: none;
+  outline: 1px solid black;
+  margin: 3px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  & > option {
     font-size: 2.5rem;
     font-family: "serif";
-    width: 50%;
-    background-color: transparent;
-    border: none;
-    outline: 1px solid black;
-    margin: 3px;
-
-    @media screen and (max-width: 768px) {
-      font-size: 1.5rem;
-    }
-
-    & > option {
-      font-size: 2.5rem;
-      font-family: "serif";
-      background-color: #FFDAB9;
-      box-shadow: 0 0 10px 5px #e9a66a;
-    }
+    background-color: #FFDAB9;
+    box-shadow: 0 0 10px 5px #e9a66a;
   }
 }
 
