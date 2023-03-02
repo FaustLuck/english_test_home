@@ -1,7 +1,7 @@
 <template>
-  <div class="add__layout" :class="{show:open}" @click="open=false"></div>
-  <div class="add__wrapper" :class="{open:open}" @click="open=true">
-    <span v-if="!open">+</span>
+  <div class="add__layout" :class="{show:isOpen}" @click="isOpen=false"></div>
+  <div class="add__wrapper" :class="{open:isOpen}" @click="isOpen=true">
+    <span v-if="!isOpen">+</span>
     <div v-else class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
@@ -30,11 +30,16 @@ export default {
   name: "itemAddComponent",
   data() {
     return {
-      open: true,
+      isOpen: false,
       question: "",
       answer: "",
       selectedDifficult: ""
     };
+  },
+  watch: {
+    isOpen(flag) {
+      if (flag) document.addEventListener("scroll", (e) => e.preventDefault());
+    }
   },
   computed: {
     ...mapState(["orderDifficult"])
