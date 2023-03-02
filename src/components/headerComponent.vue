@@ -20,7 +20,8 @@ export default {
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
   },
   computed: {
-    ...mapState("test", ["isTesting"])
+    ...mapState("test", ["isTesting"]),
+    ...mapState(['mode'])
   }
 
 };
