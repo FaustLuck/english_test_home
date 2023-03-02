@@ -9,7 +9,8 @@
       :class="{
       'top':isTop || mustIsTop,
       'container__title':isOpen || mustIsTop,
-      'sticky':isOpen && mode!=='result'}"
+      'sticky':isOpen && mode!=='result' && mode!=='settings'
+      }"
     >{{ title }}
     </div>
     <slot
