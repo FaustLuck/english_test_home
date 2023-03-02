@@ -2,6 +2,7 @@
   <div class="layout"
        :class="{
     alert:timeLeft>0 && timeLeft<=timeAlert && mode==='test',
+    transparent:mode==='settings',
     open:isOpen
   }"
        @click="setOpen(false)"
@@ -109,8 +110,12 @@ export default {
   background-color: #FFDAB9;
 
   &.alert {
-    opacity: 1;
     animation: flash 1s linear infinite;
+  }
+
+  &.transparent {
+    opacity: 0;
+    transition: opacity .25s linear;
   }
 
   &.open {
