@@ -57,8 +57,6 @@ export default {
       const type = e.target.dataset.type;
       const flag = symbol.match(regexp)?.length;
       this[type] = (!flag) ? this[type] : this[type].replace(regexp, "");
-      console.log({type, flag, a: this[type]});
-
     },
     add() {
       const item = {
