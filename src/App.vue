@@ -15,7 +15,7 @@ export default {
     headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
     layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent")),
     menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
-  },
+  }
 };
 </script>
 

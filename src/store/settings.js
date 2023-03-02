@@ -19,16 +19,12 @@ export const settings = {
       Object.assign(state, settings);
     },
     addItem(state, {difficult, item}) {
-      for (let field in item) {
-        item[field] = item[field][0].toUpperCase() + item[field].substr(1, item[field].length);
-      }
-      state.isSaved = false;
       item.included = true;
       state.dictionary[difficult].push(item);
       state.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
     },
     startEdit(state, {index, difficult}) {
-      Object.assign(state, {editingIndex:index, editingDifficult:difficult});
+      Object.assign(state, {editingIndex: index, editingDifficult: difficult});
       state.editingItem = {...state.dictionary[difficult][index]};
     },
     clearEdit(state) {
@@ -43,7 +39,6 @@ export const settings = {
       delete state.dictionary[difficult][index].edited;
     },
     deleteItem(state, {index, difficult}) {
-      state.isSaved = false;
       if (!state.excluded[difficult]?.length) state.excluded[difficult] = [];
       let item = state.dictionary[difficult][index];
       item.excluded = true;
@@ -56,13 +51,16 @@ export const settings = {
       delete item.excluded;
     },
     editItem(state) {
-      state.isSaved = false;
       const newItem = state.editingItem;
       const item = state.dictionary[state.editingDifficult][state.editingIndex];
       item.edited = true;
       if (!item?.oldAnswer) item.oldAnswer = item.answer;
       if (!item?.oldQuestion) item.oldQuestion = item.question;
       Object.assign(item, newItem);
+    },
+    changeSaved(state, flag) {
+      state.isSaved = flag;
+      window.onbeforeunload = (flag) ? null : () => false;
     }
   },
   actions: {
@@ -70,9 +68,27 @@ export const settings = {
       const data = await request(`getSettings/${sub}`, null, "GET");
       commit("saveSettings", data);
     },
+    async addItem({commit, dispatch}, {difficult, item}) {
+      const isNew = await dispatch("checkItem", {difficult, item});
+      if (!isNew) return;
+      commit("changeSaved", false);
+      commit("addItem", {difficult, item});
+    },
+    checkItem({state}, {difficult, item}) {
+      for (let field in item) {
+        item[field] = item[field][0].toUpperCase() + item[field].substr(1, item[field].length);
+      }
+      const index = state.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
+      return index === -1;
+    },
+    deleteItem({commit}, {index, difficult}) {
+      commit("changeSaved", false);
+      commit("deleteItem", {index, difficult});
+    },
     async finishEdit({commit, dispatch}) {
       const isChanged = await dispatch("isChanged");
       if (isChanged) {
+        commit("changeSaved", false);
         commit("editItem");
       }
       commit("clearEdit");
@@ -81,6 +97,9 @@ export const settings = {
       const newItem = state.editingItem;
       const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
+    },
+    async saveChanges({commit}) {
+      commit("changeSaved", true);
     }
   }
 };

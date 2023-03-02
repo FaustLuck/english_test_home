@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 
 export default {
@@ -51,7 +51,7 @@ export default {
     ...mapState(["orderDifficult", "isOpen"])
   },
   methods: {
-    ...mapMutations("settings", ["addItem"]),
+    ...mapActions("settings", ["addItem"]),
     ...mapMutations(["setOpen"]),
     clear() {
       this.question = "";

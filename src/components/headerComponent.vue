@@ -1,7 +1,7 @@
 <template>
   <header v-if="mode!=='users' && mode!=='statistic'" :class="{'settings':mode==='settings'}">
     <start-button-component v-if="mode==='test' || mode==='result'"></start-button-component>
-    <input v-if="mode==='settings'" type="button" value="Сохранить">
+    <input v-if="mode==='settings'" type="button" value="Сохранить" @click="saveChanges">
     <item-add-component v-if="mode==='settings'"></item-add-component>
     <timer-component v-if="isTesting && mode==='test'"></timer-component>
   </header>
@@ -10,7 +10,7 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   name: "headerComponent",
@@ -21,7 +21,10 @@ export default {
   },
   computed: {
     ...mapState("test", ["isTesting"]),
-    ...mapState(['mode'])
+    ...mapState(["mode"]),
+  },
+  methods: {
+    ...mapActions("settings", ["saveChanges"])
   }
 
 };
