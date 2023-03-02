@@ -1,11 +1,15 @@
 <template>
   <div class="layout"
-       :class="{alert:timeLeft>0 && timeLeft<=timeAlert && mode==='test'}"
+       :class="{
+    alert:timeLeft>0 && timeLeft<=timeAlert && mode==='test',
+    open:isOpen
+  }"
+       @click="setOpen(false)"
   ></div>
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default {
   name: "layoutComponent",
@@ -26,7 +30,7 @@ export default {
   },
   computed: {
     ...mapState("test", ["timeLeft"]),
-    ...mapState(["mode"])
+    ...mapState(["mode", "isOpen"])
   },
   watch: {
     timeLeft(value) {
@@ -55,6 +59,7 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(["setOpen"]),
     changeColor() {
       this.isColored = !this.isColored;
     },
@@ -102,10 +107,16 @@ export default {
   right: 0;
   left: 0;
   background-color: #FFDAB9;
-  z-index: -1;
 
   &.alert {
+    opacity: 1;
     animation: flash 1s linear infinite;
+  }
+
+  &.open {
+    z-index: 10;
+    opacity: .7;
+    background-color: grey;
   }
 }
 

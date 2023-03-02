@@ -1,6 +1,5 @@
 <template>
-  <div class="add__layout" :class="{show:isOpen}" @click="isOpen=false"></div>
-  <div class="add__wrapper" :class="{open:isOpen}" @click="isOpen=true">
+  <div class="add__wrapper" :class="{open:isOpen}" @click="setOpen(true)">
     <span v-if="!isOpen">+</span>
     <div v-else class="add__container">
       <label>Сложность:
@@ -30,7 +29,6 @@ export default {
   name: "itemAddComponent",
   data() {
     return {
-      isOpen: false,
       question: "",
       answer: "",
       selectedDifficult: ""
@@ -38,14 +36,15 @@ export default {
   },
   watch: {
     isOpen(flag) {
-      if (flag) document.addEventListener("scroll", (e) => e.preventDefault());
+      this.setOpen(flag);
     }
   },
   computed: {
-    ...mapState(["orderDifficult"])
+    ...mapState(["orderDifficult", "isOpen"])
   },
   methods: {
     ...mapMutations("settings", ["addItem"]),
+    ...mapMutations(["setOpen"]),
     clear() {
       this.question = "";
       this.answer = "";
@@ -80,23 +79,6 @@ export default {
 <style lang="scss" scoped>
 .add {
 
-  &__layout {
-    position: fixed;
-    opacity: 0;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background-color: grey;
-    z-index: -1;
-    transition: opacity .25s linear;
-
-    &.show {
-      opacity: .7;
-      z-index: 10;
-    }
-  }
-
   &__wrapper {
     height: 3rem;
     width: 3rem;
@@ -119,7 +101,7 @@ export default {
       width: 50%;
       height: 50%;
       cursor: default;
-      z-index: 10;
+      z-index: 11;
       bottom: 25%;
       left: 25%;
       padding: .5rem;

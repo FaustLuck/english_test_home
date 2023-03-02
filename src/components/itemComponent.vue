@@ -41,7 +41,7 @@ export default {
   position: relative;
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
-  margin: .5rem 0;
+  margin: 1rem 0;
   padding: .5rem;
   background-color: #FFDAB9;
 

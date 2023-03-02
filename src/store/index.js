@@ -9,7 +9,8 @@ export default createStore({
     orderDifficult: ["easy", "medium", "hard"],
     menuHeight: 0,
     isLoading: false,
-    mode: null
+    mode: null,
+    isOpen: false
   },
   getters: {},
   mutations: {
@@ -21,6 +22,9 @@ export default createStore({
     },
     setMode(state, mode) {
       state.mode = mode;
+    },
+    setOpen(state, flag) {
+      if (state.mode === "settings") state.isOpen = flag;
     }
   },
   actions: {},

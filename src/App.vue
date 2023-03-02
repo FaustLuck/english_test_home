@@ -38,6 +38,7 @@ body {
   justify-content: center;
   min-height: 100vh;
   font-size: 2.5rem;
+  background-color: #FFDAB9;
 
   @media screen and (max-width: 768px) {
     font-size: 1.5rem;
