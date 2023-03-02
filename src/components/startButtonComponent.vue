@@ -39,12 +39,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-input[type="button"] {
-  font-size: 2rem;
-  padding: 0 .5rem;
-  font-family: "serif";
-  @media screen and (max-width: 768px) {
-    font-size: 1rem;
-  }
-}
 </style>

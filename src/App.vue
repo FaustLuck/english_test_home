@@ -52,4 +52,41 @@ form {
     padding-top: 4rem;
   }
 }
+
+label {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  & > input[type="text"],
+  & > select {
+    font-size: 2.5rem;
+    font-family: "serif";
+    width: 50%;
+    background-color: transparent;
+    border: none;
+    outline: 1px solid black;
+    margin: 3px;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+
+    & > option {
+      font-size: 2.5rem;
+      font-family: "serif";
+      background-color: #FFDAB9;
+      box-shadow: 0 0 10px 5px #e9a66a;
+    }
+  }
+}
+
+input[type="button"] {
+  font-size: 2rem;
+  padding: 0 0.5rem;
+  font-family: "serif";
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
 </style>
