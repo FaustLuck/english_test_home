@@ -22,7 +22,7 @@
       title="Готово"
     />
     <img
-      v-if="excluded || edited"
+      v-if="excluded || edited || included"
       src="@/assets/undo.svg"
       @click="undoChanges"
       alt="Отменить"
@@ -40,7 +40,8 @@ export default {
     difficult: String,
     index: Number,
     excluded: Boolean,
-    edited: Boolean
+    edited: Boolean,
+    included: Boolean
   },
   computed: {
     ...mapState("settings", ["editingDifficult", "editingIndex"]),
@@ -49,9 +50,16 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("settings", ["startEdit", "deleteItem", "returnDeletedItem", "cancelEdit"]),
+    ...mapMutations("settings", ["startEdit", "deleteItem", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
     ...mapActions("settings", ["finishEdit"]),
     undoChanges() {
+      if (this.included) {
+        this.removeIncluded({
+          index: this.index,
+          difficult: this.difficult
+        });
+        return;
+      }
       if (this.excluded) {
         this.returnDeletedItem({
           index: this.index,
