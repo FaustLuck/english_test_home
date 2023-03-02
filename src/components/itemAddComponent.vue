@@ -1,7 +1,7 @@
 <template>
   <div class="add__wrapper" :class="{'open':isOpen}" @click="setOpen(true)">
-    <span v-if="!isOpen">+</span>
-    <div v-else class="add__container">
+    <span v-show="!isOpen">+</span>
+    <div v-show="isOpen" class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
           <option
@@ -12,8 +12,12 @@
           </option>
         </select>
       </label>
-      <label>Вопрос: <input type="text" data-type="question" v-model="question" @input="validate"></label>
-      <label>Ответ: <input type="text" data-type="answer" v-model="answer" @input="validate"></label>
+      <label>Вопрос:
+        <input-item :type="'question'" :value="question" @changes="updateValue"></input-item>
+      </label>
+      <label>Ответ:
+        <input-item :type="'answer'" :value="answer" @changes="updateValue"></input-item>
+      </label>
       <div>
         <input type="button" value="Очистить" @click="clear">
         <input type="button" value="Добавить" @click="add">
@@ -24,9 +28,13 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "itemAddComponent",
+  components: {
+    InputItem: defineAsyncComponent(() => import("@/components/inputItem"))
+  },
   data() {
     return {
       question: "",
@@ -50,15 +58,18 @@ export default {
       this.answer = "";
       this.selectedDifficult = "easy";
     },
-    validate(e) {
-      const regexp = /[^a-zа-яё,.?!\s]/ig;
-      const symbol = e.data;
-      const type = e.target.dataset.type;
-      const flag = symbol.match(regexp)?.length;
-      this[type] = (!flag) ? this[type] : this[type].replace(regexp, "");
+    updateValue({type, newValue}) {
+      this[type] = newValue;
     },
+    // validate(e) {
+    //   const regexp = /[^a-zа-яё,.?!\s]/ig;
+    //   const symbol = e.data;
+    //   const type = e.target.dataset.type;
+    //   const flag = symbol.match(regexp)?.length;
+    //   this[type] = (!flag) ? this[type] : this[type].replace(regexp, "");
+    // },
     add() {
-      if(this.question==='' || this.answer==='') return
+      if (this.question === "" || this.answer === "") return;
       const item = {
         question: this.question,
         answer: this.answer
