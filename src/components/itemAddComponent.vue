@@ -1,5 +1,5 @@
 <template>
-  <div class="add__wrapper" :class="{open:isOpen}" @click="setOpen(true)">
+  <div class="add__wrapper" :class="{'open':isOpen}" @click="setOpen(true)">
     <span v-if="!isOpen">+</span>
     <div v-else class="add__container">
       <label>Сложность:
@@ -82,7 +82,6 @@ export default {
   &__wrapper {
     height: 3rem;
     width: 3rem;
-    position: fixed;
     bottom: 0;
     border-radius: 0.5rem;
     background-color: #FFDAB9;
@@ -92,12 +91,9 @@ export default {
     align-items: center;
     flex-direction: column;
     cursor: pointer;
-    transition: width .25s linear,
-    height .25s linear,
-    bottom .25s linear,
-    left .25s linear;
 
     &.open {
+      position: fixed;
       width: 50%;
       height: 50%;
       cursor: default;
@@ -112,6 +108,12 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    & > label {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
 
     & > div {
       width: 100%;
