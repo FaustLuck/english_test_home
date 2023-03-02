@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "timerComponent",
@@ -37,8 +37,7 @@ export default {
   },
   methods: {
     ...mapMutations("test", ["saveTimes", "changeTestStatus", "saveTimerSec"]),
-    ...mapMutations(["setLoading"]),
-    ...mapActions("test", ["checkTest"])
+    ...mapMutations(["setLoading"])
   },
   created() {
     this.timeLeft = this.timer;

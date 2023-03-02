@@ -81,8 +81,8 @@ export default {
   },
   computed: {
     ...mapState("test", ["timeSpent", "result", "timeLeft"]),
-    ...mapState(["orderDifficult", "isLoading",'mode']),
-    ...mapState('auth',['name']),
+    ...mapState(["orderDifficult", "isLoading", "mode"]),
+    ...mapState("auth", ["name", "sub"]),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
@@ -141,7 +141,7 @@ export default {
   async mounted() {
     [this.date, this.time] = getDate(this.timestamp);
     if (this.mode === "result") {
-      await this.checkTest();
+      await this.checkTest({sub:this.sub});
       this.displayMode = 2;
       if (this.sub) await this.saveTest({sub: this.sub});
     }

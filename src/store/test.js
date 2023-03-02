@@ -42,12 +42,12 @@ export const test = {
       const data = await request(`test/${sub}`, null, "GET");
       commit("saveTest", data);
     },
-    async checkTest({state, commit}) {
+    async checkTest({state, commit}, {sub}) {
       let test = state.test.map(el => {
         if (el?.answer) delete el.answer;
         return el;
       });
-      const result = await request(`check`, {test});
+      const result = await request(`check`, {test, sub});
       commit("saveResult", result);
     },
     async saveTest({state}, {sub}) {

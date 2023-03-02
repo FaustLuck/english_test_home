@@ -20,7 +20,7 @@ export default {
   methods: {
     ...mapMutations("test", ["changeTestStatus"]),
     ...mapMutations(["setLoading"]),
-    ...mapActions("test", ["getTest", "checkTest"]),
+    ...mapActions("test", ["getTest"]),
     async changeStatus() {
       if (!this.isTesting) {
         if (this.mode !== "test") this.$router.replace({name: "test"});
