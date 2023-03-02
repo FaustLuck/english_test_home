@@ -37,7 +37,6 @@ export const settings = {
       delete state.dictionary[difficult][index].edited;
     },
     deleteItem(state, {index, difficult}) {
-      // if (!state.excluded[difficult]?.length) state.excluded[difficult] = [];
       let item = state.dictionary[difficult][index];
       item.excluded = true;
     },
