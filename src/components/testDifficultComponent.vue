@@ -48,6 +48,7 @@
         :difficult="difficult"
         :excluded="item?.excluded"
         :edited="item?.edited"
+        :included="item?.included"
       ></tool-component>
     </item-component>
   </title-component>
