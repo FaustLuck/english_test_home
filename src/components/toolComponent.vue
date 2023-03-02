@@ -50,8 +50,8 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("settings", ["startEdit", "deleteItem", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
-    ...mapActions("settings", ["finishEdit"]),
+    ...mapMutations("settings", ["startEdit", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
+    ...mapActions("settings", ["finishEdit",'deleteItem']),
     undoChanges() {
       if (this.included) {
         this.removeIncluded({
@@ -87,7 +87,7 @@ export default {
   height: 2rem;
   width: 6rem;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   position: absolute;
   right: -7rem;
   @media (any-hover: hover) {
