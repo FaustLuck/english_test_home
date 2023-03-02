@@ -59,6 +59,7 @@ export default {
       this[type] = (!flag) ? this[type] : this[type].replace(regexp, "");
     },
     add() {
+      if(this.question==='' || this.answer==='') return
       const item = {
         question: this.question,
         answer: this.answer
@@ -67,6 +68,7 @@ export default {
         difficult: this.selectedDifficult,
         item
       });
+      this.clear();
     }
   },
   created() {
