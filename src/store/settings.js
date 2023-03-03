@@ -118,11 +118,10 @@ export const settings = {
             delete el.oldQuestion;
           }
           return {
-            [el.key]: {
-              ...(el?.included && {included: el.included, answer: el.answer, question: el.question}),
-              ...(el?.excluded && {excluded: el.excluded}),
-              ...(el?.edited && {edited: el.edited, answer: el.answer, question: el.question}),
-            }
+            key: el.key,
+            ...(el?.included && {included: el.included, answer: el.answer, question: el.question}),
+            ...(el?.excluded && {excluded: el.excluded}),
+            ...(el?.edited && {edited: el.edited, answer: el.answer, question: el.question}),
           };
         });
       }
