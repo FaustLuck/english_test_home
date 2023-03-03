@@ -96,9 +96,10 @@ export const settings = {
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
     async saveChanges({commit, dispatch}, sub) {
-      commit("changeSaved", true);
       const changes = await dispatch("assembleChanges");
       await request("saveChanges", {sub, changes});
+      commit("changeSaved", true);
+      await dispatch("getSettings", {sub});
     },
     assembleChanges({state}) {
       let output = {};
@@ -106,6 +107,24 @@ export const settings = {
         let filter = state.dictionary[difficult].filter(el => el.included || el.edited || el.excluded);
         if (!filter.length) continue;
         output[difficult] = filter;
+        output[difficult] = output[difficult].map(el => {
+          if (el?.excluded && (el?.edited || el?.included)) {
+            delete el.edited;
+            delete el.included;
+          }
+          if (el?.edited && el?.included) {
+            delete el.edited;
+            delete el.oldAnswer;
+            delete el.oldQuestion;
+          }
+          return {
+            [el.key]: {
+              ...(el?.included && {included: el.included, answer: el.answer, question: el.question}),
+              ...(el?.excluded && {excluded: el.excluded}),
+              ...(el?.edited && {edited: el.edited, answer: el.answer, question: el.question}),
+            }
+          };
+        });
       }
       return output;
     }
