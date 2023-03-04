@@ -97,12 +97,13 @@ export const settings = {
       const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
-    async saveChanges({commit, dispatch}/*, sub*/) {
+    async saveChanges({commit, dispatch}, sub) {
       const changes = await dispatch("assembleChanges");
-      console.log(changes);
-      // await request("saveChanges", {sub, changes});
+      await request("saveChanges", {sub, changes});
+      await dispatch("getSettings", {sub});
+      const data = await request(`getSettings/${sub}`, null, "GET");
       commit("changeSaved", true);
-      // await dispatch("getSettings", {sub});
+      commit("saveSettings", data);
     },
     assembleChanges({state}) {
       let output = {};
