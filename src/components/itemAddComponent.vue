@@ -1,5 +1,5 @@
 <template>
-  <div class="add__wrapper" :class="{'open':isOpen}" @click="setOpen(true)">
+  <div class="add__wrapper" :class="{'open':isOpen}" @click="toOpen">
     <span v-show="!isOpen">+</span>
     <div v-show="isOpen" class="add__container">
       <label>Сложность:
@@ -48,7 +48,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["orderDifficult", "isOpen"])
+    ...mapState(["orderDifficult", "isOpen", "isLoading"])
   },
   methods: {
     ...mapActions("settings", ["addItem"]),
@@ -72,6 +72,9 @@ export default {
         item
       });
       this.clear();
+    },
+    toOpen() {
+      if (!this.isLoading) this.setOpen(true);
     }
   },
   created() {

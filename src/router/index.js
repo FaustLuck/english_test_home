@@ -48,6 +48,7 @@ router.beforeEach(async (to) => {
   const {sub} = store.state.auth;
   if (!["test", "result"].includes(to.name) && !sub) return {name: "test"};
   store.commit("setMode", to.name);
+  store.commit("setLoading", true);
 });
 
 export default router;

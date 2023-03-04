@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 
 export default {
@@ -32,7 +32,6 @@ export default {
   },
   data() {
     return {
-      isLoading: true,
       min: 0,
       sec: 0
     };
@@ -41,17 +40,18 @@ export default {
     timer(value) {
       if (value) {
         this.timeToString(value);
-        this.isLoading = false;
+        this.setLoading(false);
       }
     }
   },
   computed: {
     ...mapState("settings", ["timer", "dictionary", "limits", "variants", "excluded", "included"]),
     ...mapState("auth", ["sub"]),
-    ...mapState(["orderDifficult"]),
+    ...mapState(["orderDifficult", "isLoading"]),
   },
   methods: {
     ...mapActions("settings", ["getSettings"]),
+    ...mapMutations(["setLoading"]),
     timeToString(time) {
       this.sec = (time % 60).toString().padStart(2, "0");
       this.min = (time - this.sec) / 60;
@@ -62,7 +62,7 @@ export default {
       await this.getSettings({sub: this.sub});
     } else {
       this.timeToString(this.timer);
-      this.isLoading = false;
+      this.setLoading(false);
     }
   }
 };

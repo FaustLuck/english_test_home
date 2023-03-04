@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     ...mapMutations("test", ["saveChoice"]),
+    ...mapMutations(["setLoading"]),
     ...mapActions("test", ["getTest"]),
     isSpeech(str) {
       return /[a-zA-Z]/g.test(str);
@@ -75,6 +76,9 @@ export default {
         console.log(e);
       }
     }
+  },
+  created() {
+    this.setLoading(false);
   }
 };
 </script>
