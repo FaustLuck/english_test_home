@@ -82,7 +82,7 @@ export default {
   computed: {
     ...mapState("test", ["timeSpent", "result", "timeLeft"]),
     ...mapState(["orderDifficult", "isLoading", "mode"]),
-    ...mapState("auth", ["name", "sub"]),
+    ...mapState("auth", ["name"]),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);

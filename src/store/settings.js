@@ -119,7 +119,8 @@ export const settings = {
             delete el.oldAnswer;
             delete el.oldQuestion;
           }
-          let tmp = [el?.key];
+          let tmp = [];
+          tmp[0] = el.key ?? null;
           if (el?.included || el?.edited) tmp.push(el.question, el.answer);
           return tmp;
         });
