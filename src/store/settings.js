@@ -38,7 +38,9 @@ export const settings = {
     },
     deleteItem(state, {index, difficult}) {
       let item = state.dictionary[difficult][index];
-      item.excluded = true;
+      if (item?.included) {
+        state.dictionary[difficult].splice(index, 1);
+      } else item.excluded = true;
     },
     removeIncluded(state, {index, difficult}) {
       state.dictionary[difficult].splice(index, 1);
@@ -95,11 +97,12 @@ export const settings = {
       const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
-    async saveChanges({commit, dispatch}, sub) {
+    async saveChanges({commit, dispatch}/*, sub*/) {
       const changes = await dispatch("assembleChanges");
-      await request("saveChanges", {sub, changes});
+      console.log(changes);
+      // await request("saveChanges", {sub, changes});
       commit("changeSaved", true);
-      await dispatch("getSettings", {sub});
+      // await dispatch("getSettings", {sub});
     },
     assembleChanges({state}) {
       let output = {};
@@ -108,21 +111,17 @@ export const settings = {
         if (!filter.length) continue;
         output[difficult] = filter;
         output[difficult] = output[difficult].map(el => {
-          if (el?.excluded && (el?.edited || el?.included)) {
+          if (el?.excluded) {
             delete el.edited;
             delete el.included;
           }
-          if (el?.edited && el?.included) {
-            delete el.edited;
+          if (el?.edited) {
             delete el.oldAnswer;
             delete el.oldQuestion;
           }
-          return {
-            key: el.key,
-            ...(el?.included && {included: el.included, answer: el.answer, question: el.question}),
-            ...(el?.excluded && {excluded: el.excluded}),
-            ...(el?.edited && {edited: el.edited, answer: el.answer, question: el.question}),
-          };
+          let tmp = [el?.key];
+          if (el?.included || el?.edited) tmp.push(el.question, el.answer);
+          return tmp;
         });
       }
       return output;
