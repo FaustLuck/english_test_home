@@ -27,7 +27,7 @@ export default {
 
 body {
   font-family: 'serif';
-
+  background-color: #FFDAB9;
   &.fail {
     background-color: red;
     pointer-events: none;
@@ -41,7 +41,6 @@ body {
   align-items: center;
   min-height: 100vh;
   font-size: 2.5rem;
-  background-color: #FFDAB9;
 
   @media screen and (max-width: 768px) {
     font-size: 1.5rem;
