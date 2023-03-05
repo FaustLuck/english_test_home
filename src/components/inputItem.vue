@@ -19,16 +19,14 @@ export default {
   },
   watch: {
     value(val) {
-      this.localValue = val[0].toUpperCase() + val.substr(1, val.length - 1);
+    if (val) this.localValue = val[0].toUpperCase() + val.substr(1, val.length - 1);
     }
   },
   methods: {
     validate(e) {
-      const value = this.localValue;
+      const value = e.target.value;
       const regexp = /[^a-zа-яё,.?!\s]/ig;
-      const symbol = e.data;
-      const flag = symbol.match(regexp)?.length;
-      this.localValue = (!flag) ? value : value.replace(regexp, "");
+      this.localValue = value.replace(regexp, "");
       this.$emit("changes", {type: this.type, newValue: this.localValue});
     },
   }

@@ -51,11 +51,18 @@ export const settings = {
     },
     editItem(state) {
       const newItem = state.editingItem;
-      const item = state.dictionary[state.editingDifficult][state.editingIndex];
-      item.edited = true;
-      if (!item?.oldAnswer) item.oldAnswer = item.answer;
-      if (!item?.oldQuestion) item.oldQuestion = item.question;
-      Object.assign(item, newItem);
+      let item = state.dictionary[state.editingDifficult][state.editingIndex];
+      if (newItem?.oldAnswer === newItem.answer && newItem.oldQuestion === newItem.question) {
+        delete newItem.edited;
+        delete newItem.oldQuestion;
+        delete newItem.oldAnswer;
+        item = newItem;
+      } else {
+        item.edited = true;
+        if (!item?.oldAnswer) item.oldAnswer = item.answer;
+        if (!item?.oldQuestion) item.oldQuestion = item.question;
+        Object.assign(item, newItem);
+      }
     },
     changeSaved(state, flag) {
       state.isSaved = flag;
@@ -74,9 +81,6 @@ export const settings = {
       commit("addItem", {difficult, item});
     },
     checkItem({state}, {difficult, item}) {
-      for (let field in item) {
-        item[field] = item[field][0].toUpperCase() + item[field].substr(1, item[field].length);
-      }
       const index = state.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
       return index === -1;
     },
