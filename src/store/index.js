@@ -11,6 +11,7 @@ export default createStore({
     isLoading: false,
     mode: null,
     isOpen: false,
+    message: "",
     isAnimate: false
   },
   getters: {},
@@ -26,6 +27,12 @@ export default createStore({
     },
     setOpen(state, flag) {
       if (state.mode === "settings") state.isOpen = flag;
+    },
+    setMessage(state, message) {
+      state.message = message;
+    },
+    clearMessage(state) {
+      state.message = "";
     },
     setAnimationStatus(state, status) {
       state.isAnimate = status;

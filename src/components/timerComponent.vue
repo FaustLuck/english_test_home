@@ -27,8 +27,8 @@ export default {
         document.body.classList.add("fail");
         setTimeout(async () => {
           document.body.classList.remove("fail");
-          this.changeTestStatus(false);
           this.$router.push("result");
+          this.changeTestStatus(false);
         }, 3000);
       }
     }
