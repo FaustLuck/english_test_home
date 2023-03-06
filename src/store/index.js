@@ -10,7 +10,8 @@ export default createStore({
     menuHeight: 0,
     isLoading: false,
     mode: null,
-    isOpen: false
+    isOpen: false,
+    isAnimate: false
   },
   getters: {},
   mutations: {
@@ -25,9 +26,11 @@ export default createStore({
     },
     setOpen(state, flag) {
       if (state.mode === "settings") state.isOpen = flag;
+    },
+    setAnimationStatus(state, status) {
+      state.isAnimate = status;
     }
   },
-  actions: {},
   modules: {
     auth,
     settings,

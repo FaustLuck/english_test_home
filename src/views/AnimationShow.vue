@@ -10,13 +10,18 @@ import { fireShow } from "@/utils/fireShow";
 export default {
   name: "AnimationShow",
   computed: {
-    ...mapState("test", ["answers"]),
-    ...mapState(["mode"])
+    ...mapState(["mode", "isAnimate"]),
   },
-  mounted() {
+  watch: {
+    isAnimate(status) {
+      if (!status) this.$router.replace({name: "test"});
+    }
+  },
+
+  async mounted() {
     switch (this.mode) {
       case "fire-show":
-        fireShow(this.$refs.canvas);
+        await fireShow(this.$refs.canvas);
         break;
       case "fail-show":
         failShow(this.$refs.canvas);

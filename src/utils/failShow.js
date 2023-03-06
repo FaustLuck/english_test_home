@@ -1,3 +1,5 @@
+import store from "../store/index";
+
 export function failShow(canvas) {
   [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
   const ctx = canvas.getContext("2d");
@@ -270,7 +272,7 @@ export function failShow(canvas) {
       ctx.fillStyle = "#000";
       ctx.fillRect(-canvas.width, -canvas.height, 2 * canvas.width, 2 * canvas.height);
     } else {
-      setTimeout(() => console.log("redirect"), 3000);
+      setTimeout(() => store.commit("setAnimationStatus", false), 3000);
     }
     if (sparkles.length || !isCombustionStart) drawCombustion();
     if (!sparkles.length && opacityFragments >= 0) drawBoom();
@@ -508,4 +510,5 @@ export function failShow(canvas) {
   triangles = createTriangles(r);
   createFlamePoints();
   draw();
+  store.commit("setAnimationStatus", true);
 }
