@@ -18,7 +18,6 @@ export default {
   },
   computed: {
     ...mapState("test", ["timestamp"]),
-    ...mapState(["isLoading"]),
     ...mapState("auth", ["sub"])
   },
   methods: {

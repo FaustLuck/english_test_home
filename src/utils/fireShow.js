@@ -1,12 +1,15 @@
+import store from "@/store";
+
 export function fireShow(canvas) {
+  let start;
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   const ctx = canvas.getContext("2d");
 
-  // init
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
-  // objects
+
   let listFire = [];
   let listFirework = [];
   let fireNumber = 20;
@@ -38,11 +41,25 @@ export function fireShow(canvas) {
     return `rgb(${r},${g},${b}`;
   }
 
-  (function loop() {
-    requestAnimationFrame(loop);
+  function loop(timestamp) {
+    if (!start) start = timestamp;
+    let progress = timestamp - start;
+    if (progress > 5000) decreaseOpacity();
     update();
     draw();
-  })();
+    requestAnimationFrame(loop);
+
+  }
+
+  function decreaseOpacity() {
+    let {opacity} = getComputedStyle(canvas);
+    if (opacity <= 0) {
+      store.commit("setAnimationStatus", false);
+    }
+    opacity -= .01;
+    canvas.style.opacity = opacity;
+
+  }
 
   function update() {
     for (let i = 0; i < listFire.length; i++) {
@@ -96,7 +113,7 @@ export function fireShow(canvas) {
 
   function draw() {
     ctx.globalCompositeOperation = "source-over";
-    ctx.globalAlpha = 0.18;
+    ctx.globalAlpha = .18;
     ctx.fillStyle = "#000";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.globalCompositeOperation = "screen";
@@ -120,4 +137,8 @@ export function fireShow(canvas) {
       ctx.fill();
     }
   }
+
+  requestAnimationFrame(loop);
+  store.commit("setAnimationStatus", true);
+
 }
