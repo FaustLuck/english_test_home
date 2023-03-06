@@ -28,8 +28,6 @@ export const test = {
     saveTimerSec(state, timeLeft) {
       state.timeLeft = timeLeft;
     },
-
-
     saveTest(state, {test, SPEECH, timer}) {
       Object.assign(state, {test, SPEECH, timer});
     },
