@@ -9,12 +9,11 @@ export default {
   name: "timerComponent",
   data() {
     return {
-      timerID: null,
-      timeLeft: null
+      timerID: null
     };
   },
   computed: {
-    ...mapState("test", ["timer"]),
+    ...mapState("test", ["timer", "timeLeft"]),
     time() {
       let sec = (this.timeLeft % 60).toString().padStart(2, "0");
       let min = (this.timeLeft - sec) / 60;
@@ -22,14 +21,13 @@ export default {
     }
   },
   watch: {
-    timerSec(value) {
+    timeLeft(value) {
       if (value === 0) {
         clearInterval(this.timerID);
         document.body.classList.add("fail");
         setTimeout(async () => {
           document.body.classList.remove("fail");
           this.changeTestStatus(false);
-          this.setLoading(true);
           this.$router.push("result");
         }, 3000);
       }
@@ -37,18 +35,17 @@ export default {
   },
   methods: {
     ...mapMutations("test", ["saveTimes", "changeTestStatus", "saveTimerSec"]),
-    ...mapMutations(["setLoading"])
+    decreaseTime() {
+      this.saveTimerSec(this.timeLeft-1);
+    }
   },
   created() {
-    this.timeLeft = this.timer;
-    this.timerID = setInterval(() => {
-      this.timeLeft--;
-      this.saveTimerSec(this.timeLeft);
-    }, 1000);
+    this.saveTimerSec(this.timer);
+    this.timerID = setInterval(this.decreaseTime, 1000);
   },
   beforeUnmount() {
     clearInterval(this.timerID);
-    this.saveTimes(this.timeLeft);
+    this.saveTimes();
   }
 };
 </script>
