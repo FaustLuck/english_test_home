@@ -8,7 +8,7 @@
     included:testItem?.included
   }"
   >
-    <slot></slot>
+    <slot class="card__column"></slot>
   </div>
 </template>
 
@@ -37,8 +37,6 @@ export default {
 .card {
   display: flex;
   align-items: center;
-  justify-content: center;
-  position: relative;
   border-radius: 2rem;
   box-shadow: 0 0 10px 5px #e9a66a;
   margin: 1rem 0;
@@ -76,6 +74,16 @@ export default {
   &.included {
     background-color: #8fbc8f;
     box-shadow: 0 0 10px 5px #648b64;
+  }
+
+  &__column {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      padding-left: 1rem;
+    }
   }
 }
 </style>
