@@ -1,54 +1,48 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
   <div v-else-if="isTesting">
-    <div class="card"
-         v-for="(item,i) of test"
-         :key="`${item.question}_${i}`"
+    <item-component
+      v-for="(item,index) of test"
+      :key="item.key"
     >
       <div class="card__column">
-        <label class="item" :class="{speech:!isSpeech(item.question)}">
-          <a v-if="isSpeech(item.question)">🔉</a>
-          <input
-            @click="toVoice(item.question)"
-            v-show="false"
-            type="radio"
-            :name="item.question"
-          />
-          <span class="item__title">{{ item.question }}</span>
-        </label>
+        <card-test-item-component
+          :item="item.question"
+          :difficult="item.difficult"
+          :index="index"
+          :type="'question'"
+        ></card-test-item-component>
       </div>
       <div class="card__column">
-        <label class="item"
-               :class="{speech:!isSpeech(variant)}"
-               v-for="(variant,index) of item.answer"
-               :key="`${item.question}_${i}_${index}`"
-        >
-          <a v-if="isSpeech(variant)">🔉</a>
-          <input
-            @change="saveChoice({choice:variant,question:item.question})"
-            @click="toVoice(variant)"
-            type="radio"
-            :name="`${item.question}_${i}`"
-          />
-          <span class="item__title">{{ variant }}</span>
-        </label>
+        <card-test-item-component
+          v-for="variant of item.answer"
+          :key="variant"
+          :item="variant"
+          :difficult="item.difficult"
+          :index="index"
+          :type="'answer'"
+          :checked="null"
+          @updateChoice="saveChoice({choice:variant,key:item.key})"
+        ></card-test-item-component>
       </div>
-    </div>
+    </item-component>
   </div>
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 
 export default {
   name: "TestView",
   components: {
+    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent")),
+    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
   },
   computed: {
     ...mapState("test", ["test", "isTesting", "SPEECH"]),
-    ...mapState(["isLoading"]),
+    ...mapState(["isLoading", "orderDifficult"]),
   },
   watch: {
     isTesting(value) {
