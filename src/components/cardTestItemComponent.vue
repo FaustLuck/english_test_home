@@ -60,6 +60,7 @@ export default {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
     name() {
+      if (this.type === "question") return null;
       return `${this.difficult}${this.index}`;
     },
     editing() {

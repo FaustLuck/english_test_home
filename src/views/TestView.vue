@@ -21,7 +21,6 @@
           :difficult="item.difficult"
           :index="index"
           :type="'answer'"
-          :checked="null"
           @updateChoice="saveChoice({choice:variant,key:item.key})"
         ></card-test-item-component>
       </div>
