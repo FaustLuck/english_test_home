@@ -46,10 +46,15 @@ const router = createRouter({
 });
 router.beforeEach(async (to) => {
   const {sub} = store.state.auth;
-  const anonymousAccessPages = ["test", "result", "fire-show", "fail-show"];
-  if (!anonymousAccessPages.includes(to.name) && !sub) return {name: "test"};
-  store.commit("setMode", to.name);
-  store.commit("setLoading", true);
+  const {result} = store.state.test;
+  const mode = to.name;
+  const anonymousAccessPages = ["result", "fire-show", "fail-show"];
+  if (mode !== "test") {
+    if (!anonymousAccessPages.includes(mode) && !sub) return {name: "test"};
+    if (anonymousAccessPages.includes(mode) && !result) return {name: "test"};
+    if (mode !== "test") store.commit("setLoading", true);
+  }
+  store.commit("setMode", mode);
 });
 
 export default router;
