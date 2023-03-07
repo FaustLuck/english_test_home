@@ -16,17 +16,20 @@ const routes = [
     path: "/users",
     name: "users",
     component: () => import("@/views/UsersView.vue"),
+    meta: {requireAuth: true}
   },
   {
     path: "/statistic:sub",
     name: "statistic",
     props: true,
-    component: () => import("@/views/StatisticView.vue")
+    component: () => import("@/views/StatisticView.vue"),
+    meta: {requireAuth: true}
   },
   {
     path: "/settings",
     name: "settings",
-    component: () => import("@/views/SettingsView.vue")
+    component: () => import("@/views/SettingsView.vue"),
+    meta: {requireAuth: true}
   },
   {
     path: "/fire-show",
@@ -45,16 +48,14 @@ const router = createRouter({
   routes
 });
 router.beforeEach(async (to) => {
+  const {result, test} = store.state.test;
   const {sub} = store.state.auth;
-  const {result} = store.state.test;
   const mode = to.name;
-  const anonymousAccessPages = ["result", "fire-show", "fail-show"];
-  if (mode !== "test") {
-    if (!anonymousAccessPages.includes(mode) && !sub) return {name: "test"};
-    if (anonymousAccessPages.includes(mode) && !result) return {name: "test"};
-    if (mode !== "test") store.commit("setLoading", true);
-  }
+  (mode !== "test") ? store.commit("setLoading", true) : store.commit("setLoading", false);
   store.commit("setMode", mode);
+  if (mode === "result" && test === null) return {name: "test"};
+  if (result === null && ["fire-show", "fail-show"].includes(mode)) return {name: "test"};
+  if (to.meta.requireAuth && sub === null) return {name: "test"};
 });
 
 export default router;
