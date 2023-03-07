@@ -51,28 +51,6 @@ export default {
   },
   methods: {
     ...mapMutations("test", ["saveChoice"]),
-    ...mapMutations(["setLoading"]),
-    ...mapActions("test", ["getTest"]),
-    isSpeech(str) {
-      return /[a-zA-Z]/g.test(str);
-    },
-    async toVoice(str) {
-      if (!this.isSpeech(str)) return;
-      try {
-        let response = await fetch(this.SPEECH + str);
-        if (response.ok) {
-          let blob = await response.blob();
-          let src = URL.createObjectURL(blob);
-          const audio = new Audio(src);
-          await audio.play();
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  },
-  created() {
-    this.setLoading(false);
   }
 };
 </script>
