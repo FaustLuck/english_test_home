@@ -21,8 +21,8 @@ export const test = {
     changeTestStatus(state, isTesting) {
       state.isTesting = isTesting;
     },
-    saveChoice(state, {choice, question}) {
-      let [item] = state.test.filter(el => el.question === question);
+    saveChoice(state, {choice, key}) {
+      let [item] = state.test.filter(el => el.key === key);
       item.choice = choice;
     },
     saveTimerSec(state, timeLeft) {
