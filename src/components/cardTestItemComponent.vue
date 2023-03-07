@@ -15,12 +15,12 @@
       type="radio"
       :name="name"
       :checked="checked"
-      disabled="mode!=='test'"
+      :disabled="mode!=='test'"
     />
     <span class="item__title"
           :class="{
-      right:right && type!=='question' && mode!=='settings',
-      wrong:!right && type!=='question' && mode!=='settings'
+      right:rightColor,
+      wrong:wrongColor
       }">{{ item }}</span>
   </label>
   <label class="item speech" v-else>
@@ -64,6 +64,12 @@ export default {
     },
     editing() {
       return this.difficult === this.editingDifficult && this.index === this.editingIndex;
+    },
+    rightColor() {
+      return this.right && this.type !== "question" && !["settings", "test"].includes(this.mode);
+    },
+    wrongColor() {
+      return !this.right && this.type !== "question" && !["settings", "test"].includes(this.mode);
     }
   },
   methods: {
