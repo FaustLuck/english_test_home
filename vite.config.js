@@ -30,8 +30,8 @@ export default defineConfig(({command}) => {
             }
             return `${extType}/[name]-[hash][extname]`;
           },
-          chunkFileNames: "assets/js/[name]-[hash].js",
-          entryFileNames: "assets/js/[name]-[hash].js",
+          chunkFileNames: "js/[name]-[hash].js",
+          entryFileNames: "js/[name]-[hash].js",
         },
       },
       outDir: "./docs"
