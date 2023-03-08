@@ -27,8 +27,8 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "SettingsView",
   components: {
-    testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent")),
-    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent"))
+    testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent.vue")),
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue"))
   },
   data() {
     return {

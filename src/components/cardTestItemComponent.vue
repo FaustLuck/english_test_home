@@ -35,11 +35,11 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
-import InputItem from "@/components/inputItem";
+import { defineAsyncComponent } from "vue";
 
 export default {
   name: "cardTestItemComponent",
-  components: {InputItem},
+  components: {inputItem:defineAsyncComponent(()=>import('@/components/inputItem.vue'))},
   props: {
     item: {
       type: String,

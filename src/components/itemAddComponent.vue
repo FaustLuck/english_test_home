@@ -33,7 +33,7 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "itemAddComponent",
   components: {
-    InputItem: defineAsyncComponent(() => import("@/components/inputItem"))
+    inputItem: defineAsyncComponent(() => import("@/components/inputItem.vue"))
   },
   data() {
     return {

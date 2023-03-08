@@ -12,9 +12,9 @@ import { defineAsyncComponent } from "vue";
 
 export default {
   components: {
-    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent")),
-    layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent")),
-    menuComponent: defineAsyncComponent(() => import("@/components/menuComponent"))
+    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent.vue")),
+    layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent.vue")),
+    menuComponent: defineAsyncComponent(() => import("@/components/menuComponent.vue"))
   }
 };
 </script>

@@ -26,9 +26,9 @@ import { getDate } from "@/utils/utils";
 export default {
   name: "dateListComponent",
   components: {
-    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader")),
-    titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
-    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
+    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader.vue")),
+    titleComponent: defineAsyncComponent(() => import("@/components/titleComponent.vue")),
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent.vue"))
   },
   props: {
     count: Number,

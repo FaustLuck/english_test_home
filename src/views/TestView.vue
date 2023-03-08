@@ -35,9 +35,9 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "TestView",
   components: {
-    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent")),
-    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent")),
-    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
+    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent.vue")),
+    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent.vue")),
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
   },
   computed: {
     ...mapState("test", ["test", "isTesting", "SPEECH"]),

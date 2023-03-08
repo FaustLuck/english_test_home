@@ -14,7 +14,7 @@ import { mapState } from "vuex";
 export default {
   name: "ResultView",
   components: {
-    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent"))
+    testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent.vue"))
   },
   computed: {
     ...mapState("test", ["timestamp"]),

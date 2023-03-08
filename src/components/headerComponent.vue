@@ -20,9 +20,9 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "headerComponent",
   components: {
-    itemAddComponent: defineAsyncComponent(() => import("@/components/itemAddComponent")),
-    startButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent")),
-    timerComponent: defineAsyncComponent(() => import("@/components/timerComponent")),
+    itemAddComponent: defineAsyncComponent(() => import("@/components/itemAddComponent.vue")),
+    startButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent.vue")),
+    timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
     ...mapState("test", ["isTesting"]),

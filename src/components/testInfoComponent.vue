@@ -44,9 +44,9 @@ import { getDate } from "@/utils/utils";
 export default {
   name: "testInfoComponent",
   components: {
-    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader")),
-    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent"))
+    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader.vue")),
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
+    testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent.vue"))
   },
   props: {
     timestamp: Number,

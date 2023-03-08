@@ -19,8 +19,8 @@ import { mapActions, mapState } from "vuex";
 export default {
   name: "StatisticUserView",
   components: {
-    preloaderComponent:defineAsyncComponent(() => import("@/components/preloaderComponent")),
-    dateListComponent: defineAsyncComponent(() => import("@/components/dateListComponent")),
+    preloaderComponent:defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
+    dateListComponent: defineAsyncComponent(() => import("@/components/dateListComponent.vue")),
   },
   props: {
     sub: String

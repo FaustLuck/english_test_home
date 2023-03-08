@@ -20,8 +20,8 @@ import { defineAsyncComponent } from "vue";
 export default {
   name: "StatisticView",
   components: {
-    userCardComponent: defineAsyncComponent(() => import("@/components/userCardComponent")),
-    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent"))
+    userCardComponent: defineAsyncComponent(() => import("@/components/userCardComponent.vue")),
+    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent.vue"))
 
   },
   data() {

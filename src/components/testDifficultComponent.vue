@@ -61,10 +61,10 @@ import { mapMutations, mapState } from "vuex";
 export default {
   name: "testDifficultComponent",
   components: {
-    toolComponent: defineAsyncComponent(() => import("@/components/toolComponent")),
-    titleComponent: defineAsyncComponent(() => import("@/components/titleComponent")),
-    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent")),
-    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent"))
+    toolComponent: defineAsyncComponent(() => import("@/components/toolComponent.vue")),
+    titleComponent: defineAsyncComponent(() => import("@/components/titleComponent.vue")),
+    cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent.vue")),
+    itemComponent: defineAsyncComponent(() => import("@/components/itemComponent.vue"))
   },
   props: {
     difficult: String,

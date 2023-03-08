@@ -40,11 +40,15 @@ const routes = [
     path: "/fail-show",
     name: "fail-show",
     component: () => import("@/views/AnimationShow.vue")
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/"
   }
 ]
 
 const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
 router.beforeEach(async (to) => {
