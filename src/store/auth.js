@@ -3,7 +3,6 @@ import { request } from "@/utils/utils";
 export const auth = {
   namespaced: true,
   state: {
-    admin: null,
     privileged: false,
     sub: null,
     name: null,
