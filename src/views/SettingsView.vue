@@ -4,14 +4,29 @@
     <div class="settings__row">
       <span>Ограничение по времени: </span>
       <div>
-        <input data-max="60" data-type="min" type="number" v-model.number="min" @input="change"> мин
-        <input data-max="60" data-type="sec" type="number" v-model.number="sec" @input="change"> сек
+        <input
+          data-max="59"
+          data-type="min"
+          type="number"
+          v-model.number="min"
+          @input="change"> мин
+        <input
+          data-max="59"
+          data-type="sec"
+          type="number"
+          v-model.number="sec"
+          @input="change"> сек
       </div>
     </div>
     <div class="settings__row">
       <span>Количество вариантов ответов: </span>
       <div>
-        <input data-max="11" data-type="localVariants" type="number" v-model.number="localVariants" @input="change">
+        <input
+          :data-max="minVariantCount"
+          data-type="localVariants"
+          type="number"
+          v-model.number="localVariants"
+          @input="change">
       </div>
     </div>
     <div
@@ -69,6 +84,13 @@ export default {
     ...mapState("settings", ["timer", "dictionary", "limits", "variants"]),
     ...mapState("auth", ["sub"]),
     ...mapState(["orderDifficult", "isLoading"]),
+    minVariantCount() {
+      let lengths = [];
+      for (let difficult in this.dictionary) {
+        lengths.push(this.dictionary[difficult].length);
+      }
+      return Math.min(...lengths);
+    }
   },
   methods: {
     ...mapActions("settings", ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
@@ -80,12 +102,13 @@ export default {
     change(e, difficult) {
       const {max, type} = e.target.dataset;
       if (type !== "limits") {
-        if (this[type] > parseInt(max)) this[type] = max - 1;
+        if (this[type] > parseInt(max)) this[type] = max;
         if (["min", "sec"].includes(type)) {
           const timer = this.min * 60 + +this.sec;
+          this.timeToString();
           this.saveTimer({timer});
         }
-        if (type === "variants") this.saveVariants({variants: this.localVariants});
+        if (type === "localVariants") this.saveVariants({variants: this.localVariants});
       } else {
         if (this.localLimits[difficult] > parseInt(max)) this.localLimits[difficult] = max;
         this.saveLimits({difficult, limit: this.localLimits[difficult]});
