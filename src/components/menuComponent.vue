@@ -17,7 +17,7 @@ import { mapActions, mapMutations, mapState } from "vuex";
 export default {
   name: "menuComponent",
   computed: {
-    ...mapState("auth", ["sub", "name", "picture", "tests"])
+    ...mapState("auth", ["admin", "sub", "name", "picture", "tests"])
   },
   methods: {
     ...mapActions("auth", ["googleInitialize"]),
