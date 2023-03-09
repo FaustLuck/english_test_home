@@ -1,6 +1,6 @@
 <template>
   <nav class="menu">
-    <router-link v-if="sub" title="Настройки" :to="{path:'settings'}">
+    <router-link v-if="admin" title="Настройки" :to="{path:'settings'}">
       <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
     <router-link v-if="tests" title="История" :to="{path:'users'}"
