@@ -60,20 +60,32 @@ input {
   font-size: 2.5rem;
   font-family: "serif";
   background-color: transparent;
-  border: none;
-  outline: 1px solid black;
   margin: 3px;
+
+  &:not([type='radio']){
+    border: none;
+    outline: 1px solid black;
+  }
 
   &[type="text"] {
     width: 50%;
   }
 
   &[type="number"] {
-    width: 10%;
+    width: 3ch;
+    text-align: center;
 
     &::-webkit-inner-spin-button,
     &::-webkit-outer-spin-button {
       display: none;
+    }
+  }
+
+  &[type="radio"] {
+    transform: scale(2, 2);
+    cursor: pointer;
+    @media screen and (max-width: 768px) {
+      transform: scale(1.5, 1.5);
     }
   }
 
