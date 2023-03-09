@@ -3,9 +3,9 @@ import { request } from "@/utils/utils";
 export const statistic = {
   namespaced: true,
   state: {
-    statistic: null,
-    dateList: null,
-    users: null
+    statistic: undefined,
+    dateList: undefined,
+    users: undefined
   },
   mutations: {
     saveUsers(state, users) {

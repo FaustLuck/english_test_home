@@ -3,11 +3,12 @@ import { request } from "@/utils/utils";
 export const auth = {
   namespaced: true,
   state: {
+    admin: undefined,
     privileged: false,
-    sub: null,
-    name: null,
-    picture: null,
-    tests: null
+    sub: undefined,
+    name: undefined,
+    picture: undefined,
+    tests: undefined
   },
   mutations: {
     changeLoginStatus(state, info) {

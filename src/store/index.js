@@ -9,7 +9,7 @@ export default createStore({
     orderDifficult: ["easy", "medium", "hard"],
     menuHeight: 0,
     isLoading: false,
-    mode: null,
+    mode: undefined,
     isOpen: false,
     message: "",
     isAnimate: false

@@ -3,14 +3,14 @@ import { request } from "@/utils/utils";
 export const settings = {
   namespaced: true,
   state: {
-    dictionary: null,
-    limits: null,
-    timer: null,
-    variants: null,
+    dictionary: undefined,
+    limits: undefined,
+    timer: undefined,
+    variants: undefined,
     isSaved: true,
-    editingIndex: null,
-    editingDifficult: null,
-    editingItem: null,
+    editingIndex: undefined,
+    editingDifficult: undefined,
+    editingItem: undefined,
   },
   mutations: {
     saveSettings(state, settings) {

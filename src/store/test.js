@@ -4,13 +4,13 @@ export const test = {
   namespaced: true,
   state: {
     isTesting: false,
-    timeSpent: null,
-    timestamp: null,
-    timeLeft: null,
-    test: null,
-    result: null,
-    SPEECH: null,
-    timer: null
+    timeSpent: undefined,
+    timestamp: undefined,
+    timeLeft: undefined,
+    test: undefined,
+    result: undefined,
+    SPEECH: undefined,
+    timer: undefined
   },
   mutations: {
     saveTimes(state) {
