@@ -56,8 +56,41 @@ form {
   }
 }
 
+input {
+  font-size: 2.5rem;
+  font-family: "serif";
+  background-color: transparent;
+  border: none;
+  outline: 1px solid black;
+  margin: 3px;
 
-input[type="text"],
+  &[type="text"] {
+    width: 50%;
+  }
+
+  &[type="number"] {
+    width: 10%;
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
+
+input[type="button"] {
+  font-size: 2rem;
+  padding: 0 0.5rem;
+  font-family: "serif";
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+}
+
 select {
   font-size: 2.5rem;
   font-family: "serif";
@@ -76,15 +109,6 @@ select {
     font-family: "serif";
     background-color: #FFDAB9;
     box-shadow: 0 0 10px 5px #e9a66a;
-  }
-}
-
-input[type="button"] {
-  font-size: 2rem;
-  padding: 0 0.5rem;
-  font-family: "serif";
-  @media screen and (max-width: 768px) {
-    font-size: 1rem;
   }
 }
 </style>

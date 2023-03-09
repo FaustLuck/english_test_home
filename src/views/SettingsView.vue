@@ -74,6 +74,10 @@ export default {
   width: 100%;
   max-width: inherit;
 
+  @media screen and (max-width: 768px) {
+    margin-top: 1rem;
+  }
+
   & > .container {
     display: flex;
     flex-direction: column;
