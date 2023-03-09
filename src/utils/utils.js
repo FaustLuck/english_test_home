@@ -12,8 +12,9 @@ export function getDate(timestamp) {
 
 export async function request(path, data, method = "POST") {
   if (data === "") data = {};
+  const adress = (import.meta.env.DEV) ? import.meta.env.VITE_dev : import.meta.env.VITE_prod;
   const body = (method === "POST") ? JSON.stringify(data) : null;
-  const response = await fetch(`http://localhost:8080/${path}`, {//TODO после заменить
+  const response = await fetch(`${adress}${path}`, {//TODO после заменить
     headers: {"Content-Type": "application/json"},
     method,
     body
