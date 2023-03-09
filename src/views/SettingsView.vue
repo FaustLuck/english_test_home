@@ -3,7 +3,9 @@
   <div class="settings" v-else>
     <div class="time">
       <span>Ограничение по времени: </span>
-      <span>{{ min }}</span> : <span>{{ sec }}</span>
+            <span>{{ min }} мин</span> <span>{{ sec }} сек</span>
+      <input-item :type="'number'" :value="min"></input-item> мин
+      <input-item :type="'number'" :value="sec"></input-item> сек
     </div>
     <div class="variants">
       <span>Количество вариантов ответов: </span>
@@ -23,10 +25,12 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
+import InputItem from "@/components/inputItem.vue";
 
 export default {
   name: "SettingsView",
   components: {
+    InputItem,
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent.vue")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue"))
   },
