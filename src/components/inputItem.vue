@@ -1,5 +1,5 @@
 <template>
-  <input type="text" v-model="localValue" @input="validate">
+  <input :type="type==='number'?'number':'text'" v-model="localValue" @input="validate">
 </template>
 
 <script>
@@ -8,7 +8,7 @@ export default {
   props: {
     type: String,
     value: {
-      type: String,
+      type: [String, Number],
       required: true
     }
   },
@@ -24,6 +24,7 @@ export default {
   },
   methods: {
     validate(e) {
+      if (this.type === "number") return;
       const value = e.target.value;
       const regexp = /[^a-zа-яё,.?!\s]/ig;
       this.localValue = value.replace(regexp, "");
