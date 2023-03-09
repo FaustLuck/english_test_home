@@ -1,12 +1,6 @@
 <template>
   <header v-if="mode!=='users' && mode!=='statistic'" :class="{'settings':mode==='settings'}">
-    <start-button-component v-if="mode==='test' || mode==='result'"></start-button-component>
-    <input
-      v-if="mode==='settings'"
-      type="button"
-      @click="save"
-      :value="isLoading?'Подождите...':'Сохранить'"
-      :disabled="isLoading">
+    <button-component></button-component>
     <item-add-component v-if="mode==='settings'"></item-add-component>
     <timer-component v-if="isTesting && mode==='test'"></timer-component>
   </header>
@@ -21,7 +15,7 @@ export default {
   name: "headerComponent",
   components: {
     itemAddComponent: defineAsyncComponent(() => import("@/components/itemAddComponent.vue")),
-    startButtonComponent: defineAsyncComponent(() => import("@/components/startButtonComponent.vue")),
+    buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue")),
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
@@ -32,11 +26,6 @@ export default {
   methods: {
     ...mapActions("settings", ["saveChanges"]),
     ...mapMutations(["setLoading"]),
-    async save() {
-      this.setLoading(true);
-      await this.saveChanges(this.sub);
-      this.setLoading(false);
-    }
   }
 
 };
@@ -59,7 +48,7 @@ header {
   box-shadow: 0 5px 0 0 #e9a66a;
   z-index: 1;
 
-  &.settings{
+  &.settings {
     z-index: 10;
   }
 
