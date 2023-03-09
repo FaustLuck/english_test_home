@@ -88,6 +88,18 @@ export const settings = {
       commit("changeSaved", false);
       commit("deleteItem", {index, difficult});
     },
+    saveTimer({commit, state}, {timer}) {
+      commit("changeSaved", false);
+      state.timer = timer;
+    },
+    saveVariants({commit, state}, {variants}) {
+      commit("changeSaved", false);
+      state.variants = variants;
+    },
+    saveLimits({commit, state}, {difficult, limit}) {
+      commit("changeSaved", false);
+      state.limits[difficult] = limit;
+    },
     async finishEdit({commit, dispatch}) {
       const isChanged = await dispatch("isChanged");
       if (isChanged) {
@@ -101,9 +113,10 @@ export const settings = {
       const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
-    async saveChanges({commit, dispatch}, sub) {
-      const changes = await dispatch("assembleChanges");
-      await request("saveChanges", {sub, changes});
+    async saveChanges({commit, dispatch, state}, sub) {
+      const {limits, timer, variants} = state;
+      const editedDictionary = await dispatch("assembleChanges");
+      await request("saveChanges", {sub, editedDictionary,limits, timer, variants});
       await dispatch("getSettings", {sub});
       const data = await request(`getSettings/${sub}`, null, "GET");
       commit("changeSaved", true);

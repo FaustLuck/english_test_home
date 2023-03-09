@@ -116,14 +116,6 @@ export default {
     }
   }
 
-  & > input[type="radio"] {
-    transform: scale(2, 2);
-    cursor: pointer;
-    @media screen and (max-width: 768px) {
-      transform: scale(1.5, 1.5);
-    }
-  }
-
   &__title {
     &.right {
       color: #008000;

@@ -1,15 +1,33 @@
 <template>
   <preloader-component v-if="isLoading"></preloader-component>
   <div class="settings" v-else>
-    <div class="time">
+    <div class="settings__row">
       <span>Ограничение по времени: </span>
-            <span>{{ min }} мин</span> <span>{{ sec }} сек</span>
-      <input-item :type="'number'" :value="min"></input-item> мин
-      <input-item :type="'number'" :value="sec"></input-item> сек
+      <div>
+        <input data-max="60" data-type="min" type="number" v-model.number="min" @input="change"> мин
+        <input data-max="60" data-type="sec" type="number" v-model.number="sec" @input="change"> сек
+      </div>
     </div>
-    <div class="variants">
+    <div class="settings__row">
       <span>Количество вариантов ответов: </span>
-      <span>{{ variants }}</span>
+      <div>
+        <input data-max="11" data-type="localVariants" type="number" v-model.number="localVariants" @input="change">
+      </div>
+    </div>
+    <div
+      class="settings__row"
+      v-for="difficult of orderDifficult"
+      :key="'limit'+difficult"
+    >
+      <span>Количество вопросов {{ difficult }}: </span>
+      <div>
+        <input
+          :data-max="dictionary[difficult].length"
+          data-type="limits"
+          type="number"
+          v-model.number="localLimits[difficult]"
+          @input="(e)=>change(e,difficult)">
+      </div>
     </div>
     <div class="container">
       <test-difficult-component
@@ -25,48 +43,67 @@
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
-import InputItem from "@/components/inputItem.vue";
 
 export default {
   name: "SettingsView",
   components: {
-    InputItem,
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent.vue")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue"))
   },
   data() {
     return {
       min: 0,
-      sec: 0
+      sec: 0,
+      localVariants: 0,
+      localLimits: {}
     };
   },
   watch: {
     timer(value) {
       if (value) {
-        this.timeToString(value);
-        this.setLoading(false);
+        this.setSettingsToLocal();
       }
     }
   },
   computed: {
-    ...mapState("settings", ["timer", "dictionary", "limits", "variants", "excluded", "included"]),
+    ...mapState("settings", ["timer", "dictionary", "limits", "variants"]),
     ...mapState("auth", ["sub"]),
     ...mapState(["orderDifficult", "isLoading"]),
   },
   methods: {
-    ...mapActions("settings", ["getSettings"]),
+    ...mapActions("settings", ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
     ...mapMutations(["setLoading"]),
-    timeToString(time) {
-      this.sec = (time % 60).toString().padStart(2, "0");
-      this.min = (time - this.sec) / 60;
+    timeToString() {
+      this.sec = (this.timer % 60).toString().padStart(2, "0");
+      this.min = (this.timer - this.sec) / 60;
+    },
+    change(e, difficult) {
+      const {max, type} = e.target.dataset;
+      if (type !== "limits") {
+        if (this[type] > parseInt(max)) this[type] = max - 1;
+        if (["min", "sec"].includes(type)) {
+          const timer = this.min * 60 + +this.sec;
+          this.saveTimer({timer});
+        }
+        if (type === "variants") this.saveVariants({variants: this.localVariants});
+      } else {
+        if (this.localLimits[difficult] > parseInt(max)) this.localLimits[difficult] = max;
+        this.saveLimits({difficult, limit: this.localLimits[difficult]});
+      }
+      e.target.style.backgroundColor = "#dddd5d";
+    },
+    setSettingsToLocal() {
+      this.timeToString();
+      this.localVariants = this.variants;
+      this.localLimits = this.limits;
+      this.setLoading(false);
     }
   },
   async mounted() {
     if (!this.timer) {
       await this.getSettings({sub: this.sub});
     } else {
-      this.timeToString(this.timer);
-      this.setLoading(false);
+      this.setSettingsToLocal();
     }
   }
 };
@@ -77,10 +114,22 @@ export default {
   position: relative;
   width: 100%;
   max-width: inherit;
+  margin-top: 1rem;
 
   @media screen and (max-width: 768px) {
     margin-top: 1rem;
   }
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+
+    & > * {
+      width: 50%;
+    }
+
+  }
+
 
   & > .container {
     display: flex;
