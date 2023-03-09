@@ -18,8 +18,7 @@ export default {
     title() {
       if (this.testMode) {
         return (this.isTesting) ? "Завершить тест" : "Начать тест";
-      }
-      if (this.settingMode) {
+      } else {
         return (this.isLoading) ? "Подождите..." : "Сохранить";
       }
     },
