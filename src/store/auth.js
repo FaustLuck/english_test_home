@@ -1,37 +1,30 @@
 import { request } from "@/utils/utils";
+import { defineStore } from "pinia";
 
-export const auth = {
-  namespaced: true,
-  state: {
-    admin: undefined,
-    privileged: false,
-    sub: undefined,
-    name: undefined,
-    picture: undefined,
-    tests: undefined
-  },
-  mutations: {
-    changeLoginStatus(state, info) {
-      Object.assign(state, info);
-    },
+export const useAuthStore = defineStore("auth", {
+  state() {
+    return {
+      admin: undefined,
+      privileged: false,
+      sub: undefined,
+      name: undefined,
+      picture: undefined,
+      tests: undefined
+    };
   },
   actions: {
-    async googleInitialize({dispatch, commit}) {
-      //TODO убрать
-      // eslint-disable-next-line no-undef
+    async googleInitialize() {
       google.accounts.id.initialize({
-        client_id: await dispatch("getID"),
+        client_id: await this.getID(),
         auto_select: true,
         callback: async (response) => {
           {
             const token = response.credential;
             const info = await request("login", {token});
-            commit("changeLoginStatus", info);
+            Object.assign(this, info);
           }
         }
       });
-      //TODO убрать
-      // eslint-disable-next-line no-undef
       google.accounts.id.renderButton(
         document.getElementById("google"),
         {
@@ -41,12 +34,10 @@ export const auth = {
           size: "large"
         }
       );
-      //TODO убрать
-      // eslint-disable-next-line no-undef
       google.accounts.id.prompt();
     },
     async getID() {
       return await request("id", null, "GET");
     }
   }
-};
+});

@@ -10,6 +10,8 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapState } from "vuex";
+import { mapState as piniaMapSate } from "pinia";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "ResultView",
@@ -18,7 +20,7 @@ export default {
   },
   computed: {
     ...mapState("test", ["timestamp"]),
-    ...mapState("auth", ["sub"])
+    ...piniaMapSate(useAuthStore, ["sub"])
   },
   methods: {
     show(nameShow) {

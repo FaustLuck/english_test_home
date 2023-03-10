@@ -8,12 +8,14 @@
 
 <script>
 import { mapState, mapMutations, mapActions } from "vuex";
+import { mapState as piniaMapSate } from "pinia";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "startButtonComponent",
   computed: {
     ...mapState("test", ["isTesting"]),
-    ...mapState("auth", ["sub"]),
+    ...piniaMapSate(useAuthStore, ["sub"]),
     ...mapState(["mode", "isLoading"]),
     title() {
       if (this.testMode) {

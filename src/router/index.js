@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import store from "@/store";
+import { useAuthStore } from "@/store/auth";
 
 const routes = [
   {
@@ -45,21 +46,24 @@ const routes = [
     path: "/:catchAll(.*)",
     redirect: "/"
   }
-]
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
 router.beforeEach(async (to) => {
+  const {sub} = useAuthStore();
   const {result, test} = store.state.test;
-  const {sub} = store.state.auth;
   const mode = to.name;
-  (mode !== "test") ? store.commit("setLoading", true) : store.commit("setLoading", false);
   store.commit("setMode", mode);
-  if (mode === "result" && test === null) return {name: "test"};
+  (mode !== "test") ? store.commit("setLoading", true) : store.commit("setLoading", false);
+  if (mode === "result" && test === null) {
+    console.log({mode, test});
+    return {name: "test"};
+  }
   if (result === null && ["fire-show", "fail-show"].includes(mode)) return {name: "test"};
-  if (to.meta.requireAuth && sub === null) return {name: "test"};
+  if (to.meta.requireAuth && !sub) return {name: "test"};
 });
 
 export default router;

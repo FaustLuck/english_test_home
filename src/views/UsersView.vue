@@ -15,14 +15,15 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
+import { mapState as piniaMapSate } from "pinia";
+import { useAuthStore } from "@/store/auth";
 import { defineAsyncComponent } from "vue";
 
 export default {
   name: "StatisticView",
   components: {
     userCardComponent: defineAsyncComponent(() => import("@/components/userCardComponent.vue")),
-    preloaderComponent:defineAsyncComponent(()=>import("@/components/preloaderComponent.vue"))
-
+    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue"))
   },
   data() {
     return {
@@ -31,7 +32,7 @@ export default {
   },
   computed: {
     ...mapState("statistic", ["users"]),
-    ...mapState("auth", ["sub"])
+    ...piniaMapSate(useAuthStore, ["sub"])
   },
   methods: {
     ...mapActions("statistic", ["getUsers"]),

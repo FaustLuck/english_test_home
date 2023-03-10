@@ -10,6 +10,8 @@
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapMutations, mapState } from "vuex";
+import { mapState as piniaMapSate } from "pinia";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "headerComponent",
@@ -20,7 +22,7 @@ export default {
   },
   computed: {
     ...mapState("test", ["isTesting"]),
-    ...mapState("auth", ["sub"]),
+    ...piniaMapSate(useAuthStore, ["sub"]),
     ...mapState(["mode", "isLoading"]),
   },
   methods: {
