@@ -16,7 +16,7 @@
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { useStatisticStore } from "@/store/statistic";
+import { statistic } from "@/store/statistic";
 export default {
   name: "StatisticUserView",
   components: {
@@ -27,10 +27,10 @@ export default {
     sub: String
   },
   computed: {
-    ...mapState(useStatisticStore, ["dateList"]),
+    ...mapState(statistic, ["dateList"]),
   },
   methods:{
-    ...mapActions(useStatisticStore,['getDateList'])
+    ...mapActions(statistic,['getDateList'])
   },
  async created() {
      await this.getDateList(this.$route.params.sub)

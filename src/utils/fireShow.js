@@ -1,4 +1,4 @@
-import store from "@/store";
+import store from "@/store/main";
 
 export function fireShow(canvas) {
   let start;

@@ -1,7 +1,7 @@
 import { request } from "@/utils/utils";
 import { defineStore } from "pinia";
 
-export const useSettingsStore = defineStore("settings", {
+export const settings = defineStore("settings", {
   state() {
     return {
       dictionary: undefined,

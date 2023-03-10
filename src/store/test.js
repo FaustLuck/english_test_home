@@ -1,7 +1,7 @@
 import { request } from "@/utils/utils";
 import { defineStore } from "pinia";
 
-export const useTestStore = defineStore("test", {
+export const test = defineStore("test", {
   state() {
     return {
       isTesting: false,

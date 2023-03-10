@@ -10,8 +10,8 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapState } from "pinia";
-import { authStore } from "@/store/authStore";
-import { useTestStore } from "@/store/test";
+import { auth } from "@/store/auth";
+import { test } from "@/store/test";
 
 export default {
   name: "ResultView",
@@ -19,8 +19,8 @@ export default {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent.vue"))
   },
   computed: {
-    ...mapState(useTestStore, ["timestamp"]),
-    ...mapState(authStore, ["sub"])
+    ...mapState(test, ["timestamp"]),
+    ...mapState(auth, ["sub"])
   },
   methods: {
     show(nameShow) {

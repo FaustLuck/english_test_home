@@ -15,7 +15,7 @@
 <script>
 
 import { mapState } from "pinia";
-import { mainStore } from "@/store";
+import { main } from "@/store/main";
 
 export default {
   name: "itemComponent",
@@ -23,7 +23,7 @@ export default {
     testItem: Object
   },
   computed: {
-    ...mapState(mainStore, ["mode"]),
+    ...mapState(main, ["mode"]),
     right() {
       return ["result", "statistic"].includes(this.$route.name) && this.testItem.answer === this.testItem?.choice;
     },

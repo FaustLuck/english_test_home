@@ -40,10 +40,10 @@
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 import { mapActions, mapState } from "pinia/dist/pinia";
-import { authStore } from "@/store/authStore";
-import { useStatisticStore } from "@/store/statistic";
-import { useTestStore } from "@/store/test";
-import { mainStore } from "@/store";
+import { auth } from "@/store/auth";
+import { statistic } from "@/store/statistic";
+import { test } from "@/store/test";
+import { main } from "@/store/main";
 
 export default {
   name: "testInfoComponent",
@@ -84,9 +84,9 @@ export default {
     },
   },
   computed: {
-    ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
-    ...mapState(mainStore, ["orderDifficult", "isLoading", "mode"]),
-    ...mapState(authStore, ["name"]),
+    ...mapState(test, ["timeSpent", "result", "timeLeft"]),
+    ...mapState(main, ["orderDifficult", "isLoading", "mode"]),
+    ...mapState(auth, ["name"]),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
@@ -112,9 +112,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions(useStatisticStore, ["getResult"]),
-    ...mapActions(useTestStore, ["checkTest", "saveTest"]),
-    ...mapActions(mainStore, ["setLoading"]),
+    ...mapActions(statistic, ["getResult"]),
+    ...mapActions(test, ["checkTest", "saveTest"]),
+    ...mapActions(main, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;
