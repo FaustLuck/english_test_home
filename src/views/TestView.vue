@@ -29,8 +29,10 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapState } from "vuex";
+import { mapState as piniaMapState, mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "TestView",
@@ -40,7 +42,7 @@ export default {
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
   },
   computed: {
-    ...mapState("test", ["test", "isTesting", "SPEECH"]),
+    ...piniaMapState(useTestStore, ["test", "isTesting", "SPEECH"]),
     ...mapState(["isLoading", "orderDifficult"]),
   },
   watch: {
@@ -49,7 +51,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("test", ["saveChoice"]),
+    ...mapActions(useTestStore, ["saveChoice"]),
   }
 };
 </script>

@@ -3,7 +3,8 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
+import { useTestStore } from "@/store/test";
+import { mapActions, mapState } from "pinia";
 
 export default {
   name: "timerComponent",
@@ -13,7 +14,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("test", ["timer", "timeLeft"]),
+    ...mapState(useTestStore, ["timer", "timeLeft"]),
     time() {
       let sec = (this.timeLeft % 60).toString().padStart(2, "0");
       let min = (this.timeLeft - sec) / 60;
@@ -34,9 +35,9 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("test", ["saveTimes", "changeTestStatus", "saveTimerSec"]),
+    ...mapActions(useTestStore, ["saveTimes", "changeTestStatus", "saveTimerSec"]),
     decreaseTime() {
-      this.saveTimerSec(this.timeLeft-1);
+      this.saveTimerSec(this.timeLeft - 1);
     }
   },
   created() {

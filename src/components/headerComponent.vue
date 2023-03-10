@@ -13,6 +13,7 @@ import { mapMutations, mapState } from "vuex";
 import { mapActions, mapState as piniaMapSate } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import { useStatisticStore } from "@/store/statistic";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "headerComponent",
@@ -22,7 +23,7 @@ export default {
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
-    ...mapState("test", ["isTesting"]),
+    ...piniaMapSate(useTestStore, ["isTesting"]),
     ...piniaMapSate(useAuthStore, ["sub"]),
     ...mapState(["mode", "isLoading"]),
   },

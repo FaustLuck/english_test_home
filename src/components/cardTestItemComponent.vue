@@ -35,11 +35,15 @@
 
 <script>
 import { mapActions, mapMutations, mapState } from "vuex";
+import { mapActions as piniaMapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "cardTestItemComponent",
-  components: {inputItem:defineAsyncComponent(()=>import('@/components/inputItem.vue'))},
+  components: {
+    inputItem: defineAsyncComponent(() => import("@/components/inputItem.vue"))
+  },
   props: {
     item: {
       type: String,
@@ -54,7 +58,7 @@ export default {
   },
   computed: {
     ...mapState(["mode"]),
-    ...mapState("test", ["SPEECH"]),
+    ...piniaMapActions(useTestStore, ["SPEECH"]),
     ...mapState("settings", ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);

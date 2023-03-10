@@ -37,12 +37,13 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
-import { mapActions as piniaMapActions, mapState as piniaMapSate } from "pinia/dist/pinia";
+import { mapActions, mapState as piniaMapSate } from "pinia/dist/pinia";
 import { useAuthStore } from "@/store/auth";
 import { useStatisticStore } from "@/store/statistic";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "testInfoComponent",
@@ -83,7 +84,7 @@ export default {
     },
   },
   computed: {
-    ...mapState("test", ["timeSpent", "result", "timeLeft"]),
+    ...piniaMapSate(useTestStore, ["timeSpent", "result", "timeLeft"]),
     ...mapState(["orderDifficult", "isLoading", "mode"]),
     ...piniaMapSate(useAuthStore, ["name"]),
     length() {
@@ -111,8 +112,8 @@ export default {
     },
   },
   methods: {
-    ...piniaMapActions(useStatisticStore, ["getResult"]),
-    ...mapActions("test", ["checkTest", "saveTest"]),
+    ...mapActions(useStatisticStore, ["getResult"]),
+    ...mapActions(useTestStore, ["checkTest", "saveTest"]),
     ...mapMutations(["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;

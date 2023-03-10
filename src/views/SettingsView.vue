@@ -173,9 +173,4 @@ export default {
     box-shadow: 0 -5px 0 0 #e9a66a;
   }
 }
-
-
-
-
-
 </style>

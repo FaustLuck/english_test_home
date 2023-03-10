@@ -11,6 +11,8 @@
 
 <script>
 import { mapMutations, mapState } from "vuex";
+import { mapState as piniaMapState } from "pinia";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "layoutComponent",
@@ -30,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState("test", ["timeLeft"]),
+    ...piniaMapState(useTestStore, ["timeLeft"]),
     ...mapState(["mode", "isOpen"])
   },
   watch: {
