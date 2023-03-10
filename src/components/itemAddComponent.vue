@@ -27,8 +27,10 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapMutations, mapState } from "vuex";
+import { mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
+import { useSettingsStore } from "@/store/settings";
 
 export default {
   name: "itemAddComponent",
@@ -51,9 +53,10 @@ export default {
     ...mapState(["orderDifficult", "isOpen", "isLoading"])
   },
   methods: {
-    ...mapActions("settings", ["addItem"]),
+    ...mapActions(useSettingsStore, ["addItem"]),
     ...mapMutations(["setOpen"]),
     clear() {
+      console.log('clear');
       this.question = "";
       this.answer = "";
       this.selectedDifficult = "easy";
@@ -63,6 +66,7 @@ export default {
     },
     add() {
       if (this.question === "" || this.answer === "") return;
+      console.log({question: this.question, answer: this.answer});
       const item = {
         question: this.question,
         answer: this.answer
@@ -71,6 +75,7 @@ export default {
         difficult: this.selectedDifficult,
         item
       });
+
       this.clear();
     },
     toOpen() {

@@ -1,5 +1,4 @@
 import { createStore } from "vuex";
-import { settings } from "@/store/settings";
 
 export default createStore({
   state: {
@@ -34,6 +33,5 @@ export default createStore({
     setAnimationStatus(state, status) {
       state.isAnimate = status;
     }
-  },
-  modules: {settings}
+  }
 });

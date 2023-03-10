@@ -32,7 +32,8 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
+import { mapState, mapActions } from "pinia";
+import { useSettingsStore } from "@/store/settings";
 
 export default {
   name: "toolComponent",
@@ -44,14 +45,13 @@ export default {
     included: Boolean
   },
   computed: {
-    ...mapState("settings", ["editingDifficult", "editingIndex"]),
+    ...mapState(useSettingsStore, ["editingDifficult", "editingIndex"]),
     editing() {
       return this.difficult === this.editingDifficult && this.index === this.editingIndex;
     }
   },
   methods: {
-    ...mapMutations("settings", ["startEdit", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
-    ...mapActions("settings", ["finishEdit",'deleteItem']),
+    ...mapActions(useSettingsStore, ["finishEdit", "deleteItem", "startEdit", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
     undoChanges() {
       if (this.included) {
         this.removeIncluded({
@@ -102,10 +102,12 @@ export default {
     position: relative;
     width: 50%;
   }
+
   &.show {
     opacity: 1;
     justify-content: center;
   }
+
   img {
     height: 100%;
   }

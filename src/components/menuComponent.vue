@@ -14,15 +14,15 @@
 <script>
 import { mapMutations } from "vuex";
 import { mapState as piniaMapSate, mapActions as piniaMapActions } from "pinia";
-import { useAuthStore } from "@/store/auth";
+import { auth } from "@/store/auth";
 
 export default {
   name: "menuComponent",
   computed: {
-    ...piniaMapSate(useAuthStore, ["admin", "sub", "name", "picture", "tests"])
+    ...piniaMapSate(auth, ["admin", "sub", "name", "picture", "tests"])
   },
   methods: {
-    ...piniaMapActions(useAuthStore, ["googleInitialize"]),
+    ...piniaMapActions(auth, ["googleInitialize"]),
     ...mapMutations(["setMenuHeight"]),
     setHeight() {
       if (!window.matchMedia("(max-width: 768px)").matches) return;

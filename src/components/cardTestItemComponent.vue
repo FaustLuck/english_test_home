@@ -34,10 +34,11 @@
 </template>
 
 <script>
-import { mapActions, mapMutations, mapState } from "vuex";
-import { mapActions as piniaMapActions } from "pinia";
+import { mapState } from "vuex";
+import { mapActions, mapState as piniaMapState } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useTestStore } from "@/store/test";
+import { useSettingsStore } from "@/store/settings";
 
 export default {
   name: "cardTestItemComponent",
@@ -58,8 +59,8 @@ export default {
   },
   computed: {
     ...mapState(["mode"]),
-    ...piniaMapActions(useTestStore, ["SPEECH"]),
-    ...mapState("settings", ["editingDifficult", "editingIndex", "editingItem"]),
+    ...piniaMapState(useTestStore, ["SPEECH"]),
+    ...piniaMapState(useSettingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
@@ -78,8 +79,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations("settings", ["clearEdit"]),
-    ...mapActions("settings", ["finishEdit"]),
+    ...mapActions(useSettingsStore, ["clearEdit", "finishEdit"]),
     update() {
       if (this.type !== "answer") return;
       this.$emit("updateChoice", this.item);

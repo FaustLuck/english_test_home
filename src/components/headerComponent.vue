@@ -11,7 +11,7 @@
 import { defineAsyncComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
 import { mapActions, mapState as piniaMapSate } from "pinia";
-import { useAuthStore } from "@/store/auth";
+import { auth } from "@/store/auth";
 import { useStatisticStore } from "@/store/statistic";
 import { useTestStore } from "@/store/test";
 
@@ -24,7 +24,7 @@ export default {
   },
   computed: {
     ...piniaMapSate(useTestStore, ["isTesting"]),
-    ...piniaMapSate(useAuthStore, ["sub"]),
+    ...piniaMapSate(auth, ["sub"]),
     ...mapState(["mode", "isLoading"]),
   },
   methods: {

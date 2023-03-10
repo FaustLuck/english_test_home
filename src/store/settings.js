@@ -1,57 +1,48 @@
 import { request } from "@/utils/utils";
+import { defineStore } from "pinia";
 
-export const settings = {
-  namespaced: true,
-  state: {
-    dictionary: undefined,
-    limits: undefined,
-    timer: undefined,
-    variants: undefined,
-    isSaved: true,
-    editingIndex: undefined,
-    editingDifficult: undefined,
-    editingItem: undefined,
+export const useSettingsStore = defineStore("settings", {
+  state() {
+    return {
+      dictionary: undefined,
+      limits: undefined,
+      timer: undefined,
+      variants: undefined,
+      isSaved: true,
+      editingIndex: undefined,
+      editingDifficult: undefined,
+      editingItem: undefined,
+    };
   },
-  mutations: {
-    saveSettings(state, settings) {
-      Object.assign(state, settings);
+  actions: {
+    saveSettings(settings) {
+      Object.assign(this, settings);
     },
-    addItem(state, {difficult, item}) {
-      item.included = true;
-      state.dictionary[difficult].push(item);
-      state.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
+    startEdit({index, difficult}) {
+      Object.assign(this, {editingIndex: index, editingDifficult: difficult});
+      this.editingItem = {...this.dictionary[difficult][index]};
     },
-    startEdit(state, {index, difficult}) {
-      Object.assign(state, {editingIndex: index, editingDifficult: difficult});
-      state.editingItem = {...state.dictionary[difficult][index]};
+    clearEdit() {
+      this.editingIndex = null;
+      this.editingDifficult = null;
+      this.editingItem = null;
     },
-    clearEdit(state) {
-      state.editingIndex = null;
-      state.editingDifficult = null;
-      state.editingItem = null;
+    cancelEdit({index, difficult}) {
+      const {oldAnswer, oldQuestion} = this.dictionary[difficult][index];
+      this.dictionary[difficult][index].answer = oldAnswer;
+      this.dictionary[difficult][index].question = oldQuestion;
+      delete this.dictionary[difficult][index].edited;
     },
-    cancelEdit(state, {index, difficult}) {
-      const {oldAnswer, oldQuestion} = state.dictionary[difficult][index];
-      state.dictionary[difficult][index].answer = oldAnswer;
-      state.dictionary[difficult][index].question = oldQuestion;
-      delete state.dictionary[difficult][index].edited;
+    removeIncluded({index, difficult}) {
+      this.dictionary[difficult].splice(index, 1);
     },
-    deleteItem(state, {index, difficult}) {
-      let item = state.dictionary[difficult][index];
-      if (item?.included) {
-        state.dictionary[difficult].splice(index, 1);
-      } else item.excluded = true;
-    },
-    removeIncluded(state, {index, difficult}) {
-      state.dictionary[difficult].splice(index, 1);
-    },
-    returnDeletedItem(state, {index, difficult}) {
-      let item = state.dictionary[difficult][index];
+    returnDeletedItem({index, difficult}) {
+      let item = this.dictionary[difficult][index];
       delete item.excluded;
     },
-    editItem(state) {
-      const newItem = state.editingItem;
-      let item = state.dictionary[state.editingDifficult][state.editingIndex];
+    editItem() {
+      const newItem = this.editingItem;
+      let item = this.dictionary[this.editingDifficult][this.editingIndex];
       if (newItem?.oldAnswer === newItem.answer && newItem.oldQuestion === newItem.question) {
         delete newItem.edited;
         delete newItem.oldQuestion;
@@ -64,68 +55,72 @@ export const settings = {
         Object.assign(item, newItem);
       }
     },
-    changeSaved(state, flag) {
-      state.isSaved = flag;
+    changeSaved(flag) {
+      this.isSaved = flag;
       window.onbeforeunload = (flag) ? null : () => false;
-    }
-  },
-  actions: {
-    async getSettings({commit}, {sub}) {
+    },
+    async getSettings({sub}) {
       const data = await request(`getSettings/${sub}`, null, "GET");
-      commit("saveSettings", data);
+      Object.assign(this, data);
     },
-    async addItem({commit, dispatch}, {difficult, item}) {
-      const isNew = await dispatch("checkItem", {difficult, item});
+    async addItem({difficult, item}) {
+      const isNew = this.checkItem({difficult, item});
       if (!isNew) return;
-      commit("changeSaved", false);
-      commit("addItem", {difficult, item});
+      this.changeSaved(false);
+      item.included = true;
+      this.dictionary[difficult].push(item);
+      this.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
+
     },
-    checkItem({state}, {difficult, item}) {
-      const index = state.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
+    checkItem({difficult, item}) {
+      const index = this.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
       return index === -1;
     },
-    deleteItem({commit}, {index, difficult}) {
-      commit("changeSaved", false);
-      commit("deleteItem", {index, difficult});
+    deleteItem({index, difficult}) {
+      this.changeSaved(false);
+      let item = this.dictionary[difficult][index];
+      if (item?.included) {
+        this.dictionary[difficult].splice(index, 1);
+      } else item.excluded = true;
     },
-    saveTimer({commit, state}, {timer}) {
-      commit("changeSaved", false);
-      state.timer = timer;
+    saveTimer({timer}) {
+      this.changeSaved(false);
+      this.timer = timer;
     },
-    saveVariants({commit, state}, {variants}) {
-      commit("changeSaved", false);
-      state.variants = variants;
+    saveVariants({variants}) {
+      this.changeSaved(false);
+      this.variants = variants;
     },
-    saveLimits({commit, state}, {difficult, limit}) {
-      commit("changeSaved", false);
-      state.limits[difficult] = limit;
+    saveLimits({difficult, limit}) {
+      this.changeSaved(false);
+      this.limits[difficult] = limit;
     },
-    async finishEdit({commit, dispatch}) {
-      const isChanged = await dispatch("isChanged");
+    async finishEdit() {
+      const isChanged = this.isChanged();
       if (isChanged) {
-        commit("changeSaved", false);
-        commit("editItem");
+        this.changeSaved(false);
+        this.editItem();
       }
-      commit("clearEdit");
+      this.clearEdit();
     },
-    isChanged({state}) {
-      const newItem = state.editingItem;
-      const oldItem = state.dictionary[state.editingDifficult][state.editingIndex];
+    isChanged() {
+      const newItem = this.editingItem;
+      const oldItem = this.dictionary[this.editingDifficult][this.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
-    async saveChanges({commit, dispatch, state}, sub) {
-      const {limits, timer, variants} = state;
-      const editedDictionary = await dispatch("assembleChanges");
-      await request("saveChanges", {sub, editedDictionary,limits, timer, variants});
-      await dispatch("getSettings", {sub});
+    async saveChanges(sub) {
+      const {limits, timer, variants} = this;
+      const editedDictionary = this.assembleChanges();
+      await request("saveChanges", {sub, editedDictionary, limits, timer, variants});
+      await this.getSettings({sub});
       const data = await request(`getSettings/${sub}`, null, "GET");
-      commit("changeSaved", true);
-      commit("saveSettings", data);
+      this.changeSaved(true);
+      this.saveSettings(data);
     },
-    assembleChanges({state}) {
+    assembleChanges() {
       let output = {};
-      for (let difficult in state.dictionary) {
-        let filter = state.dictionary[difficult].filter(el => el.included || el.edited || el.excluded);
+      for (let difficult in this.dictionary) {
+        let filter = this.dictionary[difficult].filter(el => el.included || el.edited || el.excluded);
         if (!filter.length) continue;
         output[difficult] = filter;
         output[difficult] = output[difficult].map(el => {
@@ -146,4 +141,4 @@ export const settings = {
       return output;
     }
   }
-};
+});

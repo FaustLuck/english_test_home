@@ -56,7 +56,9 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapMutations, mapState } from "vuex";
+import { mapState } from "vuex";
+import { mapActions } from "pinia";
+import { useSettingsStore } from "@/store/settings";
 
 export default {
   name: "testDifficultComponent",
@@ -74,9 +76,9 @@ export default {
     ...mapState(["mode"])
   },
   methods: {
-    ...mapMutations("settings", ["startEdit"])
+    ...mapActions(useSettingsStore, ["startEdit"])
   }
-}
+};
 </script>
 
 <style scoped lang="scss">
