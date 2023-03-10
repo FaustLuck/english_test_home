@@ -1,6 +1,5 @@
 import { createStore } from "vuex";
 import { settings } from "@/store/settings";
-import { statistic } from "@/store/statistic";
 import { test } from "@/store/test";
 
 export default createStore({
@@ -39,7 +38,6 @@ export default createStore({
   },
   modules: {
     settings,
-    statistic,
     test
   }
 })

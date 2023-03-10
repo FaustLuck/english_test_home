@@ -4,9 +4,7 @@ import router from "./router";
 import store from "./store";
 import { createPinia } from "pinia";
 
-const pinia = createPinia();
-
-createApp(App).use(store).use(pinia).use(router).mount("#app");
+createApp(App).use(createPinia()).use(store).use(router).mount("#app");
 
 //todo семантика?
 //todo вирт. питомец

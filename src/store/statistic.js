@@ -1,34 +1,26 @@
 import { request } from "@/utils/utils";
+import { defineStore } from "pinia";
 
-export const statistic = {
-  namespaced: true,
-  state: {
-    statistic: undefined,
-    dateList: undefined,
-    users: undefined
-  },
-  mutations: {
-    saveUsers(state, users) {
-      (users?.length) ? state.users = users : state.users = [users];
-    },
-    saveDateList(state, dateList) {
-      state.dateList = dateList;
-    }
+export const useStatisticStore = defineStore("statistic", {
+  state() {
+    return {
+      statistic: undefined,
+      dateList: undefined,
+      users: undefined
+    };
   },
   actions: {
-    async getUsers({commit}, {sub}) {
-      const users = await request(`getusers/${sub}`, null, "GET");
-      commit("saveUsers", users);
+    async getUsers({sub}) {
+      this.users = await request(`getUsers/${sub}`, null, "GET");
     },
-    async getDateList({commit}, sub) {
-      const dateList = await request(`getdatelist/${sub}`, null, "GET");
-      commit("saveDateList", dateList);
+    async getDateList(sub) {
+      this.dateList = await request(`getDateList/${sub}`, null, "GET");
     },
-    async getTimeList(_, {date, sub}) {
+    async getTimeList({date, sub}) {
       return await request(`getTimeList/${sub}/${date}`, null, "GET");
     },
-    async getResult(_, {sub, timestamp}) {
+    async getResult({sub, timestamp}) {
       return request(`getTest/${sub}/${timestamp}`, null, "GET");
     }
   }
-};
+});

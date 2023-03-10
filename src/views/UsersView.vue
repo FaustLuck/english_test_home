@@ -14,9 +14,9 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
-import { mapState as piniaMapSate } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useAuthStore } from "@/store/auth";
+import { useStatisticStore } from "@/store/statistic";
 import { defineAsyncComponent } from "vue";
 
 export default {
@@ -31,11 +31,11 @@ export default {
     };
   },
   computed: {
-    ...mapState("statistic", ["users"]),
-    ...piniaMapSate(useAuthStore, ["sub"])
+    ...mapState(useStatisticStore, ["users"]),
+    ...mapState(useAuthStore, ["sub"])
   },
   methods: {
-    ...mapActions("statistic", ["getUsers"]),
+    ...mapActions(useStatisticStore, ["getUsers"]),
     changeActiveUser(sub) {
       this.activeUserSub = sub;
       this.$router.push({name: "statistic", params: {sub: sub}});

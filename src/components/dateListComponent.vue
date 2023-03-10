@@ -20,8 +20,10 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 import { getDate } from "@/utils/utils";
+import { useStatisticStore } from "@/store/statistic";
+import { mapActions } from "pinia";
 
 export default {
   name: "dateListComponent",
@@ -47,7 +49,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("statistic", ["getTimeList"]),
+    ...mapActions(useStatisticStore, ["getTimeList"]),
     async getTime() {
      if(!this.timeList) this.timeList = await this.getTimeList({sub: this.$route.params.sub, date: this.datestamp});
     }

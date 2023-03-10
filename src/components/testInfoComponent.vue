@@ -40,13 +40,14 @@
 import { mapActions, mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
-import { mapState as piniaMapSate } from "pinia/dist/pinia";
+import { mapActions as piniaMapActions, mapState as piniaMapSate } from "pinia/dist/pinia";
 import { useAuthStore } from "@/store/auth";
+import { useStatisticStore } from "@/store/statistic";
 
 export default {
   name: "testInfoComponent",
   components: {
-    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader.vue")),
+    itemPreloader: defineAsyncComponent(() => import("@/components/itemPreloader.vue")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
     testDifficultComponent: defineAsyncComponent(() => import("@/components/testDifficultComponent.vue"))
   },
@@ -54,7 +55,7 @@ export default {
     timestamp: Number,
     testInfo: Object,
     sub: String,
-    heightTitle:Number
+    heightTitle: Number
   },
   data() {
     return {
@@ -110,7 +111,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions("statistic", ["getResult"]),
+    ...piniaMapActions(useStatisticStore, ["getResult"]),
     ...mapActions("test", ["checkTest", "saveTest"]),
     ...mapMutations(["setLoading"]),
     async changeDisplayMode(e) {
@@ -143,7 +144,7 @@ export default {
   async mounted() {
     [this.date, this.time] = getDate(this.timestamp);
     if (this.mode === "result") {
-      await this.checkTest({sub:this.sub});
+      await this.checkTest({sub: this.sub});
       this.displayMode = 2;
       if (this.sub) await this.saveTest({sub: this.sub});
     }
@@ -184,11 +185,11 @@ export default {
     }
   }
 
-    &-fail {
-      text-align: center;
-      font-weight: 900;
-      text-transform: uppercase;
-      color: #FF0000;
-    }
+  &-fail {
+    text-align: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: #FF0000;
   }
+}
 </style>

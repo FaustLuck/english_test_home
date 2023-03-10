@@ -9,9 +9,10 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapActions, mapMutations, mapState } from "vuex";
-import { mapState as piniaMapSate } from "pinia";
+import { mapMutations, mapState } from "vuex";
+import { mapActions, mapState as piniaMapSate } from "pinia";
 import { useAuthStore } from "@/store/auth";
+import { useStatisticStore } from "@/store/statistic";
 
 export default {
   name: "headerComponent",
@@ -26,10 +27,9 @@ export default {
     ...mapState(["mode", "isLoading"]),
   },
   methods: {
-    ...mapActions("settings", ["saveChanges"]),
+    ...mapActions(useStatisticStore, ["saveChanges"]),
     ...mapMutations(["setLoading"]),
   }
-
 };
 </script>
 
