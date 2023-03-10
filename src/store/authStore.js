@@ -1,7 +1,7 @@
 import { request } from "@/utils/utils";
 import { defineStore } from "pinia";
 
-export const auth = defineStore("auth", {
+export const authStore = defineStore("auth", {
   state() {
     return {
       admin: undefined,

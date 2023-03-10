@@ -40,10 +40,10 @@
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 import { mapActions, mapState } from "pinia/dist/pinia";
-import { auth } from "@/store/auth";
-import { statistic } from "@/store/statistic";
-import { test } from "@/store/test";
-import { main } from "@/store/main";
+import { authStore } from "@/store/authStore";
+import { statisticStore } from "@/store/statisticStore";
+import { testStore } from "@/store/testStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "testInfoComponent",
@@ -84,14 +84,15 @@ export default {
     },
   },
   computed: {
-    ...mapState(test, ["timeSpent", "result", "timeLeft"]),
-    ...mapState(main, ["orderDifficult", "isLoading", "mode"]),
-    ...mapState(auth, ["name"]),
+    ...mapState(testStore, ["timeSpent", "result", "timeLeft"]),
+    ...mapState(mainStore, ["orderDifficult", "isLoading", "mode"]),
+    ...mapState(authStore, ["name"]),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
+      } else {
+        return this.testInfo.questions; //TODO возникает ошибка при переходе с 'result' на 'users'
       }
-      return this.testInfo.questions;
     },
     correct() {
       if (this.mode === "result") return (Object.values(this.result)).reduce((acc, cur) => {
@@ -112,9 +113,9 @@ export default {
     },
   },
   methods: {
-    ...mapActions(statistic, ["getResult"]),
-    ...mapActions(test, ["checkTest", "saveTest"]),
-    ...mapActions(main, ["setLoading"]),
+    ...mapActions(statisticStore, ["getResult"]),
+    ...mapActions(testStore, ["checkTest", "saveTest"]),
+    ...mapActions(mainStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;

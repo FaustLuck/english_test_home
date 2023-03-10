@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from "pinia";
-import { main } from "@/store/main";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "titleComponent",
@@ -39,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(main, ["menuHeight", "mode"])
+    ...mapState(mainStore, ["menuHeight", "mode"])
   },
   methods: {
     getTop() {

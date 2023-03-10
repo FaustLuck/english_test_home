@@ -33,7 +33,7 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { settings } from "@/store/settings";
+import { settingsStore } from "@/store/settingsStore";
 
 export default {
   name: "toolComponent",
@@ -45,13 +45,13 @@ export default {
     included: Boolean
   },
   computed: {
-    ...mapState(settings, ["editingDifficult", "editingIndex"]),
+    ...mapState(settingsStore, ["editingDifficult", "editingIndex"]),
     editing() {
       return this.difficult === this.editingDifficult && this.index === this.editingIndex;
     }
   },
   methods: {
-    ...mapActions(settings, ["finishEdit", "deleteItem", "startEdit", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
+    ...mapActions(settingsStore, ["finishEdit", "deleteItem", "startEdit", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
     undoChanges() {
       if (this.included) {
         this.removeIncluded({

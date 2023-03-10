@@ -15,8 +15,8 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { auth } from "@/store/auth";
-import { statistic } from "@/store/statistic";
+import { authStore } from "@/store/authStore";
+import { statisticStore } from "@/store/statisticStore";
 import { defineAsyncComponent } from "vue";
 
 export default {
@@ -31,11 +31,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(statistic, ["users"]),
-    ...mapState(auth, ["sub"])
+    ...mapState(statisticStore, ["users"]),
+    ...mapState(authStore, ["sub"])
   },
   methods: {
-    ...mapActions(statistic, ["getUsers"]),
+    ...mapActions(statisticStore, ["getUsers"]),
     changeActiveUser(sub) {
       this.activeUserSub = sub;
       this.$router.push({name: "statistic", params: {sub: sub}});

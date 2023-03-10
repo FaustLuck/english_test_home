@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const main = defineStore("main", {
+export const mainStore = defineStore("main", {
   state() {
     return {
       orderDifficult: ["easy", "medium", "hard"],

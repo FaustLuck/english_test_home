@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { test } from "@/store/test";
+import { testStore } from "@/store/testStore";
 import { mapActions, mapState } from "pinia";
 
 export default {
@@ -14,7 +14,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(test, ["timer", "timeLeft"]),
+    ...mapState(testStore, ["timer", "timeLeft"]),
     time() {
       let sec = (this.timeLeft % 60).toString().padStart(2, "0");
       let min = (this.timeLeft - sec) / 60;
@@ -35,7 +35,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(test, ["saveTimes", "changeTestStatus", "saveTimerSec"]),
+    ...mapActions(testStore, ["saveTimes", "changeTestStatus", "saveTimerSec"]),
     decreaseTime() {
       this.saveTimerSec(this.timeLeft - 1);
     }

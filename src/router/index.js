@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { main } from "@/store/main";
-import { auth } from "@/store/auth";
-import { test } from "@/store/test";
+import { mainStore } from "@/store/mainStore";
+import { authStore } from "@/store/authStore";
+import { testStore } from "@/store/testStore";
 
 const routes = [
   {
@@ -54,11 +54,11 @@ const router = createRouter({
   routes
 });
 router.beforeEach(async (to) => {
-  const {sub} = auth();
-  const {result, test} = test();
+  const {sub} = authStore();
+  const {result, test} = testStore();
   const mode = to.name;
-  main().setMode(mode);
-  main().setLoading(mode !== "test");
+  mainStore().setMode(mode);
+  mainStore().setLoading(mode !== "test");
   if (mode === "result" && test === null) {
     console.log({mode, test});
     return {name: "test"};

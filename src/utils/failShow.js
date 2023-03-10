@@ -1,4 +1,4 @@
-import store from "@/store/main";
+import store from "@/store/mainStore";
 
 export function failShow(canvas) {
   [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];

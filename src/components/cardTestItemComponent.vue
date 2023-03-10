@@ -36,9 +36,9 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
-import { test } from "@/store/test";
-import { settings } from "@/store/settings";
-import { main } from "@/store/main";
+import { testStore } from "@/store/testStore";
+import { settingsStore } from "@/store/settingsStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "cardTestItemComponent",
@@ -58,9 +58,9 @@ export default {
     excluded: Boolean
   },
   computed: {
-    ...mapState(main, ["mode"]),
-    ...mapState(test, ["SPEECH"]),
-    ...mapState(settings, ["editingDifficult", "editingIndex", "editingItem"]),
+    ...mapState(mainStore, ["mode"]),
+    ...mapState(testStore, ["SPEECH"]),
+    ...mapState(settingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
@@ -79,7 +79,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(settings, ["clearEdit", "finishEdit"]),
+    ...mapActions(settingsStore, ["clearEdit", "finishEdit"]),
     update() {
       if (this.type !== "answer") return;
       this.$emit("updateChoice", this.item);

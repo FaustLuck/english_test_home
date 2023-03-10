@@ -29,8 +29,8 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
-import { settings } from "@/store/settings";
-import { main } from "@/store/main";
+import { settingsStore } from "@/store/settingsStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "itemAddComponent",
@@ -50,11 +50,11 @@ export default {
     }
   },
   computed: {
-    ...mapState(main, ["orderDifficult", "isOpen", "isLoading"])
+    ...mapState(mainStore, ["orderDifficult", "isOpen", "isLoading"])
   },
   methods: {
-    ...mapActions(settings, ["addItem"]),
-    ...mapActions(main, ["setOpen"]),
+    ...mapActions(settingsStore, ["addItem"]),
+    ...mapActions(mainStore, ["setOpen"]),
     clear() {
       this.question = "";
       this.answer = "";

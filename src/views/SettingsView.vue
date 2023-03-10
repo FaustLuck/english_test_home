@@ -57,10 +57,10 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { auth } from "@/store/auth";
+import { authStore } from "@/store/authStore";
 import { defineAsyncComponent } from "vue";
-import { settings } from "@/store/settings";
-import { main } from "@/store/main";
+import { settingsStore } from "@/store/settingsStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "SettingsView",
@@ -84,9 +84,9 @@ export default {
     }
   },
   computed: {
-    ...mapState(settings, ["timer", "dictionary", "limits", "variants"]),
-    ...mapState(auth, ["sub"]),
-    ...mapState(main, ["orderDifficult", "isLoading"]),
+    ...mapState(settingsStore, ["timer", "dictionary", "limits", "variants"]),
+    ...mapState(authStore, ["sub"]),
+    ...mapState(mainStore, ["orderDifficult", "isLoading"]),
     minVariantCount() {
       let lengths = [];
       for (let difficult in this.dictionary) {
@@ -96,8 +96,8 @@ export default {
     }
   },
   methods: {
-    ...mapActions(settings, ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
-    ...mapActions(main, ["setLoading"]),
+    ...mapActions(settingsStore, ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
+    ...mapActions(mainStore, ["setLoading"]),
     timeToString() {
       this.sec = (this.timer % 60).toString().padStart(2, "0");
       this.min = (this.timer - this.sec) / 60;

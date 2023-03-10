@@ -10,10 +10,10 @@
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { auth } from "@/store/auth";
-import { statistic } from "@/store/statistic";
-import { test } from "@/store/test";
-import { main } from "@/store/main";
+import { authStore } from "@/store/authStore";
+import { statisticStore } from "@/store/statisticStore";
+import { testStore } from "@/store/testStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "headerComponent",
@@ -23,13 +23,13 @@ export default {
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
-    ...mapState(test, ["isTesting"]),
-    ...mapState(auth, ["sub"]),
-    ...mapState(main, ["mode", "isLoading"]),
+    ...mapState(testStore, ["isTesting"]),
+    ...mapState(authStore, ["sub"]),
+    ...mapState(mainStore, ["mode", "isLoading"]),
   },
   methods: {
-    ...mapActions(statistic, ["saveChanges"]),
-    ...mapActions(main, ["setLoading"]),
+    ...mapActions(statisticStore, ["saveChanges"]),
+    ...mapActions(mainStore, ["setLoading"]),
   }
 };
 </script>

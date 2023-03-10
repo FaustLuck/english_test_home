@@ -6,12 +6,12 @@
 import { mapState } from "pinia";
 import { failShow } from "@/utils/failShow";
 import { fireShow } from "@/utils/fireShow";
-import { main } from "@/store/main";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "AnimationShow",
   computed: {
-    ...mapState(main, ["mode", "isAnimate"]),
+    ...mapState(mainStore, ["mode", "isAnimate"]),
   },
   watch: {
     isAnimate(status) {

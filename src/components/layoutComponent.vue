@@ -11,8 +11,8 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { test } from "@/store/test";
-import { main } from "@/store/main";
+import { testStore } from "@/store/testStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "layoutComponent",
@@ -32,8 +32,8 @@ export default {
     };
   },
   computed: {
-    ...mapState(test, ["timeLeft"]),
-    ...mapState(main, ["mode", "isOpen"])
+    ...mapState(testStore, ["timeLeft"]),
+    ...mapState(mainStore, ["mode", "isOpen"])
   },
   watch: {
     timeLeft(value) {
@@ -62,7 +62,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(main, ["setOpen"]),
+    ...mapActions(mainStore, ["setOpen"]),
     changeColor() {
       this.isColored = !this.isColored;
     },

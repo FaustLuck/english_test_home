@@ -8,17 +8,17 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { auth } from "@/store/auth";
-import { test } from "@/store/test";
-import { settings } from "@/store/settings";
-import { main } from "@/store/main";
+import { authStore } from "@/store/authStore";
+import { testStore } from "@/store/testStore";
+import { settingsStore } from "@/store/settingsStore";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "startButtonComponent",
   computed: {
-    ...mapState(test, ["isTesting"]),
-    ...mapState(auth, ["sub"]),
-    ...mapState(main, ["mode", "isLoading"]),
+    ...mapState(testStore, ["isTesting"]),
+    ...mapState(authStore, ["sub"]),
+    ...mapState(mainStore, ["mode", "isLoading"]),
     title() {
       if (this.testMode) {
         return (this.isTesting) ? "Завершить тест" : "Начать тест";
@@ -34,9 +34,9 @@ export default {
     }
   },
   methods: {
-    ...mapActions(main,["setLoading"]),
-    ...mapActions(test, ["getTest", "changeTestStatus"]),
-    ...mapActions(settings, ["saveChanges"]),
+    ...mapActions(mainStore,["setLoading"]),
+    ...mapActions(testStore, ["getTest", "changeTestStatus"]),
+    ...mapActions(settingsStore, ["saveChanges"]),
     checkClick() {
       if (this.testMode) this.changeStatus();
       if (this.settingMode) this.save();
