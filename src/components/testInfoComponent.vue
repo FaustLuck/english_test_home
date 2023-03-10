@@ -90,15 +90,14 @@ export default {
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
-      } else {
-        return this.testInfo.questions; //TODO возникает ошибка при переходе с 'result' на 'users'
       }
+      return this.testInfo?.questions;
     },
     correct() {
       if (this.mode === "result") return (Object.values(this.result)).reduce((acc, cur) => {
         return acc + cur.filter(el => el.answer === el?.choice).length;
       }, 0);
-      return this.testInfo.correct;
+      return this.testInfo?.correct;
     },
     timeSpentToString() {
       let sec = (this.localTimeSpent % 60).toString().padStart(2, "0");

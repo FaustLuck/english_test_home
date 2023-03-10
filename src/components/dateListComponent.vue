@@ -3,7 +3,7 @@
     :title="`${dateString} Тестов: ${count}`" @click="getTime">
     <template v-slot:default="slotProps">
       <item-preloader v-if="!timeList"></item-preloader>
-      <div v-else>
+      <div class="info__container" v-else>
         <test-info-component
           v-for="(testInfo,timestamp) of timeList"
           :key="timestamp"
@@ -58,5 +58,8 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.info__container {
+  display: flex;
+  flex-direction: column-reverse;
+}
 </style>
