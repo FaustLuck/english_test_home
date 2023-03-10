@@ -1,4 +1,4 @@
-import store from "@/store/mainStore";
+import { mainStore } from "@/store/mainStore";
 
 export function failShow(canvas) {
   [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
@@ -272,7 +272,7 @@ export function failShow(canvas) {
       ctx.fillStyle = "#000";
       ctx.fillRect(-canvas.width, -canvas.height, 2 * canvas.width, 2 * canvas.height);
     } else {
-      setTimeout(() => store.commit("setAnimationStatus", false), 3000);
+      setTimeout(() => mainStore().setAnimationStatus(false), 3000);
     }
     if (sparkles.length || !isCombustionStart) drawCombustion();
     if (!sparkles.length && opacityFragments >= 0) drawBoom();
@@ -510,5 +510,5 @@ export function failShow(canvas) {
   triangles = createTriangles(r);
   createFlamePoints();
   draw();
-  store.commit("setAnimationStatus", true);
+  mainStore().setAnimationStatus(true)
 }

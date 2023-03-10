@@ -1,4 +1,4 @@
-import store from "@/store/mainStore";
+import { mainStore } from "@/store/mainStore";
 
 export function fireShow(canvas) {
   let start;
@@ -53,9 +53,7 @@ export function fireShow(canvas) {
 
   function decreaseOpacity() {
     let {opacity} = getComputedStyle(canvas);
-    if (opacity <= 0) {
-      store.commit("setAnimationStatus", false);
-    }
+    if (opacity <= 0) mainStore().setAnimationStatus(false);
     opacity -= .01;
     canvas.style.opacity = opacity;
 
@@ -139,6 +137,5 @@ export function fireShow(canvas) {
   }
 
   requestAnimationFrame(loop);
-  store.commit("setAnimationStatus", true);
-
+  mainStore().setAnimationStatus(true);
 }
