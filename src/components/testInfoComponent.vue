@@ -37,13 +37,13 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
-import { mapActions, mapState as piniaMapSate } from "pinia/dist/pinia";
-import { auth } from "@/store/auth";
+import { mapActions, mapState } from "pinia/dist/pinia";
+import { authStore } from "@/store/authStore";
 import { useStatisticStore } from "@/store/statistic";
 import { useTestStore } from "@/store/test";
+import { mainStore } from "@/store";
 
 export default {
   name: "testInfoComponent",
@@ -84,9 +84,9 @@ export default {
     },
   },
   computed: {
-    ...piniaMapSate(useTestStore, ["timeSpent", "result", "timeLeft"]),
-    ...mapState(["orderDifficult", "isLoading", "mode"]),
-    ...piniaMapSate(auth, ["name"]),
+    ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
+    ...mapState(mainStore, ["orderDifficult", "isLoading", "mode"]),
+    ...mapState(authStore, ["name"]),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
@@ -114,7 +114,7 @@ export default {
   methods: {
     ...mapActions(useStatisticStore, ["getResult"]),
     ...mapActions(useTestStore, ["checkTest", "saveTest"]),
-    ...mapMutations(["setLoading"]),
+    ...mapActions(mainStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;

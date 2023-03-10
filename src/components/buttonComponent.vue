@@ -7,18 +7,18 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from "vuex";
-import { mapState as piniaMapSate, mapActions } from "pinia";
-import { auth } from "@/store/auth";
+import { mapState, mapActions } from "pinia";
+import { authStore } from "@/store/authStore";
 import { useTestStore } from "@/store/test";
 import { useSettingsStore } from "@/store/settings";
+import { mainStore } from "@/store";
 
 export default {
   name: "startButtonComponent",
   computed: {
-    ...piniaMapSate(useTestStore, ["isTesting"]),
-    ...piniaMapSate(auth, ["sub"]),
-    ...mapState(["mode", "isLoading"]),
+    ...mapState(useTestStore, ["isTesting"]),
+    ...mapState(authStore, ["sub"]),
+    ...mapState(mainStore, ["mode", "isLoading"]),
     title() {
       if (this.testMode) {
         return (this.isTesting) ? "Завершить тест" : "Начать тест";
@@ -34,7 +34,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setLoading"]),
+    ...mapActions(mainStore,["setLoading"]),
     ...mapActions(useTestStore, ["getTest", "changeTestStatus"]),
     ...mapActions(useSettingsStore, ["saveChanges"]),
     checkClick() {

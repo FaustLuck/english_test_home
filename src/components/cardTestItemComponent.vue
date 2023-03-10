@@ -34,11 +34,11 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapActions, mapState as piniaMapState } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useTestStore } from "@/store/test";
 import { useSettingsStore } from "@/store/settings";
+import { mainStore } from "@/store";
 
 export default {
   name: "cardTestItemComponent",
@@ -58,9 +58,9 @@ export default {
     excluded: Boolean
   },
   computed: {
-    ...mapState(["mode"]),
-    ...piniaMapState(useTestStore, ["SPEECH"]),
-    ...piniaMapState(useSettingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
+    ...mapState(mainStore, ["mode"]),
+    ...mapState(useTestStore, ["SPEECH"]),
+    ...mapState(useSettingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },

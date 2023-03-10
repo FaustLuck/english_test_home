@@ -29,10 +29,10 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import { mapState as piniaMapState, mapActions } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useTestStore } from "@/store/test";
+import { mainStore } from "@/store";
 
 export default {
   name: "TestView",
@@ -42,8 +42,8 @@ export default {
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
   },
   computed: {
-    ...piniaMapState(useTestStore, ["test", "isTesting", "SPEECH"]),
-    ...mapState(["isLoading", "orderDifficult"]),
+    ...mapState(useTestStore, ["test", "isTesting", "SPEECH"]),
+    ...mapState(mainStore, ["isLoading", "orderDifficult"]),
   },
   watch: {
     isTesting(value) {

@@ -1,37 +1,38 @@
-import { createStore } from "vuex";
+import { defineStore } from "pinia";
 
-export default createStore({
-  state: {
-    orderDifficult: ["easy", "medium", "hard"],
-    menuHeight: 0,
-    isLoading: false,
-    mode: undefined,
-    isOpen: false,
-    message: "",
-    isAnimate: false
+export const mainStore = defineStore("main", {
+  state() {
+    return {
+      orderDifficult: ["easy", "medium", "hard"],
+      menuHeight: 0,
+      isLoading: false,
+      mode: undefined,
+      isOpen: false,
+      message: "",
+      isAnimate: false
+    };
   },
-  getters: {},
-  mutations: {
-    setMenuHeight(state, h) {
-      state.menuHeight = h;
+  actions: {
+    setMenuHeight(height) {
+      this.menuHeight = height;
     },
-    setLoading(state, flag) {
-      state.isLoading = flag;
+    setLoading(flag) {
+      this.isLoading = flag;
     },
-    setMode(state, mode) {
-      state.mode = mode;
+    setMode(mode) {
+      this.mode = mode;
     },
-    setOpen(state, flag) {
-      if (state.mode === "settings") state.isOpen = flag;
+    setOpen(flag) {
+      if (this.mode === "settings") this.isOpen = flag;
     },
-    setMessage(state, message) {
-      state.message = message;
+    setMessage(message) {
+      this.message = message;
     },
-    clearMessage(state) {
-      state.message = "";
+    clearMessage() {
+      this.message = "";
     },
-    setAnimationStatus(state, status) {
-      state.isAnimate = status;
+    setAnimationStatus(status) {
+      this.isAnimate = status;
     }
   }
 });

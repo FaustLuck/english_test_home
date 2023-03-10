@@ -10,9 +10,9 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
-import { mapState as piniaMapState } from "pinia";
+import { mapState, mapActions } from "pinia";
 import { useTestStore } from "@/store/test";
+import { mainStore } from "@/store";
 
 export default {
   name: "layoutComponent",
@@ -32,8 +32,8 @@ export default {
     };
   },
   computed: {
-    ...piniaMapState(useTestStore, ["timeLeft"]),
-    ...mapState(["mode", "isOpen"])
+    ...mapState(useTestStore, ["timeLeft"]),
+    ...mapState(mainStore, ["mode", "isOpen"])
   },
   watch: {
     timeLeft(value) {
@@ -62,7 +62,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(["setOpen"]),
+    ...mapActions(mainStore, ["setOpen"]),
     changeColor() {
       this.isColored = !this.isColored;
     },

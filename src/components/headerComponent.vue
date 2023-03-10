@@ -9,11 +9,11 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapMutations, mapState } from "vuex";
-import { mapActions, mapState as piniaMapSate } from "pinia";
-import { auth } from "@/store/auth";
+import { mapActions, mapState } from "pinia";
+import { authStore } from "@/store/authStore";
 import { useStatisticStore } from "@/store/statistic";
 import { useTestStore } from "@/store/test";
+import { mainStore } from "@/store";
 
 export default {
   name: "headerComponent",
@@ -23,13 +23,13 @@ export default {
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
-    ...piniaMapSate(useTestStore, ["isTesting"]),
-    ...piniaMapSate(auth, ["sub"]),
-    ...mapState(["mode", "isLoading"]),
+    ...mapState(useTestStore, ["isTesting"]),
+    ...mapState(authStore, ["sub"]),
+    ...mapState(mainStore, ["mode", "isLoading"]),
   },
   methods: {
     ...mapActions(useStatisticStore, ["saveChanges"]),
-    ...mapMutations(["setLoading"]),
+    ...mapActions(mainStore, ["setLoading"]),
   }
 };
 </script>

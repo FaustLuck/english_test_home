@@ -56,9 +56,9 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { mapState } from "vuex";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
 import { useSettingsStore } from "@/store/settings";
+import { mainStore } from "@/store";
 
 export default {
   name: "testDifficultComponent",
@@ -73,7 +73,7 @@ export default {
     partAnswers: Array,
   },
   computed: {
-    ...mapState(["mode"])
+    ...mapState(mainStore, ["mode"])
   },
   methods: {
     ...mapActions(useSettingsStore, ["startEdit"])

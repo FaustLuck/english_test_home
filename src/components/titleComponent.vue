@@ -21,7 +21,9 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { mainStore } from "@/store";
+
 export default {
   name: "titleComponent",
   props: {
@@ -37,7 +39,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["menuHeight", "mode"])
+    ...mapState(mainStore, ["menuHeight", "mode"])
   },
   methods: {
     getTop() {

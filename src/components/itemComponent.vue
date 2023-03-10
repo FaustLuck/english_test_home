@@ -14,7 +14,8 @@
 
 <script>
 
-import { mapState } from "vuex";
+import { mapState } from "pinia";
+import { mainStore } from "@/store";
 
 export default {
   name: "itemComponent",
@@ -22,7 +23,7 @@ export default {
     testItem: Object
   },
   computed: {
-    ...mapState(["mode"]),
+    ...mapState(mainStore, ["mode"]),
     right() {
       return ["result", "statistic"].includes(this.$route.name) && this.testItem.answer === this.testItem?.choice;
     },
@@ -59,7 +60,7 @@ export default {
     opacity: 1;
   }
 
-  &.edited{
+  &.edited {
     background-color: #dddd5d;
     box-shadow: 0 0 10px 5px #959540;
   }

@@ -12,18 +12,18 @@
 </template>
 
 <script>
-import { mapMutations } from "vuex";
-import { mapState as piniaMapSate, mapActions as piniaMapActions } from "pinia";
-import { auth } from "@/store/auth";
+import { mapState, mapActions } from "pinia";
+import { authStore } from "@/store/authStore";
+import { mainStore } from "@/store";
 
 export default {
   name: "menuComponent",
   computed: {
-    ...piniaMapSate(auth, ["admin", "sub", "name", "picture", "tests"])
+    ...mapState(authStore, ["admin", "sub", "name", "picture", "tests"])
   },
   methods: {
-    ...piniaMapActions(auth, ["googleInitialize"]),
-    ...mapMutations(["setMenuHeight"]),
+    ...mapActions(authStore, ["googleInitialize"]),
+    ...mapActions(mainStore, ["setMenuHeight"]),
     setHeight() {
       if (!window.matchMedia("(max-width: 768px)").matches) return;
       let h = this.$el.getBoundingClientRect().height;

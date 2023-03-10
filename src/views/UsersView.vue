@@ -15,7 +15,7 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { auth } from "@/store/auth";
+import { authStore } from "@/store/authStore";
 import { useStatisticStore } from "@/store/statistic";
 import { defineAsyncComponent } from "vue";
 
@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     ...mapState(useStatisticStore, ["users"]),
-    ...mapState(auth, ["sub"])
+    ...mapState(authStore, ["sub"])
   },
   methods: {
     ...mapActions(useStatisticStore, ["getUsers"]),

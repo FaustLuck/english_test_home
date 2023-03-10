@@ -3,14 +3,15 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from "pinia";
 import { failShow } from "@/utils/failShow";
 import { fireShow } from "@/utils/fireShow";
+import { mainStore } from "@/store";
 
 export default {
   name: "AnimationShow",
   computed: {
-    ...mapState(["mode", "isAnimate"]),
+    ...mapState(mainStore, ["mode", "isAnimate"]),
   },
   watch: {
     isAnimate(status) {

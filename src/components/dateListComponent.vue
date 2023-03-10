@@ -20,22 +20,22 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { mapState } from "vuex";
 import { getDate } from "@/utils/utils";
 import { useStatisticStore } from "@/store/statistic";
-import { mapActions } from "pinia";
+import { mapActions, mapState } from "pinia";
+import { mainStore } from "@/store";
 
 export default {
   name: "dateListComponent",
   components: {
-    itemPreloader:defineAsyncComponent(() => import("@/components/itemPreloader.vue")),
+    itemPreloader: defineAsyncComponent(() => import("@/components/itemPreloader.vue")),
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent.vue")),
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent.vue"))
   },
   props: {
     count: Number,
     datestamp: String,
-    sub:String
+    sub: String
   },
   data() {
     return {
@@ -43,7 +43,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["orderDifficult"]),
+    ...mapState(mainStore, ["orderDifficult"]),
     dateString() {
       return getDate(+this.datestamp)[0];
     },
@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions(useStatisticStore, ["getTimeList"]),
     async getTime() {
-     if(!this.timeList) this.timeList = await this.getTimeList({sub: this.$route.params.sub, date: this.datestamp});
+      if (!this.timeList) this.timeList = await this.getTimeList({sub: this.$route.params.sub, date: this.datestamp});
     }
   }
 };
