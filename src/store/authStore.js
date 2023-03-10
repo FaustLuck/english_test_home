@@ -4,7 +4,6 @@ import { defineStore } from "pinia";
 export const authStore = defineStore("auth", {
   state() {
     return {
-      admin: undefined,
       privileged: false,
       sub: undefined,
       name: undefined,
