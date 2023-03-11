@@ -8,3 +8,4 @@ createApp(App).use(createPinia()).use(router).mount("#app");
 //todo семантика?
 //todo вирт. питомец (опыт)
 //todo настройки для детей
+//todo загрузка из excel?

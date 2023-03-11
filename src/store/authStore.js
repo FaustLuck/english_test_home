@@ -13,13 +13,14 @@ export const authStore = defineStore("auth", {
   },
   actions: {
     async googleInitialize() {
+      const offset = new Date().getTimezoneOffset();
       google.accounts.id.initialize({
         client_id: await this.getID(),
         auto_select: true,
         callback: async (response) => {
           {
             const token = response.credential;
-            const info = await request("/user/login", {token});
+            const info = await request("/user/login", {token, offset});
             Object.assign(this, info);
           }
         }
