@@ -19,7 +19,7 @@ export const authStore = defineStore("auth", {
         callback: async (response) => {
           {
             const token = response.credential;
-            const info = await request("login", {token});
+            const info = await request("/user/login", {token});
             Object.assign(this, info);
           }
         }
@@ -36,7 +36,7 @@ export const authStore = defineStore("auth", {
       google.accounts.id.prompt();
     },
     async getID() {
-      return await request("id", null, "GET");
+      return await request("/user/id", null, "GET");
     }
   }
 });

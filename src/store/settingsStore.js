@@ -60,7 +60,7 @@ export const settingsStore = defineStore("settings", {
       window.onbeforeunload = (flag) ? null : () => false;
     },
     async getSettings({sub}) {
-      const data = await request(`getSettings/${sub}`, null, "GET");
+      const data = await request(`/settings/get/${sub}`, null, "GET");
       Object.assign(this, data);
     },
     async addItem({difficult, item}) {
@@ -111,9 +111,9 @@ export const settingsStore = defineStore("settings", {
     async saveChanges(sub) {
       const {limits, timer, variants} = this;
       const editedDictionary = this.assembleChanges();
-      await request("saveChanges", {sub, editedDictionary, limits, timer, variants});
+      await request("/settings/save", {sub, editedDictionary, limits, timer, variants});
       await this.getSettings({sub});
-      const data = await request(`getSettings/${sub}`, null, "GET");
+      const data = await request(`/settings/get/${sub}`, null, "GET");
       this.changeSaved(true);
       this.saveSettings(data);
     },
