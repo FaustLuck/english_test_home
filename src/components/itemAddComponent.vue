@@ -1,6 +1,11 @@
 <template>
   <div class="add__wrapper" :class="{'open':isOpen}" @click="toOpen">
-    <span v-show="!isOpen">+</span>
+    <button-component
+      v-show="!isOpen"
+      :value="'+'"
+      :type="'open'"
+      :title="'Добавить новую запись'"
+     ></button-component>
     <div v-show="isOpen" class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
@@ -19,8 +24,18 @@
         <input-item :type="'answer'" :value="answer" @changes="updateValue"></input-item>
       </label>
       <div>
-        <input type="button" value="Очистить" @click="clear">
-        <input type="button" value="Добавить" @click="add">
+        <button-component
+          :value="'Очистить'"
+          :type="'clear'"
+          :title="'Очистить'"
+          @click="clear"
+        ></button-component>
+        <button-component
+          :value="'Добавить'"
+          :type="'add'"
+          :title="'Добавить'"
+          @click="add"
+        ></button-component>
       </div>
     </div>
   </div>
@@ -35,7 +50,8 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "itemAddComponent",
   components: {
-    inputItem: defineAsyncComponent(() => import("@/components/inputItem.vue"))
+    inputItem: defineAsyncComponent(() => import("@/components/inputItem.vue")),
+    buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
   },
   data() {
     return {
@@ -122,6 +138,8 @@ select {
     cursor: pointer;
 
     &.open {
+      background-color: #FFDAB9;
+      box-shadow: 0 0 10px 5px #e9a66a;
       position: fixed;
       width: 50%;
       height: 50%;
@@ -141,6 +159,10 @@ select {
       width: 100%;
       display: flex;
       justify-content: space-between;
+
+      & > input[type="text"] {
+        margin: 3px;
+      }
     }
 
     & > div {

@@ -1,6 +1,18 @@
 <template>
   <header v-if="mode!=='users' && mode!=='statistic'" :class="{'settings':mode==='settings'}">
-    <button-component></button-component>
+    <button-component
+      v-if="['test','result'].includes(mode)"
+      :value="(isTesting)?'Завершить тест' : 'Начать тест'"
+      :type="'test'"
+      @click="(isTesting)?checkTest():startTest()"
+    ></button-component>
+    <button-component
+      v-if="mode==='settings'"
+      :value="(isLoading)?'Подождите...':'Сохранить'"
+      :type="'save'"
+      :title="'Сохранить изменения'"
+      @click="save"
+    ></button-component>
     <item-add-component v-if="mode==='settings'"></item-add-component>
     <timer-component v-if="isTesting && mode==='test'"></timer-component>
   </header>
@@ -11,9 +23,9 @@
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
 import { authStore } from "@/store/authStore";
-import { statisticStore } from "@/store/statisticStore";
 import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
+import { settingsStore } from "@/store/settingsStore";
 
 export default {
   name: "headerComponent",
@@ -26,10 +38,30 @@ export default {
     ...mapState(testStore, ["isTesting"]),
     ...mapState(authStore, ["sub"]),
     ...mapState(mainStore, ["mode", "isLoading"]),
+    ...mapState(settingsStore, ["isSaved"])
   },
   methods: {
-    ...mapActions(statisticStore, ["saveChanges"]),
+    ...mapActions(settingsStore, ["saveChanges"]),
     ...mapActions(mainStore, ["setLoading"]),
+    ...mapActions(testStore, ["getTest", "changeTestStatus"]),
+    async startTest() {
+      if (this.mode !== "test") this.$router.replace({name: "test"});
+      this.setLoading(true);
+      await this.getTest({sub: this.sub});
+      this.changeTestStatus(true);
+      this.setLoading(false);
+    },
+    async checkTest() {
+      this.changeTestStatus(false);
+      this.setLoading(true);
+      this.$router.push({name: "result"});
+    },
+    async save() {
+      if (this.isSaved) return;
+      this.setLoading(true);
+      await this.saveChanges(this.sub);
+      this.setLoading(false);
+    }
   }
 };
 </script>
