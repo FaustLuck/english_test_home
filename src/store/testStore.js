@@ -1,4 +1,4 @@
-import { request } from "@/utils/utils";
+import { requestGet, requestPost } from "@/utils/utils";
 import { defineStore } from "pinia";
 
 export const testStore = defineStore("test", {
@@ -30,7 +30,7 @@ export const testStore = defineStore("test", {
       this.timeLeft = timeLeft;
     },
     async getTest({sub = ""}) {
-      const data = await request(`/test/${sub}`, null, "GET");
+      const data = await requestGet(`/test/${sub}`);
       Object.assign(this, data);
     },
     async checkTest({sub}) {
@@ -38,7 +38,7 @@ export const testStore = defineStore("test", {
         if (el?.answer) delete el.answer;
         return el;
       });
-      this.result = await request(`/test/check`, {test, sub});
+      this.result = await requestPost(`/test/check`, {test, sub});
     },
     async saveTest({sub}) {
       const data = {
@@ -48,7 +48,7 @@ export const testStore = defineStore("test", {
         timestamp: this.timestamp,
         sub
       };
-      await request("/history/update", data);
+      await requestPost("/history/update", data);
     }
   }
 });

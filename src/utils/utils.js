@@ -10,17 +10,29 @@ export function getDate(timestamp) {
     .split(", ");
 }
 
-export async function request(path, data, method = "POST") {
-  if (data === "") data = {};
-  const body = (method === "POST") ? JSON.stringify(data) : null;
+export async function requestPost(path, data) {
+  const body =  JSON.stringify(data)
   const response = await fetch(`${(import.meta.env.DEV) ? import.meta.env.VITE_dev : import.meta.env.VITE_prod}${path}`, {
     headers: {"Content-Type": "application/json"},
-    method,
+    method: "POST",
     body
   });
   if (response.ok) {
-    return await response.json();
+    return (checkJSON(response)) ? await response.json() : await response.text();
   } else {
     return false;
   }
+}
+
+export async function requestGet(path) {
+  const response = await fetch(`${(import.meta.env.DEV) ? import.meta.env.VITE_dev : import.meta.env.VITE_prod}${path}`);
+  if (response.ok) {
+    return (checkJSON(response)) ? await response.json() : await response.text();
+  } else {
+    return false;
+  }
+}
+
+function checkJSON(res) {
+  return res.headers.get("content-type").includes("application/json");
 }

@@ -1,4 +1,4 @@
-import { request } from "@/utils/utils";
+import { requestGet, requestPost } from "@/utils/utils";
 import { defineStore } from "pinia";
 
 export const authStore = defineStore("auth", {
@@ -20,7 +20,7 @@ export const authStore = defineStore("auth", {
         callback: async (response) => {
           {
             const token = response.credential;
-            const info = await request("/user/login", {token, offset});
+            const info = await requestPost("/user/login", {token, offset});
             Object.assign(this, info);
           }
         }
@@ -37,7 +37,7 @@ export const authStore = defineStore("auth", {
       google.accounts.id.prompt();
     },
     async getID() {
-      return await request("/user/id", null, "GET");
+      return await requestGet("/user/id");
     }
   }
 });

@@ -1,4 +1,4 @@
-import { request } from "@/utils/utils";
+import { requestGet } from "@/utils/utils";
 import { defineStore } from "pinia";
 
 export const statisticStore = defineStore("statistic", {
@@ -11,16 +11,16 @@ export const statisticStore = defineStore("statistic", {
   },
   actions: {
     async getUsers({sub}) {
-      this.users = await request(`/user/${sub}`, null, "GET");
+      this.users = await requestGet(`/user/${sub}`);
     },
     async getDateList(sub) {
-      this.dateList = await request(`/history/date/${sub}`, null, "GET");
+      this.dateList = await requestGet(`/history/date/${sub}`);
     },
     async getTimeList({date, sub}) {
-      return await request(`/history/date/${sub}/${date}`, null, "GET");
+      return await requestGet(`/history/date/${sub}/${date}`);
     },
     async getResult({sub, timestamp}) {
-      return request(`/history/test/${sub}/${timestamp}`, null, "GET");
+      return requestGet(`/history/test/${sub}/${timestamp}`);
     }
   }
 });
