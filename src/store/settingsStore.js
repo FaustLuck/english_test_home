@@ -1,5 +1,5 @@
-import { requestGet, requestPost } from "@/utils/utils";
 import { defineStore } from "pinia";
+import { requestGet, requestPost, sendFile } from "@/utils/requests";
 
 export const settingsStore = defineStore("settings", {
   state() {
@@ -139,6 +139,10 @@ export const settingsStore = defineStore("settings", {
         });
       }
       return output;
+    },
+    async sendNewDictionary(file) {
+      this.changeSaved(false);
+      await sendFile(file);
     }
   }
 });
