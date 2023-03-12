@@ -12,8 +12,7 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "buttonComponent",
   props: {
-    value: String,
-    type: String
+    value: {type: String, required: true}
   },
   computed: {
     ...mapState(mainStore, ["isLoading"]),
