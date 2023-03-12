@@ -3,13 +3,11 @@
     <button-component
       v-if="['test','result'].includes(mode)"
       :value="(isTesting)?'Завершить тест' : 'Начать тест'"
-      :type="'test'"
       @click="(isTesting)?checkTest():startTest()"
     ></button-component>
     <button-component
       v-if="mode==='settings'"
       :value="(isLoading)?'Подождите...':'Сохранить'"
-      :type="'save'"
       :title="'Сохранить изменения'"
       @click="save"
     ></button-component>
