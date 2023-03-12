@@ -86,6 +86,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+select {
+  font-size: 2.5rem;
+  font-family: "serif";
+  width: 50%;
+  background-color: transparent;
+  border: none;
+  outline: 1px solid black;
+  margin: 3px;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+
+  & > option {
+    font-size: 2.5rem;
+    font-family: "serif";
+    background-color: #FFDAB9;
+    box-shadow: 0 0 10px 5px #e9a66a;
+  }
+}
+
 .add {
 
   &__wrapper {
@@ -93,8 +114,7 @@ export default {
     width: 3rem;
     bottom: 0;
     border-radius: 0.5rem;
-    background-color: #FFDAB9;
-    box-shadow: 0 0 10px 5px #e9a66a;
+
     display: flex;
     justify-content: center;
     align-items: center;

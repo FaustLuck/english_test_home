@@ -174,4 +174,24 @@ export default {
     box-shadow: 0 -5px 0 0 #e9a66a;
   }
 }
+
+input[type="number"] {
+  font-size: 2.5rem;
+  font-family: "serif";
+  background-color: transparent;
+  margin: 3px;
+  width: 3ch;
+  text-align: center;
+  border: none;
+  outline: 1px solid black;
+
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
 </style>

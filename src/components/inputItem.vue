@@ -39,4 +39,16 @@ export default {
 </script>
 
 <style scoped lang="scss">
+input[type="text"] {
+  font-size: 2.5rem;
+  font-family: "serif";
+  background-color: transparent;
+  width: 50%;
+  border: none;
+  outline: 1px solid black;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+}
 </style>
