@@ -34,6 +34,9 @@
           @click="add"
         ></button-component>
       </div>
+      <div>
+        <upload-component></upload-component>
+      </div>
     </div>
   </div>
 </template>
@@ -47,7 +50,8 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "itemAddComponent",
   components: {
-    inputItem: defineAsyncComponent(() => import("@/components/inputItem.vue")),
+    uploadComponent: defineAsyncComponent(() => import("@/components/uploadComponent.vue")),
+    inputComponent: defineAsyncComponent(() => import("@/components/inputComponent.vue")),
     buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
   },
   data() {
