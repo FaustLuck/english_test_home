@@ -24,12 +24,12 @@
       }">{{ item }}</span>
   </label>
   <label class="item speech" v-else>
-    <input-item
+    <input-component
       :value="editingItem[type]"
       @changes="({newValue})=>editingItem[type] = newValue"
       @keydown.esc="clearEdit"
       @keydown.enter="finishEdit"
-    ></input-item>
+    ></input-component>
   </label>
 </template>
 
@@ -43,7 +43,7 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "cardTestItemComponent",
   components: {
-    inputItem: defineAsyncComponent(() => import("@/components/inputItem.vue"))
+    inputComponent: defineAsyncComponent(() => import("@/components/inputComponent.vue"))
   },
   props: {
     item: {
@@ -146,10 +146,12 @@ export default {
 }
 
 input[type="radio"] {
-  transform: scale(2, 2);
+  width: 1.5rem;
+  height: 1.5rem;
   cursor: pointer;
   @media screen and (max-width: 768px) {
-    transform: scale(1.5, 1.5);
+    width: 1rem;
+    height: 1rem;
   }
 
 }

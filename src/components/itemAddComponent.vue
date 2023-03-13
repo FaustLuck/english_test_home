@@ -3,7 +3,6 @@
     <button-component
       v-show="!isOpen"
       :value="'+'"
-      :type="'open'"
       :title="'Добавить новую запись'"
      ></button-component>
     <div v-show="isOpen" class="add__container">
@@ -18,21 +17,19 @@
         </select>
       </label>
       <label>Вопрос:
-        <input-item :type="'question'" :value="question" @changes="updateValue"></input-item>
+        <input-component :type="'question'" :value="question" @changes="updateValue"></input-component>
       </label>
       <label>Ответ:
-        <input-item :type="'answer'" :value="answer" @changes="updateValue"></input-item>
+        <input-component :type="'answer'" :value="answer" @changes="updateValue"></input-component>
       </label>
       <div>
         <button-component
           :value="'Очистить'"
-          :type="'clear'"
           :title="'Очистить'"
           @click="clear"
         ></button-component>
         <button-component
           :value="'Добавить'"
-          :type="'add'"
           :title="'Добавить'"
           @click="add"
         ></button-component>
