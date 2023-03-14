@@ -6,12 +6,14 @@
       <div>
         <input
           data-max="59"
+          data-min="0"
           data-type="min"
           type="number"
           v-model.number="min"
           @input="change"> мин
         <input
           data-max="59"
+          data-min="1"
           data-type="sec"
           type="number"
           v-model.number="sec"
@@ -23,6 +25,7 @@
       <div>
         <input
           :data-max="minVariantCount"
+          data-min="2"
           data-type="localVariants"
           type="number"
           v-model.number="localVariants"
@@ -39,6 +42,7 @@
         <input
           :data-max="dictionary[difficult].length"
           data-type="limits"
+          data-min="1"
           type="number"
           v-model.number="localLimits[difficult]"
           @input="(e)=>change(e,difficult)">
@@ -103,9 +107,10 @@ export default {
       this.min = (this.timer - this.sec) / 60;
     },
     change(e, difficult) {
-      const {max, type} = e.target.dataset;
+      const {max, min, type} = e.target.dataset;
       if (type !== "limits") {
         if (this[type] > parseInt(max)) this[type] = max;
+        if (this[type] < parseInt(min)) this[type] = min;
         if (["min", "sec"].includes(type)) {
           const timer = this.min * 60 + +this.sec;
           this.timeToString();
