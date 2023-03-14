@@ -1,8 +1,8 @@
 <template>
   <div>
-    <label :title="'Добавить новые данные к существующему словарю'">
+    <label :title="'Перезаписать словарь?'">
       <input type="checkbox" v-model="check">
-      <span>Добавить?</span>
+      <span>Перезаписать?</span>
     </label>
     <button-component
       :value="(isLoading)?'Подождите...':'Загрузить словарь'"
@@ -18,6 +18,7 @@ import { mapActions, mapState } from "pinia/dist/pinia";
 import { defineAsyncComponent } from "vue";
 import { settingsStore } from "@/store/settingsStore";
 import { mainStore } from "@/store/mainStore";
+import { authStore } from "@/store/authStore";
 
 export default {
   name: "uploadComponent",
@@ -31,6 +32,7 @@ export default {
   },
   computed: {
     ...mapState(mainStore, ["isLoading"]),
+    ...mapState(authStore, ["sub"])
   },
   methods: {
     ...mapActions(settingsStore, ["sendNewDictionary"]),
@@ -38,7 +40,7 @@ export default {
     async upload(e) {
       this.setLoading(true);
       const file = e.target.files[0];
-      await this.sendNewDictionary(file, this.check);
+      await this.sendNewDictionary(file, this.check, this.sub);
       e.target.value = "";
       this.setLoading(false);
     }

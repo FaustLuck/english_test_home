@@ -140,9 +140,9 @@ export const settingsStore = defineStore("settings", {
       }
       return output;
     },
-    async sendNewDictionary(file,flag) {
+    async sendNewDictionary(file, flag, sub) {
       this.changeSaved(false);
-      await sendFile(file,flag);
+      await sendFile(file, flag, sub);
     }
   }
 });

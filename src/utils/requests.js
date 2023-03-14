@@ -23,12 +23,13 @@ export async function requestGet(path) {
   }
 }
 
-export async function sendFile(file, flag) {
+export async function sendFile(file, flag, sub) {
   const type = file.type;
   if (type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") return;
   const data = new FormData();
   data.append(import.meta.env.VITE_fileName, file);
   data.append(import.meta.env.VITE_flagName, `${flag}`);
+  data.append(import.meta.env.VITE_payload, `${sub}`);
   await fetch(
     `${PATH}/settings/upload`, {
       method: "POST",
