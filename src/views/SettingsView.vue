@@ -119,6 +119,7 @@ export default {
         if (type === "localVariants") this.saveVariants({variants: this.localVariants});
       } else {
         if (this.localLimits[difficult] > parseInt(max)) this.localLimits[difficult] = max;
+        if (this.localLimits[difficult] < parseInt(min)) this.localLimits[difficult] = min;
         this.saveLimits({difficult, limit: this.localLimits[difficult]});
       }
       e.target.style.backgroundColor = "#dddd5d";
