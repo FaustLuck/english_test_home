@@ -5,7 +5,7 @@
       <span>Перезаписать?</span>
     </label>
     <button-component
-      :value="(isLoading)?'Подождите...':'Загрузить словарь'"
+      :value="(isLoading)?'Подождите...':'Загрузить Excel'"
       :title="'Загрузите свой словарь в файле excel'"
       @click="$refs.file.click()"
     ></button-component>
