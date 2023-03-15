@@ -71,10 +71,8 @@ export default {
     };
   },
   watch: {
-    isLoading(flag) {
-      if (!flag) {
-        this.setSettingsToLocal();
-      }
+    timer(value) {
+      if (value) this.setSettingsToLocal();
     }
   },
   computed: {

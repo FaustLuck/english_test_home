@@ -16,7 +16,9 @@ export const settingsStore = defineStore("settings", {
   },
   actions: {
     startEdit(index, difficult) {
-      Object.assign(this, {editingIndex: index, editingDifficult: difficult});
+      if (this.dictionary[difficult][index].excluded) return;
+      this.editingIndex = index;
+      this.editingDifficult = difficult;
       this.editingItem = {...this.dictionary[difficult][index]};
     },
     clearEdit() {
@@ -138,7 +140,7 @@ export const settingsStore = defineStore("settings", {
     async sendNewDictionary(file, flag, sub) {
       this.changeSaved(false);
       await sendFile(file, flag, sub);
-      await this.getSettings(sub)
+      await this.getSettings(sub);
       this.changeSaved(true);
     }
   }
