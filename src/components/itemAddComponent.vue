@@ -35,7 +35,13 @@
         ></button-component>
       </div>
       <div>
-        <upload-component></upload-component>
+        <label :title="'Перезаписать словарь?'">
+          <input type="checkbox" v-model="check">
+          <span>Перезаписать?</span>
+        </label>
+      </div>
+      <div>
+        <upload-component :check="check"></upload-component>
       </div>
     </div>
   </div>
@@ -58,7 +64,8 @@ export default {
     return {
       question: "",
       answer: "",
-      selectedDifficult: ""
+      selectedDifficult: "",
+      check: false
     };
   },
   watch: {
@@ -182,6 +189,16 @@ select {
         min-width: 25%;
       }
     }
+  }
+}
+
+input[type="checkbox"] {
+  width: 1.5rem;
+  height: 1.5rem;
+
+  @media screen and (max-width: 768px) {
+    width: 1rem;
+    height: 1rem;
   }
 }
 </style>

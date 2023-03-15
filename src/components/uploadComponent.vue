@@ -1,9 +1,5 @@
 <template>
   <div>
-    <label :title="'Перезаписать словарь?'">
-      <input type="checkbox" v-model="check">
-      <span>Перезаписать?</span>
-    </label>
     <button-component
       :value="(isLoading)?'Подождите...':'Загрузить Excel'"
       :title="'Загрузите свой словарь в файле excel'"
@@ -25,10 +21,8 @@ export default {
   components: {
     buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
   },
-  data() {
-    return {
-      check: false
-    };
+  props: {
+    check: Boolean
   },
   computed: {
     ...mapState(mainStore, ["isLoading"]),
@@ -60,17 +54,6 @@ label {
 
   & > span {
     margin-left: 1rem;
-  }
-}
-
-
-input[type="checkbox"] {
-  width: 1.5rem;
-  height: 1.5rem;
-
-  @media screen and (max-width: 768px) {
-    width: 1rem;
-    height: 1rem;
   }
 }
 
