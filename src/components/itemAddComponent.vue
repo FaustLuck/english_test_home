@@ -145,6 +145,11 @@ select {
       bottom: 25%;
       left: 25%;
       padding: .5rem;
+
+      @media screen and (max-width: 768px) {
+        width: 100%;
+        left: 0;
+      }
     }
   }
 
@@ -152,6 +157,10 @@ select {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    @media screen and (max-width: 768px) {
+      width: 80%;
+    }
 
     & > label {
       width: 100%;
