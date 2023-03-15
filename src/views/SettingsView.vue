@@ -5,31 +5,24 @@
       <span>Ограничение по времени: </span>
       <div>
         <input
-          data-max="59"
-          data-min="0"
           data-type="min"
           type="number"
           v-model.number="min"
-          @input="change"> мин
+          @input="changeTimer"> мин
         <input
-          data-max="59"
-          data-min="1"
           data-type="sec"
           type="number"
           v-model.number="sec"
-          @input="change"> сек
+          @input="changeTimer"> сек
       </div>
     </div>
     <div class="settings__row">
       <span>Количество вариантов ответов: </span>
       <div>
         <input
-          :data-max="minVariantCount"
-          data-min="2"
-          data-type="localVariants"
           type="number"
           v-model.number="localVariants"
-          @input="change">
+          @input="saveVariants(localVariants)">
       </div>
     </div>
     <div
@@ -40,12 +33,9 @@
       <span>Количество вопросов {{ difficult }}: </span>
       <div>
         <input
-          :data-max="dictionary[difficult].length"
-          data-type="limits"
-          data-min="1"
           type="number"
           v-model.number="localLimits[difficult]"
-          @input="(e)=>change(e,difficult)">
+          @input="(e)=>changeLimit(e,difficult)">
       </div>
     </div>
     <div class="container">
@@ -81,8 +71,8 @@ export default {
     };
   },
   watch: {
-    timer(value) {
-      if (value) {
+    isLoading(flag) {
+      if (!flag) {
         this.setSettingsToLocal();
       }
     }
@@ -91,41 +81,25 @@ export default {
     ...mapState(settingsStore, ["timer", "dictionary", "limits", "variants"]),
     ...mapState(authStore, ["sub"]),
     ...mapState(mainStore, ["orderDifficult", "isLoading"]),
-    minVariantCount() {
-      let lengths = [];
-      for (let difficult in this.dictionary) {
-        lengths.push(this.dictionary[difficult].length);
-      }
-      return Math.min(...lengths);
-    }
   },
   methods: {
     ...mapActions(settingsStore, ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
     ...mapActions(mainStore, ["setLoading"]),
-    timeToString() {
-      this.sec = (this.timer % 60).toString().padStart(2, "0");
-      this.min = (this.timer - this.sec) / 60;
+    changeTimer(e) {
+      const {type} = e.target.dataset;
+      this[type] = this[type].toString();
+      this[type] = this[type].replace(/^0+|\D/g, "");
+      this[type] = (this[type] > 59) ? 59 : parseInt(this[type]) || 0;
+      this.saveTimer(parseInt(this.min) * 60 + parseInt(this.sec));
+      e.target.style.backgroundColor = "#dddd5d";
     },
-    change(e, difficult) {
-      const {max, min, type} = e.target.dataset;
-      if (type !== "limits") {
-        if (this[type] > parseInt(max)) this[type] = max;
-        if (this[type] < parseInt(min)) this[type] = min;
-        if (["min", "sec"].includes(type)) {
-          const timer = this.min * 60 + +this.sec;
-          this.timeToString();
-          this.saveTimer(timer);
-        }
-        if (type === "localVariants") this.saveVariants(this.localVariants);
-      } else {
-        if (this.localLimits[difficult] > parseInt(max)) this.localLimits[difficult] = max;
-        if (this.localLimits[difficult] < parseInt(min)) this.localLimits[difficult] = min;
-        this.saveLimits(difficult,this.localLimits[difficult]);
-      }
+    changeLimit(e, difficult) {
+      this.saveLimits(difficult, this.localLimits[difficult]);
       e.target.style.backgroundColor = "#dddd5d";
     },
     setSettingsToLocal() {
-      this.timeToString();
+      this.sec = (this.timer % 60).toString().padStart(2, "0");
+      this.min = (this.timer - this.sec) / 60;
       this.localVariants = this.variants;
       this.localLimits = this.limits;
       this.setLoading(false);
