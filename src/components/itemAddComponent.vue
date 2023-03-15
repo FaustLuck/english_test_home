@@ -43,6 +43,16 @@
       <div>
         <upload-component :check="check"></upload-component>
       </div>
+      <div>
+        <span>или</span>
+      </div>
+      <div>
+        <button-component
+          :value="'Вставить из буфера'"
+          :title="'Вставить словарь из буфера обмена'"
+          @click="addFromClipboard"
+        ></button-component>
+      </div>
     </div>
   </div>
 </template>
@@ -52,6 +62,7 @@ import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { settingsStore } from "@/store/settingsStore";
 import { mainStore } from "@/store/mainStore";
+import { authStore } from "@/store/authStore";
 
 export default {
   name: "itemAddComponent",
@@ -74,11 +85,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(mainStore, ["orderDifficult", "isOpen", "isLoading"])
+    ...mapState(mainStore, ["orderDifficult", "isOpen", "isLoading"]),
+    ...mapState(authStore, ["sub"])
   },
   methods: {
-    ...mapActions(settingsStore, ["addItem"]),
-    ...mapActions(mainStore, ["setOpen"]),
+    ...mapActions(settingsStore, ["addItem", "sendNewDictionaryFromClipboard"]),
+    ...mapActions(mainStore, ["setOpen", "setLoading"]),
     clear() {
       this.question = "";
       this.answer = "";
@@ -98,7 +110,23 @@ export default {
     },
     toOpen() {
       if (!this.isLoading) this.setOpen(true);
-    }
+    },
+    async addFromClipboard() {
+      const text = await navigator.clipboard.readText();
+      let table = text.split(/\r\n|\r|\n/g);
+      table = table.map(el => el.split("\t"));
+      let flag = table.every(this.checkRow);
+      if (flag) {
+        this.setLoading(true);
+        await this.sendNewDictionaryFromClipboard(table, this.check, this.sub);
+        this.setLoading(false);
+      }
+
+    },
+    checkRow(row) {
+      row[2] = row[2].toLowerCase();
+      return row.length === 3 && row[2].match(/easy|medium|hard/);
+    },
   },
   created() {
     this.selectedDifficult = this.orderDifficult[0];

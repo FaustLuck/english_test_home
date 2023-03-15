@@ -142,6 +142,23 @@ export const settingsStore = defineStore("settings", {
       await sendFile(file, flag, sub);
       await this.getSettings(sub);
       this.changeSaved(true);
-    }
+    },
+    async sendNewDictionaryFromClipboard(table, isOverwrite, sub) {
+      this.changeSaved(false);
+      const editedDictionary = this.prepareTable(table);
+      const {limits, timer, variants} = this;
+      await requestPost("/settings/save", {sub, editedDictionary, limits, timer, variants});
+      await this.getSettings(sub);
+      this.changeSaved(true);
+    },
+    prepareTable(table) {
+      let newDictionary = {};
+      for (const row of table) {
+        const difficult = row[2];
+        if (!newDictionary[difficult]?.length) newDictionary[difficult] = [];
+        newDictionary[difficult].push([null, row[0], row[1]]);
+      }
+      return newDictionary;
+    },
   }
 });
