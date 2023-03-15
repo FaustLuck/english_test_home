@@ -3,14 +3,14 @@
     <img
       v-if="!editing && !excluded"
       src="@/assets/edit.svg"
-      @click="startEdit({index,difficult})"
+      @click="startEdit(index,difficult)"
       alt="Редактировать"
       title="Редактировать"
     />
     <img
       v-if="!editing  && !excluded"
       src="@/assets/delete.svg"
-      @click="deleteItem({index,difficult})"
+      @click="deleteItem(index,difficult)"
       alt="Удалить"
       title="Удалить"
     />
@@ -54,24 +54,15 @@ export default {
     ...mapActions(settingsStore, ["finishEdit", "deleteItem", "startEdit", "returnDeletedItem", "cancelEdit", "removeIncluded"]),
     undoChanges() {
       if (this.included) {
-        this.removeIncluded({
-          index: this.index,
-          difficult: this.difficult
-        });
+        this.removeIncluded(this.index,this.difficult);
         return;
       }
       if (this.excluded) {
-        this.returnDeletedItem({
-          index: this.index,
-          difficult: this.difficult
-        });
+        this.returnDeletedItem(this.index,this.difficult);
         return;
       }
       if (this.edited) {
-        this.cancelEdit({
-          index: this.index,
-          difficult: this.difficult
-        });
+        this.cancelEdit(this.index,this.difficult);
       }
     }
   },

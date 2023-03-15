@@ -114,13 +114,13 @@ export default {
         if (["min", "sec"].includes(type)) {
           const timer = this.min * 60 + +this.sec;
           this.timeToString();
-          this.saveTimer({timer});
+          this.saveTimer(timer);
         }
-        if (type === "localVariants") this.saveVariants({variants: this.localVariants});
+        if (type === "localVariants") this.saveVariants(this.localVariants);
       } else {
         if (this.localLimits[difficult] > parseInt(max)) this.localLimits[difficult] = max;
         if (this.localLimits[difficult] < parseInt(min)) this.localLimits[difficult] = min;
-        this.saveLimits({difficult, limit: this.localLimits[difficult]});
+        this.saveLimits(difficult,this.localLimits[difficult]);
       }
       e.target.style.backgroundColor = "#dddd5d";
     },
@@ -133,7 +133,7 @@ export default {
   },
   async mounted() {
     if (!this.timer) {
-      await this.getSettings({sub: this.sub});
+      await this.getSettings(this.sub);
     } else {
       this.setSettingsToLocal();
     }

@@ -15,10 +15,7 @@ export const settingsStore = defineStore("settings", {
     };
   },
   actions: {
-    saveSettings(settings) {
-      Object.assign(this, settings);
-    },
-    startEdit({index, difficult}) {
+    startEdit(index, difficult) {
       Object.assign(this, {editingIndex: index, editingDifficult: difficult});
       this.editingItem = {...this.dictionary[difficult][index]};
     },
@@ -27,16 +24,16 @@ export const settingsStore = defineStore("settings", {
       this.editingDifficult = null;
       this.editingItem = null;
     },
-    cancelEdit({index, difficult}) {
+    cancelEdit(index, difficult) {
       const {oldAnswer, oldQuestion} = this.dictionary[difficult][index];
       this.dictionary[difficult][index].answer = oldAnswer;
       this.dictionary[difficult][index].question = oldQuestion;
       delete this.dictionary[difficult][index].edited;
     },
-    removeIncluded({index, difficult}) {
+    removeIncluded(index, difficult) {
       this.dictionary[difficult].splice(index, 1);
     },
-    returnDeletedItem({index, difficult}) {
+    returnDeletedItem(index, difficult) {
       let item = this.dictionary[difficult][index];
       delete item.excluded;
     },
@@ -59,12 +56,12 @@ export const settingsStore = defineStore("settings", {
       this.isSaved = flag;
       window.onbeforeunload = (flag) ? null : () => false;
     },
-    async getSettings({sub}) {
+    async getSettings(sub) {
       const data = await requestGet(`/settings/get/${sub}`);
       Object.assign(this, data);
     },
-    async addItem({difficult, item}) {
-      const isNew = this.checkItem({difficult, item});
+    async addItem(difficult, item) {
+      const isNew = this.checkItem(difficult, item);
       if (!isNew) return;
       this.changeSaved(false);
       item.included = true;
@@ -72,26 +69,26 @@ export const settingsStore = defineStore("settings", {
       this.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
 
     },
-    checkItem({difficult, item}) {
+    checkItem(difficult, item) {
       const index = this.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
       return index === -1;
     },
-    deleteItem({index, difficult}) {
+    deleteItem(index, difficult) {
       this.changeSaved(false);
       let item = this.dictionary[difficult][index];
       if (item?.included) {
         this.dictionary[difficult].splice(index, 1);
       } else item.excluded = true;
     },
-    saveTimer({timer}) {
+    saveTimer(timer) {
       this.changeSaved(false);
       this.timer = timer;
     },
-    saveVariants({variants}) {
+    saveVariants(variants) {
       this.changeSaved(false);
       this.variants = variants;
     },
-    saveLimits({difficult, limit}) {
+    saveLimits(difficult, limit) {
       this.changeSaved(false);
       this.limits[difficult] = limit;
     },
@@ -112,10 +109,8 @@ export const settingsStore = defineStore("settings", {
       const {limits, timer, variants} = this;
       const editedDictionary = this.assembleChanges();
       await requestPost("/settings/save", {sub, editedDictionary, limits, timer, variants});
-      await this.getSettings({sub});
-      const data = await requestGet(`/settings/get/${sub}`);
+      await this.getSettings(sub);
       this.changeSaved(true);
-      this.saveSettings(data);
     },
     assembleChanges() {
       let output = {};
@@ -143,6 +138,8 @@ export const settingsStore = defineStore("settings", {
     async sendNewDictionary(file, flag, sub) {
       this.changeSaved(false);
       await sendFile(file, flag, sub);
+      await this.getSettings(sub)
+      this.changeSaved(true);
     }
   }
 });

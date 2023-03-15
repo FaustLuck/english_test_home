@@ -4,7 +4,7 @@
       v-show="!isOpen"
       :value="'+'"
       :title="'Добавить новую запись'"
-     ></button-component>
+    ></button-component>
     <div v-show="isOpen" class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
@@ -86,10 +86,7 @@ export default {
         question: this.question,
         answer: this.answer
       };
-      this.addItem({
-        difficult: this.selectedDifficult,
-        item
-      });
+      this.addItem(this.selectedDifficult, item);
       this.clear();
     },
     toOpen() {

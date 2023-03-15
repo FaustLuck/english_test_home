@@ -9,7 +9,7 @@
       v-for="(item,index) of partAnswers"
       :key="item.question"
       :test-item="item"
-      @dblclick="startEdit({difficult, index})"
+      @dblclick="startEdit(difficult, index)"
     >
       <div class="item__column">
         <card-test-item-component
