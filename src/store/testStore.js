@@ -43,7 +43,7 @@ export const testStore = defineStore("test", {
       await requestPost(`/test/check`, {test, sub, id: this.ID});
     },
     async getVerifiedTest() {
-      this.result =await requestGet(`/test/result/${this.ID}`);
+      this.result = await requestGet(`/test/result/${this.ID}`);
     },
     async saveTest(sub) {
       const data = this.createBody(sub);
@@ -58,7 +58,7 @@ export const testStore = defineStore("test", {
         timeLeft: this.timeLeft,
         timestamp: this.timestamp,
         ...(this.result && {test: this.result}),
-        ...(sub)
+        sub
       };
     }
   }
