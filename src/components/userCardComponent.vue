@@ -30,8 +30,15 @@ export default {
   background-color: #FFDAB9;
   text-overflow: clip;
   cursor: pointer;
+
   @media screen and (max-width: 768px) {
     margin: 1rem 0;
+    height: 5rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    margin: .5rem 0;
+    height: 3rem;
   }
 
   &.privileged {

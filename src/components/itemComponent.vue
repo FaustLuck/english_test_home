@@ -44,10 +44,6 @@ export default {
   padding: .5rem;
   background-color: #FFDAB9;
 
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-
   &.right {
     background-color: #8fbc8f;
   }

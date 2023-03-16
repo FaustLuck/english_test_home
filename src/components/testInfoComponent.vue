@@ -181,7 +181,6 @@ export default {
     justify-content: space-between;
     padding: .5rem;
     @media screen and (max-width: 768px) {
-      flex-direction: column;
       align-items: center;
     }
   }

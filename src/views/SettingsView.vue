@@ -132,9 +132,7 @@ export default {
     & > * {
       width: 50%;
     }
-
   }
-
 
   & > .container {
     display: flex;

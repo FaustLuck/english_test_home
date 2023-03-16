@@ -85,7 +85,7 @@ export default {
   margin: .5rem;
   cursor: pointer;
   @media screen and (max-width: 768px) {
-    margin: 1rem 0;
+    margin: 0.5rem 0;
   }
 
   &.open {
