@@ -16,7 +16,7 @@ export const statisticStore = defineStore("statistic", {
     async getDateList(sub) {
       this.dateList = await requestGet(`/history/date/${sub}`);
     },
-    async getTimeList(date, sub) {
+    async getTimeList(sub, date) {
       return await requestGet(`/history/date/${sub}/${date}`);
     },
     async getResult(sub, timestamp) {
