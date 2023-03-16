@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { requestGet, requestPost } from "@/utils/requests";
+import { requestPost } from "@/utils/requests";
 
 export const authStore = defineStore("auth", {
   state() {
@@ -13,14 +13,13 @@ export const authStore = defineStore("auth", {
   },
   actions: {
     async googleInitialize() {
-      const offset = new Date().getTimezoneOffset();
       google.accounts.id.initialize({
-        client_id: await this.getID(),
+        client_id: import.meta.env.VITE_client_id,
         auto_select: true,
         callback: async (response) => {
           {
             const token = response.credential;
-            const info = await requestPost("/user/login", {token, offset});
+            const info = await requestPost("/user/login", {token});
             Object.assign(this, info);
           }
         }
@@ -35,9 +34,6 @@ export const authStore = defineStore("auth", {
         }
       );
       google.accounts.id.prompt();
-    },
-    async getID() {
-      return await requestGet("/user/id");
     }
   }
 });
