@@ -70,6 +70,10 @@ export default {
     background-color: peachpuff;
     border-bottom: 1px solid black;
   }
+
+  @media screen and (max-width: 576px) {
+    height: 3rem;
+  }
 }
 
 </style>

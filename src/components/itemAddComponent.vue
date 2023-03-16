@@ -147,12 +147,23 @@ select {
   @media screen and (max-width: 768px) {
     font-size: 1.5rem;
   }
+  @media screen and (max-width: 576px) {
+    font-size: 1rem;
+  }
 
   & > option {
     font-size: 2.5rem;
     font-family: "serif";
     background-color: #FFDAB9;
     box-shadow: 0 0 10px 5px #e9a66a;
+
+    @media screen and (max-width: 768px) {
+      font-size: 1.5rem;
+    }
+
+    @media screen and (max-width: 576px) {
+      font-size: 1rem;
+    }
   }
 }
 
@@ -213,6 +224,10 @@ select {
       display: flex;
       justify-content: space-evenly;
 
+      @media screen and (max-width: 768px) {
+       margin: .25rem;
+      }
+
       & > input[type="button"] {
         min-width: 25%;
       }
@@ -227,6 +242,11 @@ input[type="checkbox"] {
   @media screen and (max-width: 768px) {
     width: 1rem;
     height: 1rem;
+  }
+
+  @media screen and (max-width: 576px) {
+    width: .75rem;
+    height: .75rem;
   }
 }
 </style>

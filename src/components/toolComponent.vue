@@ -93,6 +93,9 @@ export default {
     position: relative;
     width: 50%;
   }
+  @media screen and (max-width: 576px) {
+    height: 1rem;
+  }
 
   &.show {
     opacity: 1;

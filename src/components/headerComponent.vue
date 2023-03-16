@@ -90,5 +90,10 @@ header {
     padding: 0;
     top: 65px;
   }
+
+  @media screen and (max-width: 576px) {
+    top: 50px;
+  }
+
 }
 </style>

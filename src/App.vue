@@ -20,7 +20,7 @@ export default {
 </script>
 
 <style lang="scss">
-*{
+* {
   margin: 0;
   padding: 0;
 }
@@ -28,6 +28,7 @@ export default {
 body {
   font-family: 'serif';
   background-color: #FFDAB9;
+
   &.fail {
     background-color: red;
     pointer-events: none;
@@ -44,6 +45,9 @@ body {
 
   @media screen and (max-width: 768px) {
     font-size: 1.5rem;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 1rem;
   }
 }
 
