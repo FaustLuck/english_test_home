@@ -22,8 +22,7 @@
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 import { statisticStore } from "@/store/statisticStore";
-import { mapActions, mapState } from "pinia";
-import { mainStore } from "@/store/mainStore";
+import { mapActions } from "pinia";
 
 export default {
   name: "dateListComponent",
@@ -43,7 +42,6 @@ export default {
     };
   },
   computed: {
-    ...mapState(mainStore, ["orderDifficult"]),
     dateString() {
       return getDate(+this.datestamp)[0];
     },

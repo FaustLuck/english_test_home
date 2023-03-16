@@ -14,16 +14,12 @@
 
 <script>
 
-import { mapState } from "pinia";
-import { mainStore } from "@/store/mainStore";
-
 export default {
   name: "itemComponent",
   props: {
     testItem: Object
   },
   computed: {
-    ...mapState(mainStore, ["mode"]),
     right() {
       return ["result", "statistic"].includes(this.$route.name) && this.testItem.answer === this.testItem?.choice;
     },

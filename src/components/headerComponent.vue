@@ -3,7 +3,7 @@
     <button-component
       v-if="['test','result'].includes(mode)"
       :value="(isTesting)?'Завершить тест' : 'Начать тест'"
-      @click="(isTesting)?checkTest():startTest()"
+      @click="(isTesting)?changeTestStatus(false):startTest()"
     ></button-component>
     <button-component
       v-if="mode==='settings'"
@@ -45,14 +45,9 @@ export default {
     async startTest() {
       if (this.mode !== "test") this.$router.replace({name: "test"});
       this.setLoading(true);
-      await this.getTest({sub: this.sub});
+      await this.getTest(this.sub);
       this.changeTestStatus(true);
       this.setLoading(false);
-    },
-    async checkTest() {
-      this.changeTestStatus(false);
-      this.setLoading(true);
-      this.$router.push({name: "result"});
     },
     async save() {
       if (this.isSaved) return;
