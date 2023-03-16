@@ -58,7 +58,7 @@ export const testStore = defineStore("test", {
         timeLeft: this.timeLeft,
         timestamp: this.timestamp,
         ...(this.result && {test: this.result}),
-        ...(sub && {sub})
+        ...(sub)
       };
     }
   }
