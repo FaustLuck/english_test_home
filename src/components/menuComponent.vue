@@ -30,7 +30,7 @@ export default {
       this.setMenuHeight(h);
     }
   },
-  async created() {
+  async mounted() {
     await this.googleInitialize();
     window.addEventListener("resize", this.setHeight);
     this.setHeight();
