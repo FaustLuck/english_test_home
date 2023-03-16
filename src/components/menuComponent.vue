@@ -1,12 +1,12 @@
 <template>
   <nav class="menu">
-    <router-link v-if="picture" title="Настройки" :to="{path:'settings'}">
+    <router-link v-if="isLogin" title="Настройки" :to="{path:'settings'}">
       <img src="@/assets/settings.svg" alt="Настройки"
       /></router-link>
     <router-link v-if="tests" title="История" :to="{path:'users'}"
     ><img src="@/assets/history.svg" alt="История"
     /></router-link>
-    <a v-if="!picture" id="google"></a>
+    <a v-if="!isLogin" id="google"></a>
     <a v-else :title="name"><img :src="picture" alt="Аватар"/></a>
   </nav>
 </template>
@@ -19,7 +19,7 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "menuComponent",
   computed: {
-    ...mapState(authStore, ["admin", "sub", "name", "picture", "tests"])
+    ...mapState(authStore, ["isLogin", "name", "picture", "tests"])
   },
   methods: {
     ...mapActions(authStore, ["googleInitialize"]),

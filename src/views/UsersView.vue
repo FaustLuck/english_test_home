@@ -42,7 +42,7 @@ export default {
     }
   },
   async created() {
-    await this.getUsers({sub: this.sub});
+    await this.getUsers(this.sub);
   }
 };
 </script>

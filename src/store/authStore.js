@@ -8,7 +8,8 @@ export const authStore = defineStore("auth", {
       sub: undefined,
       name: undefined,
       picture: undefined,
-      tests: undefined
+      tests: undefined,
+      isLogin: false
     };
   },
   actions: {
@@ -48,6 +49,7 @@ export const authStore = defineStore("auth", {
     async getUserInfo() {
       const info = await requestGet(`/user/login/${this.sub}`);
       Object.assign(this, info);
+      this.isLogin = true;
     }
   }
 });

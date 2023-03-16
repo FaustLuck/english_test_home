@@ -127,7 +127,7 @@ export default {
     },
     async getResultFromBD() {
       if (this.localTest) return;
-      this.localTest = await this.getResult({sub: this.sub, timestamp: this.timestamp});
+      this.localTest = await this.getResult(this.sub, this.timestamp);
     },
     scroll(el) {
       let top = el.getBoundingClientRect().top;
@@ -145,9 +145,9 @@ export default {
   async mounted() {
     [this.date, this.time] = getDate(this.timestamp);
     if (this.mode === "result") {
-      await this.checkTest({sub: this.sub});
+      await this.getVerifiedTest(this.sub);
       this.displayMode = 2;
-      if (this.sub) await this.saveTest({sub: this.sub});
+      if (this.sub) await this.saveTest(this.sub);
     }
   }
 };

@@ -51,7 +51,7 @@ export default {
   methods: {
     ...mapActions(statisticStore, ["getTimeList"]),
     async getTime() {
-      if (!this.timeList) this.timeList = await this.getTimeList({sub: this.$route.params.sub, date: this.datestamp});
+      if (!this.timeList) this.timeList = await this.getTimeList(this.$route.params.sub, this.datestamp);
     }
   }
 };
