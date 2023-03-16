@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     ...mapActions(statisticStore, ["getResult"]),
-    ...mapActions(testStore, ["checkTest", "saveTest"]),
+    ...mapActions(testStore, ["checkTest", "saveTest", "getVerifiedTest"]),
     ...mapActions(mainStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;

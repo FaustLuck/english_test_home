@@ -42,16 +42,19 @@ export default {
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
   },
   computed: {
-    ...mapState(testStore, ["test", "isTesting", "SPEECH"]),
-    ...mapState(mainStore, ["isLoading", "orderDifficult"]),
+    ...mapState(testStore, ["test", "isTesting"]),
+    ...mapState(mainStore, ["isLoading"]),
   },
   watch: {
-    isTesting(value) {
-      if (!value) return this.$router.push({name: "result"});
+    async isTesting(value) {
+      if (!value) {
+        await this.sendAnswers(this.sub);
+        this.$router.push({name: "result"});
+      }
     }
   },
   methods: {
-    ...mapActions(testStore, ["saveChoice"]),
+    ...mapActions(testStore, ["saveChoice", "sendAnswers"]),
   }
 };
 </script>

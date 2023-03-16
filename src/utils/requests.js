@@ -2,16 +2,11 @@ const PATH = (import.meta.env.DEV) ? `${import.meta.env.VITE_dev}` : `${import.m
 
 export async function requestPost(path, data) {
   const body = JSON.stringify(data);
-  const response = await fetch(`${PATH}${path}`, {
+  await fetch(`${PATH}${path}`, {
     headers: {"Content-Type": "application/json"},
     method: "POST",
     body
   });
-  if (response.ok) {
-    return (checkJSON(response)) ? await response.json() : await response.text();
-  } else {
-    return false;
-  }
 }
 
 export async function requestGet(path) {
