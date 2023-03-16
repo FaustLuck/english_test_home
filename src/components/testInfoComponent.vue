@@ -80,7 +80,7 @@ export default {
       }
     },
     async sub(value) {
-      if (value) await this.saveTest({sub: value});
+      if (value) await this.saveTest(value);
     },
   },
   computed: {
@@ -147,7 +147,9 @@ export default {
     if (this.mode === "result") {
       await this.getVerifiedTest(this.sub);
       this.displayMode = 2;
-      if (this.sub) await this.saveTest(this.sub);
+      if (this.sub) {
+        await this.saveTest(this.sub);
+      }
     }
   }
 };
