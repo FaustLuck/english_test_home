@@ -22,7 +22,7 @@ export default {
 
 <style scoped lang="scss">
 input[type="button"] {
-  font-size: 2rem;
+  font-size: 1em;
   padding: 0 0.5rem;
   font-family: "serif";
   border-radius: .5rem;
@@ -32,18 +32,14 @@ input[type="button"] {
   border-color: #e9a66a;
   background-color: transparent;
   margin: 3px;
+  white-space: pre-wrap;
 
   &:active {
     box-shadow: none;
     outline: 1px solid black;
   }
 
-  @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-
   @media screen and (max-width: 576px) {
-    font-size: 1rem;
     padding: 0.25rem 0.5rem;
   }
 }

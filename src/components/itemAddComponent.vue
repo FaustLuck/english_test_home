@@ -35,23 +35,19 @@
         ></button-component>
       </div>
       <div>
-        <label :title="'Перезаписать словарь?'">
-          <input type="checkbox" v-model="check">
-          <span>Перезаписать?</span>
-        </label>
-      </div>
-      <div>
         <upload-component :check="check"></upload-component>
-      </div>
-      <div>
         <span>или</span>
-      </div>
-      <div>
         <button-component
           :value="'Вставить из буфера'"
           :title="'Вставить словарь из буфера обмена'"
           @click="addFromClipboard"
         ></button-component>
+      </div>
+      <div>
+        <label :title="'Перезаписать словарь?'">
+          <input type="checkbox" v-model="check">
+          <span>Перезаписать?</span>
+        </label>
       </div>
     </div>
   </div>
@@ -136,20 +132,13 @@ export default {
 
 <style lang="scss" scoped>
 select {
-  font-size: 2.5rem;
+  font-size: 1em;
   font-family: "serif";
   width: 50%;
   background-color: transparent;
   border: none;
   outline: 1px solid black;
   margin: 3px;
-
-  @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-  @media screen and (max-width: 576px) {
-    font-size: 1rem;
-  }
 
   & > option {
     font-size: 2.5rem;
@@ -192,7 +181,7 @@ select {
       left: 25%;
       padding: .5rem;
 
-      @media screen and (max-width: 768px) {
+      @media screen and (max-width: 1200px) {
         width: 100%;
         left: 0;
       }
@@ -223,9 +212,10 @@ select {
       margin: 1rem;
       display: flex;
       justify-content: space-evenly;
+      align-items: center;
 
       @media screen and (max-width: 768px) {
-       margin: .25rem;
+        margin: .25rem;
       }
 
       & > input[type="button"] {

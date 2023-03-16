@@ -28,6 +28,14 @@ export default {
 body {
   font-family: 'serif';
   background-color: #FFDAB9;
+  font-size: 2.5rem;
+
+  @media screen and (max-width: 768px) {
+    font-size: 1.5rem;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 1rem;
+  }
 
   &.fail {
     background-color: red;
@@ -41,14 +49,6 @@ body {
   flex-direction: column;
   align-items: center;
   min-height: 100vh;
-  font-size: 2.5rem;
-
-  @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-  @media screen and (max-width: 576px) {
-    font-size: 1rem;
-  }
 }
 
 form {
