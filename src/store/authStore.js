@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { requestPost } from "@/utils/requests";
+import { requestGet, requestPost } from "@/utils/requests";
 
 export const authStore = defineStore("auth", {
   state() {
@@ -19,8 +19,9 @@ export const authStore = defineStore("auth", {
         callback: async (response) => {
           {
             const token = response.credential;
-            const info = await requestPost("/user/login", {token});
-            Object.assign(this, info);
+            this.parseJwt(token);
+            await requestPost("/user/login", {token});
+            await this.getUserInfo();
           }
         }
       });
@@ -34,6 +35,19 @@ export const authStore = defineStore("auth", {
         }
       );
       google.accounts.id.prompt();
+    },
+    parseJwt(token) {
+      const base64Url = token.split(".")[1];
+      const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+      const jsonPayload = decodeURIComponent(window.atob(base64).split("").map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(""));
+      const {sub} = JSON.parse(jsonPayload);
+      this.sub = sub;
+    },
+    async getUserInfo() {
+      const info = await requestGet(`/user/login/${this.sub}`);
+      Object.assign(this, info);
     }
   }
 });
