@@ -2,10 +2,11 @@ import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import { resolve } from "path";
 
-export default defineConfig(({command}) => {
+const isProd = process.env.NODE_ENV !== "development";
 
+export default defineConfig(() => {
   return {
-    base: (command === "serve") ? "http://localhost/" : "/english_test_home/",
+    base: (isProd) ? "/english_test_home/" : "http://localhost/",
     plugins: [vue()],
     server: {port: 8081},
     resolve: {
