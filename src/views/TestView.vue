@@ -33,6 +33,7 @@ import { mapState, mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
+import { authStore } from "@/store/authStore.js";
 
 export default {
   name: "TestView",
@@ -42,6 +43,7 @@ export default {
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
   },
   computed: {
+    ...mapState(authStore, ["sub"]),
     ...mapState(testStore, ["test", "isTesting"]),
     ...mapState(mainStore, ["isLoading"]),
   },
