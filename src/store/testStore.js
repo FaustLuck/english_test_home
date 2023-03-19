@@ -39,7 +39,7 @@ export const testStore = defineStore("test", {
         if (el?.answer) delete el.answer;
         return el;
       });
-      if (!sub) this.generateID();
+      this.generateID();
       await requestPost(`/test/check`, {test, sub, id: this.ID});
     },
     async getVerifiedTest() {
