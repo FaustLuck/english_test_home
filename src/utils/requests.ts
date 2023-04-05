@@ -1,15 +1,15 @@
 const PATH = (import.meta.env.DEV) ? `${import.meta.env.VITE_dev}` : `${import.meta.env.VITE_prod}`;
 
-export async function requestPost(path, data) {
+export async function requestPost(path: string, data: any) {
   const body = JSON.stringify(data);
   await fetch(`${PATH}${path}`, {
-    headers: {"Content-Type": "application/json"},
+    headers: { "Content-Type": "application/json" },
     method: "POST",
     body
   });
 }
 
-export async function requestGet(path) {
+export async function requestGet(path: string) {
   const response = await fetch(`${PATH}${path}`);
   if (response.ok) {
     return (checkJSON(response)) ? await response.json() : await response.text();
@@ -18,7 +18,7 @@ export async function requestGet(path) {
   }
 }
 
-export async function sendFile(file, flag, sub) {
+export async function sendFile(file: any, flag: string, sub: string) {
   const type = file.type;
   if (type !== "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet") return;
   const data = new FormData();
@@ -32,6 +32,6 @@ export async function sendFile(file, flag, sub) {
     });
 }
 
-function checkJSON(res) {
-  return res.headers.get("content-type").includes("application/json");
+function checkJSON(res: Response) {
+  return res.headers?.get("content-type")?.includes("application/json");
 }
