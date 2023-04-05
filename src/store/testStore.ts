@@ -20,45 +20,45 @@ export const testStore = defineStore("test", {
       this.timeSpent = this.timer - this.timeLeft;
       this.timestamp = new Date().setSeconds(0, 0);
     },
-    changeTestStatus(isTesting) {
+    changeTestStatus(isTesting: boolean) {
       this.isTesting = isTesting;
     },
     saveChoice(choice, key) {
       let [item] = this.test.filter(el => el.key === key);
       item.choice = choice;
     },
-    saveTimerSec(timeLeft) {
+    saveTimerSec(timeLeft: number) {
       this.timeLeft = timeLeft;
     },
     async getTest(sub = "") {
       const data = await requestGet(`/test/${sub}`);
       Object.assign(this, data);
     },
-    async sendAnswers(sub) {
+    async sendAnswers(sub: string) {
       let test = this.test.map(el => {
         if (el?.answer) delete el.answer;
         return el;
       });
       this.generateID();
-      await requestPost(`/test/check`, {test, sub, id: this.ID});
+      await requestPost(`/test/check`, { test, sub, id: this.ID });
     },
     async getVerifiedTest() {
       this.result = await requestGet(`/test/result/${this.ID}`);
     },
-    async saveTest(sub) {
+    async saveTest(sub: string) {
       const data = this.createBody(sub);
       await requestPost("/history/update", data);
     },
     generateID() {
       this.ID = Date.now().toString(36) + Math.random().toString(36).substring(2);
     },
-    createBody(sub) {
+    createBody(sub: string) {
       return {
         timeSpent: this.timeSpent,
         timeLeft: this.timeLeft,
         sub,
         timestamp: this.timestamp,
-        ...(this.result && {test: this.result}),
+        ...(this.result && { test: this.result }),
       };
     }
   }

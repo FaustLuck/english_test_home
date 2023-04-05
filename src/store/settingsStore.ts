@@ -15,27 +15,27 @@ export const settingsStore = defineStore("settings", {
     };
   },
   actions: {
-    startEdit(index, difficult) {
+    startEdit(index: number, difficult: string) {
       if (this.dictionary[difficult][index].excluded) return;
       this.editingIndex = index;
       this.editingDifficult = difficult;
-      this.editingItem = {...this.dictionary[difficult][index]};
+      this.editingItem = { ...this.dictionary[difficult][index] };
     },
     clearEdit() {
       this.editingIndex = null;
       this.editingDifficult = null;
       this.editingItem = null;
     },
-    cancelEdit(index, difficult) {
-      const {oldAnswer, oldQuestion} = this.dictionary[difficult][index];
+    cancelEdit(index: number, difficult: string) {
+      const { oldAnswer, oldQuestion } = this.dictionary[difficult][index];
       this.dictionary[difficult][index].answer = oldAnswer;
       this.dictionary[difficult][index].question = oldQuestion;
       delete this.dictionary[difficult][index].edited;
     },
-    removeIncluded(index, difficult) {
+    removeIncluded(index: number, difficult: string) {
       this.dictionary[difficult].splice(index, 1);
     },
-    returnDeletedItem(index, difficult) {
+    returnDeletedItem(index: number, difficult: string) {
       let item = this.dictionary[difficult][index];
       delete item.excluded;
     },
@@ -54,15 +54,15 @@ export const settingsStore = defineStore("settings", {
         Object.assign(item, newItem);
       }
     },
-    changeSaved(flag) {
+    changeSaved(flag: boolean) {
       this.isSaved = flag;
       window.onbeforeunload = (flag) ? null : () => false;
     },
-    async getSettings(sub) {
+    async getSettings(sub: string) {
       const data = await requestGet(`/settings/get/${sub}`);
       Object.assign(this, data);
     },
-    async addItem(difficult, item) {
+    async addItem(difficult: string, item) {
       const isNew = this.checkItem(difficult, item);
       if (!isNew) return;
       this.changeSaved(false);
@@ -71,26 +71,26 @@ export const settingsStore = defineStore("settings", {
       this.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
 
     },
-    checkItem(difficult, item) {
+    checkItem(difficult: string, item) {
       const index = this.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
       return index === -1;
     },
-    deleteItem(index, difficult) {
+    deleteItem(index: number, difficult: string) {
       this.changeSaved(false);
       let item = this.dictionary[difficult][index];
       if (item?.included) {
         this.dictionary[difficult].splice(index, 1);
       } else item.excluded = true;
     },
-    saveTimer(timer) {
+    saveTimer(timer: number) {
       this.changeSaved(false);
       this.timer = timer;
     },
-    saveVariants(variants) {
+    saveVariants(variants: number) {
       this.changeSaved(false);
       this.variants = variants;
     },
-    saveLimits(difficult, limit) {
+    saveLimits(difficult: string, limit: number) {
       this.changeSaved(false);
       this.limits[difficult] = limit;
     },
@@ -107,10 +107,10 @@ export const settingsStore = defineStore("settings", {
       const oldItem = this.dictionary[this.editingDifficult][this.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
     },
-    async saveChanges(sub) {
-      const {limits, timer, variants} = this;
+    async saveChanges(sub: string) {
+      const { limits, timer, variants } = this;
       const editedDictionary = this.assembleChanges();
-      await requestPost("/settings/save", {sub, editedDictionary, limits, timer, variants});
+      await requestPost("/settings/save", { sub, editedDictionary, limits, timer, variants });
       await this.getSettings(sub);
       this.changeSaved(true);
     },
@@ -137,21 +137,21 @@ export const settingsStore = defineStore("settings", {
       }
       return output;
     },
-    async sendNewDictionary(file, flag, sub) {
+    async sendNewDictionary(file: any, flag: string, sub: string) {
       this.changeSaved(false);
       await sendFile(file, flag, sub);
       await this.getSettings(sub);
       this.changeSaved(true);
     },
-    async sendNewDictionaryFromClipboard(table, isOverwrite, sub) {
+    async sendNewDictionaryFromClipboard(table: string[][], isOverwrite: boolean, sub: string) {
       this.changeSaved(false);
       const editedDictionary = this.prepareTable(table);
-      const {limits, timer, variants} = this;
-      await requestPost("/settings/save", {sub, editedDictionary, limits, timer, variants});
+      const { limits, timer, variants } = this;
+      await requestPost("/settings/save", { sub, editedDictionary, limits, timer, variants });
       await this.getSettings(sub);
       this.changeSaved(true);
     },
-    prepareTable(table) {
+    prepareTable(table: string[][]) {
       let newDictionary = {};
       for (const row of table) {
         const difficult = row[2];
