@@ -25,8 +25,8 @@ export default defineConfig(() => {
         },
         output: {
           assetFileNames: (assetInfo) => {
-            let extType = assetInfo.name.split(".").at(1);
-            if (/svg|ico/i.test(extType)) {
+            let extType = assetInfo.name?.split(".").at(1);
+            if (extType !== undefined && /svg|ico/i.test(extType)) {
               extType = "img";
             }
             return `${extType}/[name]-[hash][extname]`;
