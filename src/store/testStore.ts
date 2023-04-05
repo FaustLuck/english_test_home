@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { requestGet, requestPost } from "@/utils/requests";
+import { requestGet, requestPost } from "@/utils/requests.js";
 
 export const testStore = defineStore("test", {
   state() {
