@@ -33,7 +33,7 @@ import { mapState, mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
-import { authStore } from "@/store/authStore.js";
+import { authStore } from "@/store/authStore";
 
 export default {
   name: "TestView",
