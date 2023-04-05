@@ -5,14 +5,6 @@
       :value="'+'"
       :title="'Добавить новую запись'"
     ></button-component>
-    <!--    <div style="width: 50%;  position: relative;  border: 1px solid black;">-->
-    <!--      <label style="position: absolute;  font-size: .5em;  top: -.75em;  background-color: #FFDAB9;  left: 1rem;  padding: 0 .5rem;">Сложность:</label>-->
-    <!--      <select >-->
-    <!--        <option >easy</option>-->
-    <!--        <option >medium</option>-->
-    <!--        <option >hard</option>-->
-    <!--      </select>-->
-    <!--    </div>-->
     <div v-show="isOpen" class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
