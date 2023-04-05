@@ -6,32 +6,32 @@ export const mainStore = defineStore("main", {
       orderDifficult: ["easy", "medium", "hard"],
       menuHeight: 0,
       isLoading: false,
-      mode: undefined,
+      mode: '',
       isOpen: false,
       message: "",
       isAnimate: false
     };
   },
   actions: {
-    setMenuHeight(height) {
+    setMenuHeight(height: number) {
       this.menuHeight = height;
     },
-    setLoading(flag) {
+    setLoading(flag: boolean) {
       this.isLoading = flag;
     },
-    setMode(mode) {
+    setMode(mode: string) {
       this.mode = mode;
     },
-    setOpen(flag) {
+    setOpen(flag: boolean) {
       if (this.mode === "settings") this.isOpen = flag;
     },
-    setMessage(message) {
+    setMessage(message: string) {
       this.message = message;
     },
     clearMessage() {
       this.message = "";
     },
-    setAnimationStatus(status) {
+    setAnimationStatus(status: boolean) {
       this.isAnimate = status;
     }
   }
