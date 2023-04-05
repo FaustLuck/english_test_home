@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { requestGet, requestPost, sendFile } from "@/utils/requests";
+import { requestGet, requestPost, sendFile } from "@/utils/requests.js";
 
 export const settingsStore = defineStore("settings", {
   state() {
