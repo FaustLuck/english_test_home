@@ -1,9 +1,10 @@
 <template>
   <div>
     <button-component
-      :value="(isLoading)?'Подождите...':'Загрузить Excel'"
-      :title="'Загрузите свой словарь в файле excel'"
-      @click="$refs.file.click()"
+            :value="(isLoading)?'Подождите...':'Загрузить Excel'"
+            :title="'Загрузите свой словарь в файле excel'"
+            :loading="isLoading"
+            @click="$refs.file.click()"
     ></button-component>
     <input ref="file" type="file" @change="upload" accept=".xls,.xlsx">
   </div>

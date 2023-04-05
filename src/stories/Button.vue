@@ -1,14 +1,14 @@
 <template>
-  <v-btn rounded="lg" x-large :loading="isLoading">{{ value }}</v-btn>
+  <v-btn rounded="lg" x-large :loading="Boolean(loading)">{{ value }}</v-btn>
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
-import { mainStore } from "@/store/mainStore";
+export interface buttonComponentProps {
+  value: string;
+  loading?: boolean;
+}
 
-const props = defineProps<{
-  value: string
-}>();
-
-const { isLoading } = storeToRefs(mainStore());
+const props = withDefaults(defineProps<buttonComponentProps>(), {
+  loading: false
+});
 </script>

@@ -1,17 +1,18 @@
 <template>
   <div class="add__wrapper" :class="{'open':isOpen}" @click="toOpen">
     <button-component
-      v-show="!isOpen"
-      :value="'+'"
-      :title="'Добавить новую запись'"
+            v-show="!isOpen"
+            :value="'+'"
+            :loading="isLoading"
+            :title="'Добавить новую запись'"
     ></button-component>
     <div v-show="isOpen" class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
           <option
-            v-for="difficult of orderDifficult"
-            :key="difficult"
-            @change="selectedDifficult=difficult"
+                  v-for="difficult of orderDifficult"
+                  :key="difficult"
+                  @change="selectedDifficult=difficult"
           >{{ difficult }}
           </option>
         </select>
@@ -24,23 +25,26 @@
       </label>
       <div>
         <button-component
-          :value="'Очистить'"
-          :title="'Очистить'"
-          @click="clear"
+                :value="'Очистить'"
+                :title="'Очистить'"
+                :loading="isLoading"
+                @click="clear"
         ></button-component>
         <button-component
-          :value="'Добавить'"
-          :title="'Добавить'"
-          @click="add"
+                :value="'Добавить'"
+                :title="'Добавить'"
+                :loading="isLoading"
+                @click="add"
         ></button-component>
       </div>
       <div>
         <upload-component :check="check"></upload-component>
         <span>или</span>
         <button-component
-          :value="'Вставить из буфера'"
-          :title="'Вставить словарь из буфера обмена'"
-          @click="addFromClipboard"
+                :value="'Вставить из буфера'"
+                :title="'Вставить словарь из буфера обмена'"
+                :loading="isLoading"
+                @click="addFromClipboard"
         ></button-component>
       </div>
       <div>
