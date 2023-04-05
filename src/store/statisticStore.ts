@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { requestGet } from "@/utils/requests";
+import { requestGet } from "@/utils/requests.js";
 
 export const statisticStore = defineStore("statistic", {
   state() {
