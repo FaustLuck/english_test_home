@@ -65,7 +65,7 @@ export default {
   components: {
     uploadComponent: defineAsyncComponent(() => import("@/components/uploadComponent.vue")),
     inputComponent: defineAsyncComponent(() => import("@/components/inputComponent.vue")),
-    buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue"))
   },
   data() {
     return {

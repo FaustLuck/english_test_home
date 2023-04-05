@@ -9,7 +9,7 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { defineAsyncComponent } from "vue";
 import { settingsStore } from "@/store/settingsStore";
@@ -19,7 +19,7 @@ import { authStore } from "@/store/authStore";
 export default {
   name: "uploadComponent",
   components: {
-    buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue"))
   },
   props: {
     check: Boolean
