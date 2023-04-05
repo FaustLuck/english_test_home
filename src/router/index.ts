@@ -18,20 +18,20 @@ const routes = [
     path: "/users",
     name: "users",
     component: () => import("@/views/UsersView.vue"),
-    meta: {requireAuth: true}
+    meta: { requireAuth: true }
   },
   {
     path: "/statistic:sub",
     name: "statistic",
     props: true,
     component: () => import("@/views/StatisticView.vue"),
-    meta: {requireAuth: true}
+    meta: { requireAuth: true }
   },
   {
     path: "/settings",
     name: "settings",
     component: () => import("@/views/SettingsView.vue"),
-    meta: {requireAuth: true}
+    meta: { requireAuth: true }
   },
   {
     path: "/fire-show",
@@ -54,17 +54,16 @@ const router = createRouter({
   routes
 });
 router.beforeEach(async (to) => {
-  const {sub} = authStore();
-  const {result, test} = testStore();
-  const mode = to.name;
-  mainStore().setMode(mode);
+  const { sub } = authStore();
+  const { result, test } = testStore();
+  const mode = to.name && to.name.toString();
+  if (mode) mainStore().setMode(mode);
   mainStore().setLoading(mode !== "test");
   if (mode === "result" && test === null) {
-    console.log({mode, test});
-    return {name: "test"};
+    return { name: "test" };
   }
-  if (result === null && ["fire-show", "fail-show"].includes(mode)) return {name: "test"};
-  if (to.meta.requireAuth && !sub) return {name: "test"};
+  if (result === null && ["fire-show", "fail-show"].includes(<string>mode)) return { name: "test" };
+  if (to.meta.requireAuth && !sub) return { name: "test" };
 });
 
 export default router;
