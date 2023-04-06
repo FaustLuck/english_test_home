@@ -14,14 +14,14 @@
     <img src="@/assets/delete.svg" alt="Удалить"/>
   </button-component>
   <button-component
-          v-show="editing  && !excluded"
+          v-show="editing"
           @click="editFinish"
           title="Готово"
   >
     <img src="@/assets/done.svg" alt="Готово"/>
   </button-component>
   <button-component
-          v-show="excluded || edited || included"
+          v-show="!editing && (excluded || edited || included)"
           @click="undoChanges"
           title="Отменить"
   >
