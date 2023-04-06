@@ -1,8 +1,20 @@
 import { defineStore } from "pinia";
 import { requestGet, requestPost, sendFile } from "@/utils/requests.js";
+import { Dictionary, Limits, Record } from "@/types/dictionary";
+
+interface Settings {
+  dictionary: Dictionary | undefined;
+  limits: Limits | undefined;
+  timer: number | undefined;
+  variants: number | undefined;
+  isSaved: boolean;
+  editingIndex: number | undefined;
+  editingDifficult: string | undefined;
+  editingItem: Record | undefined;
+}
 
 export const settingsStore = defineStore("settings", {
-  state() {
+  state(): Settings {
     return {
       dictionary: undefined,
       limits: undefined,
@@ -16,30 +28,39 @@ export const settingsStore = defineStore("settings", {
   },
   actions: {
     startEdit(index: number, difficult: string) {
+      if (!this.dictionary?.[difficult]) return;
       if (this.dictionary[difficult][index].excluded) return;
       this.editingIndex = index;
       this.editingDifficult = difficult;
-      this.editingItem = { ...this.dictionary[difficult][index] };
+      this.editingItem = Object.assign(this.dictionary[difficult][index]);
     },
     clearEdit() {
-      this.editingIndex = null;
-      this.editingDifficult = null;
-      this.editingItem = null;
+      this.editingIndex = undefined;
+      this.editingDifficult = undefined;
+      this.editingItem = undefined;
     },
     cancelEdit(index: number, difficult: string) {
+      if (!this.dictionary?.[difficult]) return;
       const { oldAnswer, oldQuestion } = this.dictionary[difficult][index];
+      if (oldAnswer === undefined || oldQuestion === undefined) return;
       this.dictionary[difficult][index].answer = oldAnswer;
       this.dictionary[difficult][index].question = oldQuestion;
       delete this.dictionary[difficult][index].edited;
     },
     removeIncluded(index: number, difficult: string) {
+      if (!this.dictionary?.[difficult]) return;
       this.dictionary[difficult].splice(index, 1);
     },
     returnDeletedItem(index: number, difficult: string) {
+      if (!this.dictionary?.[difficult]) return;
       let item = this.dictionary[difficult][index];
       delete item.excluded;
     },
     editItem() {
+      if (!this.editingItem) return;
+      if (!this.editingDifficult) return;
+      if (!this.editingIndex) return;
+      if (!this.dictionary?.[this.editingDifficult]) return;
       const newItem = this.editingItem;
       let item = this.dictionary[this.editingDifficult][this.editingIndex];
       if (newItem?.oldAnswer === newItem.answer && newItem.oldQuestion === newItem.question) {
@@ -62,7 +83,8 @@ export const settingsStore = defineStore("settings", {
       const data = await requestGet(`/settings/get/${sub}`);
       Object.assign(this, data);
     },
-    async addItem(difficult: string, item) {
+    async addItem(difficult: string, item: Record) {
+      if (!this.dictionary?.[difficult]) return;
       const isNew = this.checkItem(difficult, item);
       if (!isNew) return;
       this.changeSaved(false);
@@ -71,11 +93,13 @@ export const settingsStore = defineStore("settings", {
       this.dictionary[difficult].sort((prev, next) => prev.question < next.question ? -1 : 1);
 
     },
-    checkItem(difficult: string, item) {
+    checkItem(difficult: string, item: Record) {
+      if (!this.dictionary?.[difficult]) return;
       const index = this.dictionary[difficult].findIndex(el => el.question === item.question || el.answer === item.answer);
       return index === -1;
     },
     deleteItem(index: number, difficult: string) {
+      if (!this.dictionary?.[difficult]) return;
       this.changeSaved(false);
       let item = this.dictionary[difficult][index];
       if (item?.included) {
@@ -91,6 +115,7 @@ export const settingsStore = defineStore("settings", {
       this.variants = variants;
     },
     saveLimits(difficult: string, limit: number) {
+      if (!this.limits?.[difficult]) return;
       this.changeSaved(false);
       this.limits[difficult] = limit;
     },
@@ -103,6 +128,10 @@ export const settingsStore = defineStore("settings", {
       this.clearEdit();
     },
     isChanged() {
+      if (!this.editingItem) return;
+      if (!this.editingDifficult) return;
+      if (!this.editingIndex) return;
+      if (!this.dictionary?.[this.editingDifficult]) return;
       const newItem = this.editingItem;
       const oldItem = this.dictionary[this.editingDifficult][this.editingIndex];
       return newItem.question !== oldItem.question || newItem.answer !== oldItem.answer;
@@ -115,12 +144,15 @@ export const settingsStore = defineStore("settings", {
       this.changeSaved(true);
     },
     assembleChanges() {
-      let output = {};
+      let intermediate: Dictionary = {};
+      let output: {
+        [index: string]: (string | null)[][]
+      } = {};
       for (let difficult in this.dictionary) {
         let filter = this.dictionary[difficult].filter(el => el.included || el.edited || el.excluded);
         if (!filter.length) continue;
-        output[difficult] = filter;
-        output[difficult] = output[difficult].map(el => {
+        intermediate[difficult] = filter;
+        output[difficult] = intermediate[difficult].map(el => {
           if (el?.excluded) {
             delete el.edited;
             delete el.included;
@@ -129,13 +161,13 @@ export const settingsStore = defineStore("settings", {
             delete el.oldAnswer;
             delete el.oldQuestion;
           }
-          let tmp = [];
+          let tmp: (string | null)[] = [];
           tmp[0] = el.key ?? null;
           if (el?.included || el?.edited) tmp.push(el.question, el.answer);
           return tmp;
         });
       }
-      return output;
+      return intermediate;
     },
     async sendNewDictionary(file: any, flag: string, sub: string) {
       this.changeSaved(false);
@@ -152,7 +184,9 @@ export const settingsStore = defineStore("settings", {
       this.changeSaved(true);
     },
     prepareTable(table: string[][]) {
-      let newDictionary = {};
+      let newDictionary: {
+        [index: string]: (string | null)[][]
+      } = {};
       for (const row of table) {
         const difficult = row[2];
         if (!newDictionary[difficult]?.length) newDictionary[difficult] = [];
