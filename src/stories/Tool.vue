@@ -30,6 +30,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
+import { storeToRefs } from "pinia";
 import { settingsStore } from "@/store/settingsStore";
 import ButtonComponent from "@/stories/Button.vue";
 
@@ -38,12 +40,16 @@ interface toolComponentProps {
   index: number,
   excluded?: boolean,
   edited?: boolean,
-  included?: boolean,
-  editing?: boolean
+  included?: boolean
 }
 
 const props = defineProps<toolComponentProps>();
 const store = settingsStore();
+
+const { editingDifficult, editingIndex } = storeToRefs(store);
+const editing = computed(() => {
+  return editingDifficult.value === props.difficult && editingIndex.value === props.index;
+});
 
 const editStart = () => {
   store.startEdit(props.index, props.difficult);
