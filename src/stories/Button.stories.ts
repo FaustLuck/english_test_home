@@ -8,7 +8,7 @@ const meta = {
   tags: ["autodocs"],
   args: {
     value: "Надпись",
-    loading: false,
+    loading: false
   }
 }satisfies Meta<typeof buttonComponent>;
 

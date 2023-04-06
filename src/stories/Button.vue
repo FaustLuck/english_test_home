@@ -1,14 +1,21 @@
 <template>
-  <v-btn rounded="lg" x-large :loading="Boolean(loading)">{{ value }}</v-btn>
+  <v-btn
+          v-if="props.value"
+          rounded="lg"
+          :loading="Boolean(loading)"
+          size="large">{{ value }}
+  </v-btn>
+  <v-btn v-else icon="" variant="text">
+    <slot></slot>
+  </v-btn>
 </template>
 
 <script setup lang="ts">
-export interface buttonComponentProps {
-  value: string;
+
+interface buttonComponentProps {
+  value?: string;
   loading?: boolean;
 }
 
-const props = withDefaults(defineProps<buttonComponentProps>(), {
-  loading: false
-});
+const props = defineProps<buttonComponentProps>();
 </script>
