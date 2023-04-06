@@ -1,10 +1,26 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import toolComponent from "./Tool.vue";
-import wrapperComponent from "../../.storybook/wrapperComponent.vue";
+import { settingsStore } from "@/store/settingsStore";
 
 const meta = {
   title: "UI/Tool",
   component: toolComponent,
+  render: (args) => ({
+    components: { toolComponent },
+    setup() {
+      const arr = new Array(10).fill({})
+      const initialState = {
+        editingIndex: 4,
+        editingDifficult: "easy",
+        dictionary: {easy:[...arr]}
+      };
+      const store = settingsStore();
+      store.$patch({...initialState});
+      return { args };
+    },
+    template: `
+			<tool-component v-bind="args"/>`
+  }),
   tags: ["autodocs"],
   args: {
     included: false,
@@ -26,6 +42,7 @@ export const Default: Story = {
 export const Included: Story = {
   args: {
     ...Default.args,
+    index: 1,
     included: true
   }
 };
@@ -33,6 +50,7 @@ export const Included: Story = {
 export const Excluded: Story = {
   args: {
     ...Default.args,
+    index: 2,
     excluded: true
   }
 };
@@ -40,19 +58,14 @@ export const Excluded: Story = {
 export const Edited: Story = {
   args: {
     ...Default.args,
+    index: 3,
     edited: true
   }
 };
 
 export const Editable: Story = {
-  render: () => ({
-    components: { toolComponent, wrapperComponent },
-    template: `
-			<wrapper-component :id="'settings'"
-			                   :args="{editingIndex:10,editingDifficult:'medium',dictionary:{medium:new Array(10)}}"
-			                   :action="'startEdit'">
-			<tool-component :difficult="'medium'" :index="10"/>
-			</wrapper-component>
-    `
-  })
+  args: {
+    ...Default.args,
+    index: 4
+  }
 };
