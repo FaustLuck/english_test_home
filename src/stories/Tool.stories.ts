@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import toolComponent from "./Tool.vue";
+import wrapperComponent from "../../.storybook/wrapperComponent.vue";
 
 const meta = {
   title: "UI/Tool",
@@ -8,8 +9,7 @@ const meta = {
   args: {
     included: false,
     edited: false,
-    excluded: false,
-    editing: false
+    excluded: false
   }
 }satisfies Meta<typeof toolComponent>;
 
@@ -45,9 +45,14 @@ export const Edited: Story = {
 };
 
 export const Editable: Story = {
-  args: {
-    index: 10,
-    difficult: "medium",
-    editing: true
-  }
+  render: () => ({
+    components: { toolComponent, wrapperComponent },
+    template: `
+			<wrapper-component :id="'settings'"
+			                   :args="{editingIndex:10,editingDifficult:'medium',dictionary:{medium:new Array(10)}}"
+			                   :action="'startEdit'">
+			<tool-component :difficult="'medium'" :index="10"/>
+			</wrapper-component>
+    `
+  })
 };
