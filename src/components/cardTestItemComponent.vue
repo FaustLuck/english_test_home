@@ -55,19 +55,21 @@ export default {
     type: String,
     checked: Boolean,
     right: Boolean,
-    excluded: Boolean,
-    editing: Boolean
+    excluded: Boolean
   },
   computed: {
     ...mapState(mainStore, ["mode"]),
     ...mapState(testStore, ["SPEECH"]),
-    ...mapState(settingsStore, ["editingItem"]),
+    ...mapState(settingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
     name() {
       if (this.type === "question") return null;
       return `${this.difficult}${this.index}`;
+    },
+    editing() {
+      return this.difficult === this.editingDifficult && this.index === this.editingIndex;
     },
     rightColor() {
       return this.right && this.type !== "question" && !["settings", "test"].includes(this.mode);

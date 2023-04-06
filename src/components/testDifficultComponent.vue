@@ -51,7 +51,6 @@
               :excluded="item?.excluded"
               :edited="item?.edited"
               :included="item?.included"
-              :editing="difficult === editingDifficult && index === editingIndex"
       ></tool-component>
     </item-component>
   </title-component>
