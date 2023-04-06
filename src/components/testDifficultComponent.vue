@@ -1,54 +1,57 @@
 <template>
   <title-component
-    v-if="partAnswers?.length"
-    :title="difficult"
-    :must-is-open="mode!=='settings'"
-    :must-is-top="mode!=='settings'"
+          v-if="partAnswers?.length"
+          :title="difficult"
+          :must-is-open="mode!=='settings'"
+          :must-is-top="mode!=='settings'"
   >
     <item-component
-      v-for="(item,index) of partAnswers"
-      :key="item.question"
-      :test-item="item"
-      @dblclick="startEdit(index, difficult)"
+            v-for="(item,index) of partAnswers"
+            :key="item.question"
+            :test-item="item"
+            @dblclick="startEdit(index, difficult)"
     >
       <div class="item__column">
         <card-test-item-component
-          :item="item.question"
-          :difficult="difficult"
-          :index="index"
-          :excluded="item?.excluded"
-          :type="'question'"
+                :item="item.question"
+                :difficult="difficult"
+                :index="index"
+                :excluded="item?.excluded"
+                :type="'question'"
+                :editing="difficult === editingDifficult && index === editingIndex"
         ></card-test-item-component>
       </div>
       <div class="item__column">
         <card-test-item-component
-          :type="'answer'"
-          :difficult="difficult"
-          :index="index"
-          :item="item.answer"
-          :excluded="item?.excluded"
-          :checked="item.answer===item?.choice"
-          :right="true"
+                :type="'answer'"
+                :difficult="difficult"
+                :index="index"
+                :item="item.answer"
+                :excluded="item?.excluded"
+                :checked="item.answer===item?.choice"
+                :right="true"
+                :editing="difficult === editingDifficult && index === editingIndex"
         >
         </card-test-item-component>
         <card-test-item-component
-          v-if="item?.choice && item.answer!==item?.choice"
-          :type="'answer'"
-          :difficult="difficult"
-          :index="index"
-          :item="item?.choice"
-          :checked="true"
-          :right="false"
+                v-if="item?.choice && item.answer!==item?.choice"
+                :type="'answer'"
+                :difficult="difficult"
+                :index="index"
+                :item="item?.choice"
+                :checked="true"
+                :right="false"
         >
         </card-test-item-component>
       </div>
       <tool-component
-        v-if="mode==='settings'"
-        :index="index"
-        :difficult="difficult"
-        :excluded="item?.excluded"
-        :edited="item?.edited"
-        :included="item?.included"
+              v-if="mode==='settings'"
+              :index="index"
+              :difficult="difficult"
+              :excluded="item?.excluded"
+              :edited="item?.edited"
+              :included="item?.included"
+              :editing="difficult === editingDifficult && index === editingIndex"
       ></tool-component>
     </item-component>
   </title-component>
@@ -63,7 +66,7 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "testDifficultComponent",
   components: {
-    toolComponent: defineAsyncComponent(() => import("@/components/toolComponent.vue")),
+    toolComponent: defineAsyncComponent(() => import("@/stories/Tool.vue")),
     titleComponent: defineAsyncComponent(() => import("@/components/titleComponent.vue")),
     cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent.vue")),
     itemComponent: defineAsyncComponent(() => import("@/components/itemComponent.vue"))
@@ -73,7 +76,8 @@ export default {
     partAnswers: Array,
   },
   computed: {
-    ...mapState(mainStore, ["mode"])
+    ...mapState(mainStore, ["mode"]),
+    ...mapState(settingsStore, ["editingDifficult", "editingIndex"]),
   },
   methods: {
     ...mapActions(settingsStore, ["startEdit"])

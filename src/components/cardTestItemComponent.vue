@@ -1,21 +1,21 @@
 <template>
   <label
-    v-if="!editing"
-    class="item"
-    :class="{
+          v-if="!editing"
+          class="item"
+          :class="{
     speech:!isSpeech,
     excluded:excluded
   }">
     <a v-if="isSpeech">🔉</a>
     <input
-      @change="update"
-      @click="toVoice"
-      v-if="mode!=='settings'"
-      v-show="type==='answer'"
-      type="radio"
-      :name="name"
-      :checked="checked"
-      :disabled="mode!=='test'"
+            @change="update"
+            @click="toVoice"
+            v-if="mode!=='settings'"
+            v-show="type==='answer'"
+            type="radio"
+            :name="name"
+            :checked="checked"
+            :disabled="mode!=='test'"
     />
     <span class="item__title"
           :class="{
@@ -25,10 +25,10 @@
   </label>
   <label class="item speech" v-else>
     <input-component
-      :value="editingItem[type]"
-      @changes="({newValue})=>editingItem[type] = newValue"
-      @keydown.esc="clearEdit"
-      @keydown.enter="finishEdit"
+            :value="editingItem[type]"
+            @changes="({newValue})=>editingItem[type] = newValue"
+            @keydown.esc="clearEdit"
+            @keydown.enter="finishEdit"
     ></input-component>
   </label>
 </template>
@@ -55,21 +55,19 @@ export default {
     type: String,
     checked: Boolean,
     right: Boolean,
-    excluded: Boolean
+    excluded: Boolean,
+    editing: Boolean
   },
   computed: {
     ...mapState(mainStore, ["mode"]),
     ...mapState(testStore, ["SPEECH"]),
-    ...mapState(settingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
+    ...mapState(settingsStore, ["editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
     name() {
       if (this.type === "question") return null;
       return `${this.difficult}${this.index}`;
-    },
-    editing() {
-      return this.difficult === this.editingDifficult && this.index === this.editingIndex;
     },
     rightColor() {
       return this.right && this.type !== "question" && !["settings", "test"].includes(this.mode);
