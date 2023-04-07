@@ -20,15 +20,13 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
+:root{
+  font-family: 'serif';
+  font-size: 30px;
 }
 
-body {
-  font-family: 'serif';
-  background-color: #FFDAB9;
-  font-size: 2.5rem;
+html {
+
 
   @media screen and (max-width: 768px) {
     font-size: 1.5rem;
@@ -36,6 +34,10 @@ body {
   @media screen and (max-width: 576px) {
     font-size: 1rem;
   }
+}
+
+body {
+  background-color: #FFDAB9;
 
   &.fail {
     background-color: red;
