@@ -20,14 +20,12 @@ export default {
 </script>
 
 <style lang="scss">
-:root{
+:root {
   font-family: 'serif';
   font-size: 30px;
 }
 
 html {
-
-
   @media screen and (max-width: 768px) {
     font-size: 1.5rem;
   }
