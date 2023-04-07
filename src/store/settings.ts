@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { requestGet, requestPost, sendFile } from "@/utils/requests.js";
-import { Dictionary, Limits, Record } from "@/types/dictionary";
+import { Dictionary, Limits, Record } from "@/types/settings";
 import { reactive, ref } from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {
@@ -50,7 +50,7 @@ export const useSettingsStore = defineStore("settings", () => {
       delete newItem.edited;
       delete newItem.oldQuestion;
       delete newItem.oldAnswer;
-      item = newItem;
+      dictionary[editingDifficult.value][editingIndex.value] = newItem;
     } else {
       item.edited = true;
       if (!item?.oldAnswer) item.oldAnswer = item.answer;
