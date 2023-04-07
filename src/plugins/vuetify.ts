@@ -7,6 +7,17 @@ import * as directives from "vuetify/directives";
 
 import { mdi, aliases } from "vuetify/iconsets/mdi";
 
+const customLight = {
+  light: true,
+  colors: {
+    primary: "#FFDAB9"
+  },
+  variables: {
+    "medium-emphasis-opacity": .87,
+    "high-emphasis-opacity": 1
+  }
+};
+
 export default createVuetify({
   components,
   directives,
@@ -17,4 +28,10 @@ export default createVuetify({
       mdi,
     }
   },
+  theme: {
+    defaultTheme: "customLight",
+    themes: {
+      customLight
+    }
+  }
 });

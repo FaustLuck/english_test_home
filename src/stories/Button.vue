@@ -2,7 +2,7 @@
   <v-btn
           v-if="props.value"
           rounded="lg"
-          color="#FFDAB9"
+          color="primary"
           :loading="Boolean(loading)"
           size="large">{{ value }}
   </v-btn>
