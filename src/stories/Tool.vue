@@ -26,9 +26,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed, defineAsyncComponent } from "vue";
 import { storeToRefs } from "pinia";
-import ButtonComponent from "@/stories/Button.vue";
 import { useSettingsStore } from "@/store/settings";
 
 interface toolComponentProps {
@@ -38,6 +37,8 @@ interface toolComponentProps {
   edited?: boolean,
   included?: boolean
 }
+
+const ButtonComponent = defineAsyncComponent(() => import("@/stories/Button.vue"));
 
 const props = defineProps<toolComponentProps>();
 const store = useSettingsStore();
