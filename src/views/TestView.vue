@@ -23,10 +23,12 @@ const { isLoading } = storeToRefs(mainStore());
 const { sub } = storeToRefs(authStore());
 const { test, isTesting } = storeToRefs(useTestStore());
 
+const router = useRouter();
+
 watch(isTesting, async (value) => {
   if (value) return;
   await useTestStore().sendAnswers(sub.value);
-  await useRouter().push({ name: "result" });
+  await router.push({ name: "result" });
 });
 
 </script>
