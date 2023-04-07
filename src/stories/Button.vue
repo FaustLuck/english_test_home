@@ -6,8 +6,7 @@
           :loading="Boolean(loading)"
           size="large">{{ value }}
   </v-btn>
-  <v-btn v-else icon="" variant="text">
-    <slot></slot>
+  <v-btn v-else icon="" :class="icon" variant="text">
   </v-btn>
 </template>
 
@@ -16,6 +15,7 @@
 interface buttonComponentProps {
   value?: string;
   loading?: boolean;
+  icon?: string;
 }
 
 const props = defineProps<buttonComponentProps>();

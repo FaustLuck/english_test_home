@@ -3,30 +3,26 @@
           v-show="!editing && !excluded"
           @click="editStart"
           title="Редактировать"
-  >
-    <img src="@/assets/edit.svg" alt="Редактировать"/>
-  </button-component>
+          icon="mdi mdi-pencil-outline"
+  />
   <button-component
           v-show="!editing && !excluded"
           @click="deleteItem"
           title="Удалить"
-  >
-    <img src="@/assets/delete.svg" alt="Удалить"/>
-  </button-component>
+          icon="mdi mdi-delete"
+  />
   <button-component
           v-show="editing"
           @click="editFinish"
           title="Готово"
-  >
-    <img src="@/assets/done.svg" alt="Готово"/>
-  </button-component>
+          icon="mdi mdi-check"
+  />
   <button-component
           v-show="!editing && (excluded || edited || included)"
           @click="undoChanges"
           title="Отменить"
-  >
-    <img src="@/assets/undo.svg" alt="Отменить"/>
-  </button-component>
+          icon="mdi mdi-undo"
+  />
 </template>
 
 <script setup lang="ts">
