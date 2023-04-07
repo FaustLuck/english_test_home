@@ -53,7 +53,7 @@
 import { mapState, mapActions } from "pinia";
 import { authStore } from "@/store/authStore";
 import { defineAsyncComponent } from "vue";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings";
 import { mainStore } from "@/store/mainStore";
 
 export default {
@@ -76,12 +76,12 @@ export default {
     }
   },
   computed: {
-    ...mapState(settingsStore, ["timer", "dictionary", "limits", "variants"]),
+    ...mapState(useSettingsStore, ["timer", "dictionary", "limits", "variants"]),
     ...mapState(authStore, ["sub"]),
     ...mapState(mainStore, ["orderDifficult", "isLoading"]),
   },
   methods: {
-    ...mapActions(settingsStore, ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
+    ...mapActions(useSettingsStore, ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
     ...mapActions(mainStore, ["setLoading"]),
     changeTimer(e) {
       const {type} = e.target.dataset;

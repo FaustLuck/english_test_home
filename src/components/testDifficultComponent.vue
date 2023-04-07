@@ -59,7 +59,7 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings.ts";
 import { mainStore } from "@/store/mainStore";
 
 export default {
@@ -76,10 +76,10 @@ export default {
   },
   computed: {
     ...mapState(mainStore, ["mode"]),
-    ...mapState(settingsStore, ["editingDifficult", "editingIndex"]),
+    ...mapState(useSettingsStore, ["editingDifficult", "editingIndex"]),
   },
   methods: {
-    ...mapActions(settingsStore, ["startEdit"])
+    ...mapActions(useSettingsStore, ["startEdit"])
   }
 };
 </script>

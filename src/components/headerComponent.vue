@@ -25,7 +25,7 @@ import { mapActions, mapState } from "pinia";
 import { authStore } from "@/store/authStore";
 import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings.ts";
 
 export default {
   name: "headerComponent",
@@ -38,10 +38,10 @@ export default {
     ...mapState(testStore, ["isTesting"]),
     ...mapState(authStore, ["sub"]),
     ...mapState(mainStore, ["mode", "isLoading"]),
-    ...mapState(settingsStore, ["isSaved"])
+    ...mapState(useSettingsStore, ["isSaved"])
   },
   methods: {
-    ...mapActions(settingsStore, ["saveChanges"]),
+    ...mapActions(useSettingsStore, ["saveChanges"]),
     ...mapActions(mainStore, ["setLoading"]),
     ...mapActions(testStore, ["getTest", "changeTestStatus"]),
     async startTest() {

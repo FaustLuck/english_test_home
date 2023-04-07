@@ -60,7 +60,7 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings.ts";
 import { mainStore } from "@/store/mainStore";
 import { authStore } from "@/store/authStore";
 
@@ -89,7 +89,7 @@ export default {
     ...mapState(authStore, ["sub"])
   },
   methods: {
-    ...mapActions(settingsStore, ["addItem", "sendNewDictionaryFromClipboard"]),
+    ...mapActions(useSettingsStore, ["addItem", "sendNewDictionaryFromClipboard"]),
     ...mapActions(mainStore, ["setOpen", "setLoading"]),
     clear() {
       this.question = "";

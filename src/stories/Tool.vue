@@ -32,8 +32,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
-import { settingsStore } from "@/store/settingsStore";
 import ButtonComponent from "@/stories/Button.vue";
+import { useSettingsStore } from "@/store/settings";
 
 interface toolComponentProps {
   difficult: string,
@@ -44,7 +44,7 @@ interface toolComponentProps {
 }
 
 const props = defineProps<toolComponentProps>();
-const store = settingsStore();
+const store = useSettingsStore();
 
 const { editingDifficult, editingIndex } = storeToRefs(store);
 const editing = computed(() => {

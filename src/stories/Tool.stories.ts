@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import toolComponent from "./Tool.vue";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings";
 
 const meta = {
   title: "UI/Tool",
@@ -8,14 +8,14 @@ const meta = {
   render: (args) => ({
     components: { toolComponent },
     setup() {
-      const arr = new Array(10).fill({})
+      const arr = new Array(10).fill({});
       const initialState = {
         editingIndex: 4,
         editingDifficult: "easy",
-        dictionary: {easy:[...arr]}
+        dictionary: { easy: [...arr] }
       };
-      const store = settingsStore();
-      store.$patch({...initialState});
+      const store = useSettingsStore();
+      store.$patch({ ...initialState });
       return { args };
     },
     template: `

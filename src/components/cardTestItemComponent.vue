@@ -37,7 +37,7 @@
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { testStore } from "@/store/testStore";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings.ts";
 import { mainStore } from "@/store/mainStore";
 
 export default {
@@ -60,7 +60,7 @@ export default {
   computed: {
     ...mapState(mainStore, ["mode"]),
     ...mapState(testStore, ["SPEECH"]),
-    ...mapState(settingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
+    ...mapState(useSettingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {
       return this.mode === "test" && /[a-zA-Z]/g.test(this.item);
     },
@@ -79,7 +79,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(settingsStore, ["clearEdit", "finishEdit"]),
+    ...mapActions(useSettingsStore, ["clearEdit", "finishEdit"]),
     update() {
       if (this.type !== "answer") return;
       this.$emit("updateChoice", this.item);
