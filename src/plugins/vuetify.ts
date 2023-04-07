@@ -10,7 +10,7 @@ import { mdi, aliases } from "vuetify/iconsets/mdi";
 const customLight = {
   light: true,
   colors: {
-    primary: "#FFDAB9"
+    default: "#FFDAB9"
   },
   variables: {
     "medium-emphasis-opacity": .87,
