@@ -1,31 +1,8 @@
 <template>
-  <preloader-component v-if="isLoading"></preloader-component>
-  <div v-else-if="isTesting">
-    <item-component
-      v-for="(item,index) of test"
-      :key="item.key"
-    >
-      <div class="card__column">
-        <card-test-item-component
-          :item="item.question"
-          :difficult="item.difficult"
-          :index="index"
-          :type="'question'"
-        ></card-test-item-component>
-      </div>
-      <div class="card__column">
-        <card-test-item-component
-          v-for="variant of item.answer"
-          :key="variant"
-          :item="variant"
-          :difficult="item.difficult"
-          :index="index"
-          :type="'answer'"
-          @updateChoice="saveChoice(variant,item.key)"
-        ></card-test-item-component>
-      </div>
-    </item-component>
-  </div>
+  <v-container class="pa-0">
+    <card-component v-for="i of 3" :key="i" :loading="isLoading"/>
+    <card-component v-for="(item) of test" :key="item.key" :item="item"/>
+  </v-container>
 </template>
 
 <script>
@@ -41,6 +18,12 @@ export default {
     cardTestItemComponent: defineAsyncComponent(() => import("@/components/cardTestItemComponent.vue")),
     itemComponent: defineAsyncComponent(() => import("@/components/itemComponent.vue")),
     preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue")),
+    CardComponent: defineAsyncComponent(() => import("@/stories/CardTest.vue"))
+  },
+  data() {
+    return {
+      radioCheck: null,
+    };
   },
   computed: {
     ...mapState(authStore, ["sub"]),
@@ -60,6 +43,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-</style>
