@@ -42,8 +42,8 @@ import { getDate } from "@/utils/utils";
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { authStore } from "@/store/authStore";
 import { statisticStore } from "@/store/statisticStore";
-import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "testInfoComponent",
@@ -84,7 +84,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(testStore, ["timeSpent", "result", "timeLeft"]),
+    ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
     ...mapState(mainStore, ["orderDifficult", "isLoading", "mode"]),
     ...mapState(authStore, ["name"]),
     length() {
@@ -113,7 +113,7 @@ export default {
   },
   methods: {
     ...mapActions(statisticStore, ["getResult"]),
-    ...mapActions(testStore, ["checkTest", "saveTest", "getVerifiedTest"]),
+    ...mapActions(useTestStore, ["checkTest", "saveTest", "getVerifiedTest"]),
     ...mapActions(mainStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;

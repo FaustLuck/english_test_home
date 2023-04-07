@@ -23,9 +23,9 @@
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
 import { authStore } from "@/store/authStore";
-import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
-import { useSettingsStore } from "@/store/settings.ts";
+import { useSettingsStore } from "@/store/settings";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "headerComponent",
@@ -35,7 +35,7 @@ export default {
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
-    ...mapState(testStore, ["isTesting"]),
+    ...mapState(useTestStore, ["isTesting"]),
     ...mapState(authStore, ["sub"]),
     ...mapState(mainStore, ["mode", "isLoading"]),
     ...mapState(useSettingsStore, ["isSaved"])
@@ -43,7 +43,7 @@ export default {
   methods: {
     ...mapActions(useSettingsStore, ["saveChanges"]),
     ...mapActions(mainStore, ["setLoading"]),
-    ...mapActions(testStore, ["getTest", "changeTestStatus"]),
+    ...mapActions(useTestStore, ["getTest", "changeTestStatus"]),
     async startTest() {
       if (this.mode !== "test") this.$router.replace({name: "test"});
       this.setLoading(true);

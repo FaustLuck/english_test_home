@@ -11,8 +11,8 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { testStore } from "@/store/testStore";
 import { mainStore } from "@/store/mainStore";
+import { useTestStore } from "@/store/test";
 
 export default {
   name: "layoutComponent",
@@ -32,7 +32,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(testStore, ["timeLeft"]),
+    ...mapState(useTestStore, ["timeLeft"]),
     ...mapState(mainStore, ["mode", "isOpen"])
   },
   watch: {

@@ -24,7 +24,7 @@
             <v-radio v-for="variant of item.answer" :key="variant"
                      :value="variant" :label="variant"
                      class="ma-1"
-                     @change="testStore().saveChoice(variant,item.key)"/>
+                     @change="useTestStore().saveChoice(variant,item.key)"/>
           </v-radio-group>
         </v-col>
       </v-row>
@@ -35,17 +35,15 @@
 
 <script setup lang="ts">
 import { TestItem } from "@/types/test";
-import { testStore } from "@/store/testStore";
-import { storeToRefs } from "pinia";
+import { useTestStore } from "@/store/test";
 
 interface cardComponentProps {
   loading?: boolean;
   item?: TestItem;
 }
 
-const { test } = storeToRefs(testStore());
-
 const props = defineProps<cardComponentProps>();
+
 </script>
 
 <style lang="scss" scoped>
