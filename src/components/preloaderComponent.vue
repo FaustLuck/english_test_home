@@ -1,24 +1,13 @@
 <template>
-  <!--  <div class="container__preloader">-->
-  <v-layout class="container__preloader">
+  <v-layout v-if="isLoading" class="h-screen w-100 d-flex align-center justify-center">
     <v-progress-circular indeterminate :size="128" :width="12"></v-progress-circular>
   </v-layout>
-  <!--  </div>-->
+
 </template>
-<script>
-export default {
-  name: "preloaderComponent"
-};
+<script setup lang="ts">
+import { mainStore } from "@/store/mainStore";
+import { storeToRefs } from "pinia";
+
+const { isLoading } = storeToRefs(mainStore());
+
 </script>
-<style lang="scss" scoped>
-.container__preloader {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-</style>

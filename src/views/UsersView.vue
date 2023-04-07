@@ -1,6 +1,6 @@
 <template>
-  <preloader-component v-if="!users"></preloader-component>
-  <section class="users" v-else>
+  <preloader-component></preloader-component>
+  <section class="users" v-if="users">
     <div class="users__container" v-show="!activeUserSub">
       <user-card-component
         v-for="user of users"
@@ -18,6 +18,7 @@ import { mapState, mapActions } from "pinia";
 import { authStore } from "@/store/authStore";
 import { statisticStore } from "@/store/statisticStore";
 import { defineAsyncComponent } from "vue";
+import { mainStore } from "@/store/mainStore";
 
 export default {
   name: "StatisticView",
@@ -36,6 +37,7 @@ export default {
   },
   methods: {
     ...mapActions(statisticStore, ["getUsers"]),
+    ...mapActions(mainStore, ["setLoading"]),
     changeActiveUser(sub) {
       this.activeUserSub = sub;
       this.$router.push({name: "statistic", params: {sub: sub}});
@@ -43,6 +45,7 @@ export default {
   },
   async created() {
     await this.getUsers(this.sub);
+    this.setLoading(false);
   }
 };
 </script>

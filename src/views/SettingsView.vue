@@ -1,6 +1,6 @@
 <template>
-  <preloader-component v-if="isLoading"></preloader-component>
-  <div class="settings" v-else>
+  <preloader-component></preloader-component>
+  <div class="settings" v-if="!isLoading">
     <div class="settings__row">
       <span>Ограничение по времени: </span>
       <div>
@@ -106,6 +106,7 @@ export default {
   async mounted() {
     if (!this.timer) {
       await this.getSettings(this.sub);
+      this.setLoading(false);
     } else {
       this.setSettingsToLocal();
     }

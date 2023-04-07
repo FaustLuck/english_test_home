@@ -1,6 +1,6 @@
 <template>
-  <preloader-component v-if="isLoading && mode==='result'"></preloader-component>
-  <section v-else
+  <preloader-component></preloader-component>
+  <section v-if="!isLoading && mode==='result'"
            class="info"
            :class="{    fail:isFail && mode!=='result' && !displayMode,
     congratulation:isCongratulation && mode!=='result' && !displayMode  }"
@@ -147,6 +147,7 @@ export default {
     if (this.mode === "result") {
       await this.getVerifiedTest(this.sub);
       this.displayMode = 2;
+      this.setLoading(false);
       if (this.sub) {
         await this.saveTest(this.sub);
       }

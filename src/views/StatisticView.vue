@@ -1,6 +1,6 @@
 <template>
-  <preloader-component v-if="!dateList"></preloader-component>
-  <div class="statistic" v-else>
+  <preloader-component></preloader-component>
+  <div class="statistic" v-if="dateList">
     <date-list-component
       v-for="(count,datestamp) in dateList"
       :key="datestamp"
@@ -17,6 +17,8 @@
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
 import { statisticStore } from "@/store/statisticStore";
+import { mainStore } from "@/store/mainStore";
+
 export default {
   name: "StatisticUserView",
   components: {
@@ -29,11 +31,13 @@ export default {
   computed: {
     ...mapState(statisticStore, ["dateList"]),
   },
-  methods:{
-    ...mapActions(statisticStore,['getDateList'])
+  methods: {
+    ...mapActions(statisticStore, ["getDateList"]),
+    ...mapActions(mainStore, ["setLoading"])
   },
- async created() {
-     await this.getDateList(this.$route.params.sub)
+  async created() {
+    await this.getDateList(this.$route.params.sub);
+    this.setLoading(false);
   }
 };
 </script>
