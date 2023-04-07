@@ -1240,6 +1240,11 @@
   resolved "https://registry.npmjs.org/@juggle/resize-observer/-/resize-observer-3.4.0.tgz"
   integrity sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==
 
+"@mdi/font@^7.2.96":
+  version "7.2.96"
+  resolved "https://registry.yarnpkg.com/@mdi/font/-/font-7.2.96.tgz#af800d9fe3b424f85ad45e9baa755bd003ab4986"
+  integrity sha512-e//lmkmpFUMZKhmCY9zdjRe4zNXfbOIJnn6xveHbaV2kSw5aJ5dLXUxcRt1Gxfi7ZYpFLUWlkG2MGSFAiqAu7w==
+
 "@mdx-js/react@^2.1.5":
   version "2.3.0"
   resolved "https://registry.npmjs.org/@mdx-js/react/-/react-2.3.0.tgz"
@@ -1283,9 +1288,9 @@
   resolved "https://registry.npmjs.org/@sinclair/typebox/-/typebox-0.25.24.tgz"
   integrity sha512-XJfwUVUKDHF5ugKwIcxEgc9k8b7HbznCp6eUfWgu710hMPNIO4aw4/zB5RogDQz8nd6gyCDpU9O/m6qYEWY6yQ==
 
-"@storybook/addon-actions@7.0.2":
+"@storybook/addon-actions@7.0.2", "@storybook/addon-actions@^7.0.2":
   version "7.0.2"
-  resolved "https://registry.npmjs.org/@storybook/addon-actions/-/addon-actions-7.0.2.tgz"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-7.0.2.tgz#720d764ec77e395a92be50f0cd0a1baa75a58518"
   integrity sha512-rcj39u9MrmzsrDWYt1zsoVxrogZ1Amrv9xkEofEY/QKUr2R3xpHhTALveY9BKIlG1GoE8zLlLoP2k4nz3sNNwQ==
   dependencies:
     "@storybook/client-logger" "7.0.2"
