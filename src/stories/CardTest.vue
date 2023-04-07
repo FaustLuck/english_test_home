@@ -17,14 +17,14 @@
     <v-card class="pa-3 ma-3" color="default" elevation="5" rounded="lg">
       <v-row class="px-5 py-3">
         <v-col align-self="center" class="pa-0">
-          {{ item?.question }}
+          {{ item.question }}
         </v-col>
         <v-col align-self="center" class="pa-0">
           <v-radio-group hide-details>
-            <v-radio v-for="variant of item?.answer" :key="variant"
+            <v-radio v-for="variant of item.answer" :key="variant"
                      :value="variant" :label="variant"
                      class="ma-1"
-                     @change="testStore().saveChoice(variant,item?.key)"/>
+                     @change="testStore().saveChoice(variant,item.key)"/>
           </v-radio-group>
         </v-col>
       </v-row>
