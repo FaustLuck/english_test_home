@@ -1,7 +1,11 @@
 <template>
   <v-container class="pa-0">
-    <card-component v-for="i of 3" :key="i" :loading="isLoading"/>
-    <card-component v-for="(item) of test" :key="item.key" :item="item" :loading="isLoading"/>
+    <template v-if="isLoading">
+      <card-component v-for="i of 3" :key="i"/>
+    </template>
+    <template v-else>
+      <card-component v-for="(item) of test" :key="item.key" :item="item"/>
+    </template>
   </v-container>
 </template>
 

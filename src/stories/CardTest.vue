@@ -38,30 +38,6 @@ import { TestItem } from "@/types/test";
 import { useTestStore } from "@/store/test";
 import LineLoadingComponent from '@/stories/LineLoading.vue'
 
-interface cardComponentProps {
-  loading?: boolean;
-  item?: TestItem;
-}
-
-const props = defineProps<cardComponentProps>();
+const props = defineProps<{ item?: TestItem }>();
 
 </script>
-
-<style lang="scss" scoped>
-.glow-text {
-  animation: glow 1.5s ease-in-out infinite;
-  background: linear-gradient(90deg, #FFDAB9 10%, rgb(255, 255, 255), #FFDAB9 90%);
-  color: transparent;
-  user-select: none;
-  border-radius: 8px;
-}
-
-@keyframes glow {
-  from, to {
-    opacity: .5;
-  }
-  50% {
-    opacity: 0;
-  }
-}
-</style>
