@@ -4,10 +4,7 @@ import cardComponent from "@/stories/CardTest.vue";
 const meta = {
   title: "UI/Card",
   component: cardComponent,
-  tags: ["autodocs"],
-  args: {
-    loading: true
-  }
+  tags: ["autodocs"]
 }satisfies Meta<typeof cardComponent>;
 
 export default meta;

@@ -1,20 +1,20 @@
 <template>
 
-  <template v-if="loading">
-    <v-card class="pa-3 ma-3" color="default" elevation="5" rounded="lg">
+  <template v-if="!item">
+    <v-card class="pa-3 my-3" color="default" elevation="5" rounded="lg">
       <v-row class="px-5 py-3">
         <v-col align-self="center" class="d-flex flex-column pa-0">
-          <v-label class="glow-text ma-1">Loading... Loading...</v-label>
+          <line-loading-component/>
         </v-col>
         <v-col align-self="center" class="d-flex flex-column pa-0">
-          <v-label v-for="i of 4" :key="i" class="glow-text ma-1">Loading... Loading...</v-label>
+          <line-loading-component v-for="i of 4" :key="i"/>
         </v-col>
       </v-row>
     </v-card>
   </template>
 
   <template v-else-if="item">
-    <v-card class="pa-3 ma-3" color="default" elevation="5" rounded="lg">
+    <v-card class="pa-3 my-3" color="default" elevation="5" rounded="lg">
       <v-row class="px-5 py-3">
         <v-col align-self="center" class="pa-0">
           {{ item.question }}
@@ -36,6 +36,7 @@
 <script setup lang="ts">
 import { TestItem } from "@/types/test";
 import { useTestStore } from "@/store/test";
+import LineLoadingComponent from '@/stories/LineLoading.vue'
 
 interface cardComponentProps {
   loading?: boolean;
