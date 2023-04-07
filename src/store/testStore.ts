@@ -24,7 +24,7 @@ export const testStore = defineStore("test", {
       this.isTesting = isTesting;
     },
     saveChoice(choice, key) {
-      let [item] = this.test.filter(el => el.key === key);
+      let item = this.test.find(el => el.key === key);
       item.choice = choice;
     },
     saveTimerSec(timeLeft: number) {
