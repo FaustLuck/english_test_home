@@ -14,8 +14,7 @@ const meta = {
         editingDifficult: "easy",
         dictionary: { easy: [...arr] }
       };
-      const store = useSettingsStore();
-      store.$patch({ ...initialState });
+      useSettingsStore().$patch({ ...initialState });
       return { args };
     },
     template: `
