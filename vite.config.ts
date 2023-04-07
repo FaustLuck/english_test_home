@@ -1,6 +1,5 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import vuetify from "vite-plugin-vuetify";
 import { resolve } from "path";
 
 const isProd = process.env.NODE_ENV !== "development";
@@ -8,9 +7,7 @@ const isProd = process.env.NODE_ENV !== "development";
 export default defineConfig(() => {
   return {
     base: (isProd) ? "/english_test_home/" : "http://localhost/",
-    plugins: [vue(), vuetify({
-      styles: { configFile: "src/override.scss" }
-    })],
+    plugins: [vue()],
     server: { port: 8081 },
     resolve: {
       alias: [
