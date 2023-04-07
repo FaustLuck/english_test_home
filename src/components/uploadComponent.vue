@@ -13,7 +13,7 @@
 <script lang="ts">
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { defineAsyncComponent } from "vue";
-import { settingsStore } from "@/store/settingsStore";
+import { useSettingsStore } from "@/store/settings";
 import { mainStore } from "@/store/mainStore";
 import { authStore } from "@/store/authStore";
 
@@ -30,7 +30,7 @@ export default {
     ...mapState(authStore, ["sub"])
   },
   methods: {
-    ...mapActions(settingsStore, ["sendNewDictionary"]),
+    ...mapActions(useSettingsStore, ["sendNewDictionary"]),
     ...mapActions(mainStore, ["setLoading"]),
     async upload(e) {
       this.setLoading(true);
