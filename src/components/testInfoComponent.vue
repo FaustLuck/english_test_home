@@ -40,11 +40,11 @@
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 import { mapActions, mapState } from "pinia/dist/pinia";
-import { statisticStore } from "@/store/statisticStore";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common";
 import { useLoadingStore } from "@/store/loading";
+import { useHistoryStore } from "@/store/history";
 
 export default {
   name: "testInfoComponent",
@@ -114,7 +114,7 @@ export default {
     },
   },
   methods: {
-    ...mapActions(statisticStore, ["getResult"]),
+    ...mapActions(useHistoryStore, ["getResult"]),
     ...mapActions(useTestStore, ["checkTest", "saveTest", "getVerifiedTest"]),
     ...mapActions(useLoadingStore, ["setLoading"]),
     async changeDisplayMode(e) {

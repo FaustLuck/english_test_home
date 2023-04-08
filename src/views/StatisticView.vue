@@ -16,8 +16,8 @@
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { statisticStore } from "@/store/statisticStore";
 import { useLoadingStore } from "@/store/loading";
+import { useHistoryStore } from "@/store/history";
 
 export default {
   name: "StatisticUserView",
@@ -29,10 +29,10 @@ export default {
     sub: String
   },
   computed: {
-    ...mapState(statisticStore, ["dateList"]),
+    ...mapState(useHistoryStore, ["dateList"]),
   },
   methods: {
-    ...mapActions(statisticStore, ["getDateList"]),
+    ...mapActions(useHistoryStore, ["getDateList"]),
     ...mapActions(useLoadingStore, ["setLoading"])
   },
   async created() {

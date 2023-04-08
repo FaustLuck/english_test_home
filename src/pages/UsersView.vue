@@ -16,9 +16,9 @@ import { defineAsyncComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 
-import { statisticStore } from "@/store/statisticStore";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
+import { useHistoryStore } from "@/store/history";
 
 const CardUser = defineAsyncComponent(() => import("@/stories/CardUser.vue"));
 
@@ -30,12 +30,12 @@ function changeActiveUser(sub: string) {
   router.push({ name: "statistic", params: { sub: sub } });
 }
 
-const { users } = storeToRefs(statisticStore());
+const { users } = storeToRefs(useHistoryStore());
 const { sub } = storeToRefs(useAuthStore());
 
 onMounted(async () => {
-  if (users.value) return;
-  await statisticStore().getUsers(sub.value);
+  if (users.value.length) return;
+  await useHistoryStore().getUsers(sub.value);
   useLoadingStore().setLoading(false);
 });
 
