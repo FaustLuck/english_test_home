@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import cardComponent from "@/stories/CardTest.vue";
 
 const meta = {
-  title: "UI/CardUser",
+  title: "UI/CardTest",
   component: cardComponent,
   tags: ["autodocs"]
 }satisfies Meta<typeof cardComponent>;
