@@ -51,10 +51,10 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { authStore } from "@/store/authStore";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings";
 import { mainStore } from "@/store/mainStore";
+import { useAuthStore } from "@/store/auth.js";
 
 export default {
   name: "SettingsView",
@@ -77,7 +77,7 @@ export default {
   },
   computed: {
     ...mapState(useSettingsStore, ["timer", "dictionary", "limits", "variants"]),
-    ...mapState(authStore, ["sub"]),
+    ...mapState(useAuthStore, ["sub"]),
     ...mapState(mainStore, ["orderDifficult", "isLoading"]),
   },
   methods: {

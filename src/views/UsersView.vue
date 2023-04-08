@@ -12,10 +12,10 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { authStore } from "@/store/authStore";
 import { statisticStore } from "@/store/statisticStore";
 import { defineAsyncComponent } from "vue";
 import { mainStore } from "@/store/mainStore";
+import { useAuthStore } from "@/store/auth.js";
 
 export default {
   name: "StatisticView",
@@ -29,7 +29,7 @@ export default {
   },
   computed: {
     ...mapState(statisticStore, ["users"]),
-    ...mapState(authStore, ["sub"])
+    ...mapState(useAuthStore, ["sub"])
   },
   methods: {
     ...mapActions(statisticStore, ["getUsers"]),

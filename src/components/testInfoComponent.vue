@@ -40,10 +40,10 @@
 import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 import { mapActions, mapState } from "pinia/dist/pinia";
-import { authStore } from "@/store/authStore";
 import { statisticStore } from "@/store/statisticStore";
 import { mainStore } from "@/store/mainStore";
 import { useTestStore } from "@/store/test";
+import { useAuthStore } from "@/store/auth.js";
 
 export default {
   name: "testInfoComponent",
@@ -86,7 +86,7 @@ export default {
   computed: {
     ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
     ...mapState(mainStore, ["orderDifficult", "isLoading", "mode"]),
-    ...mapState(authStore, ["name"]),
+    ...mapState(useAuthStore, ["name"]),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);

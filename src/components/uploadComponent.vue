@@ -15,7 +15,7 @@ import { mapActions, mapState } from "pinia/dist/pinia";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings";
 import { mainStore } from "@/store/mainStore";
-import { authStore } from "@/store/authStore";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "uploadComponent",
@@ -27,7 +27,7 @@ export default {
   },
   computed: {
     ...mapState(mainStore, ["isLoading"]),
-    ...mapState(authStore, ["sub"])
+    ...mapState(useAuthStore, ["sub"])
   },
   methods: {
     ...mapActions(useSettingsStore, ["sendNewDictionary"]),

@@ -11,16 +11,16 @@
 
 <script setup lang="ts">
 import { mainStore } from "@/store/mainStore";
-import { authStore } from "@/store/authStore";
 import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { defineAsyncComponent, watch } from "vue";
 import { useRouter } from "vue-router";
+import { useAuthStore } from "@/store/auth";
 
 const CardComponent = defineAsyncComponent(() => import("@/stories/CardTest.vue"));
 
 const { isLoading } = storeToRefs(mainStore());
-const { sub } = storeToRefs(authStore());
+const { sub } = storeToRefs(useAuthStore());
 const { test, isTesting } = storeToRefs(useTestStore());
 
 const router = useRouter();

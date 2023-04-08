@@ -22,10 +22,10 @@
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { authStore } from "@/store/authStore";
 import { mainStore } from "@/store/mainStore";
 import { useSettingsStore } from "@/store/settings";
 import { useTestStore } from "@/store/test";
+import { useAuthStore } from "@/store/auth.js";
 
 export default {
   name: "headerComponent",
@@ -36,7 +36,7 @@ export default {
   },
   computed: {
     ...mapState(useTestStore, ["isTesting"]),
-    ...mapState(authStore, ["sub"]),
+    ...mapState(useAuthStore, ["sub"]),
     ...mapState(mainStore, ["mode", "isLoading"]),
     ...mapState(useSettingsStore, ["isSaved"])
   },

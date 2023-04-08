@@ -13,16 +13,16 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { authStore } from "@/store/authStore";
 import { mainStore } from "@/store/mainStore";
+import { useAuthStore } from "@/store/auth.js";
 
 export default {
   name: "menuComponent",
   computed: {
-    ...mapState(authStore, ["isLogin", "name", "picture", "tests"])
+    ...mapState(useAuthStore, ["isLogin", "name", "picture", "tests"])
   },
   methods: {
-    ...mapActions(authStore, ["googleInitialize"]),
+    ...mapActions(useAuthStore, ["googleInitialize"]),
     ...mapActions(mainStore, ["setMenuHeight"]),
     setHeight() {
       if (!window.matchMedia("(max-width: 768px)").matches) return;
