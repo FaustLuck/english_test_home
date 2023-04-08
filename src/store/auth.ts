@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { requestGet, requestPost } from "@/utils/requests";
-import google from "google-one-tap";
 
 export const useAuthStore = defineStore("auth", () => {
   const sub = ref("");
@@ -11,6 +10,7 @@ export const useAuthStore = defineStore("auth", () => {
   const isLogin = ref(false);
 
   async function googleInitialize() {
+    // @ts-ignore
     google.accounts.id.initialize({
       client_id: import.meta.env.VITE_client_id,
       auto_select: true,
@@ -25,6 +25,7 @@ export const useAuthStore = defineStore("auth", () => {
     });
     const element = document.getElementById("google");
     if (element) {
+      // @ts-ignore
       google.accounts.id.renderButton(
         element,
         {
@@ -35,7 +36,7 @@ export const useAuthStore = defineStore("auth", () => {
         }
       );
     }
-    ;
+    // @ts-ignore
     google.accounts.id.prompt();
   }
 

@@ -2114,11 +2114,6 @@
     "@types/minimatch" "^5.1.2"
     "@types/node" "*"
 
-"@types/google-one-tap@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@types/google-one-tap/-/google-one-tap-1.2.2.tgz#366d7252e867fbbac440eefd7482ab547d6f99be"
-  integrity sha512-7uAOjukbJnzJ5P8fKPSy7QDrbLbCEyUrSH/M4K+8wnk+cbSxE3t2MmrLPX7ejUl8rDZv3oUl0/uwQRlIIrLMBA==
-
 "@types/graceful-fs@^4.1.3":
   version "4.1.6"
   resolved "https://registry.npmjs.org/@types/graceful-fs/-/graceful-fs-4.1.6.tgz"
