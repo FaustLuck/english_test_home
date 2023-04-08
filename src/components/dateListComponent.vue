@@ -1,6 +1,6 @@
 <template>
   <title-component
-    :title="`${dateString} Тестов: ${count}`" @click="getTime">
+    :title="`${dateString} Тестов: ${counter}`" @click="getTime">
     <template v-slot:default="slotProps">
       <item-preloader v-if="!timeList"></item-preloader>
       <div class="info__container" v-else>
@@ -32,7 +32,7 @@ export default {
     testInfoComponent: defineAsyncComponent(() => import("@/components/testInfoComponent.vue"))
   },
   props: {
-    count: Number,
+    counter: Number,
     datestamp: String,
     sub: String
   },

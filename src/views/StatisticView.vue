@@ -2,9 +2,9 @@
   <preloader-component></preloader-component>
   <div class="statistic" v-if="dateList">
     <date-list-component
-      v-for="(count,datestamp) in dateList"
+      v-for="(data,datestamp) in dateList"
       :key="datestamp"
-      :count="count"
+      :counter="data.counter"
       :datestamp="datestamp"
       :sub="sub"
     >
