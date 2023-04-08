@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from "@/types/statistic";
+import { User } from "@/types/history";
 
 import LineLoadingComponent from "@/stories/LineLoading.vue";
 
