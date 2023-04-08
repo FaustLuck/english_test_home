@@ -7,7 +7,7 @@ const routes = [
   {
     path: "/",
     name: "test",
-    component: () => import("@/views/TestView.vue")
+    component: () => import("@/pages/TestView.vue")
   },
   {
     path: "/result",
@@ -17,7 +17,7 @@ const routes = [
   {
     path: "/users",
     name: "users",
-    component: () => import("@/views/UsersView.vue"),
+    component: () => import("@/pages/UsersView.vue"),
     meta: { requireAuth: true }
   },
   {
