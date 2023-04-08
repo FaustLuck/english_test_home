@@ -2,7 +2,7 @@
   <template v-if="props.value">
     <v-btn
             rounded="lg"
-            color="default"
+            elevation="5"
             :loading="Boolean(loading)"
             size="large">{{ value }}
     </v-btn>
