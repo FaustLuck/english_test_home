@@ -15,7 +15,7 @@ const meta = {
     },
     template: `
 	    <v-layout>
-		    <navigation-component v-bind="args"/>
+		    <navigation-component :is-hidden="args.isHidden"/>
 	    </v-layout>
     `
   })
