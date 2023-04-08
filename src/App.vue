@@ -1,13 +1,12 @@
 <template>
-
-  <v-layout class="w-100">
+  <v-app class="w-100 bg-transparent">
     <header-component @openNav="isHidden=!isHidden"/>
     <navigation-component :is-hidden="isHidden"/>
     <v-main>
       <router-view :key="$route.fullPath"/>
     </v-main>
     <menu-component></menu-component>
-  </v-layout>
+  </v-app>
 </template>
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
@@ -42,21 +41,5 @@ body {
     pointer-events: none;
   }
 
-}
-
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-}
-
-form {
-  width: 80%;
-  max-width: 1200px;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    padding-top: 4rem;
-  }
 }
 </style>

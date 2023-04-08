@@ -1,5 +1,5 @@
 <template>
-  <v-app-bar elevation="5" color="default">
+  <v-app-bar elevation="5" class="bg-transparent">
     <v-app-bar-nav-icon @click="$emit('openNav')"/>
     <v-container class="d-flex justify-space-around align-center">
       <template v-if="mode==='test' || mode==='result'">
