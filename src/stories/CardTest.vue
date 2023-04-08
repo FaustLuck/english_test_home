@@ -36,7 +36,7 @@
 <script setup lang="ts">
 import { TestItem } from "@/types/test";
 import { useTestStore } from "@/store/test";
-import LineLoadingComponent from '@/stories/LineLoading.vue'
+import LineLoadingComponent from '@/stories/bricks/LineLoading.vue'
 
 const props = defineProps<{ item?: TestItem }>();
 

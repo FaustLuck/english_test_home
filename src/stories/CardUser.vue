@@ -23,7 +23,7 @@
 <script setup lang="ts">
 import { User } from "@/types/history";
 
-import LineLoadingComponent from "@/stories/LineLoading.vue";
+import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 
 const props = defineProps<{ user?: User }>();
 </script>

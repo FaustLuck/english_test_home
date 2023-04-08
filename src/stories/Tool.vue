@@ -38,7 +38,7 @@ interface toolComponentProps {
   included?: boolean
 }
 
-const ButtonComponent = defineAsyncComponent(() => import("@/stories/Button.vue"));
+const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
 
 const props = defineProps<toolComponentProps>();
 const store = useSettingsStore();

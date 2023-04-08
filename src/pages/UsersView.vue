@@ -1,6 +1,6 @@
 <template>
   <v-container class="px-0 d-flex flex-column">
-    <template v-if="!users">
+    <template v-if="users.length===0">
       <card-user v-for="i of 3" :key="i"/>
     </template>
 

@@ -32,7 +32,7 @@ export default {
   name: "headerComponent",
   components: {
     itemAddComponent: defineAsyncComponent(() => import("@/components/itemAddComponent.vue")),
-    buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue")),
+    buttonComponent: defineAsyncComponent(() => import("@/stories/bricks/Button.vue")),
     timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
   },
   computed: {
