@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import lineLoadingComponent from "@/stories/LineLoading.vue";
+import lineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 
 const meta = {
-  title: "UI/LineLoading",
+  title: "UI/Brick/LineLoading",
   component: lineLoadingComponent,
   tags: ["autodocs"]
 }satisfies Meta<typeof lineLoadingComponent>;
