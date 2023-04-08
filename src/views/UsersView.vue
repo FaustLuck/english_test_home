@@ -1,11 +1,13 @@
 <template>
-  <template v-if="!users">
-    <card-user v-for="i of 3" :key="i"/>
-  </template>
+  <v-container class="px-0 d-flex flex-column">
+    <template v-if="!users">
+      <card-user v-for="i of 3" :key="i"/>
+    </template>
 
-  <template v-else>
-    <card-user v-for="user of users" :key="user.sub" :user="user" @click="()=>changeActiveUser(user.sub)"/>
-  </template>
+    <template v-else>
+      <card-user :class="{}" v-for="user of users" :key="user.sub" :user="user" @click="()=>changeActiveUser(user.sub)"/>
+    </template>
+  </v-container>
 </template>
 
 <script>
