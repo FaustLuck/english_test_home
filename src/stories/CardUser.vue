@@ -9,11 +9,13 @@
   </template>
 
   <template v-else>
-    <v-card class="d-flex align-center my-3" color="default" elevation="5" rounded="lg">
+    <v-card class="d-flex align-center my-3" :class="{'order-first':props.user.privileged}" color="default"
+            elevation="5"
+            rounded="lg">
       <v-card-item>
-        <v-avatar class="fill-height" :image="user.picture" size="80"></v-avatar>
+        <v-avatar class="fill-height" :image="props.user.picture" size="80"></v-avatar>
       </v-card-item>
-      <v-card-text class="pa-6">{{ user.name }}</v-card-text>
+      <v-card-text class="pa-6">{{ props.user.name }}</v-card-text>
     </v-card>
   </template>
 </template>
