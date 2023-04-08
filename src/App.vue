@@ -1,24 +1,24 @@
 <template>
-  <layout-component></layout-component>
-  <header-component></header-component>
-  <menu-component></menu-component>
-  <form>
-    <router-view :key="$route.fullPath"/>
-  </form>
+
+  <v-layout class="w-100">
+    <header-component @openNav="isHidden=!isHidden"/>
+    <navigation-component :is-hidden="isHidden"/>
+    <v-main>
+      <router-view :key="$route.fullPath"/>
+    </v-main>
+    <menu-component></menu-component>
+  </v-layout>
 </template>
+<script setup lang="ts">
+import { defineAsyncComponent, ref } from "vue";
 
-<script>
-import { defineAsyncComponent } from "vue";
+const isHidden = ref(false);
 
-export default {
-  components: {
-    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent.vue")),
-    layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent.vue")),
-    menuComponent: defineAsyncComponent(() => import("@/components/menuComponent.vue"))
-  }
-};
+const NavigationComponent = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
+const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
+const MenuComponent = defineAsyncComponent(() => import("@/components/menuComponent.vue"));
+
 </script>
-
 <style lang="scss">
 :root {
   font-family: 'serif';

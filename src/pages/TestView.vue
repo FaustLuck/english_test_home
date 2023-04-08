@@ -1,10 +1,10 @@
 <template>
   <v-container class="pa-0">
     <template v-if="isLoading">
-      <card-component v-for="i of 3" :key="i"/>
+      <card-test-component v-for="i of 3" :key="i"/>
     </template>
     <template v-else>
-      <card-component v-for="(item) of test" :key="item.key" :item="item"/>
+      <card-test-component v-for="(item) of test" :key="item.key" :item="item"/>
     </template>
   </v-container>
 </template>
@@ -17,7 +17,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 
-const CardComponent = defineAsyncComponent(() => import("@/stories/CardTest.vue"));
+const CardTestComponent = defineAsyncComponent(() => import("@/stories/CardTest.vue"));
 
 const { isLoading } = storeToRefs(useLoadingStore());
 const { sub } = storeToRefs(useAuthStore());
