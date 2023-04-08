@@ -4,7 +4,6 @@ import { requestGet, requestPost } from "@/utils/requests";
 export const authStore = defineStore("auth", {
   state() {
     return {
-      privileged: false,
       sub: undefined,
       name: undefined,
       picture: undefined,
