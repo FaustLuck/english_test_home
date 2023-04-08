@@ -1,5 +1,5 @@
 export interface TestItem {
-  key: string;
+  key?: string;
   question: string;
   answer?: string[];
   choice?: string;
