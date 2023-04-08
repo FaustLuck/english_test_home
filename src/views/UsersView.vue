@@ -1,16 +1,11 @@
 <template>
-  <preloader-component></preloader-component>
-  <section class="users" v-if="users">
-    <div class="users__container" v-show="!activeUserSub">
-      <user-card-component
-        v-for="user of users"
-        :key="user.sub"
-        :user="user"
-        @changeActiveUser="changeActiveUser"
-      >
-      </user-card-component>
-    </div>
-  </section>
+  <template v-if="!users">
+    <card-user v-for="i of 3" :key="i"/>
+  </template>
+
+  <template v-else>
+    <card-user v-for="user of users" :key="user.sub" :user="user" @click="()=>changeActiveUser(user.sub)"/>
+  </template>
 </template>
 
 <script>
@@ -23,8 +18,7 @@ import { mainStore } from "@/store/mainStore";
 export default {
   name: "StatisticView",
   components: {
-    userCardComponent: defineAsyncComponent(() => import("@/components/userCardComponent.vue")),
-    preloaderComponent: defineAsyncComponent(() => import("@/components/preloaderComponent.vue"))
+    CardUser: defineAsyncComponent(() => import("@/stories/CardUser.vue"))
   },
   data() {
     return {
@@ -44,6 +38,7 @@ export default {
     }
   },
   async created() {
+    if (this.users) return;
     await this.getUsers(this.sub);
     this.setLoading(false);
   }
