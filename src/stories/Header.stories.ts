@@ -4,6 +4,7 @@ import HeaderComponent from "@/stories/Header.vue";
 const meta = {
   title: "App/Header",
   component: HeaderComponent,
+  tags: ["autodocs"],
   render:()=>({
     components:{HeaderComponent},
     template:`
