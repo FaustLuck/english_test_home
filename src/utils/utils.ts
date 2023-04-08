@@ -1,4 +1,4 @@
-export function getDate(timestamp) {
+export function getDate(timestamp: string) {
   return new Intl.DateTimeFormat("ru-Ru", {
     year: "numeric",
     month: "2-digit",
