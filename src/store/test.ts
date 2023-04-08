@@ -34,22 +34,24 @@ export const useTestStore = defineStore("test", () => {
 
   async function getTest(sub = "") {
     const data = await requestGet(`/test/${sub}`);
-    test = data.test;
+    Object.assign(test, data.test);
     SPEECH.value = data.SPEECH;
     timer.value = data.timer;
   }
 
   async function sendAnswers(sub: string | undefined) {
     let tmp = test.map(el => {
-      if (el?.answer) delete el.answer;
-      return el;
+      const newEl = { ...el };
+      if (newEl?.answer) delete newEl.answer;
+      return newEl;
     });
     generateID();
-    await requestPost(`/test/check`, { tmp, sub, id: ID.value });
+    await requestPost(`/test/check`, { test: tmp, sub, id: ID.value });
   }
 
   async function getVerifiedTest() {
-    result = await requestGet(`/test/result/${ID.value}`);
+    const data = await requestGet(`/test/result/${ID.value}`);
+    Object.assign(result, data.result);
   }
 
   async function saveTest(sub: string) {
@@ -88,8 +90,6 @@ export const useTestStore = defineStore("test", () => {
     getTest,
     sendAnswers,
     getVerifiedTest,
-    saveTest,
-    // generateID,
-    // createBody,
+    saveTest
   };
 });
