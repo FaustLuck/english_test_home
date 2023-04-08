@@ -1,5 +1,5 @@
 <template>
-
+<!--todo не отображается при повторном старте теста со страницы result!!-->
   <template v-if="!item">
     <v-card class="pa-3 my-3" color="default" elevation="5" rounded="lg">
       <v-row class="px-5 py-3">
@@ -39,5 +39,4 @@ import { useTestStore } from "@/store/test";
 import LineLoadingComponent from '@/stories/bricks/LineLoading.vue'
 
 const props = defineProps<{ item?: TestItem }>();
-
 </script>
