@@ -5,7 +5,7 @@
 <style scoped lang="scss">
 .glow-text {
     animation: glow 1.5s ease-in-out infinite;
-    background: linear-gradient(90deg, #FFDAB9 10%, rgb(255, 255, 255), #FFDAB9 90%);
+    background: linear-gradient(90deg, transparent 10%, rgb(0, 0, 0), transparent 90%);
     color: transparent;
     user-select: none;
     border-radius: 8px;
