@@ -5,56 +5,39 @@
     </template>
 
     <template v-else>
-      <card-user :class="{}" v-for="user of users" :key="user.sub" :user="user" @click="()=>changeActiveUser(user.sub)"/>
+      <card-user v-for="user of users" :key="user.sub" :user="user"
+                 @click="()=>changeActiveUser(user.sub)"/>
     </template>
   </v-container>
 </template>
 
-<script>
-import { mapState, mapActions } from "pinia";
+<script setup lang="ts">
+import { defineAsyncComponent, onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+import { storeToRefs } from "pinia";
+
 import { statisticStore } from "@/store/statisticStore";
-import { defineAsyncComponent } from "vue";
-import { mainStore } from "@/store/mainStore";
 import { useAuthStore } from "@/store/auth";
+import { mainStore } from "@/store/mainStore";
 
-export default {
-  name: "StatisticView",
-  components: {
-    CardUser: defineAsyncComponent(() => import("@/stories/CardUser.vue"))
-  },
-  data() {
-    return {
-      activeUserSub: ""
-    };
-  },
-  computed: {
-    ...mapState(statisticStore, ["users"]),
-    ...mapState(useAuthStore, ["sub"])
-  },
-  methods: {
-    ...mapActions(statisticStore, ["getUsers"]),
-    ...mapActions(mainStore, ["setLoading"]),
-    changeActiveUser(sub) {
-      this.activeUserSub = sub;
-      this.$router.push({name: "statistic", params: {sub: sub}});
-    }
-  },
-  async created() {
-    if (this.users) return;
-    await this.getUsers(this.sub);
-    this.setLoading(false);
-  }
-};
-</script>
+const CardUser = defineAsyncComponent(() => import("@/stories/CardUser.vue"));
 
-<style lang="scss" scoped>
-.users {
-  position: relative;
+const router = useRouter();
+const activeUserSub = ref("");
 
-  &__container {
-    display: flex;
-    flex-direction: column;
-  }
+function changeActiveUser(sub: string) {
+  activeUserSub.value = sub;
+  router.push({ name: "statistic", params: { sub: sub } });
 }
 
-</style>
+const { users } = storeToRefs(statisticStore());
+const { sub } = storeToRefs(useAuthStore());
+
+onMounted(async () => {
+  if (users.value) return;
+
+  await statisticStore().getUsers(sub.value);
+  mainStore().setLoading(false);
+});
+
+</script>
