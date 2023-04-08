@@ -1,13 +1,16 @@
 <template>
-  <v-btn
-          v-if="props.value"
-          rounded="lg"
-          color="default"
-          :loading="Boolean(loading)"
-          size="large">{{ value }}
-  </v-btn>
-  <v-btn v-else icon="" :class="icon" variant="text">
-  </v-btn>
+  <template v-if="props.value">
+    <v-btn
+            rounded="lg"
+            color="default"
+            :loading="Boolean(loading)"
+            size="large">{{ value }}
+    </v-btn>
+  </template>
+  <template v-else>
+    <v-btn icon="" :class="icon" variant="text">
+    </v-btn>
+  </template>
 </template>
 
 <script setup lang="ts">
