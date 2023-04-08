@@ -6,8 +6,8 @@
 </template>
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useCommonStore } from "@/store/common";
+import { useLoadingStore } from "@/store/loading";
 
-const { isLoading } = storeToRefs(useCommonStore());
+const { isLoading } = storeToRefs(useLoadingStore());
 
 </script>

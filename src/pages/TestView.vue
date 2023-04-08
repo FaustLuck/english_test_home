@@ -15,11 +15,11 @@ import { useTestStore } from "@/store/test";
 import { defineAsyncComponent, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
-import { useCommonStore } from "@/store/common";
+import { useLoadingStore } from "@/store/loading";
 
 const CardComponent = defineAsyncComponent(() => import("@/stories/CardTest.vue"));
 
-const { isLoading } = storeToRefs(useCommonStore());
+const { isLoading } = storeToRefs(useLoadingStore());
 const { sub } = storeToRefs(useAuthStore());
 const { test, isTesting } = storeToRefs(useTestStore());
 

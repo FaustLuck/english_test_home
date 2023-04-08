@@ -44,6 +44,7 @@ import { statisticStore } from "@/store/statisticStore";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common.js";
+import { useLoadingStore } from "@/store/loading";
 
 export default {
   name: "testInfoComponent",
@@ -85,8 +86,9 @@ export default {
   },
   computed: {
     ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
-    ...mapState(useCommonStore, ["orderDifficult", "isLoading", "mode"]),
+    ...mapState(useCommonStore, ["orderDifficult", "mode"]),
     ...mapState(useAuthStore, ["name"]),
+    ...mapState(useLoadingStore,['isLoading']),
     length() {
       if (this.mode === "result") {
         return (Object.values(this.result)).reduce((acc, cur) => acc + cur.length, 0);
@@ -114,7 +116,7 @@ export default {
   methods: {
     ...mapActions(statisticStore, ["getResult"]),
     ...mapActions(useTestStore, ["checkTest", "saveTest", "getVerifiedTest"]),
-    ...mapActions(useCommonStore, ["setLoading"]),
+    ...mapActions(useLoadingStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;

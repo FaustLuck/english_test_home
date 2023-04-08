@@ -17,7 +17,7 @@
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
 import { statisticStore } from "@/store/statisticStore";
-import { useCommonStore } from "@/store/common.js";
+import { useLoadingStore } from "@/store/loading";
 
 export default {
   name: "StatisticUserView",
@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     ...mapActions(statisticStore, ["getDateList"]),
-    ...mapActions(useCommonStore, ["setLoading"])
+    ...mapActions(useLoadingStore, ["setLoading"])
   },
   async created() {
     await this.getDateList(this.$route.params.sub);

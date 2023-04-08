@@ -26,6 +26,7 @@ import { useSettingsStore } from "@/store/settings";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common.js";
+import { useLoadingStore } from "@/store/loading";
 
 export default {
   name: "headerComponent",
@@ -37,12 +38,13 @@ export default {
   computed: {
     ...mapState(useTestStore, ["isTesting"]),
     ...mapState(useAuthStore, ["sub"]),
-    ...mapState(useCommonStore, ["mode", "isLoading"]),
+    ...mapState(useCommonStore, ["mode"]),
+    ...mapState(useLoadingStore,['isLoading']),
     ...mapState(useSettingsStore, ["isSaved"])
   },
   methods: {
     ...mapActions(useSettingsStore, ["saveChanges"]),
-    ...mapActions(useCommonStore, ["setLoading"]),
+    ...mapActions(useLoadingStore, ["setLoading"]),
     ...mapActions(useTestStore, ["getTest", "changeTestStatus"]),
     async startTest() {
       if (this.mode !== "test") this.$router.replace({name: "test"});

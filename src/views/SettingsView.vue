@@ -55,6 +55,7 @@ import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common.js";
+import { useLoadingStore } from "@/store/loading";
 
 export default {
   name: "SettingsView",
@@ -78,11 +79,12 @@ export default {
   computed: {
     ...mapState(useSettingsStore, ["timer", "dictionary", "limits", "variants"]),
     ...mapState(useAuthStore, ["sub"]),
-    ...mapState(useCommonStore, ["orderDifficult", "isLoading"]),
+    ...mapState(useCommonStore, ["orderDifficult"]),
+    ...mapState(useLoadingStore,['isLoading'])
   },
   methods: {
     ...mapActions(useSettingsStore, ["getSettings", "saveTimer", "saveVariants", "saveLimits"]),
-    ...mapActions(useCommonStore, ["setLoading"]),
+    ...mapActions(useLoadingStore, ["setLoading"]),
     changeTimer(e) {
       const {type} = e.target.dataset;
       this[type] = this[type].toString();
