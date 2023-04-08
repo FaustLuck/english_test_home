@@ -59,8 +59,8 @@
 <script>
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { useSettingsStore } from "@/store/settings.ts";
-import { mainStore } from "@/store/mainStore";
+import { useSettingsStore } from "@/store/settings";
+import { useCommonStore } from "@/store/common.js";
 
 export default {
   name: "testDifficultComponent",
@@ -75,7 +75,7 @@ export default {
     partAnswers: Array,
   },
   computed: {
-    ...mapState(mainStore, ["mode"]),
+    ...mapState(useCommonStore, ["mode"]),
     ...mapState(useSettingsStore, ["editingDifficult", "editingIndex"]),
   },
   methods: {

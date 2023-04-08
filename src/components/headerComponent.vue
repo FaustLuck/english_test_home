@@ -22,10 +22,10 @@
 
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
-import { mainStore } from "@/store/mainStore";
 import { useSettingsStore } from "@/store/settings";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
+import { useCommonStore } from "@/store/common.js";
 
 export default {
   name: "headerComponent",
@@ -37,12 +37,12 @@ export default {
   computed: {
     ...mapState(useTestStore, ["isTesting"]),
     ...mapState(useAuthStore, ["sub"]),
-    ...mapState(mainStore, ["mode", "isLoading"]),
+    ...mapState(useCommonStore, ["mode", "isLoading"]),
     ...mapState(useSettingsStore, ["isSaved"])
   },
   methods: {
     ...mapActions(useSettingsStore, ["saveChanges"]),
-    ...mapActions(mainStore, ["setLoading"]),
+    ...mapActions(useCommonStore, ["setLoading"]),
     ...mapActions(useTestStore, ["getTest", "changeTestStatus"]),
     async startTest() {
       if (this.mode !== "test") this.$router.replace({name: "test"});

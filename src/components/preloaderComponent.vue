@@ -5,9 +5,9 @@
 
 </template>
 <script setup lang="ts">
-import { mainStore } from "@/store/mainStore";
 import { storeToRefs } from "pinia";
+import { useCommonStore } from "@/store/common";
 
-const { isLoading } = storeToRefs(mainStore());
+const { isLoading } = storeToRefs(useCommonStore());
 
 </script>

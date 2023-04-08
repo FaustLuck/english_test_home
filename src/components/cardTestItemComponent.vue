@@ -37,8 +37,8 @@
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings.ts";
-import { mainStore } from "@/store/mainStore";
 import { useTestStore } from "@/store/test";
+import { useCommonStore } from "@/store/common.js";
 
 export default {
   name: "cardTestItemComponent",
@@ -58,7 +58,7 @@ export default {
     excluded: Boolean
   },
   computed: {
-    ...mapState(mainStore, ["mode"]),
+    ...mapState(useCommonStore, ["mode"]),
     ...mapState(useTestStore, ["SPEECH"]),
     ...mapState(useSettingsStore, ["editingDifficult", "editingIndex", "editingItem"]),
     isSpeech() {

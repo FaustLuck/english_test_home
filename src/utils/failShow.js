@@ -1,4 +1,4 @@
-import { mainStore } from "@/store/mainStore";
+import { useCommonStore } from "@/store/common.ts";
 
 export function failShow(canvas) {
   [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
@@ -272,7 +272,7 @@ export function failShow(canvas) {
       ctx.fillStyle = "#000";
       ctx.fillRect(-canvas.width, -canvas.height, 2 * canvas.width, 2 * canvas.height);
     } else {
-      setTimeout(() => mainStore().setAnimationStatus(false), 3000);
+      setTimeout(() => useCommonStore().setAnimationStatus(false), 3000);
     }
     if (sparkles.length || !isCombustionStart) drawCombustion();
     if (!sparkles.length && opacityFragments >= 0) drawBoom();
@@ -510,5 +510,5 @@ export function failShow(canvas) {
   triangles = createTriangles(r);
   createFlamePoints();
   draw();
-  mainStore().setAnimationStatus(true)
+  useCommonStore().setAnimationStatus(true)
 }

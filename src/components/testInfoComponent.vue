@@ -41,9 +41,9 @@ import { defineAsyncComponent } from "vue";
 import { getDate } from "@/utils/utils";
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { statisticStore } from "@/store/statisticStore";
-import { mainStore } from "@/store/mainStore";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
+import { useCommonStore } from "@/store/common.js";
 
 export default {
   name: "testInfoComponent",
@@ -85,7 +85,7 @@ export default {
   },
   computed: {
     ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
-    ...mapState(mainStore, ["orderDifficult", "isLoading", "mode"]),
+    ...mapState(useCommonStore, ["orderDifficult", "isLoading", "mode"]),
     ...mapState(useAuthStore, ["name"]),
     length() {
       if (this.mode === "result") {
@@ -114,7 +114,7 @@ export default {
   methods: {
     ...mapActions(statisticStore, ["getResult"]),
     ...mapActions(useTestStore, ["checkTest", "saveTest", "getVerifiedTest"]),
-    ...mapActions(mainStore, ["setLoading"]),
+    ...mapActions(useCommonStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;
       this.displayMode++;

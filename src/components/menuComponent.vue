@@ -13,8 +13,8 @@
 
 <script>
 import { mapState, mapActions } from "pinia";
-import { mainStore } from "@/store/mainStore";
 import { useAuthStore } from "@/store/auth";
+import { useCommonStore } from "@/store/common.js";
 
 export default {
   name: "menuComponent",
@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     ...mapActions(useAuthStore, ["googleInitialize"]),
-    ...mapActions(mainStore, ["setMenuHeight"]),
+    ...mapActions(useCommonStore, ["setMenuHeight"]),
     setHeight() {
       if (!window.matchMedia("(max-width: 768px)").matches) return;
       let h = this.$el.getBoundingClientRect().height;

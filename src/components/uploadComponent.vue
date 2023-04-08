@@ -14,8 +14,8 @@
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings";
-import { mainStore } from "@/store/mainStore";
 import { useAuthStore } from "@/store/auth";
+import { useCommonStore } from "@/store/common";
 
 export default {
   name: "uploadComponent",
@@ -26,12 +26,12 @@ export default {
     check: Boolean
   },
   computed: {
-    ...mapState(mainStore, ["isLoading"]),
+    ...mapState(useCommonStore, ["isLoading"]),
     ...mapState(useAuthStore, ["sub"])
   },
   methods: {
     ...mapActions(useSettingsStore, ["sendNewDictionary"]),
-    ...mapActions(mainStore, ["setLoading"]),
+    ...mapActions(useCommonStore, ["setLoading"]),
     async upload(e) {
       this.setLoading(true);
       const file = e.target.files[0];

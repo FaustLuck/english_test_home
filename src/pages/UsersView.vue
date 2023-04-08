@@ -18,7 +18,7 @@ import { storeToRefs } from "pinia";
 
 import { statisticStore } from "@/store/statisticStore";
 import { useAuthStore } from "@/store/auth";
-import { mainStore } from "@/store/mainStore";
+import { useCommonStore } from "@/store/common";
 
 const CardUser = defineAsyncComponent(() => import("@/stories/CardUser.vue"));
 
@@ -35,9 +35,8 @@ const { sub } = storeToRefs(useAuthStore());
 
 onMounted(async () => {
   if (users.value) return;
-
   await statisticStore().getUsers(sub.value);
-  mainStore().setLoading(false);
+  useCommonStore().setLoading(false);
 });
 
 </script>

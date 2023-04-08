@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { mainStore } from "@/store/mainStore";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
+import { useCommonStore } from "@/store/common";
 
 const routes = [
   {
@@ -57,8 +57,8 @@ router.beforeEach(async (to) => {
   const { sub } = useAuthStore();
   const { result, test } = useTestStore();
   const mode = to.name && to.name.toString();
-  if (mode) mainStore().setMode(mode);
-  mainStore().setLoading(mode !== "test");
+  if (mode) useCommonStore().setMode(mode);
+  useCommonStore().setLoading(mode !== "test");
   if (mode === "result" && test === null) {
     return { name: "test" };
   }

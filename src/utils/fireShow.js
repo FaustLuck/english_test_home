@@ -1,4 +1,4 @@
-import { mainStore } from "@/store/mainStore";
+import { useCommonStore } from "@/store/common.ts";
 
 export function fireShow(canvas) {
   let start;
@@ -53,7 +53,7 @@ export function fireShow(canvas) {
 
   function decreaseOpacity() {
     let {opacity} = getComputedStyle(canvas);
-    if (opacity <= 0) mainStore().setAnimationStatus(false);
+    if (opacity <= 0) useCommonStore().setAnimationStatus(false);
     opacity -= .01;
     canvas.style.opacity = opacity;
 
@@ -137,5 +137,5 @@ export function fireShow(canvas) {
   }
 
   requestAnimationFrame(loop);
-  mainStore().setAnimationStatus(true);
+  useCommonStore().setAnimationStatus(true);
 }
