@@ -22,7 +22,7 @@
 
 <script>
 import { mapState } from "pinia";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 
 export default {
   name: "titleComponent",
