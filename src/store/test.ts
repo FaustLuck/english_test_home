@@ -21,11 +21,16 @@ export const useTestStore = defineStore("test", () => {
 
   function changeTestStatus(flag: boolean) {
     isTesting.value = flag;
+    if (!flag) clearTest();
   }
 
   function saveChoice(choice: string, key: string) {
     const item = test.find(el => el.key === key);
     if (item) item.choice = choice;
+  }
+
+  function clearTest() {
+    test.length = 0;
   }
 
   function saveTimerSec(time: number) {
