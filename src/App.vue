@@ -12,7 +12,7 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
 
-const isHidden = ref(false);
+const isHidden = ref(true);
 
 const NavigationComponent = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
 const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
