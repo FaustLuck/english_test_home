@@ -15,7 +15,7 @@ import { mapState, mapActions } from "pinia";
 import { statisticStore } from "@/store/statisticStore";
 import { defineAsyncComponent } from "vue";
 import { mainStore } from "@/store/mainStore";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "StatisticView",

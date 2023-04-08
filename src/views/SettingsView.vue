@@ -54,7 +54,7 @@ import { mapState, mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings";
 import { mainStore } from "@/store/mainStore";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "SettingsView",

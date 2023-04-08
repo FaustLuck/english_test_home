@@ -14,7 +14,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { mainStore } from "@/store/mainStore";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "menuComponent",

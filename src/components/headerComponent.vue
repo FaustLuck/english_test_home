@@ -25,7 +25,7 @@ import { mapActions, mapState } from "pinia";
 import { mainStore } from "@/store/mainStore";
 import { useSettingsStore } from "@/store/settings";
 import { useTestStore } from "@/store/test";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "headerComponent",

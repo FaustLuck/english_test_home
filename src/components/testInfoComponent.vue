@@ -43,7 +43,7 @@ import { mapActions, mapState } from "pinia/dist/pinia";
 import { statisticStore } from "@/store/statisticStore";
 import { mainStore } from "@/store/mainStore";
 import { useTestStore } from "@/store/test";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "testInfoComponent",

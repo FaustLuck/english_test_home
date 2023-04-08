@@ -11,7 +11,7 @@
 import { defineAsyncComponent } from "vue";
 import { mapState } from "pinia";
 import { useTestStore } from "@/store/test";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "ResultView",

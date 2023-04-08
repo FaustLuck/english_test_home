@@ -62,7 +62,7 @@ import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings.ts";
 import { mainStore } from "@/store/mainStore";
-import { useAuthStore } from "@/store/auth.js";
+import { useAuthStore } from "@/store/auth";
 
 export default {
   name: "itemAddComponent",
