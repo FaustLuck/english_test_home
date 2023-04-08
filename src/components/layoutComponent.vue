@@ -12,7 +12,7 @@
 <script>
 import { mapState, mapActions } from "pinia";
 import { useTestStore } from "@/store/test";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 
 export default {
   name: "layoutComponent",

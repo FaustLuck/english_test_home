@@ -25,7 +25,7 @@ import { mapActions, mapState } from "pinia";
 import { useSettingsStore } from "@/store/settings";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 import { useLoadingStore } from "@/store/loading";
 
 export default {
