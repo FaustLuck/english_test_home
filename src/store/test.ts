@@ -22,7 +22,6 @@ export const useTestStore = defineStore("test", () => {
 
   function changeTestStatus(flag: boolean) {
     isTesting.value = flag;
-    if (!flag) clearTest();
   }
 
   function saveChoice(choice: string, key?: string) {
@@ -116,6 +115,7 @@ export const useTestStore = defineStore("test", () => {
     saveTimes,
     changeTestStatus,
     saveChoice,
+    clearTest,
     setTimerID,
     clearTimerID,
     resetTest,
