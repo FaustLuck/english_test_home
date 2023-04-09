@@ -9,19 +9,19 @@
           v-show="!editing && !excluded"
           @click="deleteItem"
           title="Удалить"
-          icon="mdi mdi-delete"
+          icon="mdi-delete"
   />
   <button-component
           v-show="editing"
           @click="editFinish"
           title="Готово"
-          icon="mdi mdi-check"
+          icon="mdi-check"
   />
   <button-component
           v-show="!editing && (excluded || edited || included)"
           @click="undoChanges"
           title="Отменить"
-          icon="mdi mdi-undo"
+          icon="mdi-undo"
   />
 </template>
 
