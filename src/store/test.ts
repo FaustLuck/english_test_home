@@ -40,12 +40,11 @@ export const useTestStore = defineStore("test", () => {
   }
 
   function clearTimerID() {
-    clearInterval(timerID.value);
+    window.clearInterval(timerID.value);
     timerID.value = 0;
   }
 
   function resetTimes() {
-    console.log('times');
     timeSpent.value = 0;
     timestamp.value = 0;
   }
