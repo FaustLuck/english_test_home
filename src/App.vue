@@ -1,7 +1,11 @@
 <template>
   <v-app class="w-100 bg-transparent">
-    <header-component @openNav="isHidden=!isHidden"/>
-    <navigation-component :is-hidden="isHidden"/>
+    <header-component @toggleNavigation="isCollapsed=!isCollapsed"/>
+    <navigation-component
+            :is-collapsed="isCollapsed"
+            @toExpand="isCollapsed=false"
+            @toToggle="isCollapsed=!isCollapsed"
+    />
     <v-main>
       <router-view :key="$route.fullPath"/>
     </v-main>
@@ -11,12 +15,11 @@
 <script setup lang="ts">
 import { defineAsyncComponent, ref } from "vue";
 
-const isHidden = ref(true);
-
 const NavigationComponent = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
 const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
 const MenuComponent = defineAsyncComponent(() => import("@/components/menuComponent.vue"));
 
+const isCollapsed = ref(true);
 </script>
 <style lang="scss">
 :root {
