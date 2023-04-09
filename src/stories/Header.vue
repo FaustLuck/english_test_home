@@ -1,7 +1,16 @@
 <template>
   <v-app-bar elevation="5" class="bg-transparent">
-    <v-app-bar-nav-icon @click="$emit('toggleNavigation')"/>
+
+    <template v-if="!isLogin">
+      <v-app-bar-nav-icon id="google"/>
+    </template>
+
+    <template v-else>
+      <v-app-bar-nav-icon @click="$emit('toggleNavigation')"/>
+    </template>
+
     <v-container class="d-flex justify-space-around align-center">
+
       <template v-if="mode==='test' || mode==='result'">
         <button-component
                 :value="(isTesting)?'Завершить тест' : 'Начать тест'"
@@ -10,12 +19,13 @@
         ></button-component>
         <timer-component v-if="isTesting"></timer-component>
       </template>
+
     </v-container>
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+import { defineAsyncComponent, onMounted } from "vue";
 import { storeToRefs } from "pinia";
 import { useLoadingStore } from "@/store/loading";
 import { useTestStore } from "@/store/test";
@@ -32,6 +42,8 @@ const { mode } = storeToRefs(useCommonStore());
 
 const router = useRouter();
 
+const { isLogin } = storeToRefs(useAuthStore());
+
 async function startTest() {
   useLoadingStore().setLoading(true);
   if (mode.value === "test") await router.replace({ name: "test" });
@@ -40,5 +52,9 @@ async function startTest() {
   useTestStore().changeTestStatus(true);
   useLoadingStore().setLoading(false);
 }
+
+onMounted(async () => {
+  await useAuthStore().googleInitialize();
+});
 </script>
 
