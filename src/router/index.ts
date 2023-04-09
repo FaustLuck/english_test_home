@@ -60,11 +60,20 @@ router.beforeEach(async (to) => {
   const mode = to.name && to.name.toString();
   if (mode) useCommonStore().setMode(mode);
   useLoadingStore().setLoading(mode !== "test");
-  if (mode === "result" && test.length===0) {
+  if (mode === "result" && test.length === 0) {
     return { name: "test" };
   }
   if (result === null && ["fire-show", "fail-show"].includes(<string>mode)) return { name: "test" };
   if (to.meta.requireAuth && !sub) return { name: "test" };
+});
+
+router.afterEach(async (to) => {
+  const { test } = useTestStore();
+  const mode = to.name && to.name.toString();
+
+  if (mode !== "result" && test.length > 0) {
+    useTestStore().resetTest();
+  }
 });
 
 export default router;

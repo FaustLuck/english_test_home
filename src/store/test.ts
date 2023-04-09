@@ -12,6 +12,7 @@ export const useTestStore = defineStore("test", () => {
   let result = reactive([]);
   const SPEECH = ref("");
   const timer = ref(0);
+  const timerID = ref(0);
   const ID = ref("");
 
   function saveTimes() {
@@ -32,6 +33,29 @@ export const useTestStore = defineStore("test", () => {
 
   function clearTest() {
     test.length = 0;
+  }
+
+  function setTimerID(id: number) {
+    timerID.value = id;
+  }
+
+  function clearTimerID() {
+    clearInterval(timerID.value);
+    timerID.value = 0;
+  }
+
+  function resetTimes() {
+    console.log('times');
+    timeSpent.value = 0;
+    timestamp.value = 0;
+  }
+
+  function resetTest() {
+    clearTest();
+    clearTimerID();
+    changeTestStatus(false);
+    saveTimerSec(0);
+    resetTimes();
   }
 
   function saveTimerSec(time: number) {
@@ -88,10 +112,14 @@ export const useTestStore = defineStore("test", () => {
     result,
     SPEECH,
     timer,
+    timerID,
     ID,
     saveTimes,
     changeTestStatus,
     saveChoice,
+    setTimerID,
+    clearTimerID,
+    resetTest,
     saveTimerSec,
     getTest,
     sendAnswers,

@@ -26,7 +26,7 @@ const { test, isTesting } = storeToRefs(useTestStore());
 const router = useRouter();
 
 watch(isTesting, async (value) => {
-  if (value) return;
+  if (value && test.value.length!==0) return;
   await useTestStore().sendAnswers(sub.value);
   await router.push({ name: "result" });
 });

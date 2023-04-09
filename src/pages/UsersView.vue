@@ -34,8 +34,7 @@ const { users } = storeToRefs(useHistoryStore());
 const { sub } = storeToRefs(useAuthStore());
 
 onMounted(async () => {
-  if (users.value.length) return;
-  await useHistoryStore().getUsers(sub.value);
+  if (!users.value.length) await useHistoryStore().getUsers(sub.value);
   useLoadingStore().setLoading(false);
 });
 

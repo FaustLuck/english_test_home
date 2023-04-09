@@ -1,5 +1,5 @@
 <template>
-  <span>{{ time }}</span>
+  <v-chip>{{ time }}</v-chip>
 </template>
 
 <script>
@@ -8,13 +8,8 @@ import { useTestStore } from "@/store/test";
 
 export default {
   name: "timerComponent",
-  data() {
-    return {
-      timerID: null
-    };
-  },
   computed: {
-    ...mapState(useTestStore, ["timer", "timeLeft"]),
+    ...mapState(useTestStore, ["timer", "timeLeft", "timerID"]),
     time() {
       let sec = (this.timeLeft % 60).toString().padStart(2, "0");
       let min = (this.timeLeft - sec) / 60;
@@ -23,8 +18,8 @@ export default {
   },
   watch: {
     timeLeft(value) {
-      if (value === 0) {
-        clearInterval(this.timerID);
+      if (value === 0 && this.timerID > 0) {
+        this.clearTimerID();
         document.body.classList.add("fail");
         setTimeout(async () => {
           document.body.classList.remove("fail");
@@ -35,17 +30,19 @@ export default {
     }
   },
   methods: {
-    ...mapActions(useTestStore, ["saveTimes", "changeTestStatus", "saveTimerSec"]),
+    ...mapActions(useTestStore, ["saveTimes", "changeTestStatus", "saveTimerSec", "clearTimerID", "setTimerID"]),
     decreaseTime() {
       this.saveTimerSec(this.timeLeft - 1);
     }
   },
   created() {
     this.saveTimerSec(this.timer);
-    this.timerID = setInterval(this.decreaseTime, 1000);
+    const timerID = setInterval(this.decreaseTime, 1000);
+    this.setTimerID(timerID);
   },
   beforeUnmount() {
-    clearInterval(this.timerID);
+    if (!this.timerID) return;
+    this.clearTimerID();
     this.saveTimes();
   }
 };
