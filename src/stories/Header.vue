@@ -1,25 +1,21 @@
 <template>
-  <v-app-bar elevation="5" class="bg-transparent">
+  <v-app-bar elevation="5" color="default">
 
     <template v-if="!isLogin">
-      <v-app-bar-nav-icon id="google"/>
+      <v-app-bar-nav-icon class="ml-2" id="google"/>
     </template>
 
     <template v-else>
-      <v-app-bar-nav-icon @click="$emit('toggleNavigation')"/>
+      <v-app-bar-nav-icon class="ml-2" @click="$emit('toggleNavigation')"/>
     </template>
 
     <v-container class="d-flex justify-space-around align-center">
-
-      <template v-if="mode==='test' || mode==='result'">
-        <button-component
-                :value="(isTesting)?'Завершить тест' : 'Начать тест'"
-                :loading="isLoading"
-                @click="(isTesting)?useTestStore().changeTestStatus(false):startTest()"
-        ></button-component>
-        <timer-component v-if="isTesting"></timer-component>
-      </template>
-
+      <button-component
+              :value="(isTesting)?'Завершить тест' : 'Начать тест'"
+              :loading="isLoading"
+              @click="(isTesting)?useTestStore().changeTestStatus(false):startTest()"
+      ></button-component>
+      <timer-component v-if="isTesting"></timer-component>
     </v-container>
   </v-app-bar>
 </template>
@@ -46,7 +42,11 @@ const { isLogin } = storeToRefs(useAuthStore());
 
 async function startTest() {
   useLoadingStore().setLoading(true);
-  if (mode.value === "test") await router.replace({ name: "test" });
+  if (mode.value === "result") {
+    await router.replace({ name: "test" });
+  } else if (mode.value !== "test") {
+    await router.push({ name: "test" });
+  }
   const { sub } = storeToRefs(useAuthStore());
   await useTestStore().getTest(sub.value);
   useTestStore().changeTestStatus(true);
