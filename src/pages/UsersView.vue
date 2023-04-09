@@ -27,7 +27,7 @@ const activeUserSub = ref("");
 
 function changeActiveUser(sub: string) {
   activeUserSub.value = sub;
-  router.push({ name: "history", params: { sub: sub } });
+  router.push({ name: "history", params: { sub } });
 }
 
 const { users } = storeToRefs(useHistoryStore());
@@ -35,6 +35,7 @@ const { sub } = storeToRefs(useAuthStore());
 
 onMounted(async () => {
   if (!users.value.length) await useHistoryStore().getUsers(sub.value);
+  if (users.value.length === 1) await router.replace({ name: "history", params: { sub: sub.value } });
   useLoadingStore().setLoading(false);
 });
 
