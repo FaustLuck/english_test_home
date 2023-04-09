@@ -36,9 +36,9 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
-import { useSettingsStore } from "@/store/settings.ts";
+import { useSettingsStore } from "@/store/settings";
 import { useTestStore } from "@/store/test";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 
 export default {
   name: "cardTestItemComponent",

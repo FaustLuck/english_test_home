@@ -60,7 +60,7 @@
 import { defineAsyncComponent } from "vue";
 import { mapActions, mapState } from "pinia";
 import { useSettingsStore } from "@/store/settings";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 
 export default {
   name: "testDifficultComponent",
