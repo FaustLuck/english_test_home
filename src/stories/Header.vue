@@ -30,7 +30,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 
 const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
-const TimerComponent = defineAsyncComponent(() => import("@/components/timerComponent.vue"));
+const TimerComponent = defineAsyncComponent(() => import("@/stories/Timer.vue"));
 
 const { isLoading } = storeToRefs(useLoadingStore());
 const { isTesting } = storeToRefs(useTestStore());

@@ -33,7 +33,7 @@ export default {
   components: {
     itemAddComponent: defineAsyncComponent(() => import("@/components/itemAddComponent.vue")),
     buttonComponent: defineAsyncComponent(() => import("@/stories/bricks/Button.vue")),
-    timerComponent: defineAsyncComponent(() => import("@/components/timerComponent.vue")),
+    timerComponent: defineAsyncComponent(() => import("@/stories/Timer.vue")),
   },
   computed: {
     ...mapState(useTestStore, ["isTesting"]),
