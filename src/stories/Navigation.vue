@@ -2,7 +2,7 @@
   <v-navigation-drawer
           :rail="isCollapsed"
           elevation="5"
-          class="bg-transparent"
+          color="default"
           @click="$emit('toExpand')"
   >
       <v-list-item nav prepend-icon="mdi mdi-cog-outline" title="Настройки" value="Settings" to="/settings"/>

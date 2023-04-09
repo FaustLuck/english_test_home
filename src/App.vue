@@ -31,15 +31,6 @@ const isCollapsed = ref(true);
   font-size: 30px;
 }
 
-html {
-  @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-  @media screen and (max-width: 576px) {
-    font-size: 1rem;
-  }
-}
-
 body {
   background-color: #FFDAB9;
 
@@ -48,5 +39,30 @@ body {
     pointer-events: none;
   }
 
+  &.warning {
+    animation: wave 10s linear infinite alternate;
+  }
+
+  &.flash {
+    animation: flash 2s linear infinite;
+  }
+}
+
+@keyframes wave {
+  from {
+    background-color: #FFDAB9;
+  }
+  to {
+    background-color: #FF0000;
+  }
+}
+
+@keyframes flash {
+  from, 49.9% {
+    background-color: #FF0000;
+  }
+  50%, to {
+    background-color: #FFDAB9;
+  }
 }
 </style>

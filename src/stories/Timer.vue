@@ -24,7 +24,15 @@ function decreaseTime() {
 }
 
 watch(timeLeft, async (value) => {
+  if (value < 30 && timerID.value > 0) {
+    document.body.classList.add("warning");
+  }
+  if (value < 11 && timerID.value > 0) {
+    document.body.classList.remove("warning");
+    document.body.classList.add("flash");
+  }
   if (value === 0 && timerID.value > 0) {
+    document.body.classList.remove("flash");
     testStore.clearTimerID();
     document.body.classList.add("fail");
     setTimeout(async () => {
