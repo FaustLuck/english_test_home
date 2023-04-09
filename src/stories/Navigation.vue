@@ -8,11 +8,12 @@
       <v-list-item nav prepend-icon="mdi-cog-outline" title="Настройки" value="Settings" to="/settings"/>
       <v-list-item nav prepend-icon="mdi-content-save-outline" title="История" value="History" to="/users"/>
 
-    <template v-slot:append>
+    <template v-slot:append v-if="!isCollapsed">
       <v-btn
+        class="float-end"
               variant="text"
-              :icon="isCollapsed?'mdi-chevron-right':'mdi-chevron-left'"
-              @click.stop="$emit('toToggle')"
+              icon="mdi-chevron-left"
+              @click.stop="$emit('toCollapse')"
       ></v-btn>
     </template>
 

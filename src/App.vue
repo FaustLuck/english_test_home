@@ -5,7 +5,7 @@
       <navigation-component
               :is-collapsed="isCollapsed"
               @toExpand="isCollapsed=false"
-              @toToggle="isCollapsed=!isCollapsed"
+              @toCollapse="isCollapsed=true"
       />
     </template>
     <v-main>
