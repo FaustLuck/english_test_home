@@ -54,7 +54,7 @@ import { mapState, mapActions } from "pinia";
 import { defineAsyncComponent } from "vue";
 import { useSettingsStore } from "@/store/settings";
 import { useAuthStore } from "@/store/auth";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 import { useLoadingStore } from "@/store/loading";
 
 export default {
