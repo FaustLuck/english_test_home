@@ -22,8 +22,8 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: "/statistic:sub",
-    name: "statistic",
+    path: "/history:sub",
+    name: "history",
     props: true,
     component: () => import("@/views/StatisticView.vue"),
     meta: { requireAuth: true }

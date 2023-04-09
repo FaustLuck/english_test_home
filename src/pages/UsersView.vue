@@ -27,7 +27,7 @@ const activeUserSub = ref("");
 
 function changeActiveUser(sub: string) {
   activeUserSub.value = sub;
-  router.push({ name: "statistic", params: { sub: sub } });
+  router.push({ name: "history", params: { sub: sub } });
 }
 
 const { users } = storeToRefs(useHistoryStore());
