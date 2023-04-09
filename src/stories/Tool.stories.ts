@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import toolComponent from "./Tool.vue";
+import ToolComponent from "./Tool.vue";
 import { useSettingsStore } from "@/store/settings";
 
 const meta = {
   title: "UI/Tool",
-  component: toolComponent,
+  component: ToolComponent,
   render: (args) => ({
-    components: { toolComponent },
+    components: { ToolComponent },
     setup() {
       const arr = new Array(10).fill({});
       const initialState = {
@@ -26,7 +26,7 @@ const meta = {
     edited: false,
     excluded: false
   }
-}satisfies Meta<typeof toolComponent>;
+}satisfies Meta<typeof ToolComponent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
