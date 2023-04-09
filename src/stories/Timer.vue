@@ -23,22 +23,21 @@ function decreaseTime() {
   testStore.saveTimerSec(timeLeft.value - 1);
 }
 
+function changeClass(addedClass: string, removedClass = "") {
+  if (addedClass) document.body.classList.add(addedClass);
+  if (removedClass) document.body.classList.remove(removedClass);
+}
+
 watch(timeLeft, async (value) => {
-  if (value < 30 && timerID.value > 0) {
-    document.body.classList.add("warning");
-  }
-  if (value < 11 && timerID.value > 0) {
-    document.body.classList.remove("warning");
-    document.body.classList.add("flash");
-  }
+  if (value < 30 && timerID.value > 0) changeClass("warning");
+  if (value < 11 && timerID.value > 0) changeClass("flash", "warning");
   if (value === 0 && timerID.value > 0) {
-    document.body.classList.remove("flash");
+    changeClass("fail", "flash");
     testStore.clearTimerID();
-    document.body.classList.add("fail");
     setTimeout(async () => {
-      document.body.classList.remove("fail");
-      await router.push("result");
+      changeClass("", "fail");
       testStore.changeTestStatus(false);
+      console.log('timer');
     }, 3000);
   }
 });
