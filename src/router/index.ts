@@ -71,8 +71,8 @@ router.afterEach(async (to) => {
   const { test } = useTestStore();
   const mode = to.name && to.name.toString();
 
-  if (mode !== "result" && test.length > 0) {
-    useTestStore().resetTest();
+  if (test.length > 0) {
+    (mode === "result") ? useTestStore().clearTest() : useTestStore().resetTest();
   }
 });
 
