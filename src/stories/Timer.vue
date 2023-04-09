@@ -37,7 +37,6 @@ watch(timeLeft, async (value) => {
     setTimeout(async () => {
       changeClass("", "fail");
       testStore.changeTestStatus(false);
-      console.log('timer');
     }, 3000);
   }
 });
