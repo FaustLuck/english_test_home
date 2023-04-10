@@ -20,7 +20,7 @@
 <script>
 
 import { defineAsyncComponent } from "vue";
-import { getDate } from "@/utils/utils";
+import { getDate } from "@/utils/getDate";
 import { mapActions } from "pinia";
 import { useHistoryStore } from "@/store/history";
 

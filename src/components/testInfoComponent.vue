@@ -38,7 +38,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { getDate } from "@/utils/utils";
+import { getDate } from "@/utils/getDate";
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
