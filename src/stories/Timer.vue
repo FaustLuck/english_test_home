@@ -7,6 +7,7 @@ import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { computed, onBeforeUnmount, onMounted, watch } from "vue";
 import { useRouter } from "vue-router";
+import { timeToString } from "@/utils/timeToString";
 
 const testStore = useTestStore();
 const router = useRouter();
@@ -14,9 +15,7 @@ const router = useRouter();
 const { timer, timeLeft, timerID } = storeToRefs(testStore);
 
 const time = computed(() => {
-  let sec = (timeLeft.value % 60).toString().padStart(2, "0");
-  let min = (timeLeft.value - parseInt(sec)) / 60;
-  return `${min}:${sec}`;
+  return timeToString(timeLeft.value)
 });
 
 function decreaseTime() {
