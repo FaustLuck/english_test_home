@@ -60,12 +60,14 @@ const length = computed(() => {
 const emit = defineEmits(["show"]);
 
 const isFail = computed(() => {
-  if (timeSpent.value === 0) emit("show", "fail");
+  if (timeSpent.value !== 0) return false;
+  emit("show", "fail");
   return timeSpent.value === 0;
 });
 const isCongratulation = computed(() => {
-  if (length.value > 0 && length.value === correct.value) emit("show", "fire");
-  return length.value === correct.value;
+  if (!(length.value > 0 && length.value === correct.value)) return false;
+  emit("show", "fire");
+  return true;
 });
 
 </script>
