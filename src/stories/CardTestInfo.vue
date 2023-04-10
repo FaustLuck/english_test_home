@@ -1,27 +1,33 @@
 <template>
   <v-container>
+    <v-card
+            class="pa-3 pb-5 ma-3"
+            :class="{fail:isFail,congratulation:isCongratulation}"
+            color="default"
+            elevation="5"
+            rounded="lg">
+      <v-row class="justify-center">
+        <span>{{ (name) ? name : "Вход не выполнен" }}</span>
+      </v-row>
+      <v-row class="mx-3 justify-space-between">
+        <span>Время тестирование</span><span>{{ date }} {{ time }}</span>
+      </v-row>
+      <v-row class="mx-3 justify-space-between">
+        <span>Кол-во верных ответов / вопросов:</span><span>Время тестирование</span>
+      </v-row>
+      <v-row class="mx-3 justify-space-between">
+        <span>Времени затрачено:</span><span>{{ timeSpentString }}</span>
+      </v-row>
 
-    <template v-if="result">
-      <v-card
-              class="pa-3 pb-5 ma-3"
-              :class="{fail:isFail,congratulation:isCongratulation}"
-              color="default"
-              elevation="5"
-              rounded="lg">
-        <v-row class="justify-center">
-          <span>{{ (name) ? name : "Вход не выполнен" }}</span>
+      <v-expand-transition>
+        <v-row v-if="result" class="pa-3">
+          <v-divider class="my-5"></v-divider>
+          <div v-for="a in result">{{a}}</div>
         </v-row>
-        <v-row class="mx-3 justify-space-between">
-          <span>Время тестирование</span><span>{{ date }} {{ time }}</span>
-        </v-row>
-        <v-row class="mx-3 justify-space-between">
-          <span>Кол-во верных ответов / вопросов:</span><span>Время тестирование</span>
-        </v-row>
-        <v-row class="mx-3 justify-space-between">
-          <span>Времени затрачено:</span><span>{{ timeSpentString }}</span>
-        </v-row>
-      </v-card>
-    </template>
+      </v-expand-transition>
+
+
+    </v-card>
 
   </v-container>
 </template>
@@ -39,7 +45,7 @@ interface infoProps {
   sub?: string;
 }
 
-const { timeSpent } = storeToRefs(useTestStore());
+const { timeSpent, timeLeft } = storeToRefs(useTestStore());
 
 const timeSpentString = computed(() => {
   return timeToString(timeSpent.value);
@@ -60,9 +66,9 @@ const length = computed(() => {
 const emit = defineEmits(["show"]);
 
 const isFail = computed(() => {
-  if (timeSpent.value !== 0) return false;
+  if (timeLeft.value !== 0) return false;
   emit("show", "fail");
-  return timeSpent.value === 0;
+  return timeLeft.value === 0;
 });
 const isCongratulation = computed(() => {
   if (!(length.value > 0 && length.value === correct.value)) return false;
