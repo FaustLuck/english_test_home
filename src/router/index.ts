@@ -60,6 +60,9 @@ const router = createRouter({
 
 
 router.beforeEach(async (to, from) => {
+  if (to.name) useCommonStore().setMode(to.name.toString());
+  useLoadingStore().setLoading(to.name !== "test" || from.name === "result");
+
   if (to.meta.requireAuth) {
     const { sub } = useAuthStore();
     return (sub.length) ? true : { name: "test" };
@@ -74,9 +77,6 @@ router.beforeEach(async (to, from) => {
     const { result } = useTestStore();
     return (Object.keys(result).length) ? true : { name: "test" };
   }
-
-  if (to.name) useCommonStore().setMode(to.name.toString());
-  useLoadingStore().setLoading(to.name !== "test" || from.name === "result");
 });
 
 router.afterEach(async (to) => {
