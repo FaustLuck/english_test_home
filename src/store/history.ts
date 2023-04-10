@@ -15,16 +15,22 @@ export const useHistoryStore = defineStore("history", () => {
 
   async function getDateList(sub: string) {
     const resDateList = await requestGet(`/history/date/${sub}`);
-    Object.assign(dateList, resDateList);
+    const user = users.find(el => el.sub === sub);
+    if (!user) return;
+    if (!dateList?.[sub]) {
+      dateList[sub] = {};
+    }
+    Object.assign(dateList[sub], resDateList);
   }
 
   async function getTimeList(sub: string, date: number) {
     const timeList = await requestGet(`/history/date/${sub}/${date}`);
-    Object.assign(dateList[date], timeList);
+    Object.assign(dateList[sub][date], timeList);
   }
 
   async function getResult(sub: string, timestamp: number) {
     const result = await requestGet(`/history/test/${sub}/${timestamp}`);
+    if (!statistic?.[sub]) statistic[sub] = {};
     Object.assign(statistic, { [timestamp]: result });
   }
 
