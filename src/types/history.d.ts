@@ -6,12 +6,13 @@ export interface User {
   picture: string;
   privileged: boolean;
   sub: string;
+  dateList?: DateList;
 }
 
 export interface DateList {
-  [index: number]: { counter: number };
-
-  [index: number]: TestInfo;
+  [index: string]: {
+    [index: number]: { counter: number } | TestInfo;
+  };
 }
 
 export interface TestInfo {
@@ -22,7 +23,9 @@ export interface TestInfo {
 }
 
 export interface Statistic {
-  [index: number]: HistoryRecord;
+  [index: string]: {
+    [index: number]: HistoryRecord;
+  };
 }
 
 export interface HistoryRecord {
