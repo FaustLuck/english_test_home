@@ -4,3 +4,7 @@ export interface TestItem {
   answer?: string[];
   choice?: string;
 }
+
+export interface Result {
+  [index: string]: TestItem[];
+}
