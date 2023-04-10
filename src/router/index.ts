@@ -13,7 +13,8 @@ const routes = [
   {
     path: "/result",
     name: "result",
-    component: () => import("@/views/ResultView.vue")
+    component: () => import("@/views/ResultView.vue"),
+    meta: { requireTest: true }
   },
   {
     path: "/users",
@@ -37,12 +38,14 @@ const routes = [
   {
     path: "/fire-show",
     name: "fire-show",
-    component: () => import("@/views/AnimationShow.vue")
+    component: () => import("@/views/AnimationShow.vue"),
+    meta: { requireResult: true }
   },
   {
     path: "/fail-show",
     name: "fail-show",
-    component: () => import("@/views/AnimationShow.vue")
+    component: () => import("@/views/AnimationShow.vue"),
+    meta: { requireResult: true }
   },
   {
     path: "/:catchAll(.*)",
@@ -54,26 +57,33 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
+
+
 router.beforeEach(async (to, from) => {
-  const { sub } = useAuthStore();
-  const { result, test } = useTestStore();
-  const toName = to.name && to.name.toString();
-  const fromName = from.name;
-  if (toName) useCommonStore().setMode(toName);
-  useLoadingStore().setLoading(toName !== "test" || fromName === "result");
-  if (toName === "result" && test.length === 0) {
-    return { name: "test" };
+  if (to.meta.requireAuth) {
+    const { sub } = useAuthStore();
+    return (sub.length) ? true : { name: "test" };
   }
-  if (result === null && ["fire-show", "fail-show"].includes(<string>toName)) return { name: "test" };
-  if (to.meta.requireAuth && !sub) return { name: "test" };
+
+  if (to.meta.requireTest) {
+    const { test } = useTestStore();
+    return (test.length) ? true : { name: "test" };
+  }
+
+  if (to.meta.requireResult) {
+    const { result } = useTestStore();
+    return (Object.keys(result).length) ? true : { name: "test" };
+  }
+
+  if (to.name) useCommonStore().setMode(to.name.toString());
+  useLoadingStore().setLoading(to.name !== "test" || from.name === "result");
 });
 
 router.afterEach(async (to) => {
   const { test } = useTestStore();
-  const toName = to.name && to.name.toString();
 
   if (test.length > 0) {
-    (toName === "result") ? useTestStore().clearTest() : useTestStore().resetTest();
+    (to.name === "result") ? useTestStore().clearTest() : useTestStore().resetTest();
   }
 });
 
