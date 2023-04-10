@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, ref } from "vue";
-import { TestItem } from "@/types/test";
+import { Result, TestItem } from "@/types/test";
 import { requestGet, requestPost } from "@/utils/requests";
 
 export const useTestStore = defineStore("test", () => {
@@ -8,12 +8,13 @@ export const useTestStore = defineStore("test", () => {
   const timeSpent = ref(0);
   const timestamp = ref(0);
   const timeLeft = ref(0);
-  let test: TestItem[] = reactive([]);
-  let result = reactive([]);
+  const test: TestItem[] = reactive([]);
+  const result: Result = reactive({});
   const SPEECH = ref("");
   const timer = ref(0);
   const timerID = ref(0);
   const ID = ref("");
+  const correct = ref(0);
 
   function saveTimes() {
     timeSpent.value = timer.value - timeLeft.value;
@@ -79,6 +80,7 @@ export const useTestStore = defineStore("test", () => {
 
   async function getVerifiedTest() {
     const data = await requestGet(`/test/result/${ID.value}`);
+    correct.value = data.correct;
     Object.assign(result, data.result);
   }
 
@@ -112,6 +114,7 @@ export const useTestStore = defineStore("test", () => {
     timer,
     timerID,
     ID,
+    correct,
     saveTimes,
     changeTestStatus,
     saveChoice,
