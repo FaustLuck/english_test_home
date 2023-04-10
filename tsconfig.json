@@ -24,8 +24,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "types": [
-      "vite/client",
-      "google-one-tap"
+      "vite/client"
     ]
   },
   "include": [
