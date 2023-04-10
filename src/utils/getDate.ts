@@ -1,4 +1,4 @@
-export function getDate(timestamp: string) {
+export function getDate(timestamp: number) {
   return new Intl.DateTimeFormat("ru-Ru", {
     year: "numeric",
     month: "2-digit",
@@ -6,6 +6,6 @@ export function getDate(timestamp: string) {
     hour: "2-digit",
     minute: "2-digit",
   })
-    .format(new Date(parseInt(timestamp)))
+    .format(new Date(timestamp))
     .split(", ");
 }
