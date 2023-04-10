@@ -6,7 +6,7 @@
 import { mapState } from "pinia";
 import { failShow } from "@/utils/failShow";
 import { fireShow } from "@/utils/fireShow";
-import { useCommonStore } from "@/store/common.js";
+import { useCommonStore } from "@/store/common";
 
 export default {
   name: "AnimationShow",
@@ -39,6 +39,6 @@ canvas {
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 100000;
 }
 </style>
