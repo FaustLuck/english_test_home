@@ -25,3 +25,8 @@ export default meta;
 type Story = StoryObj<typeof meta>
 
 export const Open: Story = {};
+export const Collapsed = {
+  args: {
+    isCollapsed: true
+  }
+};
