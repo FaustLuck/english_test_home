@@ -54,25 +54,26 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
-router.beforeEach(async (to) => {
+router.beforeEach(async (to, from) => {
   const { sub } = useAuthStore();
   const { result, test } = useTestStore();
-  const mode = to.name && to.name.toString();
-  if (mode) useCommonStore().setMode(mode);
-  useLoadingStore().setLoading(mode !== "test");
-  if (mode === "result" && test.length === 0) {
+  const toName = to.name && to.name.toString();
+  const fromName = from.name;
+  if (toName) useCommonStore().setMode(toName);
+  useLoadingStore().setLoading(toName !== "test" || fromName === "result");
+  if (toName === "result" && test.length === 0) {
     return { name: "test" };
   }
-  if (result === null && ["fire-show", "fail-show"].includes(<string>mode)) return { name: "test" };
+  if (result === null && ["fire-show", "fail-show"].includes(<string>toName)) return { name: "test" };
   if (to.meta.requireAuth && !sub) return { name: "test" };
 });
 
 router.afterEach(async (to) => {
   const { test } = useTestStore();
-  const mode = to.name && to.name.toString();
+  const toName = to.name && to.name.toString();
 
   if (test.length > 0) {
-    (mode === "result") ? useTestStore().clearTest() : useTestStore().resetTest();
+    (toName === "result") ? useTestStore().clearTest() : useTestStore().resetTest();
   }
 });
 
