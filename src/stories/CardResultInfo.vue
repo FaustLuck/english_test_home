@@ -12,9 +12,8 @@
       </v-row>
       <v-row class="mx-3 justify-space-between">
         <span>Кол-во верных ответов / вопросов:</span>
-        <span>{{ (correct) ? correct : "?" }}
-          /
-          {{ (length) ? length : "?" }}</span>
+        <span v-if="correct && length">{{ correct }} / {{ length }}</span>
+        <span v-else>? / ?</span>
       </v-row>
       <v-row class="mx-3 justify-space-between">
         <span>Времени затрачено:</span><span>{{ timeSpentString }}</span>
