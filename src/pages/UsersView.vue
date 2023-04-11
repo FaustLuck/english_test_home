@@ -20,7 +20,7 @@ import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 import { useHistoryStore } from "@/store/history";
 
-const CardUserComponent = defineAsyncComponent(() => import("@/stories/CardUser.vue"));
+const CardUserComponent = defineAsyncComponent(() => import("@/stories/cards/CardUser.vue"));
 
 const router = useRouter();
 const activeUserSub = ref("");

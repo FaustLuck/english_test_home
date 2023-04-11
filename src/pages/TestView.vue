@@ -17,7 +17,7 @@ import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 
-const CardTestItemComponent = defineAsyncComponent(() => import("@/stories/CardTestItem.vue"));
+const CardTestItemComponent = defineAsyncComponent(() => import("@/stories/cards/CardTestItem.vue"));
 
 const { isLoading } = storeToRefs(useLoadingStore());
 const { sub } = storeToRefs(useAuthStore());
