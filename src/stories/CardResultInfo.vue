@@ -57,7 +57,7 @@
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import { getDate } from "@/utils/getDate";
-import { computed, defineAsyncComponent } from "vue";
+import { computed, defineAsyncComponent, watchEffect } from "vue";
 import { useTestStore } from "@/store/test";
 import { timeToString } from "@/utils/timeToString";
 import { useCommonStore } from "@/store/common";
@@ -92,15 +92,9 @@ const length = computed(() => {
 
 const emit = defineEmits(["show"]);
 
-const isFail = computed(() => {
-  if (timeLeft.value !== 0) return false;
-  emit("show", "fail");
-  return timeLeft.value === 0;
-});
-const isCongratulation = computed(() => {
-  if (!(length.value > 0 && length.value === correct.value)) return false;
-  emit("show", "fire");
-  return true;
+watchEffect(() => {
+  if (timeLeft.value === 0) emit("show", "fail");
+  if (length.value > 0 && length.value === correct) emit("show", "fire");
 });
 
 </script>
