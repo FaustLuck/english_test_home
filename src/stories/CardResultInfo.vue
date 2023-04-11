@@ -2,7 +2,6 @@
   <v-container>
     <v-card
             class="pa-3 pb-5 ma-3"
-            :class="{fail:isFail,congratulation:isCongratulation}"
             color="default"
             elevation="5"
             rounded="lg">
@@ -77,13 +76,3 @@ const isCongratulation = computed(() => {
 });
 
 </script>
-
-<style>
-.fail {
-    background-color: #ff8c69 !important;
-}
-
-.congratulation {
-    background-color: #8fbc8f !important;
-}
-</style>
