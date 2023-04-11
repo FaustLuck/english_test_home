@@ -13,7 +13,7 @@ const routes = [
   {
     path: "/result",
     name: "result",
-    component: () => import("@/views/ResultView.vue"),
+    component: () => import("@/pages/ResultView.vue"),
     meta: { requireTest: true }
   },
   {
