@@ -15,10 +15,7 @@ const meta = {
     },
     template: `
 			<divide-component :loading="args.loading">
-      <div>
 	      <span>Injected Slot</span>
-      </div>
-			
 			</divide-component>`
   })
 }satisfies Meta<typeof DivideComponent>;
