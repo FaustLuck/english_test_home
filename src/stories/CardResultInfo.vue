@@ -2,7 +2,6 @@
   <v-container>
     <v-card
             class="pa-3 pb-5 ma-3"
-            color="default"
             elevation="5"
             rounded="lg">
       <v-row class="justify-center">
