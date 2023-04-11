@@ -3,15 +3,10 @@ import { reactive, ref } from "vue";
 
 export const useCommonStore = defineStore("common", () => {
   const orderDifficult = reactive(["easy", "medium", "hard"]);
-  const menuHeight = ref(0);
   const mode = ref("");
   const isOpen = ref(false);
   const message = ref("");
   const isAnimate = ref(false);
-
-  function setMenuHeight(height: number) {
-    menuHeight.value = height;
-  }
 
   function setMode(newMode: string) {
     mode.value = newMode;
@@ -36,12 +31,10 @@ export const useCommonStore = defineStore("common", () => {
 
   return {
     orderDifficult,
-    menuHeight,
     mode,
     isOpen,
     message,
     isAnimate,
-    setMenuHeight,
     setMode,
     setOpen,
     setMessage,
