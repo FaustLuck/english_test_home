@@ -19,10 +19,31 @@
       </v-row>
 
       <v-expand-transition>
-        <v-row v-if="result" class="pa-3">
-          <v-divider class="my-5"></v-divider>
-          <div v-for="a in result">{{a}}</div>
-        </v-row>
+        <v-container v-if="result" class="pa-3">
+          <v-divider class="mt-5" thickness="5"></v-divider>
+
+          <template v-for="difficult of orderDifficult">
+            <v-card-title class="d-flex justify-center pa-0">{{ difficult }}</v-card-title>
+            <v-divider class="mb-2 mx-auto" inset></v-divider>
+
+            <template v-if="Object.keys(result).length===0">
+              <v-row class="d-flex align-center my-1"
+                     v-for="i of 2" :key="i">
+                <v-col align-self="center" class="d-flex flex-column pa-0">
+                  <line-loading-component/>
+                </v-col>
+                <v-col align-self="center" class="d-flex flex-column pa-0">
+                  <line-loading-component/>
+                </v-col>
+              </v-row>
+            </template>
+
+            <template v-else>
+              <card-result-item v-for="item of result[difficult]" :key="item.key" :item="item"></card-result-item>
+            </template>
+
+          </template>
+        </v-container>
       </v-expand-transition>
 
 
