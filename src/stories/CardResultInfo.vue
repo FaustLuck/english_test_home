@@ -25,11 +25,10 @@
           <v-divider class="mt-5" thickness="5"></v-divider>
 
           <template v-for="difficult of orderDifficult">
-            <line-loading-component class="d-flex justify-center pa-0" v-if="Object.keys(result).length===0"/>
-            <v-card-title v-else class="d-flex justify-center pa-0"> {{ difficult }}</v-card-title>
-            <v-divider class="mb-2 mx-auto" inset></v-divider>
 
             <template v-if="Object.keys(result).length===0">
+              <line-loading-component class="d-flex justify-center pa-0" v-if="Object.keys(result).length===0"/>
+              <v-divider class="mb-2 mx-auto" inset></v-divider>
               <v-row class="d-flex align-center my-1"
                      v-for="i of 2" :key="i">
                 <v-col align-self="center" class="d-flex flex-column pa-0">
@@ -41,11 +40,14 @@
               </v-row>
             </template>
 
-            <template v-else>
+            <template v-else-if="result[difficult].length>0">
+              <v-card-title class="d-flex justify-center pa-0"> {{ difficult }}</v-card-title>
+              <v-divider class="mb-2 mx-auto" inset></v-divider>
               <card-result-item v-for="item of result[difficult]" :key="item.key" :item="item"></card-result-item>
             </template>
 
           </template>
+
         </v-container>
       </v-expand-transition>
     </v-card>
