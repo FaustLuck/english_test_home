@@ -12,18 +12,22 @@
         <span>Время тестирование</span><span>{{ date }} {{ time }}</span>
       </v-row>
       <v-row class="mx-3 justify-space-between">
-        <span>Кол-во верных ответов / вопросов:</span><span>Время тестирование</span>
+        <span>Кол-во верных ответов / вопросов:</span>
+        <span>{{ (correct) ? correct : "?" }}
+          /
+          {{ (length) ? length : "?" }}</span>
       </v-row>
       <v-row class="mx-3 justify-space-between">
         <span>Времени затрачено:</span><span>{{ timeSpentString }}</span>
       </v-row>
 
       <v-expand-transition>
-        <v-container v-if="result" class="pa-3">
+        <v-container class="pa-3">
           <v-divider class="mt-5" thickness="5"></v-divider>
 
           <template v-for="difficult of orderDifficult">
-            <v-card-title class="d-flex justify-center pa-0">{{ difficult }}</v-card-title>
+            <line-loading-component class="d-flex justify-center pa-0" v-if="Object.keys(result).length===0"/>
+            <v-card-title v-else class="d-flex justify-center pa-0"> {{ difficult }}</v-card-title>
             <v-divider class="mb-2 mx-auto" inset></v-divider>
 
             <template v-if="Object.keys(result).length===0">
