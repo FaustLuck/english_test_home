@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import CardTestItemComponent from "@/stories/CardTestItem.vue";
+import CardTestItemComponent from "./CardTestItem.vue";
 
 const meta = {
   title: "UI/Cards/TestItem",

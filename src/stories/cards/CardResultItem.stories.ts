@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import CardResultItemComponent from "@/stories/CardResultItem.vue";
+import CardResultItemComponent from "./CardResultItem.vue";
 
 const meta = {
   title: "UI/Cards/ResultItem",
@@ -20,19 +20,18 @@ export const WrongWithChoice: Story = {
   args: {
     item: {
       key: "wrongItemWithChoice",
-      answer: "Семь",
-      choice: "Кто",
-      question: "Seven"
+      answer: "Шесть",
+      choice: "Пять",
+      question: "Six"
     }
   }
 };
 
-export const wrongItemWithChoice: Story = {
+export const wrongItemWithoutChoice: Story = {
   args: {
     item: {
-      key: "wrongItemWithChoice",
+      key: "wrongItemWithoutChoice",
       answer: "Семь",
-      choice: "Кто",
       question: "Seven"
     }
   }

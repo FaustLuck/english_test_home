@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import CardResultInfoComponent from "@/stories/CardResultInfo.vue";
+import CardResultInfoComponent from "./CardResultInfo.vue";
 import { useTestStore } from "@/store/test";
 import { Result } from "@/types/test";
 

@@ -64,7 +64,7 @@ import { useCommonStore } from "@/store/common";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 import { Result } from "@/types/test";
 
-const CardResultItem = defineAsyncComponent(() => import("@/stories/CardResultItem.vue"));
+const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));
 
 interface CardResultInfoProps {
   timestamp: number;
