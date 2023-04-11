@@ -1,7 +1,8 @@
 <template>
-  <card-test-info-component
+  <card-result-info-component
           :timestamp="timestamp"
-          :sub="sub"
+          :result="result"
+          :correct="correct"
           @show="show"
   />
 </template>
@@ -16,7 +17,7 @@ import { useLoadingStore } from "@/store/loading";
 export default {
   name: "ResultView",
   components: {
-    CardTestInfoComponent: defineAsyncComponent(() => import("@/stories/CardResultInfo.vue"))
+    CardResultInfoComponent: defineAsyncComponent(() => import("@/stories/CardResultInfo.vue"))
   },
   watch: {
     async sub(value) {
@@ -24,7 +25,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(useTestStore, ["timestamp"]),
+    ...mapState(useTestStore, ["timestamp", "result", "correct"]),
     ...mapState(useAuthStore, ["sub"])
   },
   methods: {

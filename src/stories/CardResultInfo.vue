@@ -63,8 +63,16 @@ import { useTestStore } from "@/store/test";
 import { timeToString } from "@/utils/timeToString";
 import { useCommonStore } from "@/store/common";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
+import { Result } from "@/types/test";
 
 const CardResultItem = defineAsyncComponent(() => import("@/stories/CardResultItem.vue"));
+
+interface CardResultInfoProps {
+  timestamp: number;
+  result?: Result;
+  correct: number;
+}
+
 
 const { timeSpent, timeLeft } = storeToRefs(useTestStore());
 
@@ -75,7 +83,7 @@ const timeSpentString = computed(() => {
 const { name } = storeToRefs(useAuthStore());
 const { result, correct } = storeToRefs(useTestStore());
 const { orderDifficult } = storeToRefs(useCommonStore());
-const props = defineProps<{ timestamp: number }>();
+const { result, correct, timestamp } = defineProps<CardResultInfoProps>();
 
 const [date, time] = getDate(props.timestamp);
 
