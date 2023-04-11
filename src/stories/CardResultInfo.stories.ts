@@ -2,8 +2,6 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import CardResultInfoComponent from "@/stories/CardResultInfo.vue";
 import { useTestStore } from "@/store/test";
 import { Result } from "@/types/test";
-import { useAuthStore } from "@/store/auth";
-
 
 const meta = {
   title: "UI/Cards/ResultInfo",
