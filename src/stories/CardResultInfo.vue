@@ -62,11 +62,6 @@ import { timeToString } from "@/utils/timeToString";
 import { useCommonStore } from "@/store/common";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 
-interface infoProps {
-  timestamp: number;
-  sub?: string;
-}
-
 const CardResultItem = defineAsyncComponent(() => import("@/stories/CardResultItem.vue"));
 
 const { timeSpent, timeLeft } = storeToRefs(useTestStore());
@@ -78,7 +73,7 @@ const timeSpentString = computed(() => {
 const { name } = storeToRefs(useAuthStore());
 const { result, correct } = storeToRefs(useTestStore());
 const { orderDifficult } = storeToRefs(useCommonStore());
-const props = defineProps<infoProps>();
+const props = defineProps<{ timestamp: number }>();
 
 const [date, time] = getDate(props.timestamp);
 
