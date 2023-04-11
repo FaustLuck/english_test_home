@@ -3,6 +3,7 @@
     <v-card
             class="pa-3 pb-5 ma-3"
             elevation="5"
+            color="transparent"
             rounded="lg">
       <v-row class="justify-center">
         <span>{{ (name) ? name : "Вход не выполнен" }}</span>
@@ -12,8 +13,8 @@
       </v-row>
       <v-row class="mx-3 justify-space-between">
         <span>Кол-во верных ответов / вопросов:</span>
-        <span v-if="correct && length">{{ correct }} / {{ length }}</span>
-        <span v-else>? / ?</span>
+        <span v-if="correct>=0 && length>0">{{ correct }} / {{ length }}</span>
+        <span v-else>?? / ??</span>
       </v-row>
       <v-row class="mx-3 justify-space-between">
         <span>Времени затрачено:</span><span>{{ timeSpentString }}</span>
@@ -21,13 +22,11 @@
 
       <v-expand-transition>
         <v-container class="pa-3">
-          <v-divider class="mt-5" thickness="5"></v-divider>
 
           <template v-for="difficult of orderDifficult">
 
             <template v-if="!result">
-              <line-loading-component class="d-flex justify-center pa-0"/>
-              <v-divider class="mb-2 mx-auto" inset></v-divider>
+              <divide-component :loading="!Boolean(result)"/>
               <v-row class="d-flex align-center my-1"
                      v-for="i of 2" :key="i">
                 <v-col align-self="center" class="d-flex flex-column pa-0">
@@ -40,8 +39,9 @@
             </template>
 
             <template v-else-if="result[difficult]?.length>0">
-              <v-card-title class="d-flex justify-center pa-0"> {{ difficult }}</v-card-title>
-              <v-divider class="mb-2 mx-auto" inset></v-divider>
+              <divide-component :loading="false">
+                <v-card-title class="py-1"> {{ difficult }}</v-card-title>
+              </divide-component>
               <card-result-item v-for="item of result[difficult]" :key="item.question" :item="item"></card-result-item>
             </template>
 
@@ -62,6 +62,7 @@ import { useTestStore } from "@/store/test";
 import { timeToString } from "@/utils/timeToString";
 import { useCommonStore } from "@/store/common";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
+import DivideComponent from "@/stories/bricks/Divide.vue";
 import { Result } from "@/types/test";
 
 const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));
