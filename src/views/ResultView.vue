@@ -16,7 +16,7 @@ import { useLoadingStore } from "@/store/loading";
 export default {
   name: "ResultView",
   components: {
-    CardTestInfoComponent: defineAsyncComponent(() => import("@/stories/CardTestInfo.vue"))
+    CardTestInfoComponent: defineAsyncComponent(() => import("@/stories/CardResultInfo.vue"))
   },
   watch: {
     async sub(value) {
