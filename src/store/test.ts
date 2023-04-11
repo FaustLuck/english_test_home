@@ -25,8 +25,7 @@ export const useTestStore = defineStore("test", () => {
     isTesting.value = flag;
   }
 
-  function saveChoice(choice: string, key?: string) {
-    if (!key) return;
+  function saveChoice(choice: string, key: string) {
     const item = test.find(el => el.key === key);
     if (item) item.choice = choice;
   }
