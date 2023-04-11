@@ -43,7 +43,7 @@
             <template v-else-if="result[difficult]?.length>0">
               <v-card-title class="d-flex justify-center pa-0"> {{ difficult }}</v-card-title>
               <v-divider class="mb-2 mx-auto" inset></v-divider>
-              <card-result-item v-for="item of result[difficult]" :key="item.key" :item="item"></card-result-item>
+              <card-result-item v-for="item of result[difficult]" :key="item.question" :item="item"></card-result-item>
             </template>
 
           </template>
