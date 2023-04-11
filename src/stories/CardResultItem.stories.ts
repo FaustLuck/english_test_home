@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/vue3";
 import CardResultItemComponent from "@/stories/CardResultItem.vue";
 
 const meta = {
-  title: "UI/CardResult",
+  title: "UI/Cards/Result",
   component: CardResultItemComponent,
   tags: ["autodocs"]
 }satisfies Meta<typeof CardResultItemComponent>;
