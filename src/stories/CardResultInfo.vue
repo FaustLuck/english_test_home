@@ -45,10 +45,7 @@
           </template>
         </v-container>
       </v-expand-transition>
-
-
     </v-card>
-
   </v-container>
 </template>
 
