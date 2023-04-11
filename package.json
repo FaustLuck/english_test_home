@@ -7,7 +7,9 @@
     "build": "vite build",
     "start server": "set NODE_ENV=development&& start.cmd",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "pinia": "^2.0.33",
@@ -26,6 +28,8 @@
     "@storybook/vue3": "7.0.2",
     "@storybook/vue3-vite": "7.0.2",
     "@vitejs/plugin-vue": "^4.1.0",
+    "@vue/test-utils": "^2.3.2",
+    "jsdom": "^21.1.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sass": "^1.60.0",

@@ -36,6 +36,10 @@ export default defineConfig(() => {
         },
       },
       outDir: "./docs"
-    }
+    },
+    test: {
+      globals: true,
+      environment: 'jsdom',
+    },
   };
 });
