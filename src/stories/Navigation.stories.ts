@@ -6,17 +6,17 @@ const meta = {
   component: NavigationComponent,
   tags: ["autodocs"],
   args: {
-    isHidden: false
+    isCollapsed: false
   },
   render: (args) => ({
     components: { NavigationComponent },
-    setup(){
-      return {args}
+    setup() {
+      return { args };
     },
     template: `
-	    <v-layout>
-		    <navigation-component :is-hidden="args.isHidden"/>
-	    </v-layout>
+			<v-layout>
+			<navigation-component :is-collapsed="args.isCollapsed"/>
+			</v-layout>
     `
   })
 }satisfies Meta<typeof NavigationComponent>;
