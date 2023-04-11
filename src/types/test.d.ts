@@ -1,10 +1,14 @@
 export interface TestItem {
-  key?: string;
+  key: string;
   question: string;
   answer?: string[];
   choice?: string;
 }
 
+export interface ResultItem extends TestItem{
+  answer: string;
+}
+
 export interface Result {
-  [index: string]: TestItem[];
+  [index: string]: ResultItem[];
 }
