@@ -84,12 +84,11 @@ const { name } = storeToRefs(useAuthStore());
 const { orderDifficult } = storeToRefs(useCommonStore());
 const { result, correct, timestamp } = defineProps<CardResultInfoProps>();
 
-const [date, time] = getDate(props.timestamp);
+const [date, time] = getDate(timestamp);
 
 const length = computed(() => {
-  return (Object.values(result.value)).reduce((acc, cur) => {
-    return acc + cur.length;
-  }, 0);
+  if (!result) return 0;
+  return (Object.values(result)).flat(1).length;
 });
 
 const emit = defineEmits(["show"]);
