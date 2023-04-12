@@ -1,17 +1,17 @@
-import { mount } from "@vue/test-utils";
+import { shallowMount } from "@vue/test-utils";
 import vuetify from "../src/plugins/vuetify";
 // @ts-ignore
 import { createTestingPinia } from "@pinia/testing";
 
 
-
-export function createWrapper(component: any, initialState: any={}) {
-  return mount(component, {
+export function createWrapper({ component, props = {} }: any, initialState: any = {}) {
+  return shallowMount(component, {
+    props,
     global: {
       plugins: [
         vuetify,
         createTestingPinia({
-          createSpy: vi.fn,
+          stubActions:false,
           initialState
         })
       ]
