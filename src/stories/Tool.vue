@@ -41,33 +41,34 @@ interface toolComponentProps {
 const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
 
 const props = defineProps<toolComponentProps>();
+const { index, difficult } = props;
 const store = useSettingsStore();
 
 const { editingDifficult, editingIndex } = storeToRefs(store);
 const editing = computed(() => {
-  return editingDifficult.value === props.difficult && editingIndex.value === props.index;
+  return editingDifficult.value === difficult && editingIndex.value === index;
 });
 
 const editStart = () => {
-  store.startEdit(props.index, props.difficult);
+  store.startEdit(index, difficult);
 };
 const editFinish = () => {
   store.finishEdit();
 };
 const deleteItem = () => {
-  store.deleteItem(props.index, props.difficult);
+  store.deleteItem(index, difficult);
 };
 const undoChanges = () => {
   if (props.included) {
-    store.removeIncluded(props.index, props.difficult);
+    store.removeIncluded(index, difficult);
     return;
   }
   if (props.excluded) {
-    store.returnDeletedItem(props.index, props.difficult);
+    store.returnDeletedItem(index, difficult);
     return;
   }
   if (props.edited) {
-    store.cancelEdit(props.index, props.difficult);
+    store.cancelEdit(index, difficult);
   }
 };
 </script>
