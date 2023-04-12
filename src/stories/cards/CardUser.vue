@@ -1,6 +1,6 @@
 <template>
   <template v-if="!props.user">
-    <v-card class="d-flex align-center my-3" elevation="5" rounded="lg">
+    <v-card class="d-flex align-center my-3" elevation="5" rounded="lg" color="transparent">
       <v-card-item>
         <v-avatar color="surface-variant" size="80"></v-avatar>
       </v-card-item>
@@ -11,7 +11,9 @@
   <template v-else>
     <v-card class="d-flex align-center my-3" :class="{'order-first':props.user.privileged}"
             elevation="5"
-            rounded="lg">
+            rounded="lg"
+            color="transparent"
+    >
       <v-card-item>
         <v-avatar class="fill-height" :image="props.user.picture" size="80"></v-avatar>
       </v-card-item>
