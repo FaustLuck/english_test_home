@@ -6,20 +6,18 @@
 import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { computed, onBeforeUnmount, onMounted, watch } from "vue";
-import { useRouter } from "vue-router";
 import { timeToString } from "@/utils/timeToString";
 
 const testStore = useTestStore();
-const router = useRouter();
 
-const { timer, timeLeft, timerID } = storeToRefs(testStore);
+const { timeLeft } = storeToRefs(testStore);
 
 const time = computed(() => {
-  return timeToString(timeLeft.value)
+  return timeToString(testStore.timeLeft);
 });
 
 function decreaseTime() {
-  testStore.saveTimerSec(timeLeft.value - 1);
+  testStore.timeLeft--;
 }
 
 function changeClass(addedClass: string, removedClass = "") {
@@ -28,27 +26,28 @@ function changeClass(addedClass: string, removedClass = "") {
 }
 
 watch(timeLeft, async (value) => {
-  if (value < 30 && timerID.value > 0) changeClass("warning");
-  if (value < 11 && timerID.value > 0) changeClass("flash", "warning");
-  if (value === 0 && timerID.value > 0) {
+  if (value < 30 && testStore.timerID > 0) changeClass("warning");
+  if (value < 11 && testStore.timerID > 0) changeClass("flash", "warning");
+  if (value === 0 && testStore.timerID > 0) {
     changeClass("fail", "flash");
-    testStore.clearTimerID();
+    testStore.timerID = 0;
     setTimeout(async () => {
       changeClass("", "fail");
-      testStore.changeTestStatus(false);
+      testStore.isTesting = false;
     }, 3000);
   }
 });
 
 onMounted(() => {
-  testStore.saveTimerSec(timer.value);
-  const timerID = window.setInterval(decreaseTime, 1000);
-  testStore.setTimerID(timerID);
+  testStore.timeLeft = testStore.timer;
+  testStore.timerID = window.setInterval(decreaseTime, 1000);
 });
 
 onBeforeUnmount(() => {
-  if (!timerID.value) return;
-  testStore.clearTimerID();
-  testStore.saveTimes();
+  if (!testStore.timerID) return;
+  window.clearInterval(testStore.timerID);
+  testStore.timerID = 0;
+  testStore.timeSpent = testStore.timer - testStore.timeLeft;
+  testStore.timestamp = new Date().setSeconds(0, 0);
 });
 </script>

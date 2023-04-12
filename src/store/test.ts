@@ -16,11 +16,6 @@ export const useTestStore = defineStore("test", () => {
   const ID = ref("");
   const correct = ref(0);
 
-  function saveTimes() {
-    timeSpent.value = timer.value - timeLeft.value;
-    timestamp.value = new Date().setSeconds(0, 0);
-  }
-
   function changeTestStatus(flag: boolean) {
     isTesting.value = flag;
   }
@@ -34,15 +29,6 @@ export const useTestStore = defineStore("test", () => {
     test.length = 0;
   }
 
-  function setTimerID(id: number) {
-    timerID.value = id;
-  }
-
-  function clearTimerID() {
-    window.clearInterval(timerID.value);
-    timerID.value = 0;
-  }
-
   function resetTimes() {
     timeSpent.value = 0;
     timestamp.value = 0;
@@ -50,14 +36,11 @@ export const useTestStore = defineStore("test", () => {
 
   function resetTest() {
     clearTest();
-    clearTimerID();
-    changeTestStatus(false);
-    saveTimerSec(0);
+    window.clearInterval(timerID.value);
+    timerID.value = 0;
+    isTesting.value=false
+    timeLeft.value = 0;
     resetTimes();
-  }
-
-  function saveTimerSec(time: number) {
-    timeLeft.value = time;
   }
 
   async function getTest(sub = "") {
@@ -114,14 +97,10 @@ export const useTestStore = defineStore("test", () => {
     timerID,
     ID,
     correct,
-    saveTimes,
     changeTestStatus,
     saveChoice,
     clearTest,
-    setTimerID,
-    clearTimerID,
     resetTest,
-    saveTimerSec,
     getTest,
     sendAnswers,
     getVerifiedTest,
