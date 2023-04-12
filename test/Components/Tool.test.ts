@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect } from "vitest";
 import Tool from "@/stories/Tool.vue";
-import { createWrapper } from "../mountWithVuetify";
+import { shallowMountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { useSettingsStore } from "../../src/store/settings";
@@ -32,7 +32,7 @@ describe("Tool", () => {
   let wrapper: VueWrapper<any>;
 
   beforeEach(() => {
-    wrapper = createWrapper({ component: Tool, props }, initialState);
+    wrapper = shallowMountWrapper({ component: Tool, props }, initialState);
   });
 
   afterEach(() => {
