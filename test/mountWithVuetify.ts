@@ -1,4 +1,4 @@
-import { shallowMount } from "@vue/test-utils";
+import { mount, shallowMount } from "@vue/test-utils";
 import vuetify from "../src/plugins/vuetify";
 // @ts-ignore
 import { createTestingPinia } from "@pinia/testing";
