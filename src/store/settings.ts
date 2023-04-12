@@ -9,7 +9,7 @@ export const useSettingsStore = defineStore("settings", () => {
   const timer = ref(0);
   const variants = ref(0);
   const isSaved = ref(true);
-  const editingIndex = ref(-4);
+  const editingIndex = ref(-1);
   const editingDifficult = ref("");
   let editingItem: Record | any = reactive({});
 
@@ -31,6 +31,8 @@ export const useSettingsStore = defineStore("settings", () => {
     if (oldAnswer === undefined || oldQuestion === undefined) return;
     dictionary[difficult][index].answer = oldAnswer;
     dictionary[difficult][index].question = oldQuestion;
+    delete dictionary[difficult][index].oldAnswer;
+    delete dictionary[difficult][index].oldQuestion;
     delete dictionary[difficult][index].edited;
   }
 
