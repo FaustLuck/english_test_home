@@ -30,7 +30,7 @@ describe("CardUser", () => {
     expect(wrapper.find("img").attributes().src).toBe(user.picture);
     expect(wrapper.find('.v-card').attributes().privileged).toBeUndefined()
   });
-  
+
   test("Применение класса к карточке привилегированного пользователя", async () => {
     wrapper = mountWrapper({ component: CardUser, props: { user } });
     await wrapper.setProps({ privileged: true });
