@@ -1,5 +1,5 @@
 <template>
-  <v-chip>{{ time }}</v-chip>
+  <v-chip :text="time"></v-chip>
 </template>
 
 <script setup lang="ts">
@@ -30,7 +30,7 @@ watch(timeLeft, async (value) => {
   if (value < 11 && testStore.timerID > 0) changeClass("flash", "warning");
   if (value === 0 && testStore.timerID > 0) {
     changeClass("fail", "flash");
-    testStore.timerID = 0;
+    testStore.clearTimerID();
     setTimeout(async () => {
       changeClass("", "fail");
       testStore.isTesting = false;
@@ -45,9 +45,7 @@ onMounted(() => {
 
 onBeforeUnmount(() => {
   if (!testStore.timerID) return;
-  window.clearInterval(testStore.timerID);
-  testStore.timerID = 0;
-  testStore.timeSpent = testStore.timer - testStore.timeLeft;
-  testStore.timestamp = new Date().setSeconds(0, 0);
+  testStore.clearTimerID();
+  testStore.saveTimes();
 });
 </script>

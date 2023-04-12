@@ -17,20 +17,22 @@ describe("Timer", () => {
     vi.useRealTimers();
   });
 
-  test("Секунды правильно переводятся в формат мм:сс", () => {
-    wrapper = createWrapper(Timer, { test: { timeLeft: 65 } });
-    expect(wrapper.text()).toBe("1:05");
+  test("Секунды правильно переводятся в формат мм:сс", async () => {
+    wrapper = createWrapper({component: Timer }, { test: { timer: 65 } });
+    await nextTick()
+    expect(wrapper.findAll(`[text="1:04"]`).length).toBe(0);
+    expect(wrapper.findAll(`[text="1:05"]`).length).toBe(1);
   });
 
   test("При монтировании таймера в pinia записывается его ID", async () => {
-    wrapper = createWrapper(Timer, { test: { timer: 10 } });
+    wrapper = createWrapper({component: Timer }, { test: { timer: 10 } });
     await nextTick();
-    expect(useTestStore().timeLeft).toBe(10);
     expect(useTestStore().timerID).not.toBeUndefined();
+    expect(useTestStore().timeLeft).toBe(10);
   });
 
   test("Обновление оставшегося времени происходит каждую секунду", async () => {
-    wrapper = createWrapper(Timer, { test: { timer: 10 } });
+    wrapper = createWrapper({component: Timer }, { test: { timer: 10 } });
     vi.advanceTimersByTime(2 * 1000);
     await nextTick();
     expect(useTestStore().timeLeft).toBe(8);
