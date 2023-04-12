@@ -1,5 +1,5 @@
 <template>
-  <v-chip :text="time"></v-chip>
+  <v-chip :text="time"/>
 </template>
 
 <script setup lang="ts">
