@@ -4,6 +4,8 @@ import { mountWrapper } from "../../mountWithVuetify";
 import { TestItem } from "@/types/test";
 import { useTestStore } from "@/store/test";
 
+const component = CardTestItem;
+
 function createTest() {
   const test: TestItem[] = [];
   for (let i = 0; i < 6; i++) {
@@ -24,13 +26,13 @@ describe("CardTestItem", () => {
   });
 
   test("Отрисовка если нет данных", () => {
-    wrapper = mountWrapper({ component: CardTestItem });
+    wrapper = mountWrapper({ component });
     expect(wrapper.text().search("Loading") > -1).toBe(true);
   });
 
   test("Отрисовка если данные доступны", () => {
     const item: TestItem = createTest()[3];
-    wrapper = mountWrapper({ component: CardTestItem, props: { item } });
+    wrapper = mountWrapper({ component, props: { item } });
     expect(wrapper.text().search(item.question) > -1).toBe(true);
     expect(item.answer.every(el => wrapper.text().search(el) > -1)).toBe(true);
   });
@@ -40,9 +42,7 @@ describe("CardTestItem", () => {
     const i = Math.round(Math.random() * (testArray.length - 1));
     const choiceIndex = Math.round(Math.random() * (testArray[i].answer.length - 1));
     const initialState = { test: { test: testArray } };
-    wrapper = mountWrapper({
-      component: CardTestItem, props: { item: testArray[i] }
-    }, initialState);
+    wrapper = mountWrapper({ component, props: { item: testArray[i] } }, initialState);
     const inputs = wrapper.findAll("input[type='radio']");
     expect(inputs.length).toBe(testArray[i].answer.length);
 

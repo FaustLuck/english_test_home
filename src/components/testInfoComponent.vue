@@ -38,10 +38,7 @@
 
 <script>
 import { defineAsyncComponent } from "vue";
-import { getDate } from "@/utils/getDate";
 import { mapActions, mapState } from "pinia/dist/pinia";
-import { useTestStore } from "@/store/test";
-import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common";
 import { useLoadingStore } from "@/store/loading";
 import { useHistoryStore } from "@/store/history";
@@ -69,25 +66,8 @@ export default {
       localTimeLeft: this.testInfo?.timeLeft
     };
   },
-  watch: {
-    result(value) {
-      if (value && this.mode === "result") {
-        this.localTest = this.result;
-        this.localTimeSpent = this.timeSpent;
-        this.localTimeLeft = this.timeLeft;
-        if (this.isCongratulation) this.$emit("show", "fire");
-        if (this.isFail) this.$emit("show", "fail");
-        this.setLoading(false);
-      }
-    },
-    async sub(value) {
-      if (value) await this.saveTest(value);
-    },
-  },
   computed: {
-    ...mapState(useTestStore, ["timeSpent", "result", "timeLeft"]),
     ...mapState(useCommonStore, ["orderDifficult", "mode"]),
-    ...mapState(useAuthStore, ["name"]),
     ...mapState(useLoadingStore,['isLoading']),
     length() {
       if (this.mode === "result") {
@@ -115,7 +95,6 @@ export default {
   },
   methods: {
     ...mapActions(useHistoryStore, ["getResult"]),
-    ...mapActions(useTestStore, ["checkTest", "saveTest", "getVerifiedTest"]),
     ...mapActions(useLoadingStore, ["setLoading"]),
     async changeDisplayMode(e) {
       if (this.mode === "result" && !this.localTest) return;
@@ -144,17 +123,6 @@ export default {
       return this.localTest[difficult].filter(el => el.answer !== el?.choice);
     }
   },
-  async mounted() {
-    [this.date, this.time] = getDate(this.timestamp);
-    if (this.mode === "result") {
-      await this.getVerifiedTest(this.sub);
-      this.displayMode = 2;
-      this.setLoading(false);
-      if (this.sub) {
-        await this.saveTest(this.sub);
-      }
-    }
-  }
 };
 </script>
 

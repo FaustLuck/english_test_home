@@ -7,8 +7,8 @@ const right: ResultItem = { answer: "Пять", choice: "Пять", question: "F
 const resultWithChoice: ResultItem = { answer: "Шесть", choice: "Пять", question: "Six" };
 const resultWithoutChoice: ResultItem = { answer: "Семь", question: "Seven" };
 
-
-describe("CardResultItem", () => {
+const component =CardResultItem
+  describe("CardResultItem", () => {
   let wrapper: VueWrapper<any>;
 
   afterEach(() => {
@@ -23,7 +23,7 @@ describe("CardResultItem", () => {
 
   test("Проверка отрисовки если ответ верен", () => {
     const item = right;
-    wrapper = mountWrapper({ component: CardResultItem, props: { item } });
+    wrapper = mountWrapper({ component, props: { item } });
     expect(wrapper.find(".right").exists()).toBe(true);
     expect(wrapper.find(".wrong").exists()).toBe(false);
 
@@ -44,7 +44,7 @@ describe("CardResultItem", () => {
 
   test("Проверка отрисовки если ответ не верен и выбор был сделан", () => {
     const item = resultWithChoice;
-    wrapper = mountWrapper({ component: CardResultItem, props: { item } });
+    wrapper = mountWrapper({ component, props: { item } });
     expect(wrapper.find(".right").exists()).toBe(false);
     expect(wrapper.find(".wrong").exists()).toBe(true);
 
@@ -68,7 +68,7 @@ describe("CardResultItem", () => {
 
   test("Проверка отрисовки если ответ не верен и выбор был сделан", () => {
     const item = resultWithoutChoice;
-    wrapper = mountWrapper({ component: CardResultItem, props: { item } });
+    wrapper = mountWrapper({ component, props: { item } });
     expect(wrapper.find(".right").exists()).toBe(false);
     expect(wrapper.find(".wrong").exists()).toBe(true);
 
