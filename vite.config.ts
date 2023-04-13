@@ -43,6 +43,7 @@ export default defineConfig(() => {
       deps: {
         inline: ["vuetify"],
       },
+      setupFiles: ['./test/setup.ts'],
     },
   };
 });
