@@ -22,10 +22,3 @@ export const Loading: Story = {
     loading: true
   }
 };
-
-export const Icon: Story = {
-  args: {
-    value:'',
-    icon: "mdi mdi-vuetify"
-  }
-};

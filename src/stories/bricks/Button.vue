@@ -7,10 +7,6 @@
             size="large">{{ value }}
     </v-btn>
   </template>
-  <template v-else>
-    <v-btn icon="" :class="icon" variant="text">
-    </v-btn>
-  </template>
 </template>
 
 <script setup lang="ts">
