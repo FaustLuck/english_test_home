@@ -13,7 +13,8 @@ export function mountWrapper({ component, props = {}, slots = {} }: any, initial
       plugins: [
         vuetify,
         createTestingPinia({
-          initialState
+          initialState,
+          stubActions:false
         })
       ]
     }
