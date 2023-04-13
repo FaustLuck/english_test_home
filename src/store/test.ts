@@ -14,7 +14,7 @@ export const useTestStore = defineStore("test", () => {
   const timer = ref(0);
   const timerID = ref(0);
   const ID = ref("");
-  const correct = ref(0);
+  const correct = ref(-1);
 
   function saveTimes() {
     timeSpent.value = timer.value - timeLeft.value;
