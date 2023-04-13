@@ -18,18 +18,3 @@ export function mountWrapper({ component, props = {} }: any, initialState: any =
     }
   });
 }
-
-export function shallowMountWrapper({ component, props = {} }: any, initialState: any = {}) {
-  return shallowMount(component, {
-    props,
-    global: {
-      plugins: [
-        vuetify,
-        createTestingPinia({
-          stubActions:false,
-          initialState
-        })
-      ]
-    }
-  });
-}
