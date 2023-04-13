@@ -53,9 +53,6 @@ describe("Tool", () => {
   }
 
   test("Проверка отрисовки", async () => {
-    // wrapper = mountWrapper({ component: Tool, props }, initialState);
-
-    console.log(wrapper.html());
     const buttons = wrapper.findAll(`[title]`);
     expect(buttons.length).toBe(4);
     checkVisible(0, 0, 1, 1);
