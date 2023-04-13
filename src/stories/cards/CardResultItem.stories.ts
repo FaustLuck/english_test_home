@@ -12,14 +12,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Right: Story = {
   args: {
-    item: { key: "rightItem", answer: "Пять", choice: "Пять", question: "Five" }
+    item: { answer: "Пять", choice: "Пять", question: "Five" }
   }
 };
 
 export const WrongWithChoice: Story = {
   args: {
     item: {
-      key: "wrongItemWithChoice",
       answer: "Шесть",
       choice: "Пять",
       question: "Six"
@@ -30,7 +29,6 @@ export const WrongWithChoice: Story = {
 export const wrongItemWithoutChoice: Story = {
   args: {
     item: {
-      key: "wrongItemWithoutChoice",
       answer: "Семь",
       question: "Seven"
     }
