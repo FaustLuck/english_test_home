@@ -11,7 +11,7 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function googleInitialize() {
     // @ts-ignore
-    google.accounts.id.initialize({
+    window.google.accounts.id.initialize({
       client_id: import.meta.env.VITE_client_id,
       auto_select: true,
       callback: async (response: { credential: any; }) => {
@@ -26,7 +26,7 @@ export const useAuthStore = defineStore("auth", () => {
     const element = document.getElementById("google");
     if (element) {
       // @ts-ignore
-      google.accounts.id.renderButton(
+      window.google.accounts.id.renderButton(
         element,
         {
           type: "icon",
@@ -37,7 +37,7 @@ export const useAuthStore = defineStore("auth", () => {
       );
     }
     // @ts-ignore
-    google.accounts.id.prompt();
+    window.google.accounts.id.prompt();
   }
 
   function parseJwt(token: string) {
