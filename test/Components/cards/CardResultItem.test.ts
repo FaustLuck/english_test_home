@@ -2,7 +2,6 @@ import CardResultItem from "@/stories/cards/CardResultItem.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { ResultItem } from "@/types/test";
-import { expect } from "vitest";
 
 const right: ResultItem = { answer: "Пять", choice: "Пять", question: "Five" };
 const resultWithChoice: ResultItem = { answer: "Шесть", choice: "Пять", question: "Six" };

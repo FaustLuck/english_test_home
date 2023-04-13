@@ -1,10 +1,8 @@
 import CardTestItem from "@/stories/cards/CardTestItem.vue";
-import { describe, expect, test } from "vitest";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { TestItem } from "@/types/test";
 import { useTestStore } from "@/store/test";
-import { nextTick } from "vue";
 
 function createTest() {
   const test: TestItem[] = [];
