@@ -21,13 +21,13 @@ const router = useRouter();
 const { timestamp, result, correct } = storeToRefs(useTestStore());
 const { sub } = storeToRefs(useAuthStore());
 
-watch([sub.value], async (value) => {
+watch([sub], async (value) => {
   if (value) await useTestStore().saveTest(sub.value);
 });
 
 onMounted(async () => {
   await useTestStore().getVerifiedTest();
-  useLoadingStore().setLoading(false);
+  useLoadingStore().isLoading=false;
   if (sub.value) await useTestStore().saveTest(sub.value);
 });
 

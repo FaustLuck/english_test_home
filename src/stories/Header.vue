@@ -1,7 +1,7 @@
 <template>
   <v-app-bar elevation="5" color="default">
 
-    <template v-if="!isLogin">
+    <template v-if="!useAuthStore().isLogin">
       <v-app-bar-nav-icon class="ml-2" id="google"/>
     </template>
 
@@ -10,47 +10,44 @@
     </template>
 
     <v-container class="d-flex justify-space-around align-center">
-      <button-component
-              :value="(isTesting)?'Завершить тест' : 'Начать тест'"
-              :loading="isLoading"
-              @click="(isTesting)?useTestStore().changeTestStatus(false):startTest()"
-      ></button-component>
-      <timer-component v-if="isTesting"></timer-component>
+      <v-btn
+              rounded="lg"
+              elevation="5"
+              size="large"
+              :loading="useLoadingStore().isLoading"
+              @click="(useTestStore().isTesting)?useTestStore().isTesting=false:startTest()"
+      >{{labelButton}}</v-btn>
+      <timer-component v-if="useTestStore().isTesting"></timer-component>
     </v-container>
   </v-app-bar>
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted } from "vue";
-import { storeToRefs } from "pinia";
+import { computed, defineAsyncComponent, onMounted } from "vue";
 import { useLoadingStore } from "@/store/loading";
 import { useTestStore } from "@/store/test";
 import { useCommonStore } from "@/store/common";
-import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
+import { useRouter } from "vue-router";
 
-const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
 const TimerComponent = defineAsyncComponent(() => import("@/stories/Timer.vue"));
-
-const { isLoading } = storeToRefs(useLoadingStore());
-const { isTesting } = storeToRefs(useTestStore());
-const { mode } = storeToRefs(useCommonStore());
 
 const router = useRouter();
 
-const { isLogin } = storeToRefs(useAuthStore());
+const labelButton = computed(() => (useTestStore().isTesting) ? "Завершить тест" : "Начать тест");
 
 async function startTest() {
-  useLoadingStore().setLoading(true);
-  if (mode.value === "result") {
+  useLoadingStore().isLoading=true;
+  if (useCommonStore().mode === "result") {
     await router.replace({ name: "test" });
-  } else if (mode.value !== "test") {
+  } else if (useCommonStore().mode !== "test") {
     await router.push({ name: "test" });
   }
-  const { sub } = storeToRefs(useAuthStore());
-  await useTestStore().getTest(sub.value);
-  useTestStore().changeTestStatus(true);
-  useLoadingStore().setLoading(false);
+  const {sub} = useAuthStore()
+
+  await useTestStore().getTest(sub);
+  useTestStore().isTesting=true;
+  useLoadingStore().isLoading=false;
 }
 
 onMounted(async () => {

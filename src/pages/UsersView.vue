@@ -36,7 +36,7 @@ const { sub } = storeToRefs(useAuthStore());
 onMounted(async () => {
   if (!users.value.length) await useHistoryStore().getUsers(sub.value);
   if (users.value.length === 1) await router.replace({ name: "history", params: { sub: sub.value } });
-  useLoadingStore().setLoading(false);
+  useLoadingStore().isLoading=false;
 });
 
 </script>
