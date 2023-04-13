@@ -10,5 +10,9 @@ export interface Result {
 
 export interface TestItem extends ResultItem {
   key: string;
-  answer?: string[];
+  answer: string[];
+}
+
+export interface PreparedItem extends TestItem {
+  answer?: null | string[];
 }

@@ -1,8 +1,8 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
+import { ref } from "vue";
 
 export const useCommonStore = defineStore("common", () => {
-  const orderDifficult = reactive(["easy", "medium", "hard"]);
+  const orderDifficult = ref(["easy", "medium", "hard"]);
   const mode = ref("");
   const isOpen = ref(false);
   const message = ref("");

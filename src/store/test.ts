@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { reactive, ref } from "vue";
-import { Result, TestItem } from "@/types/test";
+import { reactive, Ref, ref } from "vue";
+import { PreparedItem, Result, TestItem } from "@/types/test";
 import { requestGet, requestPost } from "@/utils/requests";
 
 export const useTestStore = defineStore("test", () => {
@@ -8,7 +8,7 @@ export const useTestStore = defineStore("test", () => {
   const timeSpent = ref(0);
   const timestamp = ref(0);
   const timeLeft = ref(0);
-  const test: TestItem[] = reactive([]);
+  const test: Ref<TestItem[]> = ref([]);
   const result: Result = reactive({});
   const SPEECH = ref("");
   const timer = ref(0);
@@ -20,17 +20,24 @@ export const useTestStore = defineStore("test", () => {
     timeSpent.value = timer.value - timeLeft.value;
     timestamp.value = new Date().setSeconds(0, 0);
   }
+
   function changeTestStatus(flag: boolean) {
     isTesting.value = flag;
   }
 
   function saveChoice(choice: string, key: string) {
-    const item = test.find(el => el.key === key);
+    const item = test.value.find(el => {
+      console.log(el.key);
+      console.log(key);
+      console.log(el.key === key);
+      console.log("----------");
+      return el.key === key;
+    });
     if (item) item.choice = choice;
   }
 
   function clearTest() {
-    test.length = 0;
+    test.value.length = 0;
   }
 
   function clearTimerID() {
@@ -47,7 +54,7 @@ export const useTestStore = defineStore("test", () => {
     clearTest();
     clearTimerID();
     changeTestStatus(false);
-    timeLeft.value=0
+    timeLeft.value = 0;
     resetTimes();
   }
 
@@ -59,9 +66,9 @@ export const useTestStore = defineStore("test", () => {
   }
 
   async function sendAnswers(sub: string | undefined) {
-    let tmp = test.map(el => {
-      const newEl = { ...el };
-      if (newEl?.answer) delete newEl.answer;
+    let tmp = test.value.map(el => {
+      const newEl: PreparedItem = { ...el };
+      if (newEl.answer) delete newEl.answer;
       return newEl;
     });
     generateID();

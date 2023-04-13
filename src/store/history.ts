@@ -1,12 +1,12 @@
 import { defineStore } from "pinia";
-import { reactive } from "vue";
+import { reactive, ref, Ref } from "vue";
 import { DateList, Statistic, User } from "@/types/history";
 import { requestGet } from "@/utils/requests";
 
 export const useHistoryStore = defineStore("history", () => {
   const statistic: Statistic = reactive({});
   const dateList: DateList = reactive({});
-  const users: User[] = reactive([]);
+  const users: Ref<User[]> = ref([]);
 
   async function getUsers(sub: string) {
     const resUsers = await requestGet(`/user/${sub}`);
@@ -15,7 +15,7 @@ export const useHistoryStore = defineStore("history", () => {
 
   async function getDateList(sub: string) {
     const resDateList = await requestGet(`/history/date/${sub}`);
-    const user = users.find(el => el.sub === sub);
+    const user = users.value.find(el => el.sub === sub);
     if (!user) return;
     if (!dateList?.[sub]) {
       dateList[sub] = {};
