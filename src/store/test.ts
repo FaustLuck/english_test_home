@@ -54,7 +54,7 @@ export const useTestStore = defineStore("test", () => {
 
   async function getTest(sub = "") {
     const data = await requestGet(`/test/${sub}`);
-    Object.assign(test, data.test);
+    Object.assign(test.value, data.test);
     SPEECH.value = data.SPEECH;
     timer.value = data.timer;
   }
