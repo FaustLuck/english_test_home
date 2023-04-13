@@ -76,8 +76,5 @@ describe("Header", () => {
   //todo mock роутера написан верно
   //проверить его на смену путей
 
-
-  //todo проблема с функцией startTest()
-  //await useTestStore().getTest(sub); не вызывается!
-
+  //todo замокать fetch
 });
