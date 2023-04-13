@@ -20,7 +20,7 @@ import { useLoadingStore } from "@/store/loading";
 export default {
   name: "uploadComponent",
   components: {
-    buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/stories/bricks/Button.vue"))
   },
   props: {
     check: Boolean
@@ -32,7 +32,7 @@ export default {
   methods: {
     ...mapActions(useSettingsStore, ["sendNewDictionary"]),
     ...mapActions(useLoadingStore, ["setLoading"]),
-    async upload(e) {
+    async upload(e:any) {
       this.setLoading(true);
       const file = e.target.files[0];
       await this.sendNewDictionary(file, this.check, this.sub);
