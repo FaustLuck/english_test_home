@@ -1,27 +1,31 @@
 <template>
-  <button-component
+  <v-btn
           v-show="!editing && !excluded"
           @click="editStart"
           title="Редактировать"
           icon="mdi mdi-pencil-outline"
+          variant="text"
   />
-  <button-component
+  <v-btn
           v-show="!editing && !excluded"
           @click="deleteItem"
           title="Удалить"
           icon="mdi mdi-delete"
+          variant="text"
   />
-  <button-component
+  <v-btn
           v-show="editing"
           @click="editFinish"
           title="Готово"
           icon="mdi mdi-check"
+          variant="text"
   />
-  <button-component
+  <v-btn
           v-show="!editing && (excluded || edited || included)"
           @click="undoChanges"
           title="Отменить"
           icon="mdi mdi-undo"
+          variant="text"
   />
 </template>
 
@@ -38,7 +42,7 @@ interface toolComponentProps {
   included?: boolean
 }
 
-const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
+// const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
 
 const props = defineProps<toolComponentProps>();
 const { index, difficult } = props;
