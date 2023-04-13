@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect } from "vitest";
 import Tool from "@/stories/Tool.vue";
-import { shallowMountWrapper } from "../mountWithVuetify";
+import { mountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { useSettingsStore } from "../../src/store/settings";
@@ -32,7 +32,7 @@ describe("Tool", () => {
   let wrapper: VueWrapper<any>;
 
   beforeEach(() => {
-    wrapper = shallowMountWrapper({ component: Tool, props }, initialState);
+    wrapper = mountWrapper({ component: Tool, props }, initialState);
   });
 
   afterEach(() => {
@@ -48,12 +48,14 @@ describe("Tool", () => {
 
     titles.forEach((title, i) => {
       let btnStyle = getButton(title).attributes("style") ?? "";
-
       expect(btnStyle.search("none") === -1).toBe(Boolean(arguments[i]));
     });
   }
 
   test("Проверка отрисовки", async () => {
+    // wrapper = mountWrapper({ component: Tool, props }, initialState);
+
+    console.log(wrapper.html());
     const buttons = wrapper.findAll(`[title]`);
     expect(buttons.length).toBe(4);
     checkVisible(0, 0, 1, 1);
@@ -110,16 +112,16 @@ describe("Tool", () => {
     expect(targetRecord.edited).toBeUndefined();
   });
 
-  test("Если запись новая, то нажатие кнопки удалит ее",async () => {
+  test("Если запись новая, то нажатие кнопки удалит ее", async () => {
     const undoButton = getButton("Отменить");
     let targetRecord = useSettingsStore().dictionary[props.difficult][props.index];
     targetRecord.included = true;
     const { question, answer } = targetRecord;
-    await wrapper.setProps({ included: true});
+    await wrapper.setProps({ included: true });
     await undoButton.trigger("click");
     targetRecord = useSettingsStore().dictionary[props.difficult][props.index];
-    expect(targetRecord.answer).not.toBe(answer)
-    expect(targetRecord.question).not.toBe(question)
+    expect(targetRecord.answer).not.toBe(answer);
+    expect(targetRecord.question).not.toBe(question);
   });
 
 });
