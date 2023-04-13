@@ -30,7 +30,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from "vue";
+import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/store/settings";
 
@@ -41,8 +41,6 @@ interface toolComponentProps {
   edited?: boolean,
   included?: boolean
 }
-
-// const ButtonComponent = defineAsyncComponent(() => import("@/stories/bricks/Button.vue"));
 
 const props = defineProps<toolComponentProps>();
 const { index, difficult } = props;
