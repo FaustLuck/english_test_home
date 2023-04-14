@@ -44,7 +44,7 @@ describe("CardTestItem", () => {
     const initialState = { test: { test: testArray } };
     wrapper = mountWrapper({ component, props: { item: testArray[i] } }, initialState);
     const inputs = wrapper.findAll("input[type='radio']");
-    expect(inputs.length).toBe(testArray[i].answer.length);
+    expect(inputs).toHaveLength(testArray[i].answer.length);
 
     await inputs[choiceIndex].trigger("change");
     expect(useTestStore().test[i].choice).toBe(testArray[i].answer[choiceIndex]);

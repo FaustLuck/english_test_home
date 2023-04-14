@@ -17,7 +17,7 @@ const component =CardResultItem
 
   function checkInputs(length:number){
     const inputs = wrapper.findAll("input[type='radio']");
-    expect(inputs.length).toBe(length)
+    expect(inputs).toHaveLength(length)
     inputs.forEach(input => expect(input.attributes().disabled).toBeDefined());
   }
 
@@ -35,7 +35,7 @@ const component =CardResultItem
     checkInputs(1)
 
     const icons = wrapper.findAll(".v-icon");
-    expect(icons.length).toBe(1);
+    expect(icons).toHaveLength(1);
     expect(icons[0].attributes().class.search("marked") > -1).toBe(true);
 
     expect(wrapper.find(".title-right").exists()).toBe(true);
@@ -56,7 +56,7 @@ const component =CardResultItem
     checkInputs(2)
 
     const icons = wrapper.findAll(".v-icon");
-    expect(icons.length).toBe(2);
+    expect(icons).toHaveLength(2);
     expect(icons[0].attributes().class.search("blank") > -1).toBe(true);
     expect(icons[1].attributes().class.search("marked") > -1).toBe(true);
 
@@ -80,7 +80,7 @@ const component =CardResultItem
     checkInputs(1)
 
     const icons = wrapper.findAll(".v-icon");
-    expect(icons.length).toBe(1);
+    expect(icons).toHaveLength(1);
     expect(icons[0].attributes().class.search("blank") > -1).toBe(true);
 
     expect(wrapper.find(".title-right").exists()).toBe(true);

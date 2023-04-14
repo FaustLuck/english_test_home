@@ -3,7 +3,6 @@ import { mountWrapper } from "../mountWithVuetify";
 import { h, nextTick } from "vue";
 import Header from "@/stories/Header.vue";
 import HelperWrapper from "../HelperWrapper.vue";
-import { beforeEach, expect } from "vitest";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 import { useCommonStore } from "../../src/store/common";
@@ -60,10 +59,8 @@ describe("Header", () => {
 
   test("Отрисовка значка меню, если пользователь авторизован", async () => {
     useAuthStore().isLogin = true;
-    await nextTick();
-
     const icons = wrapper.findAll(".v-icon");
-    expect(wrapper.findAll(".v-icon").length).toBe(1);
+    expect(wrapper.findAll(".v-icon")).toHaveLength(1);
     expect(icons[0].html().search("mdi-menu") > -1).toBe(true);
   });
 
@@ -72,11 +69,11 @@ describe("Header", () => {
     expect(wrapper.text().search("Начать тест") > -1).toBe(true);
     expect(wrapper.text().search("Завершить тест") > -1).toBe(false);
     expect(useLoadingStore().isLoading).toBe(false);
-    expect(wrapper.findAll(".v-progress-circular").length).toBe(0);
+    expect(wrapper.findAll(".v-progress-circular")).toHaveLength(0);
     await wrapper.find("button:not([id='google'])").trigger("click");
     expect(global.fetch).toBeCalledWith(`${import.meta.env.VITE_dev}/test/`);
     expect(useLoadingStore().isLoading).toBe(true);
-    expect(wrapper.findAll(".v-progress-circular").length).toBe(1);
+    expect(wrapper.findAll(".v-progress-circular")).toHaveLength(1);
   });
 
   test("Если маршрут отличен от result и test, пушит новый путь", async () => {
@@ -93,5 +90,12 @@ describe("Header", () => {
     await wrapper.find("button:not([id='google'])").trigger("click");
     expect(mockedUseRouter.replace).toHaveBeenCalledWith({ name: "test" });
     expect(mockedUseRouter.push).not.toHaveBeenCalledTimes(0);
-  })
+  });
+
+  test("Клик по бургер-меню вызывает toggleNavigation", async () => {
+    useAuthStore().isLogin = true;
+    const menuButton = wrapper.find(".v-app-bar-nav-icon");
+    await menuButton.trigger("click");
+    expect(wrapper.emitted('click')).toHaveLength(1)
+  });
 });

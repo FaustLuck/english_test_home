@@ -54,7 +54,7 @@ describe("Tool", () => {
 
   test("Проверка отрисовки", async () => {
     const buttons = wrapper.findAll(`[title]`);
-    expect(buttons.length).toBe(4);
+    expect(buttons).toHaveLength(4);
     checkVisible(0, 0, 1, 1);
   });
 
