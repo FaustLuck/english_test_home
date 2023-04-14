@@ -16,7 +16,8 @@
               size="large"
               :loading="useLoadingStore().isLoading"
               @click="(useTestStore().isTesting)?useTestStore().isTesting=false:startTest()"
-      >{{labelButton}}</v-btn>
+      >{{ labelButton }}
+      </v-btn>
       <timer-component v-if="useTestStore().isTesting"></timer-component>
     </v-container>
   </v-app-bar>
@@ -37,17 +38,17 @@ const router = useRouter();
 const labelButton = computed(() => (useTestStore().isTesting) ? "Завершить тест" : "Начать тест");
 
 async function startTest() {
-  useLoadingStore().isLoading=true;
+  useLoadingStore().isLoading = true;
   if (useCommonStore().mode === "result") {
     await router.replace({ name: "test" });
   } else if (useCommonStore().mode !== "test") {
     await router.push({ name: "test" });
   }
-  const {sub} = useAuthStore()
+  const { sub } = useAuthStore();
 
   await useTestStore().getTest(sub);
-  useTestStore().isTesting=true;
-  useLoadingStore().isLoading=false;
+  useTestStore().isTesting = true;
+  useLoadingStore().isLoading = false;
 }
 
 onMounted(async () => {
