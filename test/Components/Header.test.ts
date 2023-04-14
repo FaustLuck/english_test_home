@@ -68,7 +68,7 @@ describe("Header", () => {
   });
 
   test("Клик по кнопке отправляет запрос на тест", async () => {
-    global.fetch=fetchHelperGet()
+    global.fetch = fetchHelperGet();
     expect(wrapper.text().search("Начать тест") > -1).toBe(true);
     expect(wrapper.text().search("Завершить тест") > -1).toBe(false);
     expect(useLoadingStore().isLoading).toBe(false);
@@ -81,17 +81,17 @@ describe("Header", () => {
 
   test("Если маршрут отличен от result и test, пушит новый путь", async () => {
     useCommonStore().mode = "somePath";
-    global.fetch=fetchHelperGet()
+    global.fetch = fetchHelperGet();
     await wrapper.find("button:not([id='google'])").trigger("click");
     expect(mockedUseRouter.replace).not.toHaveBeenCalledTimes(0);
-    expect(mockedUseRouter.push).toHaveBeenCalledWith({name:'test'});
+    expect(mockedUseRouter.push).toHaveBeenCalledWith({ name: "test" });
   });
 
-  test("Если маршрут result, делает замену пути",async ()=>{
+  test("Если маршрут result, делает замену пути", async () => {
     useCommonStore().mode = "result";
-    global.fetch=fetchHelperGet()
+    global.fetch = fetchHelperGet();
     await wrapper.find("button:not([id='google'])").trigger("click");
-    expect(mockedUseRouter.replace).toHaveBeenCalledWith({name:'test'});
+    expect(mockedUseRouter.replace).toHaveBeenCalledWith({ name: "test" });
     expect(mockedUseRouter.push).not.toHaveBeenCalledTimes(0);
   })
 });
