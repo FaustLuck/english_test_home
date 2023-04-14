@@ -1,6 +1,6 @@
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../mountWithVuetify";
-import { h, nextTick } from "vue";
+import { h } from "vue";
 import Header from "@/stories/Header.vue";
 import HelperWrapper from "../HelperWrapper.vue";
 import { useAuthStore } from "@/store/auth";
