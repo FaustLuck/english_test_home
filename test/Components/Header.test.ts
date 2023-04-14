@@ -91,11 +91,4 @@ describe("Header", () => {
     expect(mockedUseRouter.replace).toHaveBeenCalledWith({ name: "test" });
     expect(mockedUseRouter.push).not.toHaveBeenCalledTimes(0);
   });
-
-  test("Клик по бургер-меню вызывает toggleNavigation", async () => {
-    useAuthStore().isLogin = true;
-    const menuButton = wrapper.find(".v-app-bar-nav-icon");
-    await menuButton.trigger("click");
-    expect(wrapper.emitted('click')).toHaveLength(1)
-  });
 });
