@@ -8,7 +8,7 @@
   >
     <v-list-item nav prepend-icon="mdi mdi-content-save-outline" title="История" value="History" to="/users"/>
 
-    <template v-if="users.length>1 && !isCollapsed">
+    <template v-if="useHistoryStore().users.length>1 && !isCollapsed">
       <v-list>
         <v-list-group>
           <template v-slot:activator="{props}">
@@ -17,7 +17,7 @@
 
           <v-list-item
                   nav
-                  v-for="user of users"
+                  v-for="user of useHistoryStore().users"
                   :key="user.key"
                   :title="user.name"
                   :value="user.name"
@@ -43,10 +43,8 @@
 </template>
 
 <script setup lang="ts">
-import { storeToRefs } from "pinia";
 import { useHistoryStore } from "@/store/history";
 
 const props = defineProps<{ isCollapsed: boolean }>();
-const { users } = storeToRefs(useHistoryStore());
 
 </script>
