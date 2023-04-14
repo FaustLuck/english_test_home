@@ -95,8 +95,6 @@ describe("CardResultInfo", () => {
     });
     expect(wrapper.text().search("Loading") > -1).toBe(true);
     expect(wrapper.text().search(/\?\? \/ \?\?/) > -1).toBe(true);
-
-    console.log(wrapper.text());
   });
 
   test("Отрисовка после загрузки (пропущена сложность 'hard'", () => {
