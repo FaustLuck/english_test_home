@@ -9,8 +9,7 @@ export const useHistoryStore = defineStore("history", () => {
   const users: Ref<User[]> = ref([]);
 
   async function getUsers(sub: string) {
-    const resUsers = await requestGet(`/user/${sub}`);
-    Object.assign(users, resUsers);
+    users.value = await requestGet(`/user/${sub}`);
   }
 
   async function getDateList(sub: string) {
