@@ -4,7 +4,6 @@ import NavigationComponent from "@/stories/Navigation.vue";
 const meta = {
   title: "App/Navigation",
   component: NavigationComponent,
-  tags: ["autodocs"],
   args: {
     isCollapsed: false
   },
@@ -15,7 +14,7 @@ const meta = {
     },
     template: `
 			<v-layout>
-			<navigation-component :is-collapsed="args.isCollapsed"/>
+			<navigation-component style="transform: translateX(0%);" :is-collapsed="args.isCollapsed"/>
 			</v-layout>
     `
   })

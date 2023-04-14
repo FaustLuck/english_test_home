@@ -5,7 +5,6 @@ import { useAuthStore } from "@/store/auth";
 const meta = {
   title: "App/Header",
   component: HeaderComponent,
-  tags: ["autodocs"],
   render: () => ({
     components: { HeaderComponent },
     setup() {

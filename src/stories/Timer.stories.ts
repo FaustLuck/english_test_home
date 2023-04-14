@@ -13,7 +13,6 @@ const meta = {
     template: `
 			<timer-component/>`
   }),
-  tags: ["autodocs"]
 }satisfies Meta<typeof TimerComponent>;
 
 export default meta;

@@ -4,7 +4,6 @@ import lineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 const meta = {
   title: "UI/Bricks/LineLoading",
   component: lineLoadingComponent,
-  tags: ["autodocs"]
 }satisfies Meta<typeof lineLoadingComponent>;
 
 export default meta;
