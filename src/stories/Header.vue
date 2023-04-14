@@ -52,6 +52,7 @@ async function startTest() {
 }
 
 onMounted(async () => {
+  if (useAuthStore().isLogin) return;
   await useAuthStore().googleInitialize();
 });
 </script>
