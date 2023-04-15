@@ -54,6 +54,5 @@ describe("CardDate", () => {
     Object.assign(useHistoryStore().dateList['sub'][1679173200000],{12:"sd"},{13:'s2'})
     await wrapper.trigger("click");
     expect(useHistoryStore().getTimeList).not.toBeCalled();
-    //todo доделать, функция вызывается, а не должна
   });
 });
