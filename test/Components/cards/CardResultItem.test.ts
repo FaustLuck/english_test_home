@@ -7,17 +7,17 @@ const right: ResultItem = { answer: "Пять", choice: "Пять", question: "F
 const resultWithChoice: ResultItem = { answer: "Шесть", choice: "Пять", question: "Six" };
 const resultWithoutChoice: ResultItem = { answer: "Семь", question: "Seven" };
 
-const component =CardResultItem
-  describe("CardResultItem", () => {
+const component = CardResultItem;
+describe("CardResultItem", () => {
   let wrapper: VueWrapper<any>;
 
   afterEach(() => {
     wrapper.unmount();
   });
 
-  function checkInputs(length:number){
+  function checkInputs(length: number) {
     const inputs = wrapper.findAll("input[type='radio']");
-    expect(inputs).toHaveLength(length)
+    expect(inputs).toHaveLength(length);
     inputs.forEach(input => expect(input.attributes().disabled).toBeDefined());
   }
 
@@ -32,7 +32,7 @@ const component =CardResultItem
     // @ts-ignore
     expect(item.choice && wrapper.text().search(item.choice) > -1).toBe(true);
 
-    checkInputs(1)
+    checkInputs(1);
 
     const icons = wrapper.findAll(".v-icon");
     expect(icons).toHaveLength(1);
@@ -53,7 +53,7 @@ const component =CardResultItem
     // @ts-ignore
     expect(item.choice && wrapper.text().search(item.choice) > -1).toBe(true);
 
-    checkInputs(2)
+    checkInputs(2);
 
     const icons = wrapper.findAll(".v-icon");
     expect(icons).toHaveLength(2);
@@ -75,9 +75,9 @@ const component =CardResultItem
     expect(wrapper.text().search(item.question) > -1).toBe(true);
     expect(wrapper.text().search(item.answer) > -1).toBe(true);
     // @ts-ignore
-    expect( !!item.choice && wrapper.text().search(item.choice) > -1).toBe(false);
+    expect(!!item.choice && wrapper.text().search(item.choice) > -1).toBe(false);
 
-    checkInputs(1)
+    checkInputs(1);
 
     const icons = wrapper.findAll(".v-icon");
     expect(icons).toHaveLength(1);
