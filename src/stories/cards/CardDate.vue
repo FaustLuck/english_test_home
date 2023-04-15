@@ -43,7 +43,7 @@ const timeList = computed(() => {
 
 async function getTime() {
   const keys = (timeList.value && Object.keys(timeList.value).length) ?? 0;
-  if (keys === 0) return;
+  if (keys > 1) return;
   if (sub && datestamp) await useHistoryStore().getTimeList(sub, datestamp);
 }
 
