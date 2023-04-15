@@ -6,13 +6,17 @@ export interface User {
   picture: string;
   privileged: boolean;
   sub: string;
-  dateList?: DateList;
 }
 
 export interface DateList {
-  [index: string]: {
-    [index: number]: { counter: number } | TestInfo;
-  };
+  [index:string]:{
+    [index: string]: TimeList;
+    counter?: number;
+  }
+}
+
+export interface TimeList {
+  [index: number]: TestInfo;
 }
 
 export interface TestInfo {
