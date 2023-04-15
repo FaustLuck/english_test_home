@@ -27,7 +27,6 @@
 import { computed } from "vue";
 import { getDate } from "@/utils/getDate";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
-import { useRoute } from "vue-router";
 import { useHistoryStore } from "@/store/history";
 
 interface dateCardProps {
@@ -38,17 +37,14 @@ interface dateCardProps {
 
 const { datestamp, counter, sub } = defineProps<dateCardProps>();
 const date = computed(() => datestamp && getDate(datestamp)[0]);
-const router = useRoute();
 const timeList = computed(() => {
   if (sub && datestamp) return useHistoryStore().dateList[sub][datestamp];
 });
 
 async function getTime() {
   const keys = (timeList.value && Object.keys(timeList.value).length) ?? 0;
-  if (keys < 2 && datestamp) {
-    const sub = router.params.sub as string;
-    await useHistoryStore().getTimeList(sub, datestamp);
-  }
+  if (keys === 0) return;
+  if (sub && datestamp) await useHistoryStore().getTimeList(sub, datestamp);
 }
 
 </script>
