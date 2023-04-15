@@ -1,7 +1,6 @@
 import CardResultInfo from "@/stories/cards/CardResultInfo.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
-import { expect } from "vitest";
 import { Result } from "../../../src/types/test";
 
 const component = CardResultInfo;
