@@ -5,7 +5,7 @@ import { createTestingPinia } from "@pinia/testing";
 import { StateTree } from "pinia";
 
 
-export function mountWrapper({ component, props = {}, slots = {} }: any, initialState: StateTree = {}) {
+export function mountWrapper({ component, props = {}, slots = {} }: any, initialState: StateTree = {},stubActions=false) {
   return mount(component, {
     props,
     slots,
@@ -14,7 +14,7 @@ export function mountWrapper({ component, props = {}, slots = {} }: any, initial
         vuetify,
         createTestingPinia({
           initialState,
-          stubActions:false
+          stubActions
         })
       ]
     }
