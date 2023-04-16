@@ -1,7 +1,7 @@
 import CardResultInfo from "@/stories/cards/CardResultInfo.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
-import { Result } from "../../../src/types/test";
+import { Result } from "@/types/test";
 
 const component = CardResultInfo;
 const timestamp = 1681402917884;
