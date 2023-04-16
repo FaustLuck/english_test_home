@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0">
+  <v-container class="pa-0 pt-3">
     <template v-if="isLoading">
       <card-test-item-component v-for="i of 3" :key="i"/>
     </template>
@@ -26,7 +26,7 @@ const { test, isTesting } = storeToRefs(useTestStore());
 const router = useRouter();
 
 watch(isTesting, async (value) => {
-  if (value && test.value.length!==0) return;
+  if (value && test.value.length !== 0) return;
   await useTestStore().sendAnswers(sub.value);
   await router.push({ name: "result" });
 });
