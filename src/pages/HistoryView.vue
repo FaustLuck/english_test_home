@@ -1,10 +1,10 @@
 <template>
   <v-container class="d-flex flex-column px-0 w-100">
-    <v-card class="d-flex justify-center align-center mb-3" elevation="5" color="transparent">
-      <v-btn icon="mdi mdi-chevron-left" elevation="5" color="transparent" @click="year--"/>
-      <v-card-title>{{ year }}</v-card-title>
-      <v-btn icon="mdi mdi-chevron-right" elevation="5" color="transparent" @click="year++"/>
-    </v-card>
+    <calendar-header
+            :year="year"
+            @increment="year++"
+            @decrement="year--"
+    />
 
     <v-sheet color="transparent" class="calendar">
       <card-month-component v-for="(month, index) of months" :year="year" :month-name="month" :is-loaded="isLoaded"
@@ -19,9 +19,7 @@ import { computed, defineAsyncComponent, onMounted, ref } from "vue";
 import { useHistoryStore } from "@/store/history";
 
 const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
-
-const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
-
+const CalendarHeader = defineAsyncComponent(() => import("@/stories/calendar/CalendarHeader.vue"));
 
 const { sub } = defineProps<{ sub: string }>();
 
