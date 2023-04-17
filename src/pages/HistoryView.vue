@@ -1,41 +1,60 @@
 <template>
-  <v-container class="d-flex flex-column px-0 w-100">
+  <v-container class="d-flex flex-column px-0 w-100 h-100">
     <calendar-header
-            :year="year"
+            :year="+year"
+            :min="minYear"
+            :max="maxYear"
             @increment="year++"
             @decrement="year--"
     />
 
-    <v-sheet color="transparent" class="calendar">
-      <card-month-component v-for="(month, index) of months" :year="year" :month-name="month" :is-loaded="isLoaded"
-                            :month-index="index"/>
-    </v-sheet>
+    <template v-if="loading===undefined">
+      <v-sheet color="transparent" class="d-flex justify-center align-center h-100">
+        <v-card-title>
+          Записей не найдено
+        </v-card-title>
+      </v-sheet>
+    </template>
+
+    <template v-else>
+      <keep-alive>
+        <v-sheet color="transparent" class="calendar">
+          <card-month-component v-for="i of 12" :key="`month_${i}`" :year="+year" :loading="loading"
+                                :month-index="i-1" :sub="sub"/>
+        </v-sheet>
+      </keep-alive>
+    </template>
 
   </v-container>
 
 </template>
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted, ref } from "vue";
+import { defineAsyncComponent, onMounted, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 
 const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
 const CalendarHeader = defineAsyncComponent(() => import("@/stories/calendar/CalendarHeader.vue"));
 
-const { sub } = defineProps<{ sub: string }>();
+const props = defineProps<{ sub: string, year: string }>();
+const loading: Ref<boolean | undefined> = ref(false);
 
-const year = ref(0);
+const minYear = useHistoryStore()?.getUser(props.sub)?.minYear;
+const maxYear = new Date().getFullYear();
 
-const isLoaded = computed(() => {
-  return Boolean(useHistoryStore().history[sub]?.[year.value]);
-});
+function checkData(): number | undefined {
+  return useHistoryStore().history[props.sub]?.[props.year]?.length;
+}
 
-onMounted(async () => {
-  year.value = new Date().getFullYear();
-  if (isLoaded) return;
-  // await useHistoryStore().getStatistic(year.value, sub);
+watchEffect(async ()=>{
+  if (useHistoryStore().history[props.sub]?.[props.year]?.length!==undefined) return;
+  loading.value = true;
+  await getStatistic();
+  loading.value = (checkData() === undefined) ? undefined : false;
+})
 
-});
-
+async function getStatistic() {
+  await useHistoryStore().getHistoryOfYear(props.year, props.sub);
+}
 </script>
 
 <style lang="scss" scoped>
