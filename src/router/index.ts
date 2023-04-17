@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common";
-import { useLoadingStore } from "@/store/loading";
+
 
 const routes = [
   {
@@ -23,7 +23,7 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: "/history/:sub",
+    path: "/history/:sub/:year",
     name: "history",
     props: true,
     component: () => import("@/pages/HistoryView.vue"),
@@ -61,7 +61,6 @@ const router = createRouter({
 
 router.beforeEach(async (to, from) => {
   if (to.name) useCommonStore().setMode(to.name.toString());
-  useLoadingStore().isLoading = to.name !== "test" || from.name === "result";
 
   if (to.meta.requireAuth) {
     const { sub } = useAuthStore();
