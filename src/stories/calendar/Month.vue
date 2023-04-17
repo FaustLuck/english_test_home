@@ -37,7 +37,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, watch } from "vue";
+import { computed } from "vue";
 import LineLoading from "@/stories/bricks/LineLoading.vue";
 
 interface CardMonthProps {
