@@ -59,7 +59,7 @@ const router = createRouter({
 });
 
 
-router.beforeEach(async (to, from) => {
+router.beforeEach(async (to) => {
   if (to.name) useCommonStore().setMode(to.name.toString());
 
   if (to.meta.requireAuth) {

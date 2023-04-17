@@ -29,7 +29,7 @@
 
 </template>
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, Ref, ref, watchEffect } from "vue";
+import { defineAsyncComponent, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 
 const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
