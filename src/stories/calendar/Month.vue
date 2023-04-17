@@ -1,6 +1,6 @@
 <template>
   <v-sheet elevation="5" class="d-flex align-center flex-column h-100 pa-3" rounded="lg" color="transparent">
-    <v-card-title class="pa-0">{{ monthName }}</v-card-title>
+    <v-card-title class="pa-0 text-capitalize">{{ monthName}}</v-card-title>
     <table>
       <thead>
       <tr>
@@ -41,27 +41,23 @@ import { computed, watch } from "vue";
 import LineLoading from "@/stories/bricks/LineLoading.vue";
 
 interface CardMonthProps {
-  monthName: string;
   monthIndex: number;
   year: number;
   isLoaded: boolean;
 }
 
+const monthName = computed(() => new Date(props.year, props.monthIndex).toLocaleString("ru-RU", { month: "long" }));
+
 const daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
-const { monthName, monthIndex, year, isLoaded } = defineProps<CardMonthProps>();
-
-// watch({ year }, () => {
-//
-// });
-
+const props = defineProps<CardMonthProps>();
 
 const firstDayIndex = computed(() => {
   return getDayIndex(1);
 });
 
 const maxDays = computed(() => {
-  return new Date(year, monthIndex + 1, 0).getDate();
+  return new Date(props.year, props.monthIndex + 1, 0).getDate();
 });
 
 const maxWeeks = computed(() => {
