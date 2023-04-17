@@ -5,7 +5,7 @@
       <thead>
       <tr>
         <td class="text-center pa-1" v-for="dayName of daysName">
-          <v-btn class="button--head" variant="text" icon="">
+          <v-btn class="button--head" variant="text" icon="" density="comfortable">
             {{ dayName }}
           </v-btn>
         </td>
@@ -16,7 +16,7 @@
       <template v-if="isLoaded">
         <tr v-for="week of month" :key="week">
           <td class="text-center pa-1" v-for="day of week">
-            <v-btn v-if="day" variant="text" icon="">
+            <v-btn v-if="day" variant="text" icon="" density="comfortable">
               {{ day }}
             </v-btn>
           </td>
