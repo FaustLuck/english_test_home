@@ -1,39 +1,61 @@
 <template>
+  <v-container class="d-flex flex-column px-0 w-100">
+    <v-card class="d-flex justify-center align-center mb-3" elevation="5" color="transparent">
+      <v-btn icon="mdi mdi-chevron-left" elevation="5" color="transparent" @click="year--"/>
+      <v-card-title>{{ year }}</v-card-title>
+      <v-btn icon="mdi mdi-chevron-right" elevation="5" color="transparent" @click="year++"/>
+    </v-card>
 
-  <v-container class="d-flex flex-column-reverse px-0">
-
-    <template v-if="!dateList[sub]">
-      <card-date-component v-for="i of 3" :key="i"/>
-    </template>
-
-    <template v-else>
-      <card-date-component
-              v-for="(data,datestamp) in dateList[sub]"
-              :key="datestamp"
-              :counter="data.counter"
-              :datestamp="parseInt(datestamp)"
-              :sub="sub"
-      />
-    </template>
+    <v-sheet color="transparent" class="calendar">
+      <card-month-component v-for="(month, index) of months" :year="year" :month-name="month" :is-loaded="isLoaded"
+                            :month-index="index"/>
+    </v-sheet>
 
   </v-container>
 
 </template>
 <script setup lang="ts">
-
-const CardDateComponent=defineAsyncComponent(()=>import("@/stories/cards/CardDate.vue"))
-
+import { computed, defineAsyncComponent, onMounted, ref } from "vue";
 import { useHistoryStore } from "@/store/history";
-import { defineAsyncComponent, onMounted } from "vue";
+
+const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
+
+const months = ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"];
+
 
 const { sub } = defineProps<{ sub: string }>();
 
-const { dateList } = useHistoryStore();
+const year = ref(0);
+
+const isLoaded = computed(() => {
+  return Boolean(useHistoryStore().statistic[sub]?.[year]);
+});
 
 onMounted(async () => {
-  if (useHistoryStore().dateList[sub]) return;
-  await useHistoryStore().getDateList(sub);
+  year.value = new Date().getFullYear();
+  if (isLoaded) return;
+  // await useHistoryStore().getStatistic(year.value, sub);
 
 });
 
 </script>
+
+<style lang="scss" scoped>
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+
+  @media screen and (max-width: 1920px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media screen and (max-width: 1280px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media screen and (max-width: 960px) {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+</style>
