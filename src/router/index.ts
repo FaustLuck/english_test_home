@@ -23,7 +23,7 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: "/history:sub",
+    path: "/history/:sub",
     name: "history",
     props: true,
     component: () => import("@/pages/HistoryView.vue"),
