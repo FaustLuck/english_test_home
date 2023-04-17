@@ -22,6 +22,12 @@ export const useHistoryStore = defineStore("history", () => {
     Object.assign(dateList[sub], resDateList);
   }
 
+  async function getStatistic(year: number, sub: string) {
+    const resStatistic = await requestGet(`/history/date/${sub}/${year}`);
+    if (!statistic[sub]) statistic[sub] = {};
+    Object.assign(statistic[sub][year], resStatistic);
+  }
+
   async function getTimeList(sub: string, date: number) {
     const timeList = await requestGet(`/history/date/${sub}/${date}`);
     Object.assign(dateList[sub][date], timeList);
@@ -39,6 +45,7 @@ export const useHistoryStore = defineStore("history", () => {
     users,
     getUsers,
     getDateList,
+    getStatistic,
     getTimeList,
     getResult
   };
