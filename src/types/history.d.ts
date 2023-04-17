@@ -1,4 +1,4 @@
-import { TestItem } from "@/types/test";
+import { Result, TestItem } from "@/types/test";
 
 export interface User {
   key: string;
@@ -6,13 +6,7 @@ export interface User {
   picture: string;
   privileged: boolean;
   sub: string;
-}
-
-export interface DateList {
-  [index:string]:{
-    [index: string]: TimeList;
-    counter?: number;
-  }
+  minYear: number;
 }
 
 export interface TimeList {
@@ -28,9 +22,13 @@ export interface TestInfo {
 
 export interface History {
   [index: string]: {
-    [index: number]: HistoryRecord;
+    [index: string]: {
+      key: string;
+      timestamp: number;
+    }[];
   };
 }
+
 
 export interface HistoryRecord {
   [index: number]: DifficultOfTEst;
