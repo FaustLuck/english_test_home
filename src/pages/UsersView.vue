@@ -24,10 +24,11 @@ const CardUserComponent = defineAsyncComponent(() => import("@/stories/cards/Car
 
 const router = useRouter();
 const activeUserSub = ref("");
+const year = ref(new Date().getFullYear());
 
 function changeActiveUser(sub: string) {
   activeUserSub.value = sub;
-  router.push({ name: "history", params: { sub } });
+  router.push({ name: "history", params: { sub, year: year.value } });
 }
 
 const { users } = storeToRefs(useHistoryStore());
@@ -36,7 +37,7 @@ const { sub } = storeToRefs(useAuthStore());
 onMounted(async () => {
   if (!users.value.length) await useHistoryStore().getUsers(sub.value);
   if (users.value.length === 1) await router.replace({ name: "history", params: { sub: sub.value } });
-  useLoadingStore().isLoading=false;
+  useLoadingStore().isLoading = false;
 });
 
 </script>
