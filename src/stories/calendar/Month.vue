@@ -70,7 +70,6 @@ function createTable() {
     output[week][index] = day;
     if (index === 6) ++week;
   }
-
   return output;
 }
 
@@ -78,7 +77,6 @@ function fillEmptyDays(week: number[], index: number) {
   for (let i = 0; i < index; i++) {
     week[i] = -i - 1;
   }
-
 }
 
 function getTests(day: number) {
