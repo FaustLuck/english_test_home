@@ -1,36 +1,31 @@
 import { defineStore } from "pinia";
 import { reactive, ref, Ref } from "vue";
-import { DateList, History, User } from "@/types/history";
+import { History, User } from "@/types/history";
 import { requestGet } from "@/utils/requests";
 
 export const useHistoryStore = defineStore("history", () => {
   const history: History = reactive({});
-  const dateList: DateList = reactive({});
   const users: Ref<User[]> = ref([]);
 
   async function getUsers(sub: string) {
     users.value = await requestGet(`/user/${sub}`);
   }
 
-  async function getDateList(sub: string) {
-    const resDateList = await requestGet(`/history/date/${sub}`);
-    const user = users.value.find(el => el.sub === sub);
-    if (!user) return;
-    if (!dateList?.[sub]) {
-      dateList[sub] = {};
-    }
-    Object.assign(dateList[sub], resDateList);
+  function getUser(sub: string) {
+    return users.value.find(el => el.sub === sub);
   }
 
-  async function getStatistic(year: number, sub: string) {
+  function getTestsOfDay(sub: string, year: number, start: number) {
+    const msInDay = 1000 * 60 * 60 * 24;
+    return history[sub][year]
+      .filter(el => el.timestamp >= start && el.timestamp < start + msInDay);
+  }
+
+  async function getHistoryOfYear(year: string, sub: string) {
     const resStatistic = await requestGet(`/history/date/${sub}/${year}`);
-    if (!statistic[sub]) statistic[sub] = {};
-    Object.assign(statistic[sub][year], resStatistic);
-  }
-
-  async function getTimeList(sub: string, date: number) {
-    const timeList = await requestGet(`/history/date/${sub}/${date}`);
-    Object.assign(dateList[sub][date], timeList);
+    if (!history[sub]) history[sub] = {};
+    if (!history[sub][year]) history[sub][year] = [];
+    Object.assign(history[sub][year], resStatistic);
   }
 
   async function getResult(sub: string, timestamp: number) {
@@ -41,12 +36,11 @@ export const useHistoryStore = defineStore("history", () => {
 
   return {
     history,
-    dateList,
     users,
+    getUser,
     getUsers,
-    getDateList,
-    getStatistic,
-    getTimeList,
+    getHistoryOfYear,
+    getTestsOfDay,
     getResult
   };
 });
