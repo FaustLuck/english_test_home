@@ -84,8 +84,8 @@ const month = computed(() => {
   return month;
 });
 
-function getDayIndex(day) {
-  let weekDay = new Date(year, monthIndex, day).getDay();
+function getDayIndex(day: number) {
+  let weekDay = new Date(props.year, props.monthIndex, day).getDay();
   return (weekDay > 0) ? weekDay - 1 : 6;
 }
 
