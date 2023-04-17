@@ -26,7 +26,7 @@ export interface TestInfo {
   timeSpent: number;
 }
 
-export interface Statistic {
+export interface History {
   [index: string]: {
     [index: number]: HistoryRecord;
   };
