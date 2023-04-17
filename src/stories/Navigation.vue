@@ -22,7 +22,7 @@
                   :title="user.name"
                   :value="user.name"
                   :prepend-avatar="user.picture"
-                  :to="`/history/${user.sub}/`"
+                  :to="`/history/${user.sub}/${year}`"
           />
         </v-list-group>
       </v-list>
@@ -44,7 +44,10 @@
 
 <script setup lang="ts">
 import { useHistoryStore } from "@/store/history";
+import { ref } from "vue";
 
 const props = defineProps<{ isCollapsed: boolean }>();
+
+const year = ref(new Date().getFullYear())
 
 </script>
