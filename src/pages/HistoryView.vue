@@ -28,7 +28,7 @@ const { sub } = defineProps<{ sub: string }>();
 const year = ref(0);
 
 const isLoaded = computed(() => {
-  return Boolean(useHistoryStore().statistic[sub]?.[year]);
+  return Boolean(useHistoryStore().history[sub]?.[year.value]);
 });
 
 onMounted(async () => {
