@@ -21,7 +21,7 @@
         </tr>
       </template>
 
-      <template v-else-if="month.length===0">
+      <template v-else-if="monthArray.length===0">
         <tr>
           <td colspan="7" style="text-align: center">
             В этом месяце тестов не было
@@ -30,7 +30,7 @@
       </template>
 
       <template v-else>
-        <tr v-for="(week,i) of month" :key="`week_${i}`">
+        <tr v-for="(week,i) of monthArray" :key="`week_${i}`">
           <td class="text-center pa-1" v-for="day of week" :key="`week_${i}_${day}`">
             <v-btn v-if="day>0" variant="text" icon="" density="comfortable"
                    :disabled="useHistoryStore().checkRange(props.sub, props.year, props.monthIndex, day).length===0">
@@ -65,7 +65,7 @@ const daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 const props = defineProps<CardMonthProps>();
 
-const month = computed(createTable);
+const monthArray = computed(createTable);
 
 function createTable() {
   const maxDays = new Date(props.year, props.monthIndex + 1, 0).getDate();
