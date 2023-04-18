@@ -3,8 +3,8 @@ import Tool from "@/stories/Tool.vue";
 import { mountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
-import { useSettingsStore } from "../../src/store/settings";
-import { Dictionary } from "../../src/types/settings";
+import { useSettingsStore } from "@/store/settings";
+import { Dictionary } from "@/types/settings";
 
 function createDictionary() {
   let output: Dictionary = {};

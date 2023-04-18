@@ -1,9 +1,8 @@
 import Timer from "@/stories/Timer.vue";
 import { mountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
-import { useTestStore } from "../../src/store/test";
+import { useTestStore } from "@/store/test";
 import { nextTick } from "vue";
-import { expect } from "vitest";
 
 const component = Timer;
 describe("Timer", () => {
