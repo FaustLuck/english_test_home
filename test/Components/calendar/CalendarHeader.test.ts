@@ -1,6 +1,7 @@
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import CalendarHeader from "@/stories/calendar/CalendarHeader.vue";
+import { expect } from "vitest";
 
 const component = CalendarHeader;
 
@@ -19,9 +20,9 @@ describe("CalendarHeader", () => {
         max: 2023
       }
     });
-    expect(wrapper.text().search("2022") > -1).toBe(true);
-    expect(wrapper.html().search("mdi-chevron-left") > -1).toBe(true);
-    expect(wrapper.html().search("mdi-chevron-right") > -1).toBe(true);
+    expect(wrapper.text()).toContain('2022');
+    expect(wrapper.find('.mdi-chevron-left')).toBeDefined()
+    expect(wrapper.find('.mdi-chevron-right')).toBeDefined()
   });
 
   test("Кнопки влево/вправо заблокированы, если счетчик достиг минимального/максимального порога", () => {

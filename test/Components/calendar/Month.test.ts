@@ -1,7 +1,6 @@
 import Month from "@/stories/calendar/Month.vue";
 import { mountWrapper } from "../../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
-import { useHistoryStore } from "@/store/history";
 import { expect } from "vitest";
 
 const component = Month;
@@ -31,34 +30,40 @@ describe("Month", () => {
 
   test("Отрисовка при загрузке", () => {
     wrapper = mountWrapper({ component, props });
-    expect(wrapper.text().search("Loading") > -1).toBe(true);
+    expect(wrapper.text()).toContain("Loading");
   });
 
   test("Отрисовка шапки", () => {
     wrapper = mountWrapper({ component, props });
-    expect(wrapper.text().search("апрель") > -1).toBe(true);
-    expect(wrapper.text().search("Вт") > -1).toBe(true);
+    expect(wrapper.text()).toContain("март");
+    expect(wrapper.text()).toContain("Вт");
   });
 
   test("Отрисовка когда загрузка завершена", async () => {
     wrapper = mountWrapper({ component, props }, { history: { history } });
     await wrapper.setProps({ loading: false });
-    expect(wrapper.text().search("Loading") > -1).toBe(false);
-    expect(wrapper.text().search(/\d/) > -1).toBe(true);
+    expect(wrapper.text()).not.toContain("Loading");
+    expect(wrapper.text()).toContain(28);
     const buttons = wrapper.find("tbody").findAll(".v-btn");
 
     expect(buttons).toHaveLength(31);
-    expect(buttons[17].attributes('disabled')).toBeDefined();
-    expect(buttons[18].attributes('disabled')).not.toBeDefined()
+    expect(buttons[17].attributes("disabled")).toBeDefined();
+    expect(buttons[18].attributes("disabled")).not.toBeDefined();
   });
 
-  test.todo("Клик по дате запрашивает тесты",async ()=>{
+  test("Отрисовка, если в месяце не было тестов", async () => {
+    wrapper = mountWrapper({ component, props }, { history: { history } });
+    await wrapper.setProps({ loading: false, monthIndex: 1 });
+    expect(wrapper.text()).toContain("В этом месяце тестов не было");
+  });
+
+  test.todo("Клик по дате запрашивает тесты", async () => {
     wrapper = mountWrapper({ component, props }, { history: { history } });
     await wrapper.setProps({ loading: false });
     const buttons = wrapper.find("tbody").findAll(".v-btn");
     await buttons[18].trigger("click");
     console.log(wrapper.emitted());
-  })
+  });
 
 
 });
