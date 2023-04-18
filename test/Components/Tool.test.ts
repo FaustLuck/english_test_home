@@ -43,7 +43,7 @@ describe("Tool", () => {
     return wrapper.find(`[title*="${title}"]`);
   }
 
-  function checkVisible({ done, undo, edit, del }: { done: number, undo: number, edit: number, del: number }) {
+  function checkVisible(done: number, undo: number, edit: number, del: number) {
     const titles = ["Готово", "Отменить", "Редактировать", "Удалить"];
 
     titles.forEach((title, i) => {
@@ -55,7 +55,7 @@ describe("Tool", () => {
   test("Проверка отрисовки", async () => {
     const buttons = wrapper.findAll(`[title]`);
     expect(buttons).toHaveLength(4);
-    checkVisible({ done: 0, undo: 0, edit: 1, del: 1 });
+    checkVisible(0, 0, 1, 1);
   });
 
   test("Редактирование и последующее закрепление", async () => {
@@ -64,7 +64,7 @@ describe("Tool", () => {
     await nextTick();
     expect(useSettingsStore().editingIndex).toBe(props.index);
     expect(useSettingsStore().editingDifficult).toBe(props.difficult);
-    checkVisible({ done: 1, undo: 0, edit: 0, del: 0 });
+    checkVisible(1, 0, 0, 0);
     const doneButton = getButton("Готово");
     await doneButton.trigger("click");
     await nextTick();
@@ -79,17 +79,17 @@ describe("Tool", () => {
     const deletedItem = useSettingsStore().dictionary[props.difficult][props.index];
     expect(deletedItem.excluded).toBe(true);
     await wrapper.setProps({ excluded: deletedItem.excluded });
-    checkVisible({ done: 0, undo: 1, edit: 0, del: 0 });
+    checkVisible(0, 1, 0, 0);
   });
 
   test("Проверка отрисовки, если запись была отредактирована", async () => {
     await wrapper.setProps({ edited: true });
-    checkVisible({ done: 0, undo: 1, edit: 1, del: 1 });
+    checkVisible(0, 1, 1, 1);
   });
 
   test("Проверка отрисовки, если была добавлена новая запись", async () => {
     await wrapper.setProps({ included: true });
-    checkVisible({ done: 0, undo: 1, edit: 1, del: 1 });
+    checkVisible(0, 1, 1, 1);
   });
 
   test("Последовательное удаление изменений редактирования", async () => {
