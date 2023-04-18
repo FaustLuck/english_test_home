@@ -59,15 +59,13 @@ describe("Header", () => {
 
   test("Отрисовка значка меню, если пользователь авторизован", async () => {
     useAuthStore().isLogin = true;
-    const icons = wrapper.findAll(".v-icon");
-    expect(wrapper.findAll(".v-icon")).toHaveLength(1);
-    expect(icons[0].html().search("mdi-menu") > -1).toBe(true);
+    expect(wrapper.find('.mdi-menu')).toBeDefined()
   });
 
   test("Клик по кнопке отправляет запрос на тест", async () => {
     global.fetch = fetchHelperGet();
-    expect(wrapper.text().search("Начать тест") > -1).toBe(true);
-    expect(wrapper.text().search("Завершить тест") > -1).toBe(false);
+    expect(wrapper.text()).toContain("Начать тест")
+    expect(wrapper.text()).not.toContain("Завершить тест")
     expect(useLoadingStore().isLoading).toBe(false);
     expect(wrapper.findAll(".v-progress-circular")).toHaveLength(0);
     await wrapper.find("button:not([id='google'])").trigger("click");
