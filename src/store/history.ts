@@ -15,10 +15,21 @@ export const useHistoryStore = defineStore("history", () => {
     return users.value.find(el => el.sub === sub);
   }
 
-  function getTestsOfDay(sub: string, year: number, start: number) {
-    const msInDay = 1000 * 60 * 60 * 24;
+  function checkRange(sub: string, year: number, month = 0, day = 1) {
+    const start = createTimestamp(arguments[1], arguments[2], arguments[3]);
+    arguments[arguments.length - 1] += 1;
+    const finish = createTimestamp(arguments[1], arguments[2], arguments[3]);
+    return getRange(sub, year, start, finish);
+  }
+
+  function createTimestamp(year: number, month = 0, day = 1) {
+    return new Date(year, month, day).getTime();
+  }
+
+  function getRange(sub: string, year: number, start: number, finish: number) {
+    if (!history?.[sub]?.[year]) return [];
     return history[sub][year]
-      .filter(el => el.timestamp >= start && el.timestamp < start + msInDay);
+      .filter(el => el.timestamp >= start && el.timestamp < finish);
   }
 
   async function getHistoryOfYear(year: string, sub: string) {
@@ -40,7 +51,7 @@ export const useHistoryStore = defineStore("history", () => {
     getUser,
     getUsers,
     getHistoryOfYear,
-    getTestsOfDay,
+    checkRange,
     getResult
   };
 });

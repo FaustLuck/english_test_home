@@ -8,10 +8,10 @@
             @decrement="year--"
     />
 
-    <template v-if="loading===undefined">
+    <template v-if="isEmpty">
       <v-sheet color="transparent" class="d-flex justify-center align-center h-100">
         <v-card-title>
-          Записей не найдено
+          За {{ year }} год записей не найдено
         </v-card-title>
       </v-sheet>
     </template>
@@ -27,31 +27,32 @@
 
 </template>
 <script setup lang="ts">
-import { defineAsyncComponent, Ref, ref, watchEffect } from "vue";
+import { defineAsyncComponent, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 
 const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
 const CalendarHeader = defineAsyncComponent(() => import("@/stories/calendar/CalendarHeader.vue"));
 
 const props = defineProps<{ sub: string, year: string }>();
-const loading: Ref<boolean | undefined> = ref(false);
+const loading = ref(false);
+const isEmpty = ref(false);
 
 const minYear = useHistoryStore()?.getUser(props.sub)?.minYear;
 const maxYear = new Date().getFullYear();
 
-function checkData(): number | undefined {
-  return useHistoryStore().history[props.sub]?.[props.year]?.length;
-}
-
 watchEffect(async () => {
-  if (useHistoryStore().history[props.sub]?.[props.year]?.length !== undefined) return;
-  loading.value = true;
-  await getStatistic();
-  loading.value = (checkData() === undefined) ? undefined : false;
+  isEmpty.value = false;
+  if (useHistoryStore().history[props.sub]?.[props.year]?.length === undefined) {
+    loading.value = true;
+    await getStatistic();
+    loading.value = false;
+  }
+  isEmpty.value = useHistoryStore().checkRange(props.sub, +props.year).length === 0;
 });
 
 async function getStatistic() {
   await useHistoryStore().getHistoryOfYear(props.year, props.sub);
+  isEmpty.value = useHistoryStore().checkRange(props.sub, +props.year).length === 0;
 }
 </script>
 

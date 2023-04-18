@@ -1,7 +1,7 @@
 <template>
   <v-sheet elevation="5" class="d-flex align-center flex-column h-100 pa-3" rounded="lg" color="transparent">
     <v-card-title class="pa-0 text-capitalize">{{ monthName }}</v-card-title>
-    <table>
+    <table class="flex-grow-1">
       <thead>
       <tr>
         <td class="text-center pa-1" v-for="dayName of daysName">
@@ -21,10 +21,19 @@
         </tr>
       </template>
 
+      <template v-else-if="month.length===0">
+        <tr>
+          <td colspan="7" style="text-align: center">
+            В этом месяце тестов не было
+          </td>
+        </tr>
+      </template>
+
       <template v-else>
         <tr v-for="(week,i) of month" :key="`week_${i}`">
           <td class="text-center pa-1" v-for="day of week" :key="`week_${i}_${day}`">
-            <v-btn v-if="day>0" variant="text" icon="" density="comfortable" :disabled="getTests(day).length===0">
+            <v-btn v-if="day>0" variant="text" icon="" density="comfortable"
+                   :disabled="useHistoryStore().checkRange(props.sub, props.year, props.monthIndex, day).length===0">
               {{ day }}
             </v-btn>
           </td>
@@ -60,6 +69,8 @@ const month = computed(createTable);
 
 function createTable() {
   const maxDays = new Date(props.year, props.monthIndex + 1, 0).getDate();
+  const isEmpty = useHistoryStore().checkRange(props.sub, props.year, props.monthIndex).length === 0;
+  if (isEmpty) return [];
   const output: number[][] = [];
   output[0] = [];
   let week = 0;
@@ -77,15 +88,6 @@ function fillEmptyDays(week: number[], index: number) {
   for (let i = 0; i < index; i++) {
     week[i] = -i - 1;
   }
-}
-
-function getTests(day: number) {
-  const start = getStartDayTimestamp(day);
-  return useHistoryStore().getTestsOfDay(props.sub, props.year, start);
-}
-
-function getStartDayTimestamp(day: number) {
-  return new Date(props.year, props.monthIndex, day).getTime();
 }
 
 function getDayIndex(day: number) {
