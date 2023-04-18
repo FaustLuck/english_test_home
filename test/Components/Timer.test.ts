@@ -21,8 +21,8 @@ describe("Timer", () => {
   test("Секунды правильно переводятся в формат мм:сс", async () => {
     wrapper = mountWrapper({ component }, { test: { timer: 65 } });
     await nextTick();
-    expect(wrapper.text().search("1:04") > -1).toBe(false);
-    expect(wrapper.text().search("1:05") > -1).toBe(true);
+    expect(wrapper.text()).not.toContain('1:04')
+    expect(wrapper.text()).toContain('1:05')
   });
 
   test("При монтировании таймера в pinia записывается его ID", async () => {
