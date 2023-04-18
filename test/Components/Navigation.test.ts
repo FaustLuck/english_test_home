@@ -3,7 +3,6 @@ import { mountWrapper } from "../mountWithVuetify";
 import { h, nextTick } from "vue";
 import Navigation from "@/stories/Navigation.vue";
 import HelperWrapper from "../HelperWrapper.vue";
-import { describe, expect, test } from "vitest";
 import { User } from "@/types/history";
 import { useHistoryStore } from "@/store/history";
 
@@ -46,22 +45,22 @@ describe("Navigation", () => {
     wrapper = wrap(true);
     await nextTick();
     expect(wrapper.findAll(".v-navigation-drawer__append")).toHaveLength(0);
-    expect(wrapper.html().search("350px") > -1).toBe(false);
+    expect(wrapper.html()).not.toContain('350px')
   });
 
   test("Отрисовка сайд бара в развернутом состоянии", async () => {
     wrapper = wrap();
     await nextTick();
     expect(wrapper.findAll(".v-navigation-drawer__append")).toHaveLength(1);
-    expect(wrapper.html().search("350px") > -1).toBe(true);
+    expect(wrapper.html()).toContain('350px')
   });
 
   test("Отрисовка списка пользователей", async () => {
     wrapper = wrap();
-    expect(wrapper.text().search("Пользователи") > -1).toBe(false);
+    expect(wrapper.text()).not.toContain('Пользователи')
     useHistoryStore().users = users;
     await nextTick();
-    expect(wrapper.text().search("Пользователи") > -1).toBe(true);
+    expect(wrapper.text()).toContain('Пользователи')
 
     const items = wrapper
       .findAll(".v-list-item")
@@ -69,8 +68,8 @@ describe("Navigation", () => {
 
     expect(items).toHaveLength(3);
     items.forEach((item, i) => {
-      expect(wrapper.text().search(users[i].name) > -1).toBe(true);
-      expect(wrapper.html().search(`src="${users[i].picture}"`) > -1).toBe(true);
+      expect(wrapper.text()).toContain(users[i].name)
+      expect(wrapper.html()).toContain(`src="${users[i].picture}"`)
     });
   });
 });
