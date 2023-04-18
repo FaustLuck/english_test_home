@@ -48,7 +48,9 @@ describe("Tool", () => {
 
     titles.forEach((title, i) => {
       let btnStyle = getButton(title).attributes("style") ?? "";
-      expect(btnStyle.search("none") === -1).toBe(!!arguments[i]);
+      (!!arguments[i]) ?
+        expect(btnStyle).not.toContain("none") :
+        expect(btnStyle).toContain("none");
     });
   }
 
