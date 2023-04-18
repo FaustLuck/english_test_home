@@ -56,4 +56,3 @@ onMounted(async () => {
   await useAuthStore().googleInitialize();
 });
 </script>
-
