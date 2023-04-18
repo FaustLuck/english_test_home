@@ -11,7 +11,8 @@ const user: User = {
   name: "userName",
   picture: "someLink",
   privileged: false,
-  sub: "sub"
+  sub: "sub",
+  minYear: 2022
 };
 
 describe("CardUser", () => {
