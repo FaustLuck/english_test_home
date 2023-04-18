@@ -17,12 +17,10 @@
     </template>
 
     <template v-else>
-      <keep-alive>
-        <v-sheet color="transparent" class="calendar">
-          <card-month-component v-for="i of 12" :key="`month_${i}`" :year="+year" :loading="loading"
-                                :month-index="i-1" :sub="sub"/>
-        </v-sheet>
-      </keep-alive>
+      <v-sheet color="transparent" class="calendar">
+        <card-month-component v-for="i of 12" :key="`${year}_month_${i}`" :year="+year" :loading="loading"
+                              :month-index="i-1" :sub="sub"/>
+      </v-sheet>
     </template>
 
   </v-container>
@@ -45,12 +43,12 @@ function checkData(): number | undefined {
   return useHistoryStore().history[props.sub]?.[props.year]?.length;
 }
 
-watchEffect(async ()=>{
-  if (useHistoryStore().history[props.sub]?.[props.year]?.length!==undefined) return;
+watchEffect(async () => {
+  if (useHistoryStore().history[props.sub]?.[props.year]?.length !== undefined) return;
   loading.value = true;
   await getStatistic();
   loading.value = (checkData() === undefined) ? undefined : false;
-})
+});
 
 async function getStatistic() {
   await useHistoryStore().getHistoryOfYear(props.year, props.sub);
