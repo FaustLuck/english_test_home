@@ -9,26 +9,27 @@ export interface User {
   minYear: number;
 }
 
-export interface TimeList {
-  [index: number]: TestInfo;
-}
-
 export interface TestInfo {
   correct: number;
-  question: number;
+  questions: number;//todo в БД записано как questions
   timeLeft: number;
   timeSpent: number;
 }
 
 export interface History {
   [index: string]: {
-    [index: string]: {
-      key: string;
-      timestamp: number;
-    }[];
+    [index: string]: DetailInfo[];
   };
 }
 
+export interface DetailInfo {
+  key: string;
+  timestamp: number;
+  info?: TestInfo;
+  test?: {
+    [index: string]: DifficultOfTEst
+  };
+}
 
 export interface HistoryRecord {
   [index: number]: DifficultOfTEst;
