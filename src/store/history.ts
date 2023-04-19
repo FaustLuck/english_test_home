@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, ref, Ref } from "vue";
-import { History, User } from "@/types/history";
+import { DetailInfo, History, User } from "@/types/history";
 import { requestGet } from "@/utils/requests";
 
 export const useHistoryStore = defineStore("history", () => {
@@ -26,7 +26,7 @@ export const useHistoryStore = defineStore("history", () => {
     return new Date(year, month, day).getTime();
   }
 
-  function getRange(sub: string, year: number, start: number, finish: number) {
+  function getRange(sub: string, year: number, start: number, finish: number): DetailInfo[] {
     if (!history?.[sub]?.[year]) return [];
     return history[sub][year]
       .filter(el => el.timestamp >= start && el.timestamp < finish);
@@ -51,6 +51,8 @@ export const useHistoryStore = defineStore("history", () => {
     getUser,
     getUsers,
     getHistoryOfYear,
+    getHistoryOfDay,
+    getRange,
     checkRange,
     getResult
   };
