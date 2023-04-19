@@ -33,10 +33,20 @@ export const useHistoryStore = defineStore("history", () => {
   }
 
   async function getHistoryOfYear(year: string, sub: string) {
-    const resStatistic = await requestGet(`/history/date/${sub}/${year}`);
+    const resStatistic = await requestGet(`/history/year/${sub}/${year}`);
     if (!history[sub]) history[sub] = {};
     if (!history[sub][year]) history[sub][year] = [];
     Object.assign(history[sub][year], resStatistic);
+  }
+
+  async function getHistoryOfDay(timestamp: number, sub: string, year: number) {
+    const dayStatistic = await requestGet(`/history/day/${sub}/${timestamp}`);
+    dayStatistic.forEach((test: any) => {
+      const historyTest = history[sub][year]
+        .find(el => el.key === test.key);
+      if (historyTest) Object.assign(historyTest, test);
+    });
+
   }
 
   async function getResult(sub: string, timestamp: number) {
