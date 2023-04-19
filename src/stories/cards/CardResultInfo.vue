@@ -5,21 +5,7 @@
             elevation="5"
             color="transparent"
             rounded="lg">
-      <v-row class="justify-center">
-        <span>{{ (name) ? name : "Вход не выполнен" }}</span>
-      </v-row>
-      <v-row class="mx-3 justify-space-between">
-        <span>Время тестирование</span><span>{{ date }} {{ time }}</span>
-      </v-row>
-      <v-row class="mx-3 justify-space-between">
-        <span>Кол-во верных ответов / вопросов:</span>
-        <span v-if="correct>=0 && length>0">{{ correct }} / {{ length }}</span>
-        <span v-else>?? / ??</span>
-      </v-row>
-      <v-row class="mx-3 justify-space-between">
-        <span>Времени затрачено:</span><span>{{ timeSpentString }}</span>
-      </v-row>
-
+      <result-header :timestamp="timestamp" :correct="correct" :timeSpent="timeSpent" :length="length"></result-header>
       <v-expand-transition>
         <v-container class="pa-3">
 
@@ -55,17 +41,17 @@
 
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
-import { useAuthStore } from "@/store/auth";
+
 import { getDate } from "@/utils/getDate";
 import { computed, defineAsyncComponent, watchEffect } from "vue";
 import { useTestStore } from "@/store/test";
-import { timeToString } from "@/utils/timeToString";
 import { useCommonStore } from "@/store/common";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 import DivideComponent from "@/stories/bricks/Divide.vue";
 import { Result } from "@/types/test";
 
 const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));
+const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
 
 interface CardResultInfoProps {
   timestamp: number;
@@ -73,14 +59,8 @@ interface CardResultInfoProps {
   correct: number;
 }
 
-
 const { timeSpent, timeLeft } = storeToRefs(useTestStore());
 
-const timeSpentString = computed(() => {
-  return timeToString(timeSpent.value);
-});
-
-const { name } = storeToRefs(useAuthStore());
 const { orderDifficult } = storeToRefs(useCommonStore());
 const { result, correct, timestamp } = defineProps<CardResultInfoProps>();
 
