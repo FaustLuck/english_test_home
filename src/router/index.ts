@@ -36,15 +36,10 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: "/fire-show",
-    name: "fire-show",
-    component: () => import("@/views/AnimationShow.vue"),
-    meta: { requireResult: true }
-  },
-  {
-    path: "/fail-show",
-    name: "fail-show",
-    component: () => import("@/views/AnimationShow.vue"),
+    path: "/show",
+    name: "show",
+    props: true,
+    component: () => import("@/pages/AnimationShow.vue"),
     meta: { requireResult: true }
   },
   {
@@ -57,7 +52,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes
 });
-
 
 router.beforeEach(async (to) => {
   if (to.name) useCommonStore().setMode(to.name.toString());
