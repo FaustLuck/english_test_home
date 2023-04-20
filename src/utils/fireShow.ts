@@ -1,22 +1,58 @@
-import { useCommonStore } from "@/store/common.ts";
+import { useCommonStore } from "@/store/common";
 
-export function fireShow(canvas) {
-  let start;
+interface Fire {
+  x: number;
+  y: number;
+  size: number;
+  fill: string;
+  vx: number;
+  vy: number;
+  ax: number;
+  far: number;
+  base?: Base;
+}
+
+interface Base {
+  x: number;
+  y: number;
+  vx: number;
+}
+
+interface FireworkBase {
+  life: number;
+  size: number;
+}
+
+interface Firework {
+  x: number;
+  y: number;
+  size: number;
+  fill: string;
+  vx: number;
+  vy: number;
+  ay: number;
+  alpha: number;
+  life: number;
+  base?: FireworkBase;
+}
+
+export function fireShow(canvas: HTMLCanvasElement) {
+  let start: number;
 
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
   const ctx = canvas.getContext("2d");
-
+  if (!ctx) return;
   ctx.fillStyle = "#000";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  let listFire = [];
-  let listFirework = [];
+  let listFire: Fire[] = [];
+  let listFirework: Firework[] = [];
   let fireNumber = 20;
-  let center = {x: canvas.width / 2, y: canvas.height / 2};
+  let center = { x: canvas.width / 2, y: canvas.height / 2 };
   let range = 400;
   for (let i = 0; i < fireNumber; i++) {
-    let fire = {
+    let fire: Fire = {
       x: (Math.random() * range) / 2 - range / 4 + center.x,
       y: Math.random() * range * 2 + canvas.height,
       size: Math.random() + 0.5,
@@ -41,7 +77,7 @@ export function fireShow(canvas) {
     return `rgb(${r},${g},${b}`;
   }
 
-  function loop(timestamp) {
+  function loop(timestamp: number) {
     if (!start) start = timestamp;
     let progress = timestamp - start;
     if (progress > 5000) decreaseOpacity();
@@ -52,10 +88,10 @@ export function fireShow(canvas) {
   }
 
   function decreaseOpacity() {
-    let {opacity} = getComputedStyle(canvas);
+    let opacity = parseInt(getComputedStyle(canvas).opacity);
     if (opacity <= 0) useCommonStore().setAnimationStatus(false);
     opacity -= .01;
-    canvas.style.opacity = opacity;
+    canvas.style.opacity = String(opacity);
 
   }
 
@@ -65,7 +101,7 @@ export function fireShow(canvas) {
       if (fire.y <= fire.far) {
         let color = randColor();
         for (let i = 0; i < fireNumber * 5; i++) {
-          let firework = {
+          let firework: Firework = {
             x: fire.x,
             y: fire.y,
             size: Math.random() + 1.5,
@@ -82,9 +118,11 @@ export function fireShow(canvas) {
           };
           listFirework.push(firework);
         }
-        fire.y = fire.base.y;
-        fire.x = fire.base.x;
-        fire.vx = fire.base.vx;
+        if (fire.base) {
+          fire.y = fire.base.y;
+          fire.x = fire.base.x;
+          fire.vx = fire.base.vx;
+        }
         fire.ax = Math.random() * 0.02 - 0.01;
       }
       fire.x += fire.vx;
@@ -98,8 +136,10 @@ export function fireShow(canvas) {
         firework.x += firework.vx;
         firework.y += firework.vy;
         firework.vy += firework.ay;
-        firework.alpha = firework.life / firework.base.life;
-        firework.size = firework.alpha * firework.base.size;
+        if (firework.base) {
+          firework.alpha = firework.life / firework.base.life;
+          firework.size = firework.alpha * firework.base.size;
+        }
         firework.alpha = firework.alpha > 0.6 ? 1 : firework.alpha;
         firework.life--;
         if (firework.life <= 0) {
@@ -110,6 +150,7 @@ export function fireShow(canvas) {
   }
 
   function draw() {
+    if (!ctx) return;
     ctx.globalCompositeOperation = "source-over";
     ctx.globalAlpha = .18;
     ctx.fillStyle = "#000";
