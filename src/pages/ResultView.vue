@@ -45,7 +45,7 @@ const router = useRouter();
 
 function show(nameShow: string) {
   setTimeout(() => {
-    router.replace({ name: `${nameShow}-show` });
+    router.replace({ name: "show", params: { nameShow } });
   }, 3000);
 }
 
