@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-0 pt-3">
+  <v-container class="pa-0">
     <template v-if="isLoading">
       <card-test-item-component v-for="i of 3" :key="i"/>
     </template>
