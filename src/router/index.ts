@@ -36,7 +36,7 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: "/show",
+    path: "/show:nameShow",
     name: "show",
     props: true,
     component: () => import("@/pages/AnimationShow.vue"),
@@ -66,10 +66,10 @@ router.beforeEach(async (to) => {
     return (test.length) ? true : { name: "test" };
   }
 
-  if (to.meta.requireResult) {
-    const { result } = useTestStore();
-    return (Object.keys(result).length) ? true : { name: "test" };
-  }
+  // if (to.meta.requireResult) {
+  //   const { result } = useTestStore();
+  //   return (Object.keys(result).length) ? true : { name: "test" };
+  // }
 });
 
 router.afterEach(async (to) => {

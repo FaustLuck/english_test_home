@@ -22,10 +22,10 @@ watch(isAnimate, (status) => {
 onMounted(() => {
   if (!canvas.value) return;
   switch (props.nameShow) {
-    case "fire-show":
+    case "fire":
       fireShow(canvas.value);
       break;
-    case "fail-show":
+    case "fail":
       failShow(canvas.value);
       break;
   }
