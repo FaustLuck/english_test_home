@@ -33,7 +33,8 @@
         <tr v-for="(week,i) of monthArray" :key="`week_${i}`">
           <td class="text-center pa-1" v-for="day of week" :key="`week_${i}_${day}`">
             <v-btn v-if="day>0" variant="text" icon="" density="comfortable"
-                   :disabled="useHistoryStore().checkRange(props.sub, props.year, props.monthIndex, day).length===0">
+                   :disabled="useHistoryStore().checkRange(props.sub, props.year, props.monthIndex, day).length===0"
+                   @click="aaa(day)">
               {{ day }}
             </v-btn>
           </td>
@@ -49,6 +50,7 @@
 import { computed, ref } from "vue";
 import LineLoading from "@/stories/bricks/LineLoading.vue";
 import { useHistoryStore } from "@/store/history";
+import { useRouter } from "vue-router";
 
 const start = ref(0);
 
@@ -66,6 +68,7 @@ const daysName = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 const props = defineProps<CardMonthProps>();
 
 const monthArray = computed(createTable);
+const router = useRouter();
 
 function createTable() {
   const maxDays = new Date(props.year, props.monthIndex + 1, 0).getDate();
@@ -93,6 +96,15 @@ function fillEmptyDays(week: number[], index: number) {
 function getDayIndex(day: number) {
   let weekDay = new Date(props.year, props.monthIndex, day).getDay();
   return (weekDay > 0) ? weekDay - 1 : 6;
+}
+
+function aaa(day: number) {
+  const start = new Date(props.year, props.monthIndex, day).getTime();
+  const end = new Date(props.year, props.monthIndex, day + 1).getTime();
+
+  const range = useHistoryStore().getRange(props.sub, props.year, start, end);
+  if (range.some(el => !el.info)) useHistoryStore().getHistoryOfDay(start, props.sub, props.year);
+  router.push({ name: "day", params: { sub: props.sub, day: start } });
 }
 
 </script>
