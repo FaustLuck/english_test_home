@@ -30,6 +30,13 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
+    path: "/day/:sub/:day",
+    name: "day",
+    props: true,
+    component: () => import("@/stories/calendar/Day.vue"),
+    meta: { requireAuth: true }
+  },
+  {
     path: "/settings",
     name: "settings",
     component: () => import("@/views/SettingsView.vue"),
@@ -66,10 +73,10 @@ router.beforeEach(async (to) => {
     return (test.length) ? true : { name: "test" };
   }
 
-  // if (to.meta.requireResult) {
-  //   const { result } = useTestStore();
-  //   return (Object.keys(result).length) ? true : { name: "test" };
-  // }
+  if (to.meta.requireResult) {
+    const { result } = useTestStore();
+    return (Object.keys(result).length) ? true : { name: "test" };
+  }
 });
 
 router.afterEach(async (to) => {
