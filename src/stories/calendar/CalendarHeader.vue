@@ -1,5 +1,5 @@
 <template>
-  <v-card class="d-flex justify-center align-center mb-3" elevation="5" color="transparent">
+  <v-card class="d-flex justify-center align-center my-3 pa-0" elevation="5" color="transparent">
     <v-btn icon="mdi mdi-chevron-left" elevation="5" color="transparent" @click="$emit('decrement')"
            :disabled="year<=props.min"/>
     <v-card-title>{{ year }}</v-card-title>
