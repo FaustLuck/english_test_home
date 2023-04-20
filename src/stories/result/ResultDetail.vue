@@ -38,5 +38,5 @@ const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks
 const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));
 
 const { orderDifficult } = storeToRefs(useCommonStore());
-const props = defineProps<{ difficult: string, result: any }>();
+const props = defineProps<{ result: any }>();
 </script>
