@@ -9,7 +9,9 @@
       />
     </template>
     <v-main>
-      <router-view :key="$route.fullPath"/>
+      <v-container class="pa-0">
+        <router-view :key="$route.fullPath"/>
+      </v-container>
     </v-main>
   </v-app>
 </template>

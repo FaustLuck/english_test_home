@@ -1,29 +1,26 @@
 <template>
-  <v-container class="d-flex flex-column px-0 w-100 h-100">
-    <calendar-header
-            :year="+year"
-            :min="minYear"
-            :max="maxYear"
-            @increment="year++"
-            @decrement="year--"
-    />
+  <calendar-header
+          :year="+year"
+          :min="minYear"
+          :max="maxYear"
+          @increment="year++"
+          @decrement="year--"
+  />
 
-    <template v-if="isEmpty">
-      <v-sheet color="transparent" class="d-flex justify-center align-center h-100">
-        <v-card-title>
-          За {{ year }} год записей не найдено
-        </v-card-title>
-      </v-sheet>
-    </template>
+  <template v-if="isEmpty">
+    <v-sheet color="transparent" class="d-flex justify-center align-center h-100">
+      <v-card-title>
+        За {{ year }} год записей не найдено
+      </v-card-title>
+    </v-sheet>
+  </template>
 
-    <template v-else>
-      <v-sheet color="transparent" class="calendar">
-        <card-month-component v-for="i of 12" :key="`${year}_month_${i}`" :year="+year" :loading="loading"
-                              :month-index="i-1" :sub="sub"/>
-      </v-sheet>
-    </template>
-
-  </v-container>
+  <template v-else>
+    <v-sheet color="transparent" class="calendar">
+      <card-month-component v-for="i of 12" :key="`${year}_month_${i}`" :year="+year" :loading="loading"
+                            :month-index="i-1" :sub="sub"/>
+    </v-sheet>
+  </template>
 
 </template>
 <script setup lang="ts">

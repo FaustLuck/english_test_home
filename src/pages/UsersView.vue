@@ -1,14 +1,12 @@
 <template>
-  <v-container class="px-0 d-flex flex-column">
-    <template v-if="users.length===0">
-      <card-user-component v-for="i of 3" :key="i"/>
-    </template>
+  <template v-if="users.length===0">
+    <card-user-component v-for="i of 3" :key="i"/>
+  </template>
 
-    <template v-else>
-      <card-user-component v-for="user of users" :key="user.sub" :user="user"
-                           @click="()=>changeActiveUser(user.sub)"/>
-    </template>
-  </v-container>
+  <template v-else>
+    <card-user-component v-for="user of users" :key="user.sub" :user="user"
+                         @click="()=>changeActiveUser(user.sub)"/>
+  </template>
 </template>
 
 <script setup lang="ts">

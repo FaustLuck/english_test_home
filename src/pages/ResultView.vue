@@ -1,16 +1,14 @@
 <template>
-  <v-container class="pa-0">
-    <v-card
-            class="pa-3 pb-5 ma-3"
-            elevation="5"
-            color="transparent"
-            rounded="lg">
-      <result-header :timestamp="timestamp" :correct="correct" :timeSpent="timeSpent" :length="length"></result-header>
-      <v-expand-transition>
-        <result-detail :result="result"/>
-      </v-expand-transition>
-    </v-card>
-  </v-container>
+  <v-card
+          class="pa-3 pb-5 ma-3"
+          elevation="5"
+          color="transparent"
+          rounded="lg">
+    <result-header :timestamp="timestamp" :correct="correct" :timeSpent="timeSpent" :length="length"></result-header>
+    <v-expand-transition>
+      <result-detail :result="result"/>
+    </v-expand-transition>
+  </v-card>
 </template>
 
 <script setup lang="ts">
@@ -44,6 +42,7 @@ const length = computed(() => {
 
 
 const router = useRouter();
+
 function show(nameShow: string) {
   setTimeout(() => {
     router.replace({ name: `${nameShow}-show` });
