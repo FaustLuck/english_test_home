@@ -1,4 +1,4 @@
-import { TestItem } from "@/types/test";
+import { ResultItem } from "@/types/test";
 
 export interface User {
   key: string;
@@ -31,10 +31,6 @@ export interface DetailInfo {
   };
 }
 
-export interface HistoryRecord {
-  [index: number]: DifficultOfTEst;
-}
-
 export interface DifficultOfTEst {
-  [index: string]: TestItem[];
+  [index: string]: ResultItem[];
 }
