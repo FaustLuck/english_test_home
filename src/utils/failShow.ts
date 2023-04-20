@@ -1,28 +1,68 @@
-import { useCommonStore } from "@/store/common.ts";
+import { useCommonStore } from "@/store/common";
 
-export function failShow(canvas) {
+export interface Coordinate {
+  x: number;
+  y: number;
+}
+
+export interface Color {
+  r: number;
+  g: number;
+  b: number;
+  o: number;
+}
+
+interface Sparkle {
+  color: string;
+  coords: SparkleCoords;
+  translate: Coordinate;
+}
+
+interface SparkleCoords {
+  x: number;
+  y: number;
+  r: number;
+  dx: number;
+  dy: number;
+}
+
+interface Triangle {
+  a: Coordinate,
+  b: Coordinate,
+  c: Coordinate,
+  delta: Coordinate,
+  translate: Coordinate
+}
+
+interface Flame {
+  flag: boolean;
+  pos: Coordinate[];
+  color: Color;
+}
+
+export function failShow(canvas: HTMLCanvasElement) {
   [canvas.width, canvas.height] = [window.innerWidth, window.innerHeight];
   const ctx = canvas.getContext("2d");
-
+  if (!ctx) return;
   const w = canvas.width;
   const h = canvas.height;
   const r = Math.round(Math.min(w, h) / 4);
   const x = Math.round(w / 2);
   const y = Math.round(h / 2);
-  const toRadian = (angle) => angle * Math.PI / 180;
-  const getRandom = (min, max) => Math.random() * (max - min) + min;
+  const toRadian = (angle: number) => angle * Math.PI / 180;
+  const getRandom = (min: number, max: number) => Math.random() * (max - min) + min;
 
-  const combustionColor = "rgb(255, 231, 188)";
-  const wickLightColor = "rgb(153, 54, 0)";
-  const wickDarkColor = "rgb(107, 38, 0)";
-  let bombLightColor = "rgb(42, 42, 42)";
-  let bombDarkColor = "rgb(29, 29, 29)";
+  const combustionColor: string = "rgb(255, 231, 188)";
+  const wickLightColor: string = "rgb(153, 54, 0)";
+  const wickDarkColor: string = "rgb(107, 38, 0)";
+  let bombLightColor: string = "rgb(42, 42, 42)";
+  let bombDarkColor: string = "rgb(29, 29, 29)";
 
   const [corkXr, corkYr] = [r / 3, r / 10];
   let corkBottom = -r * 11 / 12;
   let corkUp = corkBottom - r / 5;
 
-  let sparkles = [];
+  let sparkles: Sparkle[] = [];
 
   let isCombustionStart = false;
   let startFlame = 1;
@@ -30,16 +70,16 @@ export function failShow(canvas) {
   let opacityFragments = 1;
 
   const sparkle = {
-    create(x, y) {
-      const translate = {x, y};
-      let coords = {x: 0, y: 0, r: 5};
+    create(x: number, y: number): Sparkle {
+      const translate = { x, y };
+      let coords = { x: 0, y: 0, r: 5 };
       const isNegative = Math.round(getRandom(0, 1));
       const dx = isNegative === 1 ? getRandom(0, 50) * -0.1 : getRandom(0, 50) * 0.1;
       let dy = getRandom(-10, 10);
       const color = `hsl(${getRandom(30, 60)},100%,${getRandom(50, 100)}%)`;
-      return {color, coords: {dx, dy, ...coords}, translate};
+      return { color, coords: { dx, dy, ...coords }, translate };
     },
-    draw({translate, coords, color}) {
+    draw({ translate, coords, color }: Sparkle) {
       ctx.save();
       ctx.translate(translate.x, translate.y);
       ctx.rotate(30 * Math.PI / 180);
@@ -50,7 +90,7 @@ export function failShow(canvas) {
       ctx.restore();
       return this.update(coords);
     },
-    update(coords) {
+    update(coords: SparkleCoords) {
       coords.r -= .05;
       coords.x += coords.dx;
       coords.y += coords.dy;
@@ -59,20 +99,20 @@ export function failShow(canvas) {
     }
   };
   const triangle = {
-    create(a, b, c) {
-      const delta = {
+    create(a: Coordinate, b: Coordinate, c: Coordinate): Triangle {
+      const delta: Coordinate = {
         x: (Math.min(a.x, b.x, c.x)) * 10 / r,
         y: (Math.min(a.y, b.y, c.y)) * 10 / r
       };
-      const translate = {x: 0, y: 0};
-      return {a, b, c, delta, translate};
+      const translate: Coordinate = { x: 0, y: 0 };
+      return { a, b, c, delta, translate };
     },
-    update({delta, translate}) {
+    update({ delta, translate }: { delta: Coordinate, translate: Coordinate }) {
       translate.x += delta.x;
       translate.y += delta.y;
       return translate;
     },
-    draw({a, b, c, translate, delta}) {
+    draw({ a, b, c, translate, delta }: Triangle) {
       ctx.save();
       ctx.translate(translate.x, translate.y);
       ctx.fillStyle = "transparent";
@@ -84,17 +124,18 @@ export function failShow(canvas) {
       ctx.clip();
       frame();
       ctx.restore();
-      return this.update({delta, translate});
+      return this.update({ delta, translate });
     }
   };
-  let triangles = [];
+  let triangles: Triangle[] = [];
   let opacityFlame = 1;
-  let flame = [];
+  let flame: Flame[] = [];
 
   let widthText = 1;
   let scaleText = 0;
 
   function frame() {
+    if (!ctx) return;
     const dx = r / 4;
     const angle = Math.acos(dx / (2 * r));
     ctx.save();
@@ -112,17 +153,21 @@ export function failShow(canvas) {
   }
 
   function cork() {
-    function down(step) {
+
+
+    function down(step: number) {
+      if (!ctx) return;
       const angle = toRadian(120);
       ctx.beginPath();
-      ctx.ellipse(0, corkUp, corkXr, corkYr, 0, angle * !step, angle * step || Math.PI);
-      ctx.ellipse(0, corkBottom, corkXr, corkYr, 0, angle * step || Math.PI, angle * !step, true);
-      ctx.ellipse(0, corkUp, corkXr, corkYr, 0, angle * !step, angle * !step);
+      ctx.ellipse(0, corkUp, corkXr, corkYr, 0, (angle * +!step), angle * step || Math.PI);
+      ctx.ellipse(0, corkBottom, corkXr, corkYr, 0, angle * step || Math.PI, angle * +!step, true);
+      ctx.ellipse(0, corkUp, corkXr, corkYr, 0, angle * +!step, angle * +!step);
       ctx.stroke();
       ctx.fill();
     }
 
-    function up(step) {
+    function up(step: number) {
+      if (!ctx) return;
       const angle = toRadian(160);
       ctx.beginPath();
       ctx.ellipse(0, corkUp, corkXr, corkYr, 0, angle, 2 * (angle - Math.PI), !!step);
@@ -131,6 +176,7 @@ export function failShow(canvas) {
     }
 
     for (let step = 0; step < 2; step++) {
+      if (!ctx) return;
       ctx.fillStyle = step ? bombLightColor : bombDarkColor;
       ctx.strokeStyle = step ? bombLightColor : bombDarkColor;
       up(step);
@@ -138,44 +184,54 @@ export function failShow(canvas) {
     }
   }
 
-  function wick(start = 0, end = 1, flameColor) {
+  function wick(start = 0, end = 1, flameColor = "") {
     const angle = toRadian(120);
-    const P0 = {x: 0, y: corkUp};
-    const CP1 = {x: -corkXr / 2, y: corkUp - r / 4};
-    const CP2 = {x: corkXr / 3, y: corkUp - r / 2};
-    const PF = {x: -corkXr / 6, y: corkUp - r * 3 / 4};
+    const P0 = { x: 0, y: corkUp };
+    const CP1 = { x: -corkXr / 2, y: corkUp - r / 4 };
+    const CP2 = { x: corkXr / 3, y: corkUp - r / 2 };
+    const PF = { x: -corkXr / 6, y: corkUp - r * 3 / 4 };
     const [xR, yR] = [corkXr / 6, corkYr / 6];
-    let dx, dy;
+    let dx: number | undefined, dy: number | undefined;
 
-    function middleWick(t) {
+    function calculateBezierCoords(t: number) {
       const B0 = (1 - t) ** 3;
       const B1 = 3 * t * (1 - t) ** 2;
       const B2 = 3 * t ** 2 * (1 - t);
       const B3 = t ** 3;
-      dx = (B0 * P0.x) + (B1 * CP1.x) + (B2 * CP2.x) + (B3 * PF.x);
-      dy = (B0 * P0.y) + (B1 * CP1.y) + (B2 * CP2.y) + (B3 * PF.y);
-      ctx.beginPath();
-      ctx.strokeStyle = flameColor || wickDarkColor;
-      ctx.ellipse(dx, dy, xR, yR, 0, angle, Math.PI);
-      ctx.stroke();
-      ctx.beginPath();
-      ctx.strokeStyle = flameColor || wickLightColor;
-      ctx.ellipse(dx, dy, xR, yR, 0, 0, angle);
-      ctx.stroke();
+      const dx = (B0 * P0.x) + (B1 * CP1.x) + (B2 * CP2.x) + (B3 * PF.x);
+      const dy = (B0 * P0.y) + (B1 * CP1.y) + (B2 * CP2.y) + (B3 * PF.y);
+      return [dx, dy];
+    }
+
+    function middleWick() {
+      let dx, dy: undefined | number;
+      if (!ctx) return [];
+      for (let i = start; i <= end; i += .001) {
+        [dx, dy] = calculateBezierCoords(i);
+        ctx.beginPath();
+        ctx.strokeStyle = flameColor || wickDarkColor;
+        ctx.ellipse(dx, dy, xR, yR, 0, angle, Math.PI);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.strokeStyle = flameColor || wickLightColor;
+        ctx.ellipse(dx, dy, xR, yR, 0, 0, angle);
+        ctx.stroke();
+      }
+      return [dx, dy];
     }
 
     function wickUp() {
+      if (!ctx || !dx || !dy) return;
       ctx.beginPath();
       ctx.fillStyle = flameColor || wickDarkColor;
       ctx.ellipse(dx, dy, xR, yR, 0, 0, 2 * Math.PI);
       ctx.fill();
     }
 
-    for (let t = start; t <= end; t += .001) {
-      middleWick(t);
-    }
+    [dx, dy] = middleWick();
     wickUp();
-    if (flameColor) return [dx, dy];
+    return [dx, dy];
+    // return (flameColor) ? [dx, dy] : [0, 0];
   }
 
   function drawCombustion() {
@@ -189,6 +245,7 @@ export function failShow(canvas) {
     if (sparkleX && sparkleY) sparkles.push(sparkle.create(sparkleX, sparkleY));
     sparkles = sparkles.filter(el => {
       el.coords = sparkle.draw(el);
+
       return el.coords.r > 0;
     });
     startFlame -= lengthFlame / 10;
@@ -208,13 +265,14 @@ export function failShow(canvas) {
   }
 
   function drawFlame() {
+    if (!ctx) return;
     opacityFlame -= .02;
     for (let j = 0; j < flame.length; j++) {
-      const {r, g, b, o} = flame[j].color;
+      const { r, g, b, o } = flame[j].color;
       ctx.fillStyle = `rgba(${r},${g},${b},${o}`;
       const inner = flame[j].pos;
       ctx.beginPath();
-      inner.forEach(({x, y}) => {
+      inner.forEach(({ x, y }) => {
         ctx.lineTo(x, y);
       });
       ctx.fill();
@@ -227,7 +285,7 @@ export function failShow(canvas) {
       return el.pos.every(pos => Math.abs(pos.x) < canvas.width * 10 && Math.abs(pos.y) < canvas.height * 10);
     });
 
-    function updateColor({r, g, b, o}) {
+    function updateColor({ r, g, b, o }: Color) {
       return {
         r,
         g: g - 1,
@@ -236,7 +294,7 @@ export function failShow(canvas) {
       };
     }
 
-    function update({x, y}) {
+    function update({ x, y }: Coordinate) {
       const dx = x / 15;
       const dy = y / 15;
       return {
@@ -247,6 +305,7 @@ export function failShow(canvas) {
   }
 
   function drawText() {
+    if (!ctx) return;
     const text = "TEST OVER";
     ctx.textBaseline = "middle";
     ctx.textAlign = "center";
@@ -267,6 +326,7 @@ export function failShow(canvas) {
   }
 
   function draw() {
+    if (!ctx) return;
     if (widthText < x * 1.5) {
       requestAnimationFrame(draw);
       ctx.fillStyle = "#000";
@@ -285,7 +345,7 @@ export function failShow(canvas) {
   }
 
   function createTriangles() {
-    const [points, indices] = createPoints(r);
+    const [points, indices] = createPoints(r) as [Coordinate[], number[]];
     const output = [];
     for (let i = 0; i < indices.length; i += 3) {
       const tr = triangle.create(
@@ -298,10 +358,10 @@ export function failShow(canvas) {
     return output;
   }
 
-  function getRandomPointFlame(max) {
+  function getRandomPointFlame(max: number) {
     const distance = 100;
     let duration = 1;
-    let angles = [];
+    let angles: number[] = [];
     let index = 0;
     for (let i = 0; i < max; i++) {
       const angle = getRandom(0, 2 * Math.PI);
@@ -313,16 +373,16 @@ export function failShow(canvas) {
       const y = distance * Math.sin(angles[index]) * (1 - duration / 4);
       duration *= -1;
       index++;
-      return {x, y};
+      return { x, y };
     };
   }
 
   function createFlamePoints() {
     if (flame[flame.length - 1]?.flag) flame[flame.length - 1].flag = false;
-    let color = {r: 255, g: 236, b: 73, o: opacityFlame};
+    let color: Color = { r: 255, g: 236, b: 73, o: opacityFlame };
     const max = Math.round(getRandom(50, 75));
     const getPoint = getRandomPointFlame(max);
-    let pos = [];
+    let pos: Coordinate[] = [];
     for (let i = 0; i < max; i++) {
       pos.push(getPoint());
     }
@@ -333,59 +393,44 @@ export function failShow(canvas) {
     });
   }
 
-  function createPoints(r) {
+  function createPoints(r: number) {
     const EPS = 1e-7;
-    const points = [];
+    const points: Coordinate[] = [];
     const size = Math.floor(r / 4);
     for (let i = 0; i < size; i++) {
       points.push(getRandomPoint(r));
     }
 
-    function getRandomPoint(r) {
+    function getRandomPoint(r: number) {
       const x = Math.random() * (3 * r) - 1.5 * r;
       const y = Math.random() * (3 * r) - 1.5 * r;
-      return {x, y};
+      return { x, y };
     }
 
-    // функция, находящая триангуляцию
-    function triangulate(points) {
+    function triangulate(points: Coordinate[]): number[] {
       let n = points.length;
-
-      if (n < 3) return []; // треугольников нет
-      points = points.slice(0); // копия массива
-
-      // массив индексов, отсортированных по координате икс
+      if (n < 3) return [];
+      points = points.slice(0);
       let ind = [];
       for (let i = 0; i < n; i++) ind.push(i);
       ind.sort((l, r) => points[l].x - points[r].x);
-      // находим треугольник, содержащий все точки, и вставляем его в конец массива с вершинами
       let big = big_triangle(points);
       points.push(big.p1, big.p2, big.p3);
-
       let cur_points = [circusCircle_of_triangle(points, n, n + 1, n + 2)];
       let ans = [];
       let edges = [];
-
-      // перебираем все точки
       for (let i = ind.length - 1; i >= 0; i--) {
-        // перебираем все треугольники
-        // если точка находится внутри треугольника, то нужно его удалить
         for (let j = cur_points.length - 1; j >= 0; j--) {
-          // если точка справа от описанной окружности, то треугольник проверять больше не нужно
-          // точки отсортированы и поэтому тоже будут справа
           let dx = points[ind[i]].x - cur_points[j].x;
           if (dx > 0 && dx * dx > cur_points[j].r) {
             ans.push(cur_points[j]);
             cur_points.splice(j, 1);
             continue;
           }
-
-          // если точка вне окружности, то треугольник изменять не нужно
           let dy = points[ind[i]].y - cur_points[j].y;
           if (dx * dx + dy * dy - cur_points[j].r > EPS) {
             continue;
           }
-          // удаляем треугольник и добавляем его стороны в список ребер
           edges.push(
             cur_points[j].a, cur_points[j].b,
             cur_points[j].b, cur_points[j].c,
@@ -393,9 +438,7 @@ export function failShow(canvas) {
           );
           cur_points.splice(j, 1);
         }
-        // удаляем кратные ребра
         delete_multiples_edges(edges);
-        // создаем новые треугольники последовательно по списку ребер
         for (let j = edges.length - 1; j >= 0;) {
           let b = edges[j];
           j--;
@@ -406,7 +449,6 @@ export function failShow(canvas) {
         }
         edges = [];
       }
-      // формируем массив с триангуляцией
       for (let i = cur_points.length - 1; i >= 0; i--) {
         ans.push(cur_points[i]);
       }
@@ -419,8 +461,7 @@ export function failShow(canvas) {
       return tr;
     }
 
-    // вычисление центра и радиуса описанной окружности вокруг треугольника
-    function circusCircle_of_triangle(points, v1, v2, v3) {
+    function circusCircle_of_triangle(points: Coordinate[], v1: number, v2: number, v3: number) {
       let x1 = points[v1].x, y1 = points[v1].y;
       let x2 = points[v2].x, y2 = points[v2].y;
       let x3 = points[v3].x, y3 = points[v3].y;
@@ -445,11 +486,10 @@ export function failShow(canvas) {
         else yc = m2 * (xc - mx2) + my2;
       }
       let dx = x2 - xc, dy = y2 - yc;
-      return {"a": v1, "b": v2, "c": v3, "x": xc, "y": yc, "r": dx * dx + dy * dy};
+      return { "a": v1, "b": v2, "c": v3, "x": xc, "y": yc, "r": dx * dx + dy * dy };
     }
 
-// функция, находящая треугольник, содержащий все точки множества
-    function big_triangle(points) {
+    function big_triangle(points: Coordinate[]) {
       let minX = 1000000, maxX = -1000000, minY = 1000000, maxY = -1000000;
       for (let i = 0; i < points.length; i++) {
         minX = Math.min(minX, points[i].x);
@@ -472,11 +512,10 @@ export function failShow(canvas) {
         x: midX + 10 * dxy,
         y: midY - 10 * dxy
       };
-      return {p1, p2, p3};
+      return { p1, p2, p3 };
     }
 
-// функция, удаляющая кратные ребра
-    function delete_multiples_edges(edges) {
+    function delete_multiples_edges(edges: number[]) {
       for (let j = edges.length - 1; j >= 0;) {
         let b = edges[j];
         j--;
@@ -507,8 +546,8 @@ export function failShow(canvas) {
 
   ctx.translate(x, y);
   ctx.rotate(toRadian(-30));
-  triangles = createTriangles(r);
+  triangles = createTriangles();
   createFlamePoints();
   draw();
-  useCommonStore().setAnimationStatus(true)
+  useCommonStore().setAnimationStatus(true);
 }
