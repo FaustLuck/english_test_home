@@ -17,7 +17,6 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
-import { useLoadingStore } from "@/store/loading";
 
 const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
 const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
@@ -31,7 +30,6 @@ watch([sub], async (value) => {
 
 onMounted(async () => {
   await useTestStore().getVerifiedTest();
-  useLoadingStore().isLoading = false;
   if (sub.value) await useTestStore().saveTest(sub.value);
 });
 

@@ -13,9 +13,7 @@
 import { defineAsyncComponent, onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
-
 import { useAuthStore } from "@/store/auth";
-import { useLoadingStore } from "@/store/loading";
 import { useHistoryStore } from "@/store/history";
 
 const CardUserComponent = defineAsyncComponent(() => import("@/stories/cards/CardUser.vue"));
@@ -26,7 +24,7 @@ const year = ref(new Date().getFullYear());
 
 function changeActiveUser(sub: string) {
   activeUserSub.value = sub;
-  router.push({ name: "history", params: { sub, year: year.value } });
+  router.push({ name: "year", params: { sub: sub, year: year.value } });
 }
 
 const { users } = storeToRefs(useHistoryStore());
@@ -34,8 +32,9 @@ const { sub } = storeToRefs(useAuthStore());
 
 onMounted(async () => {
   if (!users.value.length) await useHistoryStore().getUsers(sub.value);
-  if (users.value.length === 1) await router.replace({ name: "history", params: { sub: sub.value, year: year.value } });
-  useLoadingStore().isLoading = false;
+  if (users.value.length === 1) await router.replace({
+    name: "year", params: { sub: sub.value, year: year.value }
+  });
 });
 
 </script>
