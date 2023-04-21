@@ -3,7 +3,6 @@ import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common";
 
-
 const routes = [
   {
     path: "/",
@@ -23,18 +22,20 @@ const routes = [
     meta: { requireAuth: true }
   },
   {
-    path: "/history/:sub/:year",
+    path: "/history/:sub/",
     name: "history",
     props: true,
     component: () => import("@/pages/HistoryView.vue"),
-    meta: { requireAuth: true }
-  },
-  {
-    path: "/day/:sub/:day",
-    name: "day",
-    props: true,
-    component: () => import("@/stories/calendar/Day.vue"),
-    meta: { requireAuth: true }
+    meta: { requireAuth: true },
+    children: [{
+      path: "year-:year",
+      component: () => import("@/stories/calendar/Year.vue"),
+      name: "year"
+    }, {
+      path: "day-:day",
+      component: () => import("@/stories/calendar/Day.vue"),
+      name: "day"
+    }]
   },
   {
     path: "/settings",
