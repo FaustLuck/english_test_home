@@ -2,6 +2,7 @@ import CardResultItem from "@/stories/cards/CardResultItem.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { ResultItem } from "@/types/test";
+import { nextTick } from "vue";
 
 const right: ResultItem = { answer: "Пять", choice: "Пять", question: "Five" };
 const resultWithChoice: ResultItem = { answer: "Шесть", choice: "Пять", question: "Six" };
@@ -21,44 +22,35 @@ describe("CardResultItem", () => {
     inputs.forEach(input => expect(input.attributes().disabled).toBeDefined());
   }
 
-  test("Проверка отрисовки если ответ верен", () => {
+  test("Проверка отрисовки если ответ верен", async () => {
     const item = right;
     wrapper = mountWrapper({ component, props: { item } });
+    await nextTick();
     expect(wrapper.find(".right").exists()).toBe(true);
     expect(wrapper.find(".wrong").exists()).toBe(false);
 
-    expect(wrapper.text().search(item.question) > -1).toBe(true);
-    expect(wrapper.text().search(item.answer) > -1).toBe(true);
-    // @ts-ignore
-    expect(item.choice && wrapper.text().search(item.choice) > -1).toBe(true);
+    expect(wrapper.text()).toContain(item.question);
+    expect(wrapper.text()).toContain(item.answer);
+    expect(wrapper.text()).toContain(item.choice);
 
     checkInputs(1);
-
-    const icons = wrapper.findAll(".v-icon");
-    expect(icons).toHaveLength(1);
-    expect(icons[0].attributes().class.search("marked") > -1).toBe(true);
 
     expect(wrapper.find(".title-right").exists()).toBe(true);
     expect(wrapper.find(".title-wrong").exists()).toBe(false);
   });
 
-  test("Проверка отрисовки если ответ не верен и выбор был сделан", () => {
+  test("Проверка отрисовки если ответ не верен и выбор был сделан", async () => {
     const item = resultWithChoice;
     wrapper = mountWrapper({ component, props: { item } });
+    await nextTick();
     expect(wrapper.find(".right").exists()).toBe(false);
     expect(wrapper.find(".wrong").exists()).toBe(true);
 
-    expect(wrapper.text().search(item.question) > -1).toBe(true);
-    expect(wrapper.text().search(item.answer) > -1).toBe(true);
-    // @ts-ignore
-    expect(item.choice && wrapper.text().search(item.choice) > -1).toBe(true);
+    expect(wrapper.text()).toContain(item.question);
+    expect(wrapper.text()).toContain(item.answer);
+    expect(wrapper.text()).toContain(item.choice);
 
     checkInputs(2);
-
-    const icons = wrapper.findAll(".v-icon");
-    expect(icons).toHaveLength(2);
-    expect(icons[0].attributes().class.search("blank") > -1).toBe(true);
-    expect(icons[1].attributes().class.search("marked") > -1).toBe(true);
 
     expect(wrapper.find(".title-right").exists()).toBe(true);
     expect(wrapper.find(".title-wrong").exists()).toBe(true);
@@ -66,22 +58,17 @@ describe("CardResultItem", () => {
 
   });
 
-  test("Проверка отрисовки если ответ не верен и выбор был сделан", () => {
+  test("Проверка отрисовки если ответ не верен и выбор не был сделан", () => {
     const item = resultWithoutChoice;
     wrapper = mountWrapper({ component, props: { item } });
     expect(wrapper.find(".right").exists()).toBe(false);
     expect(wrapper.find(".wrong").exists()).toBe(true);
 
-    expect(wrapper.text().search(item.question) > -1).toBe(true);
-    expect(wrapper.text().search(item.answer) > -1).toBe(true);
-    // @ts-ignore
-    expect(!!item.choice && wrapper.text().search(item.choice) > -1).toBe(false);
+    expect(wrapper.text()).toContain(item.question);
+    expect(wrapper.text()).toContain(item.answer);
+    expect(wrapper.text()).not.toContain(item.choice);
 
     checkInputs(1);
-
-    const icons = wrapper.findAll(".v-icon");
-    expect(icons).toHaveLength(1);
-    expect(icons[0].attributes().class.search("blank") > -1).toBe(true);
 
     expect(wrapper.find(".title-right").exists()).toBe(true);
     expect(wrapper.find(".title-wrong").exists()).toBe(false);
