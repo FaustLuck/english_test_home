@@ -18,7 +18,7 @@
     "vuetify": "^3.1.12"
   },
   "devDependencies": {
-    "@mdi/font": "^7.2.96",
+    "@mdi/js": "^7.2.96",
     "@pinia/testing": "^0.0.16",
     "@storybook/addon-actions": "^7.0.2",
     "@storybook/addon-essentials": "7.0.5",

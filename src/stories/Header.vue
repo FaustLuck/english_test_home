@@ -6,7 +6,7 @@
     </template>
 
     <template v-else>
-      <v-app-bar-nav-icon class="ml-2 position-absolute" @click="$emit('toggleNavigation')"/>
+      <v-app-bar-nav-icon class="ml-2 position-absolute" :icon="mdiMenu" @click="$emit('toggleNavigation')"/>
     </template>
 
     <v-container class="d-flex justify-space-around align-center">
@@ -30,6 +30,7 @@ import { useTestStore } from "@/store/test";
 import { useCommonStore } from "@/store/common";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
+import { mdiMenu } from "@mdi/js";
 
 const TimerComponent = defineAsyncComponent(() => import("@/stories/Timer.vue"));
 

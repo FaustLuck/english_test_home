@@ -3,28 +3,28 @@
           v-show="!editing && !excluded"
           @click="editStart"
           title="Редактировать"
-          icon="mdi mdi-pencil-outline"
+          :icon="mdiPencilOutline"
           variant="text"
   />
   <v-btn
           v-show="!editing && !excluded"
           @click="deleteItem"
           title="Удалить"
-          icon="mdi mdi-delete"
+          :icon="mdiDelete"
           variant="text"
   />
   <v-btn
           v-show="editing"
           @click="editFinish"
           title="Готово"
-          icon="mdi mdi-check"
+          :icon="mdiCheck"
           variant="text"
   />
   <v-btn
           v-show="!editing && (excluded || edited || included)"
           @click="undoChanges"
           title="Отменить"
-          icon="mdi mdi-undo"
+          :icon="mdiUndo"
           variant="text"
   />
 </template>
@@ -33,6 +33,7 @@
 import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/store/settings";
+import { mdiPencilOutline, mdiDelete, mdiCheck, mdiUndo } from "@mdi/js";
 
 interface toolComponentProps {
   difficult: string,
