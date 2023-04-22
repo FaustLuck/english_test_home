@@ -1,13 +1,32 @@
 <template>
-	{{ day }}
+  <v-card
+          v-for="result of range" :key="result.key"
+          class="ma-3"
+          elevation="5"
+          color="transparent"
+          rounded="lg">
+    <test  :sub="sub" :timestamp="timestamp" :result="result"></test>
+  </v-card>
 </template>
 
+
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { computed, onMounted } from "vue";
+import { useHistoryStore } from "@/store/history";
+import Test from "@/stories/calendar/Test.vue";
 
-const props = defineProps<{ sub: string, day: string }>();
+const props = defineProps<{ sub: string, timestamp: string }>();
 
-onMounted(()=>{
+const year = computed(() => new Date(+props.timestamp).getFullYear());
 
-})
+const range = computed(getRange);
+
+function getRange() {
+  const end = new Date(+props.timestamp + 24 * 60 * 60 * 1000).getTime();
+  return useHistoryStore().getRange(props.sub, year.value, +props.timestamp, end);
+}
+
+onMounted(async () => {
+  if (getRange().some(el => !el.info)) await useHistoryStore().getHistoryOfDay(+props.timestamp, props.sub, year.value);
+});
 </script>
