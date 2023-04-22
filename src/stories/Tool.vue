@@ -30,11 +30,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent } from "vue";
+import { computed } from "vue";
 import { storeToRefs } from "pinia";
 import { useSettingsStore } from "@/store/settings";
-
-const VBtn = defineAsyncComponent(() => import("vuetify/components"));
 
 interface toolComponentProps {
   difficult: string,

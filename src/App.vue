@@ -20,9 +20,6 @@ import { defineAsyncComponent, ref } from "vue";
 import { useAuthStore } from "@/store/auth";
 import { storeToRefs } from "pinia";
 
-const VApp = defineAsyncComponent(() => import("vuetify/components"));
-const VMain = defineAsyncComponent(() => import("vuetify/components"));
-const VContainer = defineAsyncComponent(() => import("vuetify/components"));
 const NavigationComponent = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
 const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
 

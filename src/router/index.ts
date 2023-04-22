@@ -37,12 +37,12 @@ const routes = [
       name: "day"
     }]
   },
-  // {
-  //   path: "/settings",
-  //   name: "settings",
-  //   component: () => import("@/views/SettingsView.vue"),
-  //   meta: { requireAuth: true }
-  // },
+  {
+    path: "/settings",
+    name: "settings",
+    component: () => import("@/views/SettingsView.vue"),
+    meta: { requireAuth: true }
+  },
   {
     path: "/show:nameShow",
     name: "show",

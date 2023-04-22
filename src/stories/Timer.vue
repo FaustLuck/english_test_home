@@ -5,10 +5,8 @@
 <script setup lang="ts">
 import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
-import { computed, defineAsyncComponent, onBeforeUnmount, onMounted, watch } from "vue";
+import { computed, onBeforeUnmount, onMounted, watch } from "vue";
 import { timeToString } from "@/utils/timeToString";
-
-const VChip = defineAsyncComponent(() => import("vuetify/components"));
 
 const testStore = useTestStore();
 

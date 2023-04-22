@@ -27,8 +27,6 @@
 import { defineAsyncComponent, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 
-const VSheet = defineAsyncComponent(()=>import('vuetify/components'))
-const VCardTitle = defineAsyncComponent(()=>import('vuetify/components'))
 const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
 const CalendarHeader = defineAsyncComponent(() => import("@/stories/calendar/CalendarHeader.vue"));
 

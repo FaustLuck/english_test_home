@@ -14,7 +14,6 @@
 import { computed, defineAsyncComponent, onMounted } from "vue";
 import { useHistoryStore } from "@/store/history";
 
-const VCard = defineAsyncComponent(()=>import('vuetify/components'))
 const Test = defineAsyncComponent(() => import("@/stories/calendar/Test.vue"));
 
 const props = defineProps<{ sub: string, timestamp: string }>();

@@ -2,7 +2,7 @@
   <v-sheet class="d-flex align-center equal" color="transparent">
     <v-divider/>
     <v-col class="d-flex justify-center">
-      <line-loading class="mx-auto" v-if="loading"/>
+      <line-loading-component class="mx-auto" v-if="loading"/>
       <slot v-else/>
     </v-col>
     <v-divider/>
@@ -10,12 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
-
-const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
-const VSheet = defineAsyncComponent(() => import("vuetify/components"));
-const VDivider = defineAsyncComponent(() => import("vuetify/components"));
-const VCol = defineAsyncComponent(() => import("vuetify/components"));
+import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 
 const { loading } = defineProps<{ loading: boolean }>();
 </script>

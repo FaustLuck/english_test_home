@@ -19,7 +19,6 @@ import { useAuthStore } from "@/store/auth";
 
 const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
 const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
-const VCard = defineAsyncComponent(() => import("vuetify/components"));
 
 const { timestamp, result, correct, timeSpent } = storeToRefs(useTestStore());
 const { sub } = storeToRefs(useAuthStore());

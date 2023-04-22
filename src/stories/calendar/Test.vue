@@ -23,9 +23,6 @@ import { useHistoryStore } from "@/store/history";
 import { HistoryRecord, TestDetail } from "@/types/history";
 import { storeToRefs } from "pinia";
 
-
-const VCard = defineAsyncComponent(()=>import('vuetify/components'))
-const VExpandTransition = defineAsyncComponent(()=>import('vuetify/components'))
 const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
 const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
 

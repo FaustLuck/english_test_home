@@ -29,14 +29,8 @@
 
 <script setup lang="ts">
 import { ResultItem } from "@/types/test";
-import { computed, defineAsyncComponent } from "vue";
+import { computed } from "vue";
 
-const VSheet = defineAsyncComponent(() => import("vuetify/components"));
-const VCol = defineAsyncComponent(() => import("vuetify/components"));
-const VRow = defineAsyncComponent(() => import("vuetify/components"));
-const VRadioGroup = defineAsyncComponent(() => import("vuetify/components"));
-const VRadio = defineAsyncComponent(() => import("vuetify/components"));
-const VLabel = defineAsyncComponent(() => import("vuetify/components"));
 
 const { item } = defineProps<{ item: ResultItem }>();
 

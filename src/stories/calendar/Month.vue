@@ -47,14 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, ref } from "vue";
+import { computed, ref } from "vue";
+import LineLoading from "@/stories/bricks/LineLoading.vue";
 import { useHistoryStore } from "@/store/history";
 import { useRouter } from "vue-router";
-
-const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
-const VSheet = defineAsyncComponent(() => import("vuetify/components"));
-const VCardTitle = defineAsyncComponent(() => import("vuetify/components"));
-const VBtn = defineAsyncComponent(() => import("vuetify/components"));
 
 const start = ref(0);
 

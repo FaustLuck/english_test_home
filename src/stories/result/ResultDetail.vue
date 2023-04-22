@@ -34,10 +34,6 @@ import { storeToRefs } from "pinia";
 import { useCommonStore } from "@/store/common";
 import { TestDetail } from "@/types/history";
 
-const VContainer = defineAsyncComponent(() => import("vuetify/components"));
-const VRow = defineAsyncComponent(() => import("vuetify/components"));
-const VCol = defineAsyncComponent(() => import("vuetify/components"));
-const VCardTitle = defineAsyncComponent(() => import("vuetify/components"));
 const DivideComponent = defineAsyncComponent(() => import("@/stories/bricks/Divide.vue"));
 const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));

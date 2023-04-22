@@ -25,13 +25,7 @@
 <script setup lang="ts">
 import { User } from "@/types/history";
 
-import { defineAsyncComponent } from "vue";
-
-const VCard = defineAsyncComponent(() => import("vuetify/components"));
-const VCardItem = defineAsyncComponent(() => import("vuetify/components"));
-const VCardText = defineAsyncComponent(() => import("vuetify/components"));
-const VAvatar = defineAsyncComponent(() => import("vuetify/components"));
-const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
+import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 
 const props = defineProps<{ user?: User }>();
 </script>
