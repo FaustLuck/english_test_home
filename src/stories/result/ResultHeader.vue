@@ -34,7 +34,9 @@
 import { getDate } from "@/utils/getDate";
 import { timeToString } from "@/utils/timeToString";
 import LineLoading from "@/stories/bricks/LineLoading.vue";
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
+
+const VRow = defineAsyncComponent(() => import("vuetify/components"));
 
 interface ResultHeaderProps {
   timestamp?: number,

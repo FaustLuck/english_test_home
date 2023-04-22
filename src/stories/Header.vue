@@ -31,6 +31,10 @@ import { useCommonStore } from "@/store/common";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 
+const VAppBar = defineAsyncComponent(() => import("vuetify/components"));
+const VAppBarNavIcon = defineAsyncComponent(() => import("vuetify/components"));
+const VContainer = defineAsyncComponent(() => import("vuetify/components"));
+const VBtn = defineAsyncComponent(() => import("vuetify/components"));
 const TimerComponent = defineAsyncComponent(() => import("@/stories/Timer.vue"));
 
 const router = useRouter();

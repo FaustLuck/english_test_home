@@ -9,5 +9,11 @@
 </template>
 
 <script setup lang="ts">
+import { defineAsyncComponent } from "vue";
+
+const VCard = defineAsyncComponent(()=>import('vuetify/components'))
+const VBtn = defineAsyncComponent(()=>import('vuetify/components'))
+const VCardTitle = defineAsyncComponent(()=>import('vuetify/components'))
+
 const props = defineProps<{ year: number, min: number,max:number }>();
 </script>

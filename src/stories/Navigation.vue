@@ -44,7 +44,13 @@
 
 <script setup lang="ts">
 import { useHistoryStore } from "@/store/history";
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
+
+const VNavigationDrawer = defineAsyncComponent(() => import("vuetify/components"));
+const VList = defineAsyncComponent(() => import("vuetify/components"));
+const VListGroup = defineAsyncComponent(() => import("vuetify/components"));
+const VListItem = defineAsyncComponent(() => import("vuetify/components"));
+const VBtn = defineAsyncComponent(() => import("vuetify/components"));
 
 const props = defineProps<{ isCollapsed: boolean }>();
 

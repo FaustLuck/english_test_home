@@ -35,7 +35,14 @@
 <script setup lang="ts">
 import { TestItem } from "@/types/test";
 import { useTestStore } from "@/store/test";
-import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
+import { defineAsyncComponent } from "vue";
+
+const VCard = defineAsyncComponent(() => import("vuetify/components"));
+const VRow = defineAsyncComponent(() => import("vuetify/components"));
+const VCol = defineAsyncComponent(() => import("vuetify/components"));
+const VRadioGroup = defineAsyncComponent(() => import("vuetify/components"));
+const VRadio = defineAsyncComponent(() => import("vuetify/components"));
+const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 
 const props = defineProps<{ item?: TestItem }>();
 </script>
