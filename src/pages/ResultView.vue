@@ -34,7 +34,7 @@ onMounted(async () => {
 
 const questions = computed(() => {
   if (!result) return 0;
-  return (Object.values(result)).flat(1).length;
+  return (Object.values(result.value)).flat(1).length;
 });
 
 
