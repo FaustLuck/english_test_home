@@ -18,12 +18,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, Ref, ref, watchEffect } from "vue";
+import { computed, defineAsyncComponent, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
-import ResultHeader from "@/stories/result/ResultHeader.vue";
 import { HistoryRecord, TestDetail } from "@/types/history";
-import ResultDetail from "@/stories/result/ResultDetail.vue";
 import { storeToRefs } from "pinia";
+
+const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
+const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
 
 const props = defineProps<{ sub: string, timestamp: string, result: HistoryRecord }>();
 
