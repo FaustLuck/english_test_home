@@ -1,12 +1,12 @@
 <template>
 
-  <template v-if="timestamp">
+  <template v-if="correct!==undefined">
     <v-row class="mx-3 justify-space-between">
       <span>Время тестирование</span><span>{{ date }} {{ time }}</span>
     </v-row>
     <v-row class="mx-3 justify-space-between">
       <span>Кол-во верных ответов / вопросов:</span>
-      <span>{{ correct }} / {{ length }}</span>
+      <span>{{ correct }} / {{ questions }}</span>
     </v-row>
     <v-row class="mx-3 justify-space-between">
       <span>Времени затрачено:</span><span>{{ timeToString(timeSpent) }}</span>
@@ -40,7 +40,7 @@ interface ResultHeaderProps {
   timestamp?: number,
   correct?: number,
   timeSpent?: number,
-  length?: number
+  questions?: number
 }
 
 let date = ref("");
