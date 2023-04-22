@@ -4,7 +4,7 @@
     <template v-for="difficult of orderDifficult">
 
       <template v-if="!result">
-        <divide-component :loading="!Boolean(result)"/>
+        <divide-component :loading="true"/>
         <v-row class="d-flex align-center my-1"
                v-for="i of 2" :key="i">
           <v-col align-self="center" class="d-flex flex-column pa-0">
@@ -32,11 +32,12 @@
 import { defineAsyncComponent } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommonStore } from "@/store/common";
+import { TestDetail } from "@/types/history";
 
 const DivideComponent = defineAsyncComponent(() => import("@/stories/bricks/Divide.vue"));
 const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));
 
 const { orderDifficult } = storeToRefs(useCommonStore());
-const props = defineProps<{ result: any }>();
+const props = defineProps<{ result?: TestDetail }>();
 </script>
