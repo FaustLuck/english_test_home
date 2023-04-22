@@ -28,7 +28,7 @@
       </v-list>
     </template>
 
-    <v-list-item nav prepend-icon="mdi mdi-cog-outline" title="Настройки" value="Settings" to="/settings"/>
+<!--    <v-list-item nav prepend-icon="mdi mdi-cog-outline" title="Настройки" value="Settings" to="/settings"/>-->
 
     <template v-slot:append v-if="!isCollapsed">
       <v-btn
