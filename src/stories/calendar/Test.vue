@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, Ref, ref, watch, watchEffect } from "vue";
+import { computed, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import ResultHeader from "@/stories/result/ResultHeader.vue";
 import { HistoryRecord, TestDetail } from "@/types/history";
