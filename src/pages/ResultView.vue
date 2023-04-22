@@ -4,10 +4,9 @@
           elevation="5"
           color="transparent"
           rounded="lg">
-    <result-header :timestamp="timestamp" :correct="correct" :timeSpent="timeSpent" :length="length"></result-header>
-    <v-expand-transition>
-      <result-detail :result="result"/>
-    </v-expand-transition>
+    <result-header :timestamp="timestamp" :correct="correct" :time-spent="timeSpent"
+                   :questions="questions"></result-header>
+    <result-detail :result="result"/>
   </v-card>
 </template>
 
@@ -33,7 +32,7 @@ onMounted(async () => {
   if (sub.value) await useTestStore().saveTest(sub.value);
 });
 
-const length = computed(() => {
+const questions = computed(() => {
   if (!result) return 0;
   return (Object.values(result)).flat(1).length;
 });
@@ -49,6 +48,6 @@ function show(nameShow: string) {
 
 watchEffect(() => {
   if (useTestStore().timeLeft === 0) show("fail");
-  if (length.value > 0 && length.value === correct.value) show("fire");
+  if (questions.value > 0 && questions.value === correct.value) show("fire");
 });
 </script>
