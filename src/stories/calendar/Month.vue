@@ -34,7 +34,7 @@
           <td class="text-center pa-1" v-for="day of week" :key="`week_${i}_${day}`">
             <v-btn v-if="day>0" variant="text" icon="" density="comfortable"
                    :disabled="useHistoryStore().checkRange(props.sub, props.year, props.monthIndex, day).length===0"
-                   @click="aaa(day)">
+                   @click="openDay(day)">
               {{ day }}
             </v-btn>
           </td>
@@ -98,13 +98,9 @@ function getDayIndex(day: number) {
   return (weekDay > 0) ? weekDay - 1 : 6;
 }
 
-function aaa(day: number) {
-  const start = new Date(props.year, props.monthIndex, day).getTime();
-  const end = new Date(props.year, props.monthIndex, day + 1).getTime();
-
-  const range = useHistoryStore().getRange(props.sub, props.year, start, end);
-  if (range.some(el => !el.info)) useHistoryStore().getHistoryOfDay(start, props.sub, props.year);
-  router.push({ name: "day", params: { sub: props.sub, day: start } });
+async function openDay(day: number) {
+  const timestamp = new Date(props.year, props.monthIndex, day).getTime();
+  await router.push({ name: "day", params: { sub: props.sub, timestamp } });
 }
 
 </script>
