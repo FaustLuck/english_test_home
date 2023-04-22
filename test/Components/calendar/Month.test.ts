@@ -1,6 +1,8 @@
 import Month from "@/stories/calendar/Month.vue";
 import { mountWrapper } from "../../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
+import { nextTick } from "vue";
+import { expect } from "vitest";
 
 const component = Month;
 
@@ -19,6 +21,13 @@ const history = {
     ]
   }
 };
+
+const mockedRouter = {
+  push: vi.fn()
+};
+vi.mock("vue-router", () => ({
+  useRouter: () => mockedRouter
+}));
 
 describe("Month", () => {
   let wrapper: VueWrapper<any>;
@@ -56,13 +65,13 @@ describe("Month", () => {
     expect(wrapper.text()).toContain("В этом месяце тестов не было");
   });
 
-  test.todo("Клик по дате запрашивает тесты", async () => {
+  test("Клик по дате запрашивает тесты", async () => {
     wrapper = mountWrapper({ component, props }, { history: { history } });
     await wrapper.setProps({ loading: false });
     const buttons = wrapper.find("tbody").findAll(".v-btn");
-    await buttons[18].trigger("click");
-    console.log(wrapper.emitted());
+    const index = 18;
+    await buttons[index].trigger("click");
+    const timestamp = new Date(props.year, props.monthIndex, index + 1).getTime();
+    expect(mockedRouter.push).toHaveBeenCalledWith({ name: "day", params: { sub: props.sub, timestamp } });
   });
-
-
 });
