@@ -11,26 +11,24 @@ export interface User {
 
 export interface TestInfo {
   correct: number;
-  questions: number;//todo в БД записано как questions
+  questions: number;
   timeLeft: number;
   timeSpent: number;
 }
 
 export interface History {
   [index: string]: {
-    [index: string]: DetailInfo[];
+    [index: string]: HistoryRecord[];
   };
 }
 
-export interface DetailInfo {
+export interface HistoryRecord {
   key: string;
   timestamp: number;
   info?: TestInfo;
-  test?: {
-    [index: string]: DifficultOfTEst
-  };
+  test?: TestDetail;
 }
 
-export interface DifficultOfTEst {
+interface TestDetail {
   [index: string]: ResultItem[];
 }
