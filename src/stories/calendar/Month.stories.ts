@@ -8,12 +8,12 @@ const meta = {
   args: {
     monthIndex: 2,
     year: 2023,
-    loading: true,
-    sub: "sub"
+    sub: "sub",
+    loading: false
   },
-  render:(args)=>({
-    components:{MonthComponent},
-    setup(){
+  render: (args) => ({
+    components: { MonthComponent },
+    setup() {
       const history = {
         "sub": {
           2023: [
@@ -22,15 +22,21 @@ const meta = {
           ]
         }
       };
-      useHistoryStore().$patch({history})
-      return {args}
+      useHistoryStore().$patch({ history });
+      return { args };
     },
-    template:`
-	    <month-component v-bind="args"/>`
+    template: `
+			<month-component v-bind="args"/>`
   })
 }satisfies Meta<typeof MonthComponent>;
 
 export default meta;
 type Story = StoryObj<typeof meta>
 
-export const Loading: Story = {};
+export const Default: Story = {};
+
+export const Loading: Story = {
+  args: {
+    loading: true
+  }
+};
