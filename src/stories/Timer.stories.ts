@@ -16,7 +16,6 @@ const meta = {
 }satisfies Meta<typeof TimerComponent>;
 
 export default meta;
-
 type Story = StoryObj<typeof meta>
 
 export const Default: Story = {};
