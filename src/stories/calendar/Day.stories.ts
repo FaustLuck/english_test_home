@@ -1,8 +1,9 @@
 import Day from "@/stories/calendar/Day.vue";
 import { useHistoryStore } from "@/store/history";
 import { Meta, StoryObj } from "@storybook/vue3";
+import { HistoryRecord } from "@/types/history";
 
-const range: any[] = [
+const range: HistoryRecord[] = [
   {
     "key": "key1",
     "timestamp": 1678976520000,
