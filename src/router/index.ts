@@ -32,7 +32,7 @@ const routes = [
       component: () => import("@/stories/calendar/Year.vue"),
       name: "year"
     }, {
-      path: "day-:day",
+      path: "day-:timestamp",
       component: () => import("@/stories/calendar/Day.vue"),
       name: "day"
     }]
