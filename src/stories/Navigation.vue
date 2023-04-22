@@ -22,7 +22,7 @@
                   :title="user.name"
                   :value="user.name"
                   :prepend-avatar="user.picture"
-                  :to="`/history/${user.sub}/${year}`"
+                  :to="`/history/${user.sub}/year-${year}`"
           />
         </v-list-group>
       </v-list>
