@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, ref, Ref } from "vue";
-import { DetailInfo, History, User } from "@/types/history";
+import { HistoryRecord, History, User } from "@/types/history";
 import { requestGet } from "@/utils/requests";
 
 export const useHistoryStore = defineStore("history", () => {
@@ -26,7 +26,7 @@ export const useHistoryStore = defineStore("history", () => {
     return new Date(year, month, day).getTime();
   }
 
-  function getRange(sub: string, year: number, start: number, finish: number): DetailInfo[] {
+  function getRange(sub: string, year: number, start: number, finish: number): HistoryRecord[] {
     if (!history?.[sub]?.[year]) return [];
     return history[sub][year]
       .filter(el => el.timestamp >= start && el.timestamp < finish);
@@ -49,10 +49,10 @@ export const useHistoryStore = defineStore("history", () => {
 
   }
 
-  async function getResult(sub: string, timestamp: number) {
-    const result = await requestGet(`/history/test/${sub}/${timestamp}`);
-    if (!history?.[sub]) history[sub] = {};
-    Object.assign(history, { [timestamp]: result });
+  async function getResult(sub: string, key: string, year: number) {
+    const result = await requestGet(`/history/test/${key}`);
+    const obj = history[sub][year].find(el => el.key === key);
+    if (obj) Object.assign(obj, { test: result });
   }
 
   return {
