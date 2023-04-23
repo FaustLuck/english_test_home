@@ -1,7 +1,7 @@
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import Year from "@/stories/calendar/Year.vue";
-import { useHistoryStore } from "../../../src/store/history";
+import { useHistoryStore } from "@/store/history";
 import { expect } from "vitest";
 
 const component = Year;
