@@ -6,7 +6,8 @@ import HelperWrapper from "../HelperWrapper.vue";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 import { useCommonStore } from "../../src/store/common";
-import { fetchHelperGet } from "../fetchHelpers";
+import { expect } from "vitest";
+import { useTestStore } from "../../src/store/test";
 
 const component = HelperWrapper;
 
@@ -34,13 +35,14 @@ vi.mock("vue-router", async () => {
   };
 });
 
-vi.mock("vue", async () => {
-  const actual: any = await vi.importActual("vue");
-  return {
-    ...actual,
-    onMounted: () => vi.fn()
-  };
-});
+vi.mock("useTestStore", () => ({
+  getTest: () => vi.fn(),
+  sendAnswers: () => vi.fn()
+}));
+
+vi.mock("useAuthStore", () => ({
+  googleInitialize: () => vi.fn()
+}));
 
 describe("Header", () => {
   let wrapper: VueWrapper;
@@ -55,28 +57,33 @@ describe("Header", () => {
 
   test("Отрисовка кнопки Google, если пользователь не авторизован", () => {
     expect(wrapper.find("button").attributes().id).toBe("google");
+    expect(useAuthStore().googleInitialize).toHaveBeenCalled()
   });
 
   test("Отрисовка значка меню, если пользователь авторизован", async () => {
     useAuthStore().isLogin = true;
-    expect(wrapper.find('.mdi-menu')).toBeDefined()
+    expect(wrapper.find(".mdi-menu")).toBeDefined();
   });
 
   test("Клик по кнопке отправляет запрос на тест", async () => {
-    global.fetch = fetchHelperGet();
-    expect(wrapper.text()).toContain("Начать тест")
-    expect(wrapper.text()).not.toContain("Завершить тест")
+    expect(wrapper.text()).toContain("Начать тест");
+    expect(wrapper.text()).not.toContain("Завершить тест");
     expect(useLoadingStore().isLoading).toBe(false);
     expect(wrapper.findAll(".v-progress-circular")).toHaveLength(0);
     await wrapper.find("button:not([id='google'])").trigger("click");
-    expect(global.fetch).toBeCalledWith(`${import.meta.env.VITE_dev}/test/`);
+    expect(useTestStore().getTest).toHaveBeenCalledWith("");
     expect(useLoadingStore().isLoading).toBe(true);
     expect(wrapper.findAll(".v-progress-circular")).toHaveLength(1);
   });
 
+  test("Если пользователь авторизован, запрашивает тест по sub", async () => {
+    useAuthStore().$patch({ sub: "sub_user" });
+    await wrapper.find("button:not([id='google'])").trigger("click");
+    expect(useTestStore().getTest).toHaveBeenCalledWith("sub_user");
+  });
+
   test("Если маршрут отличен от result и test, пушит новый путь", async () => {
     useCommonStore().mode = "somePath";
-    global.fetch = fetchHelperGet();
     await wrapper.find("button:not([id='google'])").trigger("click");
     expect(mockedUseRouter.replace).not.toHaveBeenCalledTimes(0);
     expect(mockedUseRouter.push).toHaveBeenCalledWith({ name: "test" });
@@ -84,7 +91,6 @@ describe("Header", () => {
 
   test("Если маршрут result, делает замену пути", async () => {
     useCommonStore().mode = "result";
-    global.fetch = fetchHelperGet();
     await wrapper.find("button:not([id='google'])").trigger("click");
     expect(mockedUseRouter.replace).toHaveBeenCalledWith({ name: "test" });
     expect(mockedUseRouter.push).not.toHaveBeenCalledTimes(0);
