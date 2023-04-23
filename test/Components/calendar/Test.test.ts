@@ -2,8 +2,7 @@ import Test from "@/stories/calendar/Test.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { HistoryRecord } from "@/types/history";
-import { expect } from "vitest";
-import { useHistoryStore } from "../../../src/store/history";
+import { useHistoryStore } from "@/store/history";
 
 const component = Test;
 const result: HistoryRecord = {

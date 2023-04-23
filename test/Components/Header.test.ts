@@ -5,9 +5,8 @@ import Header from "@/stories/Header.vue";
 import HelperWrapper from "../HelperWrapper.vue";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
-import { useCommonStore } from "../../src/store/common";
-import { expect } from "vitest";
-import { useTestStore } from "../../src/store/test";
+import { useCommonStore } from "@/store/common";
+import { useTestStore } from "@/store/test";
 
 const component = HelperWrapper;
 

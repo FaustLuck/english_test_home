@@ -27,14 +27,16 @@ describe("CardTestItem", () => {
 
   test("Отрисовка если нет данных", () => {
     wrapper = mountWrapper({ component });
-    expect(wrapper.text().search("Loading") > -1).toBe(true);
+    expect(wrapper.text()).toContain("Loading");
   });
 
   test("Отрисовка если данные доступны", () => {
     const item: TestItem = createTest()[3];
     wrapper = mountWrapper({ component, props: { item } });
-    expect(wrapper.text().search(item.question) > -1).toBe(true);
-    expect(item.answer.every(el => wrapper.text().search(el) > -1)).toBe(true);
+    expect(wrapper.text()).toContain(item.question);
+    item.answer.forEach(el=>{
+      expect(wrapper.text()).toContain(el)
+    })
   });
 
   test("Тестирование выбора варианта ответа", async () => {
