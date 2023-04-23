@@ -16,6 +16,6 @@ export const Loaded: Story = {
     timestamp: 1681402917884,
     correct: 5,
     timeSpent: 200,
-    length: 10
+    questions: 10
   }
 };
