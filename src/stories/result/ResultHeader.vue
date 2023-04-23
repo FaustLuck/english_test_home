@@ -50,5 +50,4 @@ const props = defineProps<ResultHeaderProps>();
 if (props.timestamp) {
   ([date.value, time.value] = getDate(props.timestamp));
 }
-
 </script>
