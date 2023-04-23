@@ -30,17 +30,20 @@ const mode: Ref<number> = ref(0);
 let localTest: Ref<TestDetail | undefined> = ref(undefined);
 
 watchEffect(() => {
-  if (!props.result.test && mode.value > 0) {
+  if (!props.result.test) {
     localTest.value = undefined;
     return;
   }
-  if (mode.value === 2) {
-    localTest.value = props.result.test;
-    return;
-  }
-  localTest.value = {};
-  for (const difficult in props.result.test) {
-    localTest.value[difficult] = props.result.test[difficult].filter(el => el.answer !== el.choice);
+  switch (mode.value) {
+    case 1:
+      localTest.value = {};
+      for (const difficult in props.result.test) {
+        localTest.value[difficult] = props.result.test[difficult].filter(el => el.answer !== el.choice);
+      }
+      break;
+    case 2:
+      localTest.value = props.result.test;
+      return;
   }
 });
 
