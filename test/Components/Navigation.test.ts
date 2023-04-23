@@ -3,7 +3,7 @@ import { mountWrapper } from "../mountWithVuetify";
 import { h, nextTick } from "vue";
 import Navigation from "@/stories/Navigation.vue";
 import HelperWrapper from "../HelperWrapper.vue";
-import { User } from "@/types/history";
+import { User } from "@/types";
 import { useHistoryStore } from "@/store/history";
 
 const component = HelperWrapper;

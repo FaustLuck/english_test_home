@@ -32,7 +32,7 @@
 import { defineAsyncComponent } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommonStore } from "@/store/common";
-import { TestDetail } from "@/types/history";
+import { TestDetail } from "@/types";
 
 const DivideComponent = defineAsyncComponent(() => import("@/stories/bricks/Divide.vue"));
 const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));

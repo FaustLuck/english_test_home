@@ -33,7 +33,7 @@
 </template>
 
 <script setup lang="ts">
-import { TestItem } from "@/types/test";
+import { TestItem } from "@/types";
 import { useTestStore } from "@/store/test";
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 

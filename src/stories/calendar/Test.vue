@@ -20,7 +20,7 @@
 <script setup lang="ts">
 import { computed, defineAsyncComponent, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
-import { HistoryRecord, TestDetail } from "@/types/history";
+import { HistoryRecord, TestDetail } from "@/types";
 
 const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
 const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));

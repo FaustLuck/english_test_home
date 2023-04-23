@@ -4,7 +4,7 @@ import { mountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";
 import { useSettingsStore } from "@/store/settings";
-import { Dictionary } from "@/types/settings";
+import { Dictionary } from "@/types";
 
 function createDictionary() {
   let output: Dictionary = {};

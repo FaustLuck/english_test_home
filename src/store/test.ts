@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, Ref, ref } from "vue";
-import { PreparedItem, Result, TestItem } from "@/types/test";
+import { PreparedItem, Result, TestItem } from "@/types";
 import { requestGet, requestPost } from "@/utils/requests";
 
 export const useTestStore = defineStore("test", () => {

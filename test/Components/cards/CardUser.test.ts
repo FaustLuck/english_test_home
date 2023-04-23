@@ -1,7 +1,7 @@
 import CardUser from "@/stories/cards/CardUser.vue";
 import { mountWrapper } from "../../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
-import { User } from "@/types/history";
+import { User } from "@/types";
 
 const component = CardUser;
 

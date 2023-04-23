@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { reactive, ref, Ref } from "vue";
-import { HistoryRecord, History, User } from "@/types/history";
+import { HistoryRecord, History, User } from "@/types";
 import { requestGet } from "@/utils/requests";
 
 export const useHistoryStore = defineStore("history", () => {

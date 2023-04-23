@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import Test from "@/stories/calendar/Test.vue";
-import { HistoryRecord } from "@/types/history";
+import { HistoryRecord } from "@/types";
 import { useHistoryStore } from "@/store/history";
 
 const defaultInfo = {

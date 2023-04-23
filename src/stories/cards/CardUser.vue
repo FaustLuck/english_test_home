@@ -23,7 +23,7 @@
 </template>
 
 <script setup lang="ts">
-import { User } from "@/types/history";
+import { User } from "@/types";
 
 import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
 

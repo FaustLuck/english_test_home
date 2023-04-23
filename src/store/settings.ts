@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { requestGet, requestPost, sendFile } from "@/utils/requests.js";
-import { Dictionary, Limits, Record } from "@/types/settings";
+import { Dictionary, Limits, Record } from "@/types";
 import { reactive, ref } from "vue";
 
 export const useSettingsStore = defineStore("settings", () => {

@@ -1,7 +1,7 @@
 import CardResultItem from "@/stories/cards/CardResultItem.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
-import { ResultItem } from "@/types/test";
+import { ResultItem } from "@/types";
 import { nextTick } from "vue";
 
 const right: ResultItem = { answer: "Пять", choice: "Пять", question: "Five" };

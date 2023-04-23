@@ -28,7 +28,7 @@
 </template>
 
 <script setup lang="ts">
-import { ResultItem } from "@/types/test";
+import { ResultItem } from "@/types";
 import { computed } from "vue";
 
 
