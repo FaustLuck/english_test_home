@@ -12,13 +12,13 @@
             :questions="result.info?.questions"
     />
   </v-card>
-  <v-expand-transition v-if="mode>0">
+  <template v-if="mode>0">
     <result-detail :result="localTest"/>
-  </v-expand-transition>
+  </template>
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, Ref, ref, watchEffect } from "vue";
+import { defineAsyncComponent, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { HistoryRecord, TestDetail } from "@/types/history";
 
@@ -26,9 +26,7 @@ const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultD
 const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
 
 const props = defineProps<{ sub: string, result: HistoryRecord }>();
-
 const mode: Ref<number> = ref(0);
-
 let localTest: Ref<TestDetail | undefined> = ref(undefined);
 
 watchEffect(() => {
@@ -44,7 +42,6 @@ watchEffect(() => {
   for (const difficult in props.result.test) {
     localTest.value[difficult] = props.result.test[difficult].filter(el => el.answer !== el.choice);
   }
-
 });
 
 async function changeMode() {
