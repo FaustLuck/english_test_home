@@ -2,38 +2,39 @@ import { createRouter, createWebHistory } from "vue-router";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
 import { useCommonStore } from "@/store/common";
+import { defineAsyncComponent } from "vue";
 
 const routes = [
   {
     path: "/",
     name: "test",
-    component: () => import("@/pages/TestView.vue")
+    component: defineAsyncComponent(() => import("@/pages/TestView.vue"))
   },
   {
     path: "/result",
     name: "result",
-    component: () => import("@/pages/ResultView.vue"),
+    component: defineAsyncComponent(() => import("@/pages/ResultView.vue")),
     meta: { requireTest: true }
   },
   {
     path: "/users",
     name: "users",
-    component: () => import("@/pages/UsersView.vue"),
+    component: defineAsyncComponent(() => import("@/pages/UsersView.vue")),
     meta: { requireAuth: true }
   },
   {
     path: "/history/:sub/",
     name: "history",
     props: true,
-    component: () => import("@/pages/HistoryView.vue"),
+    component: defineAsyncComponent(() => import("@/pages/HistoryView.vue")),
     meta: { requireAuth: true },
     children: [{
       path: "year-:year",
-      component: () => import("@/stories/calendar/Year.vue"),
+      component: defineAsyncComponent(() => import("@/stories/calendar/Year.vue")),
       name: "year"
     }, {
       path: "day-:timestamp",
-      component: () => import("@/stories/calendar/Day.vue"),
+      component: defineAsyncComponent(() => import("@/stories/calendar/Day.vue")),
       name: "day"
     }]
   },
@@ -47,7 +48,7 @@ const routes = [
     path: "/show:nameShow",
     name: "show",
     props: true,
-    component: () => import("@/pages/AnimationShow.vue"),
+    component: defineAsyncComponent(() => import("@/pages/AnimationShow.vue")),
     meta: { requireResult: true }
   },
   {

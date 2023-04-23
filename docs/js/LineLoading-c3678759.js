@@ -1,0 +1,1 @@
+import{_ as e}from"./_plugin-vue_export-helper-c27b6911.js";import{o as a,c as o,w as t,x as _,a2 as c}from"./main-ecb08509.js";const n={};function s(r,d){return a(),o(c,{class:"glow-text ma-1"},{default:t(()=>[_("Loading... Loading...")]),_:1})}const l=e(n,[["render",s],["__scopeId","data-v-3a76f5e1"]]);export{l as default};
