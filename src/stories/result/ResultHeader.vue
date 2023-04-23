@@ -33,8 +33,9 @@
 <script setup lang="ts">
 import { getDate } from "@/utils/getDate";
 import { timeToString } from "@/utils/timeToString";
-import LineLoading from "@/stories/bricks/LineLoading.vue";
-import { ref } from "vue";
+import { defineAsyncComponent, ref } from "vue";
+
+const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 
 interface ResultHeaderProps {
   timestamp?: number,

@@ -2,7 +2,7 @@
   <v-app class="w-100 bg-transparent">
     <header-component @toggleNavigation="isCollapsed=!isCollapsed"/>
     <template v-if="isLogin">
-      <navigation-component
+      <navigation
               :is-collapsed="isCollapsed"
               @toExpand="isCollapsed=false"
               @toCollapse="isCollapsed=true"
@@ -20,7 +20,7 @@ import { defineAsyncComponent, ref } from "vue";
 import { useAuthStore } from "@/store/auth";
 import { storeToRefs } from "pinia";
 
-const NavigationComponent = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
+const Navigation = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
 const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
 
 const { isLogin } = storeToRefs(useAuthStore());

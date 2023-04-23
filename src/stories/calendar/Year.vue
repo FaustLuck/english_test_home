@@ -17,7 +17,7 @@
 
   <template v-else>
     <v-sheet color="transparent" class="calendar">
-      <card-month-component v-for="i of 12" :key="`${year}_month_${i}`" :year="+year" :loading="loading"
+      <card-month v-for="i of 12" :key="`${year}_month_${i}`" :year="+year" :loading="loading"
                             :month-index="i-1" :sub="sub"/>
     </v-sheet>
   </template>
@@ -27,7 +27,7 @@
 import { defineAsyncComponent, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 
-const CardMonthComponent = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
+const CardMonth = defineAsyncComponent(() => import("@/stories/calendar/Month.vue"));
 const CalendarHeader = defineAsyncComponent(() => import("@/stories/calendar/CalendarHeader.vue"));
 
 const props = defineProps<{ sub: string, year: string }>();

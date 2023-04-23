@@ -3,10 +3,10 @@
     <v-card class="pa-3 my-3" color="default" elevation="5" rounded="lg">
       <v-row class="px-5 py-3">
         <v-col align-self="center" class="d-flex flex-column pa-0">
-          <line-loading-component/>
+          <line-loading/>
         </v-col>
         <v-col align-self="center" class="d-flex flex-column pa-0">
-          <line-loading-component v-for="i of 4" :key="i"/>
+          <line-loading v-for="i of 4" :key="i"/>
         </v-col>
       </v-row>
     </v-card>
@@ -35,7 +35,7 @@
 <script setup lang="ts">
 import { TestItem } from "@/types";
 import { useTestStore } from "@/store/test";
-import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
+import LineLoading from "@/stories/bricks/LineLoading.vue";
 
 const props = defineProps<{ item?: TestItem }>();
 </script>

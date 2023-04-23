@@ -18,7 +18,7 @@
               @click="(useTestStore().isTesting)?useTestStore().isTesting=false:startTest()"
       >{{ labelButton }}
       </v-btn>
-      <timer-component v-if="useTestStore().isTesting"></timer-component>
+      <timer v-if="useTestStore().isTesting"></timer>
     </v-container>
   </v-app-bar>
 </template>
@@ -32,7 +32,7 @@ import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 import { mdiMenu } from "@mdi/js";
 
-const TimerComponent = defineAsyncComponent(() => import("@/stories/Timer.vue"));
+const Timer = defineAsyncComponent(() => import("@/stories/Timer.vue"));
 
 const router = useRouter();
 

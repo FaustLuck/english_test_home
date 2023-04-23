@@ -4,7 +4,7 @@
       <v-card-item>
         <v-avatar color="surface-variant" size="80"></v-avatar>
       </v-card-item>
-      <line-loading-component/>
+      <line-loading/>
     </v-card>
   </template>
 
@@ -24,8 +24,9 @@
 
 <script setup lang="ts">
 import { User } from "@/types";
+import { defineAsyncComponent } from "vue";
 
-import LineLoadingComponent from "@/stories/bricks/LineLoading.vue";
+const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 
 const props = defineProps<{ user?: User }>();
 </script>

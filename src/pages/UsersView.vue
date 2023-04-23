@@ -1,10 +1,10 @@
 <template>
   <template v-if="users.length===0">
-    <card-user-component v-for="i of 3" :key="i"/>
+    <card-user v-for="i of 3" :key="i"/>
   </template>
 
   <template v-else>
-    <card-user-component v-for="user of users" :key="user.sub" :user="user"
+    <card-user v-for="user of users" :key="user.sub" :user="user"
                          @click="()=>changeActiveUser(user.sub)"/>
   </template>
 </template>
@@ -16,7 +16,7 @@ import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import { useHistoryStore } from "@/store/history";
 
-const CardUserComponent = defineAsyncComponent(() => import("@/stories/cards/CardUser.vue"));
+const CardUser = defineAsyncComponent(() => import("@/stories/cards/CardUser.vue"));
 
 const router = useRouter();
 const activeUserSub = ref("");
