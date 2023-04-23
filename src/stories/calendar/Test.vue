@@ -21,44 +21,39 @@
 import { computed, defineAsyncComponent, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { HistoryRecord, TestDetail } from "@/types/history";
-import { storeToRefs } from "pinia";
 
 const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
 const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
 
-const props = defineProps<{ sub: string, timestamp: string, result: HistoryRecord }>();
-
-const year = computed(() => new Date(+props.timestamp).getFullYear());
-const { history } = storeToRefs(useHistoryStore());
-
-const result = history.value[props.sub][year.value].find(el => el.key === props.result.key) as HistoryRecord;
+const props = defineProps<{ sub: string, result: HistoryRecord }>();
 
 const mode: Ref<number> = ref(0);
 
 let localTest: Ref<TestDetail | undefined> = ref(undefined);
 
 watchEffect(() => {
-  if (!result.test && mode.value > 0) {
+  if (!props.result.test && mode.value > 0) {
     localTest.value = undefined;
     return;
   }
   if (mode.value === 2) {
-    localTest.value = result.test;
+    localTest.value = props.result.test;
     return;
   }
   localTest.value = {};
-  for (const difficult in result.test) {
-    localTest.value[difficult] = result.test[difficult].filter(el => el.answer !== el.choice);
+  for (const difficult in props.result.test) {
+    localTest.value[difficult] = props.result.test[difficult].filter(el => el.answer !== el.choice);
   }
 
 });
 
 async function changeMode() {
   mode.value++;
-  const { correct, questions } = result.info!;
+  const { correct, questions } = props.result.info!;
   if (mode.value > 2) mode.value = 0;
   if ((correct === questions || correct === 0) && mode.value === 1) mode.value = 2;
-  if (mode.value === 0 || result.test) return;
-  await useHistoryStore().getResult(props.sub, result.key, year.value);
+  if (mode.value === 0 || props.result.test) return;
+  const year = new Date(+props.result.timestamp).getFullYear();
+  await useHistoryStore().getResult(props.sub, props.result.key, year);
 }
 </script>

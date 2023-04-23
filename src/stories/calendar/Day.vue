@@ -5,7 +5,7 @@
           elevation="5"
           color="transparent"
           rounded="lg">
-    <test  :sub="sub" :timestamp="timestamp" :result="result"></test>
+    <test :sub="sub" :result="result"></test>
   </v-card>
 </template>
 
