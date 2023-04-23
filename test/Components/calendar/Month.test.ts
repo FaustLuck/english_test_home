@@ -1,7 +1,6 @@
 import Month from "@/stories/calendar/Month.vue";
 import { mountWrapper } from "../../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
-import { nextTick } from "vue";
 import { expect } from "vitest";
 
 const component = Month;
