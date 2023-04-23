@@ -1,7 +1,7 @@
 <template>
   <v-card
           @click="changeMode"
-          color="transparent"
+          :color="color"
           elevation="0"
           class="pa-3"
   >
@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, Ref, ref, watchEffect } from "vue";
+import { computed, defineAsyncComponent, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { HistoryRecord, TestDetail } from "@/types/history";
 
@@ -27,6 +27,15 @@ const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultH
 
 const props = defineProps<{ sub: string, result: HistoryRecord }>();
 const mode: Ref<number> = ref(0);
+
+const color = computed(() => {
+  if (mode.value === 0) {
+    if (props.result.info?.timeLeft === 0) return "#ff8c69";
+    if (props.result.info?.correct && props.result.info?.correct === props.result.info?.questions) return "#8fbc8f";
+  }
+  return "transparent";
+});
+
 let localTest: Ref<TestDetail | undefined> = ref(undefined);
 
 watchEffect(() => {
