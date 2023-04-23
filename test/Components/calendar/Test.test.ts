@@ -66,15 +66,26 @@ describe("Test", () => {
     wrapper = mountWrapper({ component, props });
 
     const title = wrapper.find(".v-card");
+    // @ts-ignore
+    expect(wrapper.vm.localTest).toBeUndefined();
+    // @ts-ignore
     expect(wrapper.vm.mode).toBe(0);
 
+
     await title.trigger("click");
+    // @ts-ignore
     expect(wrapper.vm.mode).toBe(1);
+    // @ts-ignore
+    expect(Object.values(wrapper.vm.localTest).flat(1).length).toBe(props.result.info.questions-props.result.info.correct);
 
     await title.trigger("click");
+    // @ts-ignore
     expect(wrapper.vm.mode).toBe(2);
+    // @ts-ignore
+    expect(Object.values(wrapper.vm.localTest).flat(1).length).toBe(props.result.info.questions);
 
     await title.trigger("click");
+    // @ts-ignore
     expect(wrapper.vm.mode).toBe(0);
   });
 
