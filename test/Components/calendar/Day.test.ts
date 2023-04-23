@@ -33,7 +33,6 @@ vi.mock("useHistoryStore", () => ({
   getHistoryOfDay: () => vi.fn()
 }));
 
-
 describe("Day", () => {
   let wrapper: VueWrapper;
 
