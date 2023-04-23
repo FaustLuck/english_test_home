@@ -1,62 +1,70 @@
 <template>
-  <layout-component></layout-component>
-  <header-component></header-component>
-  <menu-component></menu-component>
-  <form>
-    <router-view :key="$route.fullPath"/>
-  </form>
+  <v-app class="w-100 bg-transparent">
+    <header-component @toggleNavigation="isCollapsed=!isCollapsed"/>
+    <template v-if="isLogin">
+      <navigation
+              :is-collapsed="isCollapsed"
+              @toExpand="isCollapsed=false"
+              @toCollapse="isCollapsed=true"
+      />
+    </template>
+    <v-main>
+      <v-container class="pa-0">
+        <router-view :key="$route.fullPath"/>
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
+<script setup lang="ts">
+import { defineAsyncComponent, ref } from "vue";
+import { useAuthStore } from "@/store/auth";
+import { storeToRefs } from "pinia";
 
-<script>
-import { defineAsyncComponent } from "vue";
+const Navigation = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
+const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
 
-export default {
-  components: {
-    headerComponent: defineAsyncComponent(() => import("@/components/headerComponent.vue")),
-    layoutComponent: defineAsyncComponent(() => import("@/components/layoutComponent.vue")),
-    menuComponent: defineAsyncComponent(() => import("@/components/menuComponent.vue"))
-  }
-};
+const { isLogin } = storeToRefs(useAuthStore());
+const isCollapsed = ref(true);
+
 </script>
-
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
+:root {
+  font-family: 'serif';
+  font-size: 30px;
 }
 
 body {
-  font-family: 'serif';
   background-color: #FFDAB9;
-  font-size: 2.5rem;
-
-  @media screen and (max-width: 768px) {
-    font-size: 1.5rem;
-  }
-  @media screen and (max-width: 576px) {
-    font-size: 1rem;
-  }
 
   &.fail {
     background-color: red;
     pointer-events: none;
   }
 
+  &.warning {
+    animation: wave 10s linear infinite alternate;
+  }
+
+  &.flash {
+    animation: flash 2s linear infinite;
+  }
 }
 
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
+@keyframes wave {
+  from {
+    background-color: #FFDAB9;
+  }
+  to {
+    background-color: #FF0000;
+  }
 }
 
-form {
-  width: 80%;
-  max-width: 1200px;
-  @media screen and (max-width: 768px) {
-    width: 100%;
-    padding-top: 4rem;
+@keyframes flash {
+  from, 49.9% {
+    background-color: #FF0000;
+  }
+  50%, to {
+    background-color: #FFDAB9;
   }
 }
 </style>

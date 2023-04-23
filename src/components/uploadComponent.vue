@@ -1,37 +1,38 @@
 <template>
   <div>
     <button-component
-      :value="(isLoading)?'Подождите...':'Загрузить Excel'"
-      :title="'Загрузите свой словарь в файле excel'"
-      @click="$refs.file.click()"
+            :value="(isLoading)?'Подождите...':'Загрузить Excel'"
+            :title="'Загрузите свой словарь в файле excel'"
+            :loading="isLoading"
+            @click="$refs.file.click()"
     ></button-component>
     <input ref="file" type="file" @change="upload" accept=".xls,.xlsx">
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import { mapActions, mapState } from "pinia/dist/pinia";
 import { defineAsyncComponent } from "vue";
-import { settingsStore } from "@/store/settingsStore";
-import { mainStore } from "@/store/mainStore";
-import { authStore } from "@/store/authStore";
+import { useSettingsStore } from "@/store/settings";
+import { useAuthStore } from "@/store/auth";
+import { useLoadingStore } from "@/store/loading";
 
 export default {
   name: "uploadComponent",
   components: {
-    buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/stories/bricks/Button.vue"))
   },
   props: {
     check: Boolean
   },
   computed: {
-    ...mapState(mainStore, ["isLoading"]),
-    ...mapState(authStore, ["sub"])
+    ...mapState(useLoadingStore, ["isLoading"]),
+    ...mapState(useAuthStore, ["sub"])
   },
   methods: {
-    ...mapActions(settingsStore, ["sendNewDictionary"]),
-    ...mapActions(mainStore, ["setLoading"]),
-    async upload(e) {
+    ...mapActions(useSettingsStore, ["sendNewDictionary"]),
+    ...mapActions(useLoadingStore, ["setLoading"]),
+    async upload(e:any) {
       this.setLoading(true);
       const file = e.target.files[0];
       await this.sendNewDictionary(file, this.check, this.sub);

@@ -1,25 +1,18 @@
 <template>
   <div class="add__wrapper" :class="{'open':isOpen}" @click="toOpen">
     <button-component
-      v-show="!isOpen"
-      :value="'+'"
-      :title="'Добавить новую запись'"
+            v-show="!isOpen"
+            :value="'+'"
+            :loading="isLoading"
+            :title="'Добавить новую запись'"
     ></button-component>
-    <!--    <div style="width: 50%;  position: relative;  border: 1px solid black;">-->
-    <!--      <label style="position: absolute;  font-size: .5em;  top: -.75em;  background-color: #FFDAB9;  left: 1rem;  padding: 0 .5rem;">Сложность:</label>-->
-    <!--      <select >-->
-    <!--        <option >easy</option>-->
-    <!--        <option >medium</option>-->
-    <!--        <option >hard</option>-->
-    <!--      </select>-->
-    <!--    </div>-->
     <div v-show="isOpen" class="add__container">
       <label>Сложность:
         <select v-model="selectedDifficult">
           <option
-            v-for="difficult of orderDifficult"
-            :key="difficult"
-            @change="selectedDifficult=difficult"
+                  v-for="difficult of orderDifficult"
+                  :key="difficult"
+                  @change="selectedDifficult=difficult"
           >{{ difficult }}
           </option>
         </select>
@@ -32,23 +25,26 @@
       </label>
       <div>
         <button-component
-          :value="'Очистить'"
-          :title="'Очистить'"
-          @click="clear"
+                :value="'Очистить'"
+                :title="'Очистить'"
+                :loading="isLoading"
+                @click="clear"
         ></button-component>
         <button-component
-          :value="'Добавить'"
-          :title="'Добавить'"
-          @click="add"
+                :value="'Добавить'"
+                :title="'Добавить'"
+                :loading="isLoading"
+                @click="add"
         ></button-component>
       </div>
       <div>
         <upload-component :check="check"></upload-component>
         <span>или</span>
         <button-component
-          :value="'Вставить из буфера'"
-          :title="'Вставить словарь из буфера обмена'"
-          @click="addFromClipboard"
+                :value="'Вставить из буфера'"
+                :title="'Вставить словарь из буфера обмена'"
+                :loading="isLoading"
+                @click="addFromClipboard"
         ></button-component>
       </div>
       <div>
@@ -64,16 +60,17 @@
 <script>
 import { mapActions, mapState } from "pinia";
 import { defineAsyncComponent } from "vue";
-import { settingsStore } from "@/store/settingsStore";
-import { mainStore } from "@/store/mainStore";
-import { authStore } from "@/store/authStore";
+import { useSettingsStore } from "@/store/settings";
+import { useAuthStore } from "@/store/auth";
+import { useCommonStore } from "@/store/common";
+import { useLoadingStore } from "@/store/loading";
 
 export default {
   name: "itemAddComponent",
   components: {
     uploadComponent: defineAsyncComponent(() => import("@/components/uploadComponent.vue")),
     inputComponent: defineAsyncComponent(() => import("@/components/inputComponent.vue")),
-    buttonComponent: defineAsyncComponent(() => import("@/components/buttonComponent.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue"))
   },
   data() {
     return {
@@ -89,12 +86,14 @@ export default {
     }
   },
   computed: {
-    ...mapState(mainStore, ["orderDifficult", "isOpen", "isLoading"]),
-    ...mapState(authStore, ["sub"])
+    ...mapState(useCommonStore, ["orderDifficult", "isOpen"]),
+    ...mapState(useLoadingStore,['isLoading']),
+    ...mapState(useAuthStore, ["sub"])
   },
   methods: {
-    ...mapActions(settingsStore, ["addItem", "sendNewDictionaryFromClipboard"]),
-    ...mapActions(mainStore, ["setOpen", "setLoading"]),
+    ...mapActions(useSettingsStore, ["addItem", "sendNewDictionaryFromClipboard"]),
+    ...mapActions(useCommonStore, ["setOpen"]),
+    ...mapActions(useLoadingStore,['setLoading']),
     clear() {
       this.question = "";
       this.answer = "";
