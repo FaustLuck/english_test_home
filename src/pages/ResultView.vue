@@ -23,7 +23,7 @@ const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultH
 const { timestamp, result, correct, timeSpent } = storeToRefs(useTestStore());
 const { sub } = storeToRefs(useAuthStore());
 
-watch([sub], async (value) => {
+watch(sub, async (value) => {
   if (value) await useTestStore().saveTest(sub.value);
 });
 
