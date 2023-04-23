@@ -1,4 +1,4 @@
-import { ResultItem } from "@/types/test";
+import { ResultItem } from "@/types";
 
 export interface User {
   key: string;
