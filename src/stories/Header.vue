@@ -24,15 +24,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useLoadingStore } from "@/store/loading";
 import { useTestStore } from "@/store/test";
 import { useCommonStore } from "@/store/common";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 import { mdiMenu } from "@mdi/js";
-
-const Timer = defineAsyncComponent(() => import("@/stories/Timer.vue"));
+import Timer from "@/stories/Timer.vue";
 
 const router = useRouter();
 

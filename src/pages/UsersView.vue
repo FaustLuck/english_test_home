@@ -10,13 +10,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, onMounted, ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import { useHistoryStore } from "@/store/history";
-
-const CardUser = defineAsyncComponent(() => import("@/stories/cards/CardUser.vue"));
+import CardUser from "@/stories/cards/CardUser.vue";
 
 const router = useRouter();
 const activeUserSub = ref("");

@@ -47,12 +47,12 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, ref } from "vue";
+import { computed, ref } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { useRouter } from "vue-router";
+import LineLoading from "@/stories/bricks/LineLoading.vue";
 
 const start = ref(0);
-const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 
 interface CardMonthProps {
   monthIndex: number;

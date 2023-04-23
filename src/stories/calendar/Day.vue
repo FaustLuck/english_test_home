@@ -11,10 +11,10 @@
 
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted } from "vue";
+import { computed, onMounted } from "vue";
 import { useHistoryStore } from "@/store/history";
+import  Test  from "@/stories/calendar/Test.vue";
 
-const Test = defineAsyncComponent(() => import("@/stories/calendar/Test.vue"));
 
 const props = defineProps<{ sub: string, timestamp: string }>();
 

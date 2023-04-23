@@ -8,10 +8,10 @@
         <v-row class="d-flex align-center my-1"
                v-for="i of 2" :key="i">
           <v-col align-self="center" class="d-flex flex-column pa-0">
-            <line-loading-component/>
+            <line-loading/>
           </v-col>
           <v-col align-self="center" class="d-flex flex-column pa-0">
-            <line-loading-component/>
+            <line-loading/>
           </v-col>
         </v-row>
       </template>
@@ -29,14 +29,12 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
 import { storeToRefs } from "pinia";
 import { useCommonStore } from "@/store/common";
 import { TestDetail } from "@/types";
-
-const Divide = defineAsyncComponent(() => import("@/stories/bricks/Divide.vue"));
-const LineLoadingComponent = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
-const CardResultItem = defineAsyncComponent(() => import("@/stories/cards/CardResultItem.vue"));
+import Divide from "@/stories/bricks/Divide.vue";
+import LineLoading from "@/stories/bricks/LineLoading.vue";
+import CardResultItem from "@/stories/cards/CardResultItem.vue";
 
 const { orderDifficult } = storeToRefs(useCommonStore());
 const props = defineProps<{ result?: TestDetail }>();

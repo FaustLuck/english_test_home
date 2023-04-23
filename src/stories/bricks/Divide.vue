@@ -10,9 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
-
-const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
+import LineLoading from "@/stories/bricks/LineLoading.vue";
 
 const { loading } = defineProps<{ loading: boolean }>();
 </script>

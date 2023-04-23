@@ -18,12 +18,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, Ref, ref, watchEffect } from "vue";
+import { computed, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { HistoryRecord, TestDetail } from "@/types";
-
-const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
-const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
+import ResultHeader from "@/stories/result/ResultHeader.vue";
+import ResultDetail from "@/stories/result/ResultDetail.vue";
 
 const props = defineProps<{ sub: string, result: HistoryRecord }>();
 const mode: Ref<number> = ref(0);

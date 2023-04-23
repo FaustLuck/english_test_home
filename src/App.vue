@@ -16,12 +16,12 @@
   </v-app>
 </template>
 <script setup lang="ts">
-import { defineAsyncComponent, ref } from "vue";
+import { ref } from "vue";
 import { useAuthStore } from "@/store/auth";
 import { storeToRefs } from "pinia";
 
-const Navigation = defineAsyncComponent(() => import("@/stories/Navigation.vue"));
-const HeaderComponent = defineAsyncComponent(() => import("@/stories/Header.vue"));
+import HeaderComponent from "@/stories/Header.vue";
+import Navigation from "@/stories/Navigation.vue";
 
 const { isLogin } = storeToRefs(useAuthStore());
 const isCollapsed = ref(true);

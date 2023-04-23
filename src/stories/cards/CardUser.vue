@@ -24,9 +24,7 @@
 
 <script setup lang="ts">
 import { User } from "@/types";
-import { defineAsyncComponent } from "vue";
-
-const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
+import LineLoading from "@/stories/bricks/LineLoading.vue";
 
 const props = defineProps<{ user?: User }>();
 </script>

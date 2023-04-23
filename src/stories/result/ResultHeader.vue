@@ -16,15 +16,15 @@
   <template v-else>
     <v-row class="mx-3 justify-space-between">
       <span>Время тестирование</span>
-      <span><LineLoading/> <LineLoading/></span>
+      <span><line-loading/> <line-loading/></span>
     </v-row>
     <v-row class="mx-3 justify-space-between">
       <span>Кол-во верных ответов / вопросов:</span>
-      <span><LineLoading/> <LineLoading/></span>
+      <span><line-loading/> <line-loading/></span>
     </v-row>
     <v-row class="mx-3 justify-space-between">
       <span>Времени затрачено:</span>
-      <span><LineLoading/> <LineLoading/></span>
+      <span><line-loading/> <line-loading/></span>
     </v-row>
   </template>
 
@@ -33,9 +33,9 @@
 <script setup lang="ts">
 import { getDate } from "@/utils/getDate";
 import { timeToString } from "@/utils/timeToString";
-import { defineAsyncComponent, ref } from "vue";
+import { ref } from "vue";
+import LineLoading from "@/stories/bricks/LineLoading.vue";
 
-const LineLoading = defineAsyncComponent(() => import("@/stories/bricks/LineLoading.vue"));
 
 interface ResultHeaderProps {
   timestamp?: number,

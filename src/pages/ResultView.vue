@@ -11,14 +11,13 @@
 </template>
 
 <script setup lang="ts">
-import { computed, defineAsyncComponent, onMounted, watch, watchEffect } from "vue";
+import { computed, onMounted, watch, watchEffect } from "vue";
 import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
-
-const ResultDetail = defineAsyncComponent(() => import("@/stories/result/ResultDetail.vue"));
-const ResultHeader = defineAsyncComponent(() => import("@/stories/result/ResultHeader.vue"));
+import ResultHeader from "@/stories/result/ResultHeader.vue";
+import ResultDetail from "@/stories/result/ResultDetail.vue";
 
 const { timestamp, result, correct, timeSpent } = storeToRefs(useTestStore());
 const { sub } = storeToRefs(useAuthStore());
