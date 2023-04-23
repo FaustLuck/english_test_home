@@ -5,7 +5,7 @@
       <thead>
       <tr>
         <td class="text-center pa-1" v-for="dayName of daysName">
-          <v-btn class="button--head" variant="text" icon="" density="comfortable">
+          <v-btn class="button--head" variant="text" icon density="comfortable">
             {{ dayName }}
           </v-btn>
         </td>
