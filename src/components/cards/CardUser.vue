@@ -24,7 +24,7 @@
 
 <script setup lang="ts">
 import { User } from "@/types";
-import LineLoading from "@/stories/bricks/LineLoading.vue";
+import LineLoading from "@/components/bricks/LineLoading.vue";
 
 const props = defineProps<{ user?: User }>();
 </script>

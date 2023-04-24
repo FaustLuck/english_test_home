@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import ResultDetail from "@/stories/result/ResultDetail.vue";
+import ResultDetail from "@/components/result/ResultDetail.vue";
 
 const meta = {
   title: "Result/Detail",

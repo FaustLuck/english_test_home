@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import ResultHeader from "@/stories/result/ResultHeader.vue";
+import ResultHeader from "@/components/result/ResultHeader.vue";
 
 const meta = {
   title: "Result/Header",

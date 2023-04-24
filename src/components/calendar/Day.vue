@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useHistoryStore } from "@/store/history";
-import Test from "@/stories/calendar/Test.vue";
+import Test from "@/components/calendar/Test.vue";
 
 
 const props = defineProps<{ sub: string, timestamp: string }>();

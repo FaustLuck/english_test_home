@@ -31,7 +31,7 @@ import { useCommonStore } from "@/store/common";
 import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 import { mdiMenu } from "@mdi/js";
-import Timer from "@/stories/Timer.vue";
+import Timer from "@/components/Timer.vue";
 
 const router = useRouter();
 

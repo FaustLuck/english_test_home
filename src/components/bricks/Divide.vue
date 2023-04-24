@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import LineLoading from "@/stories/bricks/LineLoading.vue";
+import LineLoading from "@/components/bricks/LineLoading.vue";
 
 const { loading } = defineProps<{ loading: boolean }>();
 </script>

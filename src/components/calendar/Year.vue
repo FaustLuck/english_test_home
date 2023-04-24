@@ -26,8 +26,8 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
-import CalendarHeader from "@/stories/calendar/CalendarHeader.vue";
-import Month from "@/stories/calendar/Month.vue";
+import CalendarHeader from "@/components/calendar/CalendarHeader.vue";
+import Month from "@/components/calendar/Month.vue";
 
 const props = defineProps<{ sub: string, year: string }>();
 const loading = ref(false);

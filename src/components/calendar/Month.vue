@@ -50,7 +50,7 @@
 import { computed, ref } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { useRouter } from "vue-router";
-import LineLoading from "@/stories/bricks/LineLoading.vue";
+import LineLoading from "@/components/bricks/LineLoading.vue";
 
 const start = ref(0);
 

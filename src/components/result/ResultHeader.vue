@@ -34,7 +34,7 @@
 import { getDate } from "@/utils/getDate";
 import { timeToString } from "@/utils/timeToString";
 import { ref } from "vue";
-import LineLoading from "@/stories/bricks/LineLoading.vue";
+import LineLoading from "@/components/bricks/LineLoading.vue";
 
 
 interface ResultHeaderProps {

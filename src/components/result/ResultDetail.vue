@@ -32,9 +32,9 @@
 import { storeToRefs } from "pinia";
 import { useCommonStore } from "@/store/common";
 import { TestDetail } from "@/types";
-import Divide from "@/stories/bricks/Divide.vue";
-import LineLoading from "@/stories/bricks/LineLoading.vue";
-import CardResultItem from "@/stories/cards/CardResultItem.vue";
+import Divide from "@/components/bricks/Divide.vue";
+import LineLoading from "@/components/bricks/LineLoading.vue";
+import CardResultItem from "@/components/cards/CardResultItem.vue";
 
 const { orderDifficult } = storeToRefs(useCommonStore());
 const props = defineProps<{ result?: TestDetail }>();

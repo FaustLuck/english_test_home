@@ -21,8 +21,8 @@
 import { computed, Ref, ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { HistoryRecord, TestDetail } from "@/types";
-import ResultHeader from "@/stories/result/ResultHeader.vue";
-import ResultDetail from "@/stories/result/ResultDetail.vue";
+import ResultHeader from "@/components/result/ResultHeader.vue";
+import ResultDetail from "@/components/result/ResultDetail.vue";
 
 const props = defineProps<{ sub: string, result: HistoryRecord }>();
 const mode: Ref<number> = ref(0);
