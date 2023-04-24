@@ -70,7 +70,7 @@ export default {
   components: {
     uploadComponent: defineAsyncComponent(() => import("@/oldComponents/uploadComponent.vue")),
     inputComponent: defineAsyncComponent(() => import("@/oldComponents/inputComponent.vue")),
-    buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/components/Button.vue"))
   },
   data() {
     return {

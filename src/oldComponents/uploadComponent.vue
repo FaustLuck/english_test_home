@@ -20,7 +20,7 @@ import { useLoadingStore } from "@/store/loading";
 export default {
   name: "uploadComponent",
   components: {
-    buttonComponent: defineAsyncComponent(() => import("@/stories/bricks/Button.vue"))
+    buttonComponent: defineAsyncComponent(() => import("@/components/bricks/Button.vue"))
   },
   props: {
     check: Boolean
