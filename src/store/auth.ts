@@ -29,7 +29,7 @@ export const useAuthStore = defineStore("auth", () => {
         {
           const token = response.credential;
           ID.value = generateID();
-          parseJwt(token);
+          console.log(ID.value);
           await requestPost("/user/login", { token, ID: ID.value });
           await getUserInfo();
         }
@@ -50,16 +50,6 @@ export const useAuthStore = defineStore("auth", () => {
     }
     // @ts-ignore
     google.accounts.id.prompt();
-  }
-
-  function parseJwt(token: string) {
-    const base64Url = token.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const jsonPayload = decodeURIComponent(window.atob(base64).split("").map(function (c) {
-      return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(""));
-    const { sub: userSub } = JSON.parse(jsonPayload);
-    sub.value = userSub;
   }
 
   async function getUserInfo() {
