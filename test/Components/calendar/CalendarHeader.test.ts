@@ -1,6 +1,6 @@
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
-import CalendarHeader from "@/stories/calendar/CalendarHeader.vue";
+import CalendarHeader from "@/components/calendar/CalendarHeader.vue";
 
 const component = CalendarHeader;
 

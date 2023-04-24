@@ -1,6 +1,6 @@
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
-import Year from "@/stories/calendar/Year.vue";
+import Year from "@/components/calendar/Year.vue";
 import { useHistoryStore } from "@/store/history";
 
 const component = Year;

@@ -1,4 +1,4 @@
-import Test from "@/stories/calendar/Test.vue";
+import Test from "@/components/calendar/Test.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { HistoryRecord } from "@/types";

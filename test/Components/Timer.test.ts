@@ -1,4 +1,4 @@
-import Timer from "@/stories/Timer.vue";
+import Timer from "@/components/Timer.vue";
 import { mountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 import { useTestStore } from "@/store/test";

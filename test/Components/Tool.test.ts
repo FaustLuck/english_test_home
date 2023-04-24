@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect } from "vitest";
-import Tool from "@/stories/Tool.vue";
+import Tool from "@/components/Tool.vue";
 import { mountWrapper } from "../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 import { nextTick } from "vue";

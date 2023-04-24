@@ -1,4 +1,4 @@
-import ResultHeader from "@/stories/result/ResultHeader.vue";
+import ResultHeader from "@/components/result/ResultHeader.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 

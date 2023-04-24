@@ -1,4 +1,4 @@
-import Month from "@/stories/calendar/Month.vue";
+import Month from "@/components/calendar/Month.vue";
 import { mountWrapper } from "../../mountWithVuetify";
 import { VueWrapper } from "@vue/test-utils";
 

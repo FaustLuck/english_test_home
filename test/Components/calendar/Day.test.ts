@@ -1,4 +1,4 @@
-import Day from "@/stories/calendar/Day.vue";
+import Day from "@/components/calendar/Day.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { useHistoryStore } from "@/store/history";

@@ -1,4 +1,4 @@
-import CardTestItem from "@/stories/cards/CardTestItem.vue";
+import CardTestItem from "@/components/cards/CardTestItem.vue";
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
 import { TestItem } from "@/types";
