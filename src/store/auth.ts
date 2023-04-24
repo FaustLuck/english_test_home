@@ -9,9 +9,18 @@ export const useAuthStore = defineStore("auth", () => {
   const tests = ref(false);
   const isLogin = ref(false);
 
+  async function loadScript() {
+    const src = "https://accounts.google.com/gsi/client";
+    const script = document.createElement("script");
+    script.src = src;
+    script.onload = googleInitialize;
+    document.body.appendChild(script);
+  }
+
   async function googleInitialize() {
+
     // @ts-ignore
-    window.google.accounts.id.initialize({
+    google.accounts.id.initialize({
       client_id: import.meta.env.VITE_client_id,
       auto_select: true,
       callback: async (response: { credential: any; }) => {
@@ -26,7 +35,7 @@ export const useAuthStore = defineStore("auth", () => {
     const element = document.getElementById("google");
     if (element) {
       // @ts-ignore
-      window.google.accounts.id.renderButton(
+      google.accounts.id.renderButton(
         element,
         {
           type: "icon",
@@ -37,7 +46,7 @@ export const useAuthStore = defineStore("auth", () => {
       );
     }
     // @ts-ignore
-    window.google.accounts.id.prompt();
+    google.accounts.id.prompt();
   }
 
   function parseJwt(token: string) {
@@ -64,6 +73,7 @@ export const useAuthStore = defineStore("auth", () => {
     picture,
     tests,
     isLogin,
-    googleInitialize
+    googleInitialize,
+    loadScript
   };
 });

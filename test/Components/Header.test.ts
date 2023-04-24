@@ -40,7 +40,7 @@ vi.mock("useTestStore", () => ({
 }));
 
 vi.mock("useAuthStore", () => ({
-  googleInitialize: () => vi.fn()
+  loadScript: () => vi.fn()
 }));
 
 describe("Header", () => {
@@ -56,7 +56,7 @@ describe("Header", () => {
 
   test("Отрисовка кнопки Google, если пользователь не авторизован", () => {
     expect(wrapper.find("button").attributes().id).toBe("google");
-    expect(useAuthStore().googleInitialize).toHaveBeenCalled()
+    expect(useAuthStore().loadScript).toHaveBeenCalled();
   });
 
   test("Отрисовка значка меню, если пользователь авторизован", async () => {
