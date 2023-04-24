@@ -29,7 +29,6 @@ export const useAuthStore = defineStore("auth", () => {
         {
           const token = response.credential;
           ID.value = generateID();
-          console.log(ID.value);
           await requestPost("/user/login", { token, ID: ID.value });
           await getUserInfo();
         }
