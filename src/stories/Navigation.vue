@@ -5,6 +5,8 @@
           color="default"
           @click="$emit('toExpand')"
           width="350"
+          absolute
+          temporary
   >
     <v-list-item nav :prepend-icon="mdiContentSaveOutline" title="История" value="History" to="/users"/>
 
