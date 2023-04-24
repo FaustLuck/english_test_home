@@ -32,27 +32,14 @@ export const useHistoryStore = defineStore("history", () => {
       .filter(el => el.timestamp >= start && el.timestamp < finish);
   }
 
-  async function getHistoryOfYear(year: string, sub: string) {
-    const resStatistic = await requestGet(`/history/year/${sub}/${year}`);
+  async function getHistoryRange(year: number, sub: string, start: number, end: number = start) {
+    const info: HistoryRecord[] = await requestGet(`/history/get/${sub}/${start}/${end}`);
     if (!history[sub]) history[sub] = {};
     if (!history[sub][year]) history[sub][year] = [];
-    Object.assign(history[sub][year], resStatistic);
-  }
-
-  async function getHistoryOfDay(timestamp: number, sub: string, year: number) {
-    const dayStatistic = await requestGet(`/history/day/${sub}/${timestamp}`);
-    dayStatistic.forEach((test: any) => {
-      const historyTest = history[sub][year]
-        .find(el => el.key === test.key);
-      if (historyTest) Object.assign(historyTest, test);
+    info.forEach(el => {
+      const item: HistoryRecord | undefined = history[sub][year].find(record => record.key === el.key);
+      (item) ? Object.assign(item, el) : history[sub][year].push(el);
     });
-
-  }
-
-  async function getResult(sub: string, key: string, year: number) {
-    const result = await requestGet(`/history/test/${key}`);
-    const obj = history[sub][year].find(el => el.key === key);
-    if (obj) Object.assign(obj, { test: result });
   }
 
   return {
@@ -60,10 +47,8 @@ export const useHistoryStore = defineStore("history", () => {
     users,
     getUser,
     getUsers,
-    getHistoryOfYear,
-    getHistoryOfDay,
+    getHistoryRange,
     getRange,
-    checkRange,
-    getResult
+    checkRange
   };
 });

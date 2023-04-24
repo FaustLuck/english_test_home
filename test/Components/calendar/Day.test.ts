@@ -29,7 +29,7 @@ const history = {
 };
 
 vi.mock("useHistoryStore", () => ({
-  getHistoryOfDay: () => vi.fn()
+  getHistoryRange: () => vi.fn()
 }));
 
 describe("Day", () => {
@@ -42,14 +42,15 @@ describe("Day", () => {
   test("Если есть информация о тестах за день, запроса нет", () => {
     const props = propsLoaded;
     wrapper = mountWrapper({ component, props }, { history: { history } });
-    const year = new Date(+props.timestamp).getFullYear();
-    expect(useHistoryStore().getHistoryOfDay).not.toHaveBeenCalledWith(props.timestamp, props.sub, year);
+    expect(useHistoryStore().getHistoryRange).not.toHaveBeenCalled();
   });
 
   test("Если нет информации о тестах за день, отправляется запрос", () => {
     const props = propsMustLoading;
     wrapper = mountWrapper({ component, props }, { history: { history } });
     const year = new Date(+props.timestamp).getFullYear();
-    expect(useHistoryStore().getHistoryOfDay).toHaveBeenCalledWith(+props.timestamp, props.sub, year);
+    const start = +props.timestamp;
+    const end = +props.timestamp + 24 * 60 * 60 * 1000;
+    expect(useHistoryStore().getHistoryRange).toHaveBeenCalledWith(year, props.sub, start, end);
   });
 });

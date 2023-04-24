@@ -18,7 +18,7 @@
   <template v-else>
     <v-sheet color="transparent" class="calendar">
       <month v-for="i of 12" :key="`${year}_month_${i}`" :year="+year" :loading="loading"
-                            :month-index="i-1" :sub="sub"/>
+             :month-index="i-1" :sub="sub"/>
     </v-sheet>
   </template>
 
@@ -27,7 +27,7 @@
 import { ref, watchEffect } from "vue";
 import { useHistoryStore } from "@/store/history";
 import CalendarHeader from "@/stories/calendar/CalendarHeader.vue";
-import Month from "@/stories/calendar/Month.vue"
+import Month from "@/stories/calendar/Month.vue";
 
 const props = defineProps<{ sub: string, year: string }>();
 const loading = ref(false);
@@ -47,7 +47,9 @@ watchEffect(async () => {
 });
 
 async function getStatistic() {
-  await useHistoryStore().getHistoryOfYear(props.year, props.sub);
+  const start = new Date(+props.year, 0).getTime();
+  const end = new Date(+props.year + 1, 0).getTime() - 1;
+  await useHistoryStore().getHistoryRange(+props.year, props.sub, start, end);
   isEmpty.value = useHistoryStore().checkRange(props.sub, +props.year).length === 0;
 }
 </script>

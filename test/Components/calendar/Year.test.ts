@@ -34,7 +34,7 @@ const initialState = {
 
 const mock = vi.fn();
 vi.mock("useHistoryStore", () => ({
-  getHistoryOfYear: () => mock
+  getHistoryRange: () => mock
 }));
 
 describe("Year", () => {
@@ -52,6 +52,8 @@ describe("Year", () => {
 
   test("Если история за год не подгружена, то отправляется запрос", async () => {
     wrapper = mountWrapper({ component, props }, { history: { users } });
-    expect(useHistoryStore().getHistoryOfYear).toHaveBeenCalledWith(props.year,props.sub)
+    const start = new Date(+props.year, 0).getTime();
+    const end = new Date(+props.year + 1, 0).getTime() - 1;
+    expect(useHistoryStore().getHistoryRange).toHaveBeenCalledWith(+props.year, props.sub, start, end);
   });
 });

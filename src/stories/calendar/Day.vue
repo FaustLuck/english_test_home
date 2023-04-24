@@ -13,7 +13,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from "vue";
 import { useHistoryStore } from "@/store/history";
-import  Test  from "@/stories/calendar/Test.vue";
+import Test from "@/stories/calendar/Test.vue";
 
 
 const props = defineProps<{ sub: string, timestamp: string }>();
@@ -28,6 +28,9 @@ function getRange() {
 }
 
 onMounted(async () => {
-  if (getRange().some(el => !el.info)) await useHistoryStore().getHistoryOfDay(+props.timestamp, props.sub, year.value);
+  if (getRange().some(el => !el.info)) {
+    const end = +props.timestamp + 1000 * 60 * 60 * 24;
+    await useHistoryStore().getHistoryRange(year.value, props.sub, +props.timestamp, end);
+  }
 });
 </script>

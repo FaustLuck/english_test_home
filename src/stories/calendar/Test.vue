@@ -61,7 +61,7 @@ async function changeMode() {
   if (mode.value > 2) mode.value = 0;
   if ((correct === questions || correct === 0) && mode.value === 1) mode.value = 2;
   if (mode.value === 0 || props.result.test) return;
-  const year = new Date(+props.result.timestamp).getFullYear();
-  await useHistoryStore().getResult(props.sub, props.result.key, year);
+  const year = new Date(+props.result.timestamp).getFullYear().toString();
+  await useHistoryStore().getHistoryRange(+year, props.sub, props.result.timestamp);
 }
 </script>

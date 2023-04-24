@@ -49,9 +49,8 @@ const propsMustBeLoad = {
 };
 
 vi.mock("useHistoryStore", () => ({
-  getResult: () => vi.fn()
+  getHistoryRange: () => vi.fn()
 }));
-
 
 describe("Test", () => {
   let wrapper: VueWrapper;
@@ -75,7 +74,7 @@ describe("Test", () => {
     // @ts-ignore
     expect(wrapper.vm.mode).toBe(1);
     // @ts-ignore
-    expect(Object.values(wrapper.vm.localTest).flat(1).length).toBe(props.result.info.questions-props.result.info.correct);
+    expect(Object.values(wrapper.vm.localTest).flat(1).length).toBe(props.result.info.questions - props.result.info.correct);
 
     await title.trigger("click");
     // @ts-ignore
@@ -91,7 +90,7 @@ describe("Test", () => {
   test("Если данные теста загружены, запроса нет", () => {
     const props = propsLoaded;
     wrapper = mountWrapper({ component, props });
-    expect(useHistoryStore().getResult).not.toHaveBeenCalled();
+    expect(useHistoryStore().getHistoryRange).not.toHaveBeenCalled();
   });
 
   test("Если данные теста не загружены, отправляется запрос", async () => {
@@ -100,7 +99,7 @@ describe("Test", () => {
     const title = wrapper.find(".v-card");
     await title.trigger("click");
     const year = new Date(props.result.timestamp).getFullYear();
-    expect(useHistoryStore().getResult)
-      .toHaveBeenCalledWith(props.sub, props.result.key, year);
+    expect(useHistoryStore().getHistoryRange)
+      .toHaveBeenCalledWith(year, props.sub, props.result.timestamp);
   });
 });
