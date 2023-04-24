@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { requestGet, requestPost } from "@/utils/requests";
+import { generateID } from "@/utils/generateID";
 
 export const useAuthStore = defineStore("auth", () => {
   const sub = ref("");
@@ -8,6 +9,7 @@ export const useAuthStore = defineStore("auth", () => {
   const picture = ref("");
   const tests = ref(false);
   const isLogin = ref(false);
+  const ID = ref("");
 
   async function loadScript() {
     const src = "https://accounts.google.com/gsi/client";
@@ -23,11 +25,12 @@ export const useAuthStore = defineStore("auth", () => {
     google.accounts.id.initialize({
       client_id: import.meta.env.VITE_client_id,
       auto_select: true,
-      callback: async (response: { credential: any; }) => {
+      callback: async (response: { credential: string; }) => {
         {
           const token = response.credential;
+          ID.value = generateID();
           parseJwt(token);
-          await requestPost("/user/login", { token });
+          await requestPost("/user/login", { token, ID: ID.value });
           await getUserInfo();
         }
       }
@@ -60,7 +63,7 @@ export const useAuthStore = defineStore("auth", () => {
   }
 
   async function getUserInfo() {
-    const info = await requestGet(`/user/login/${sub.value}`);
+    const info = await requestGet(`/user/login/${ID.value}`);
     name.value = info.name;
     picture.value = info.picture;
     tests.value = info.tests;

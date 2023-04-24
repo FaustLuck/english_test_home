@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import { reactive, Ref, ref } from "vue";
 import { PreparedItem, Result, TestItem } from "@/types";
 import { requestGet, requestPost } from "@/utils/requests";
+import { generateID } from "@/utils/generateID";
 
 export const useTestStore = defineStore("test", () => {
   const isTesting = ref(false);
@@ -65,7 +66,7 @@ export const useTestStore = defineStore("test", () => {
       if (newEl.answer) delete newEl.answer;
       return newEl;
     });
-    generateID();
+    ID.value = generateID();
     await requestPost(`/test/check`, { test: tmp, sub, id: ID.value });
   }
 
@@ -78,10 +79,6 @@ export const useTestStore = defineStore("test", () => {
   async function saveTest(sub: string) {
     const data = createBody(sub);
     await requestPost("/history/update", data);
-  }
-
-  function generateID() {
-    ID.value = Date.now().toString(36) + Math.random().toString(36).substring(2);
   }
 
   function createBody(sub: string) {
