@@ -2,7 +2,7 @@
   <v-app-bar elevation="5" color="default">
 
     <template v-if="!useAuthStore().isLogin">
-      <v-app-bar-nav-icon class="ml-2 position-absolute" id="google"/>
+      <v-app-bar-nav-icon icon class="ml-2 position-absolute" id="google"/>
     </template>
 
     <template v-else>
