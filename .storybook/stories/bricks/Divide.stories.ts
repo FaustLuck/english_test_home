@@ -1,4 +1,4 @@
-import DivideComponent from "@/stories/bricks/Divide.vue";
+import DivideComponent from "@/components/bricks/Divide.vue";
 import { Meta, StoryObj } from "@storybook/vue3";
 
 const meta = {

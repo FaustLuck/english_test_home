@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import ToolComponent from "@/stories/Tool.vue";
+import ToolComponent from "@/components/Tool.vue";
 import { useSettingsStore } from "@/store/settings";
 
 const meta = {

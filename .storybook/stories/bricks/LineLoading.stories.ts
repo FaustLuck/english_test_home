@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import lineLoadingComponent from "@/stories/bricks/LineLoading.vue";
+import lineLoadingComponent from "@/components/bricks/LineLoading.vue";
 
 const meta = {
   title: "UI/Bricks/LineLoading",

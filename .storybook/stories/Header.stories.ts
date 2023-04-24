@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import HeaderComponent from "@/stories/Header.vue";
+import HeaderComponent from "@/components/Header.vue";
 import { useAuthStore } from "@/store/auth";
 
 const meta = {

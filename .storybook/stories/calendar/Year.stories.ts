@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Year from "@/stories/calendar/Year.vue";
+import Year from "@/components/calendar/Year.vue";
 import { useHistoryStore } from "@/store/history";
 import { History } from "@/types";
 

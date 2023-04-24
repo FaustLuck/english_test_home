@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import CalendarHeaderComponent from "@/stories/calendar/CalendarHeader.vue";
+import CalendarHeaderComponent from "@/components/calendar/CalendarHeader.vue";
 
 const meta = {
   title: "Calendar/Header",

@@ -1,4 +1,4 @@
-import Day from "@/stories/calendar/Day.vue";
+import Day from "@/components/calendar/Day.vue";
 import { useHistoryStore } from "@/store/history";
 import { Meta, StoryObj } from "@storybook/vue3";
 import { HistoryRecord } from "@/types";

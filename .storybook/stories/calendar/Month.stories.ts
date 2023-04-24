@@ -1,4 +1,4 @@
-import MonthComponent from "@/stories/calendar/Month.vue";
+import MonthComponent from "@/components/calendar/Month.vue";
 import { Meta, StoryObj } from "@storybook/vue3";
 import { useHistoryStore } from "@/store/history";
 

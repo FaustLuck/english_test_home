@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import Test from "@/stories/calendar/Test.vue";
+import Test from "@/components/calendar/Test.vue";
 import { HistoryRecord } from "@/types";
 import { useHistoryStore } from "@/store/history";
 

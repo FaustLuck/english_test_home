@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import TimerComponent from "@/stories/Timer.vue";
+import TimerComponent from "@/components/Timer.vue";
 import { useTestStore } from "@/store/test";
 
 const meta = {

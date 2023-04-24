@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import NavigationComponent from "@/stories/Navigation.vue";
+import NavigationComponent from "@/components/Navigation.vue";
 
 const meta = {
   title: "App/Navigation",
