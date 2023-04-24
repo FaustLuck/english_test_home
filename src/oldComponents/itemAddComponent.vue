@@ -68,8 +68,8 @@ import { useLoadingStore } from "@/store/loading";
 export default {
   name: "itemAddComponent",
   components: {
-    uploadComponent: defineAsyncComponent(() => import("@/components/uploadComponent.vue")),
-    inputComponent: defineAsyncComponent(() => import("@/components/inputComponent.vue")),
+    uploadComponent: defineAsyncComponent(() => import("@/oldComponents/uploadComponent.vue")),
+    inputComponent: defineAsyncComponent(() => import("@/oldComponents/inputComponent.vue")),
     buttonComponent: defineAsyncComponent(() => import("@/stories/Button.vue"))
   },
   data() {
