@@ -14,7 +14,7 @@ import {  watch } from "vue";
 import { useRouter } from "vue-router";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
-import CardTestItem from "@/stories/cards/CardTestItem.vue";
+import CardTestItem from "@/components/cards/CardTestItem.vue";
 
 const { isLoading } = storeToRefs(useLoadingStore());
 const { sub } = storeToRefs(useAuthStore());

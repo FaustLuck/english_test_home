@@ -16,8 +16,8 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { useAuthStore } from "@/store/auth";
-import ResultHeader from "@/stories/result/ResultHeader.vue";
-import ResultDetail from "@/stories/result/ResultDetail.vue";
+import ResultHeader from "@/components/result/ResultHeader.vue";
+import ResultDetail from "@/components/result/ResultDetail.vue";
 
 const { timestamp, result, correct, timeSpent } = storeToRefs(useTestStore());
 const { sub } = storeToRefs(useAuthStore());

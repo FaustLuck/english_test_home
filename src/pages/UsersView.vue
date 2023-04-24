@@ -15,7 +15,7 @@ import { useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import { useAuthStore } from "@/store/auth";
 import { useHistoryStore } from "@/store/history";
-import CardUser from "@/stories/cards/CardUser.vue";
+import CardUser from "@/components/cards/CardUser.vue";
 
 const router = useRouter();
 const activeUserSub = ref("");

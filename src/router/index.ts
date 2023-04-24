@@ -7,8 +7,8 @@ import TestView from "@/pages/TestView.vue";
 import ResultView from "@/pages/ResultView.vue";
 import UsersView from "@/pages/UsersView.vue";
 import HistoryView from "@/pages/HistoryView.vue";
-import Year from "@/stories/calendar/Year.vue";
-import Day from "@/stories/calendar/Day.vue";
+import Year from "@/components/calendar/Year.vue";
+import Day from "@/components/calendar/Day.vue";
 import AnimationShow from "@/pages/AnimationShow.vue";
 
 const routes = [

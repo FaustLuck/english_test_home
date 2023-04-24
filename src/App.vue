@@ -20,8 +20,8 @@ import { ref } from "vue";
 import { useAuthStore } from "@/store/auth";
 import { storeToRefs } from "pinia";
 
-import HeaderComponent from "@/stories/Header.vue";
-import Navigation from "@/stories/Navigation.vue";
+import HeaderComponent from "@/components/Header.vue";
+import Navigation from "@/components/Navigation.vue";
 
 const { isLogin } = storeToRefs(useAuthStore());
 const isCollapsed = ref(true);
