@@ -54,9 +54,12 @@ export const useAuthStore = defineStore("auth", () => {
 
   async function getUserInfo() {
     const info = await requestGet(`/user/login/${ID.value}`);
-    name.value = info.name;
-    picture.value = info.picture;
-    tests.value = info.tests;
+    ({
+      sub: sub.value,
+      name: name.value,
+      picture: picture.value,
+      tests: tests.value
+    } = info);
     isLogin.value = true;
   }
 
