@@ -17,6 +17,13 @@ import AppBar from "@/components/app/AppBar.vue";
 :root {
   font-family: 'serif';
   font-size: 30px;
+  @media screen and (max-width: 768px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 15px;
+  }
+
 }
 
 body {
