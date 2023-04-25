@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
 import AppNav from "@/components/app/AppNav.vue";
-import { useHistoryStore } from "../../../src/store/history";
+import { useHistoryStore } from "@/store/history";
 
 const meta = {
   title: "App/Navigation",
