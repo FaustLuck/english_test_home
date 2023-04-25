@@ -1,22 +1,22 @@
 import type { Meta, StoryObj } from "@storybook/vue3";
-import HeaderComponent from "@/components/Header.vue";
 import { useAuthStore } from "@/store/auth";
+import AppHeader from "@/components/app/AppHeader.vue";
 
 const meta = {
   title: "App/Header",
-  component: HeaderComponent,
+  component: AppHeader,
   render: () => ({
-    components: { HeaderComponent },
+    components: {AppHeader },
     setup() {
       useAuthStore().isLogin = true;
     },
     template: `
-			<v-layout>
-			<header-component/>
-			</v-layout>
+	    <v-layout>
+	    <app-header/>
+	    </v-layout>
     `
   })
-}satisfies Meta<typeof HeaderComponent>;
+}satisfies Meta<typeof AppHeader>;
 
 export default meta;
 type Story = StoryObj<typeof meta>

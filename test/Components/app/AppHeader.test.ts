@@ -1,8 +1,8 @@
 import { VueWrapper } from "@vue/test-utils";
-import { mountWrapper } from "../mountWithVuetify";
+import { mountWrapper } from "../../mountWithVuetify";
 import { h } from "vue";
-import Header from "@/components/Header.vue";
-import HelperWrapper from "../HelperWrapper.vue";
+import AppHeader from "@/components/app/AppHeader.vue";
+import HelperWrapper from "../../HelperWrapper.vue";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 import { useCommonStore } from "@/store/common";
@@ -19,7 +19,7 @@ const initialState = {
 function wrap() {
   return mountWrapper({
     component, slots: {
-      default: h(Header),
+      default: h(AppHeader),
     },
   }, initialState);
 }
@@ -43,7 +43,7 @@ vi.mock("useAuthStore", () => ({
   loadScript: () => vi.fn()
 }));
 
-describe("Header", () => {
+describe("AppHeader", () => {
   let wrapper: VueWrapper;
 
   beforeEach(() => {
