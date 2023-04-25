@@ -1,14 +1,14 @@
 <template>
 
   <template v-if="correct!==undefined">
-    <v-row class="mx-3 justify-space-between">
+    <v-row class="mx-1 mx-sm-3 justify-space-between">
       <span>Время тестирование</span><span>{{ date }} {{ time }}</span>
     </v-row>
-    <v-row class="mx-3 justify-space-between">
+    <v-row class="mx-1 mx-sm-3 justify-space-between">
       <span>Кол-во верных ответов / вопросов:</span>
       <span>{{ correct }} / {{ questions }}</span>
     </v-row>
-    <v-row class="mx-3 justify-space-between">
+    <v-row class="mx-1 mx-sm-3 justify-space-between">
       <span>Времени затрачено:</span><span>{{ timeToString(timeSpent) }}</span>
     </v-row>
   </template>
