@@ -1,6 +1,6 @@
 <template>
   <v-card
-          class="pa-3 pb-5 ma-3"
+          class="py-3 my-3"
           elevation="5"
           color="transparent"
           rounded="lg">
