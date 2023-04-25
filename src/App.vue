@@ -1,13 +1,7 @@
 <template>
   <v-app class="w-100 bg-transparent">
-    <header-component @toggleNavigation="isCollapsed=!isCollapsed"/>
-    <template v-if="isLogin">
-      <navigation
-              :is-collapsed="isCollapsed"
-              @toExpand="isCollapsed=false"
-              @toCollapse="isCollapsed=true"
-      />
-    </template>
+    <app-bar/>
+
     <v-main>
       <v-container class="pa-0">
         <router-view :key="$route.fullPath"/>
@@ -16,15 +10,7 @@
   </v-app>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-import { useAuthStore } from "@/store/auth";
-import { storeToRefs } from "pinia";
-
-import HeaderComponent from "@/components/Header.vue";
-import Navigation from "@/components/Navigation.vue";
-
-const { isLogin } = storeToRefs(useAuthStore());
-const isCollapsed = ref(true);
+import AppBar from "@/components/app/AppBar.vue";
 
 </script>
 <style lang="scss">
