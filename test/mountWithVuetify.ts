@@ -1,5 +1,5 @@
 import { mount } from "@vue/test-utils";
-import vuetify from "../src/plugins/vuetify";
+import vuetify from "@/plugins/vuetify";
 // @ts-ignore
 import { createTestingPinia } from "@pinia/testing";
 import { StateTree } from "pinia";
