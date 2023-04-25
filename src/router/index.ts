@@ -10,6 +10,7 @@ import HistoryView from "@/pages/HistoryView.vue";
 import Year from "@/components/calendar/Year.vue";
 import Day from "@/components/calendar/Day.vue";
 import AnimationShow from "@/pages/AnimationShow.vue";
+import SettingsView from "@/pages/SettingsView.vue";
 
 const routes = [
   {
@@ -45,12 +46,12 @@ const routes = [
       name: "day"
     }]
   },
-  // {
-  //   path: "/settings",
-  //   name: "settings",
-  //   component: () => import("@/views/SettingsView.vue"),
-  //   meta: { requireAuth: true }
-  // },
+  {
+    path: "/settings",
+    name: "settings",
+    component: SettingsView,
+    meta: { requireAuth: true }
+  },
   {
     path: "/show:nameShow",
     name: "show",
