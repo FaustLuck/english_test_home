@@ -8,9 +8,7 @@
             v-model="open"
             width="350"
     >
-      <navigation
-              :is-open="open"
-      />
+      <navigation/>
       <template v-slot:append v-if="open">
         <v-btn
                 class="float-end"
