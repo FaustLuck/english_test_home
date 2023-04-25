@@ -18,7 +18,7 @@
 
       <template v-else-if="result[difficult]?.length>0">
         <divide :loading="false">
-          <v-card-title class="py-1"> {{ difficult }}</v-card-title>
+          <v-card-title class="font-weight-bold">{{ difficult }}</v-card-title>
         </divide>
         <card-result-item v-for="item of result[difficult]" :key="item.question" :item="item"></card-result-item>
       </template>
