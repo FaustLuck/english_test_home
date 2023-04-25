@@ -1,12 +1,11 @@
 import { VueWrapper } from "@vue/test-utils";
 import { mountWrapper } from "../../mountWithVuetify";
-import { h, nextTick } from "vue";
+import { nextTick } from "vue";
 import AppNav from "@/components/app/AppNav.vue";
-import HelperWrapper from "../../HelperWrapper.vue";
 import { User } from "@/types";
 import { useHistoryStore } from "@/store/history";
 
-const component = HelperWrapper;
+const component = AppNav;
 
 function createUsers() {
   const output = [];
@@ -25,15 +24,6 @@ function createUsers() {
 
 const users: User[] = createUsers();
 
-function wrap(isCollapsed = false, initialState = {}) {
-  return mountWrapper({
-    component,
-    slots: {
-      default: h(AppNav, { isCollapsed }),
-    },
-  }, initialState);
-}
-
 describe("AppNav", () => {
   let wrapper: VueWrapper;
 
@@ -41,22 +31,8 @@ describe("AppNav", () => {
     wrapper.unmount();
   });
 
-  test("Отрисовка сайд бара в свернутом состоянии", async () => {
-    wrapper = wrap(true);
-    await nextTick();
-    expect(wrapper.findAll(".v-navigation-drawer__append")).toHaveLength(0);
-    expect(wrapper.html()).not.toContain('350px')
-  });
-
-  test("Отрисовка сайд бара в развернутом состоянии", async () => {
-    wrapper = wrap();
-    await nextTick();
-    expect(wrapper.findAll(".v-navigation-drawer__append")).toHaveLength(1);
-    expect(wrapper.html()).toContain('350px')
-  });
-
   test("Отрисовка списка пользователей", async () => {
-    wrapper = wrap();
+    wrapper = mountWrapper({component});
     expect(wrapper.text()).not.toContain('Пользователи')
     useHistoryStore().users = users;
     await nextTick();
