@@ -1,7 +1,7 @@
 <template>
   <v-card
           v-for="result of range" :key="result.key"
-          class="ma-3"
+          class="mx-sm-3 mx-0 my-3"
           elevation="5"
           color="transparent"
           rounded="lg">
