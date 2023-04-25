@@ -1,5 +1,5 @@
 <template>
-  <v-chip :text="time"/>
+  <v-chip  :size="useDisplay().xs.value?'small':'large'" :text="time"/>
 </template>
 
 <script setup lang="ts">
@@ -7,6 +7,7 @@ import { storeToRefs } from "pinia";
 import { useTestStore } from "@/store/test";
 import { computed, onBeforeUnmount, onMounted, watch } from "vue";
 import { timeToString } from "@/utils/timeToString";
+import { useDisplay } from "vuetify";
 
 const testStore = useTestStore();
 

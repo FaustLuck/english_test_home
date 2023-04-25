@@ -13,10 +13,9 @@
       <v-btn
               rounded="lg"
               elevation="5"
-              size="large"
+              :size="useDisplay().xs.value?'small':'large'"
               :loading="useLoadingStore().isLoading"
               @click="(useTestStore().isTesting)?useTestStore().isTesting=false:startTest()"
-              class=""
       >{{ labelButton }}
       </v-btn>
       <timer v-if="useTestStore().isTesting"/>
@@ -33,6 +32,7 @@ import { useAuthStore } from "@/store/auth";
 import { useRouter } from "vue-router";
 import { mdiMenu } from "@mdi/js";
 import Timer from "@/components/Timer.vue";
+import { useDisplay } from "vuetify";
 
 const router = useRouter();
 
