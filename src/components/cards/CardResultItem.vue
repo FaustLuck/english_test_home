@@ -1,30 +1,33 @@
 <template>
-  <v-sheet
+  <v-card
           color="transparent"
+          elevation="0"
           rounded="lg"
-          class="d-flex align-center my-1"
+          class="pa-3 my-3"
           :class="{wrong:isWrong,right:isRight}"
   >
-    <v-col>
-      {{ item.question }}
-    </v-col>
-    <v-col>
-      <v-radio-group hide-details v-model="choice">
-        <v-row class="d-flex">
-          <v-radio :value="item.answer"
-                   class="ma-1 flex-grow-0"
-                   disabled/>
-          <v-label class="title-right" :text="item.answer"/>
-        </v-row>
-        <v-row v-if="isWrong && choice">
-          <v-radio :value="item.choice"
-                   class="ma-1 flex-grow-0"
-                   disabled/>
-          <v-label class="title-wrong" :text="choice"/>
-        </v-row>
-      </v-radio-group>
-    </v-col>
-  </v-sheet>
+    <v-row class="px-5 py-3 flex-sm-row flex-column">
+      <v-col class="pa-0 align-self-center w-auto font-weight-bold">
+        {{ item.question }}
+      </v-col>
+      <v-col>
+        <v-radio-group hide-details v-model="choice">
+          <v-row class="d-flex">
+            <v-radio :value="item.answer"
+                     class="ma-1 flex-grow-0"
+                     disabled/>
+            <v-label class="title-right" :text="item.answer"/>
+          </v-row>
+          <v-row v-if="isWrong && choice">
+            <v-radio :value="item.choice"
+                     class="ma-1 flex-grow-0"
+                     disabled/>
+            <v-label class="title-wrong" :text="choice"/>
+          </v-row>
+        </v-radio-group>
+      </v-col>
+    </v-row>
+  </v-card>
 </template>
 
 <script setup lang="ts">
