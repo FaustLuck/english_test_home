@@ -1,11 +1,13 @@
 <template>
-  <v-sheet elevation="5" class="d-flex align-center flex-column h-100 pa-3" rounded="lg" color="transparent">
+  <v-sheet
+          elevation="5" class="d-flex align-center flex-column h-100 pa-3" rounded="lg" color="transparent"
+          v-if="monthArray.length>0">
     <v-card-title class="pa-0 text-capitalize">{{ monthName }}</v-card-title>
     <table class="flex-grow-1">
       <thead>
       <tr>
         <td class="text-center pa-1" v-for="dayName of daysName">
-          <v-btn class="button--head" variant="text" icon density="comfortable">
+          <v-btn class="button--head" variant="text" icon :density="useDisplay().xs.value?'compact':'comfortable'">
             {{ dayName }}
           </v-btn>
         </td>
@@ -32,8 +34,9 @@
       <template v-else>
         <tr v-for="(week,i) of monthArray" :key="`week_${i}`">
           <td class="text-center pa-1" v-for="day of week" :key="`week_${i}_${day}`">
-            <v-btn v-if="day>0" variant="text" icon="" density="comfortable"
+            <v-btn v-if="day>0" variant="text" icon="" :density="useDisplay().xs.value?'compact':'comfortable'"
                    :disabled="useHistoryStore().checkRange(props.sub, props.year, props.monthIndex, day).length===0"
+
                    @click="openDay(day)">
               {{ day }}
             </v-btn>
@@ -51,6 +54,7 @@ import { computed, ref } from "vue";
 import { useHistoryStore } from "@/store/history";
 import { useRouter } from "vue-router";
 import LineLoading from "@/components/bricks/LineLoading.vue";
+import { useDisplay } from "vuetify";
 
 const start = ref(0);
 
