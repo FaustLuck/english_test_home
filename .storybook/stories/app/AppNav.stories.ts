@@ -32,10 +32,7 @@ const meta = {
       return { args };
     },
     template: `
-			<v-layout class="flex-column" style="width: 350px">
-			<app-nav/>
-			</v-layout>
-    `
+	    <app-nav/>`
   })
 }satisfies Meta<typeof AppNav>;
 
