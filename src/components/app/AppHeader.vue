@@ -2,23 +2,24 @@
   <v-app-bar elevation="5" color="default">
 
     <template v-if="!useAuthStore().isLogin">
-      <v-app-bar-nav-icon icon class="ml-2 position-absolute" id="google"/>
+      <v-app-bar-nav-icon class="ma-0" icon id="google"/>
     </template>
 
     <template v-else>
-      <v-app-bar-nav-icon class="ml-2 position-absolute" :icon="mdiMenu" @click="$emit('toggleNavigation')"/>
+      <v-app-bar-nav-icon class="ma-0" :icon="mdiMenu" @click="$emit('toggleNavigation')"/>
     </template>
 
-    <v-container class="d-flex justify-space-around align-center">
+    <v-container class="d-flex justify-space-around align-center px-0">
       <v-btn
               rounded="lg"
               elevation="5"
               size="large"
               :loading="useLoadingStore().isLoading"
               @click="(useTestStore().isTesting)?useTestStore().isTesting=false:startTest()"
+              class=""
       >{{ labelButton }}
       </v-btn>
-      <timer v-if="useTestStore().isTesting"></timer>
+      <timer v-if="useTestStore().isTesting"/>
     </v-container>
   </v-app-bar>
 </template>
