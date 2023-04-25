@@ -1,8 +1,8 @@
 import { VueWrapper } from "@vue/test-utils";
-import { mountWrapper } from "../mountWithVuetify";
+import { mountWrapper } from "../../mountWithVuetify";
 import { h, nextTick } from "vue";
-import Navigation from "@/components/Navigation.vue";
-import HelperWrapper from "../HelperWrapper.vue";
+import AppNav from "@/components/app/AppNav.vue";
+import HelperWrapper from "../../HelperWrapper.vue";
 import { User } from "@/types";
 import { useHistoryStore } from "@/store/history";
 
@@ -29,12 +29,12 @@ function wrap(isCollapsed = false, initialState = {}) {
   return mountWrapper({
     component,
     slots: {
-      default: h(Navigation, { isCollapsed }),
+      default: h(AppNav, { isCollapsed }),
     },
   }, initialState);
 }
 
-describe("Navigation", () => {
+describe("AppNav", () => {
   let wrapper: VueWrapper;
 
   afterEach(() => {
