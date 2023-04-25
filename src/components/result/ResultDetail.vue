@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-3">
+  <v-container class="pa-sm-3 pa-0">
 
     <template v-for="difficult of orderDifficult">
 
