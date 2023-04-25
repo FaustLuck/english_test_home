@@ -1,14 +1,12 @@
 import { VueWrapper } from "@vue/test-utils";
-import { mountWrapper } from "../../mountWithVuetify";
-import { h } from "vue";
 import AppHeader from "@/components/app/AppHeader.vue";
-import HelperWrapper from "../../HelperWrapper.vue";
 import { useAuthStore } from "@/store/auth";
 import { useLoadingStore } from "@/store/loading";
 import { useCommonStore } from "@/store/common";
 import { useTestStore } from "@/store/test";
+import { mountWithLayout } from "../../mountWithLayout";
 
-const component = HelperWrapper;
+const component = AppHeader;
 
 const initialState = {
   common: {
@@ -16,13 +14,6 @@ const initialState = {
   }
 };
 
-function wrap() {
-  return mountWrapper({
-    component, slots: {
-      default: h(AppHeader),
-    },
-  }, initialState);
-}
 
 const mockedUseRouter = {
   replace: vi.fn(),
@@ -47,7 +38,7 @@ describe("AppHeader", () => {
   let wrapper: VueWrapper;
 
   beforeEach(() => {
-    wrapper = wrap();
+    wrapper = mountWithLayout(component, initialState);
   });
 
   afterEach(() => {
